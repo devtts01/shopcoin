@@ -1,0 +1,118 @@
+import { SET, TOGGLE } from './actions';
+import { localStoreUtils } from '../utils';
+
+const userStore = localStoreUtils.getStore();
+
+const initialState = {
+    set: {
+        currentUser: userStore,
+        accountMenu: null,
+        statusCurrent: '',
+        statusUpdate: '',
+        fileRejections: [],
+        sort: 'asc',
+        fee: '',
+        message: {
+            del: '',
+            upd: '',
+            cre: '',
+            error: '',
+        },
+        form: {
+            username: '',
+            email: '',
+            password: '',
+            accountName: '',
+            bankName: '',
+            accountNumber: '',
+            nameCoin: '',
+            fullName: '',
+            rateDeposit: 0,
+            rateWithdraw: 0,
+            symbolCoin: '',
+            indexCoin: '',
+            logo: null,
+        },
+        pagination: {
+            page: 1,
+            show: 10, //10,20,30,50
+        },
+        data: {
+            dataPayment: [],
+            dataSettingCoin: [],
+            dataDeposits: [],
+            dataWithdraw: [],
+            dataBuy: [],
+            dataSell: [],
+            dataUser: [],
+            dataBlacklistUser: [],
+        },
+        searchValues: {
+            payment: '',
+            settingCoin: '',
+            deposits: '',
+            withdraw: '',
+            buy: '',
+            sell: '',
+            user: '',
+            userBlacklist: '',
+        },
+        edit: {
+            id: '',
+            data: null,
+            itemData: null,
+        },
+    },
+    toggle: {
+        modalPaymentEdit: false,
+        modalSettingEdit: false,
+        modalDepositsEdit: false,
+        modalWithdrawEdit: false,
+        modalBuyEdit: false,
+        modalSellEdit: false,
+        modalDelete: false,
+        modalStatus: false,
+        hideAllUser: false,
+        alertModal: false,
+        selectStatus: false,
+        feeUpdate: false,
+    },
+};
+
+const setData = (payload) => {
+    return {
+        type: SET,
+        payload,
+    };
+};
+const toggleModal = (payload) => {
+    return {
+        type: TOGGLE,
+        payload,
+    };
+};
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case SET:
+            return {
+                ...state,
+                set: {
+                    ...state.set,
+                    ...action.payload,
+                },
+            };
+        case TOGGLE:
+            return {
+                ...state,
+                toggle: {
+                    ...state.toggle,
+                    ...action.payload,
+                },
+            };
+        default:
+            return state;
+    }
+};
+export { initialState, setData, toggleModal };
+export default reducer;

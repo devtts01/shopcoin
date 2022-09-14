@@ -1,0 +1,25 @@
+.header-container {
+    background-color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.header-logo {
+    width: 139px;
+    height: 39px;
+}
+
+.header-infouser-container {
+    display: flex;
+    align-items: center;
+}
+
+.iconsBell {
+    cursor: pointer;
+}
+
+.ml10 {
+    margin-left: 10px;
+}

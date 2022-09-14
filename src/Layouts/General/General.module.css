@@ -1,0 +1,24 @@
+.general-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.general-button {
+    text-transform: capitalize;
+}
+
+.general-button.link {
+    color: inherit;
+}
+
+.general-button-text {
+    padding-left: 6.31px;
+    padding-right: 6.9px;
+    font-size: 14px;
+}
+
+.general-table-container {
+    margin-top: 8px;
+    font-size: 15px;
+}

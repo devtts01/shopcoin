@@ -1,0 +1,201 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
+import className from 'classnames/bind';
+import moment from 'moment';
+import {getWithdraws, searchWithdraw, handleEdit, checkErrorWithdraw, handleDelete} from '../../services/withdraws';
+import {
+    useAppContext,
+    DataWithdraws,
+    deleteUtils,
+    handleUtils,
+    requestRefreshToken,
+} from '../../utils';
+import routers from '../../routers/routers';
+import { Icons, ActionsTable, Modal, SelectStatus } from '../../components';
+import { actions } from '../../app/';
+import { General } from '../';
+import {
+    TrObjectIcon,
+    TrObjectNoIcon,
+    TrStatus,
+} from '../../components/TableData/TableData';
+import styles from './Withdraw.module.css';
+
+const cx = className.bind(styles);
+
+function Withdraw() {
+    const { state, dispatch } = useAppContext();
+    const { edit, currentUser, statusCurrent, statusUpdate, data: {dataWithdraw, dataUser}, searchValues: {withdraw}, pagination: {page, show } } = state.set;
+    const { modalStatus, modalDelete } = state.toggle;
+    useEffect(() => {
+        getWithdraws({page, show, dispatch,state,actions})
+    }, [page, show]);
+    let dataWithdrawFlag = searchWithdraw({dataWithdraw: dataWithdraw.dataWithdraw, withdraw});
+    // Modal
+    const toggleEditTrue = (e, status, id) => {
+        return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
+    };
+    const toggleEditFalse = (e) => {
+        return deleteUtils.statusFalse(e, dispatch, state, actions);
+    };
+    const modalDeleteTrue = (e, id) => {
+        return deleteUtils.deleteTrue(e, id, dispatch, state, actions);
+    };
+    const modalDeleteFalse = (e) => {
+        return deleteUtils.deleteFalse(e, dispatch, state, actions);
+    };
+    // Edit + Delete Withdraw
+    const handleEditStatus = async (data, id) => {
+        handleEdit({data, id, dispatch, actions, state,statusCurrent,statusUpdate, page,show});
+    };
+    const handleDeleteWithdraw = async (data, id) => {
+        handleDelete({data, id, dispatch, state, actions, page,show})
+    };
+    const deleteWithdraw = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                handleDeleteWithdraw,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+        } catch (err) {
+            checkErrorWithdraw({err, dispatch, state, actions});
+        }
+    };
+    const editStatus = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                handleEditStatus,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+        } catch (err) {
+            checkErrorWithdraw({})
+        }
+    };
+    const handleViewWithdraw = (item) => {
+        dispatch(
+            actions.setData({
+                ...state.set,
+                edit: { ...state.set.edit, id: item.id, itemData: item },
+            })
+        );
+    };
+    function RenderBodyTable({ data }) {
+        return (
+            <>
+                {data.map((item, index) => {
+                    const sendReceived = {
+                        send: {
+                            icon: <Icons.SendIcon />,
+                            title: 'Send',
+                            number: '100,039.38',
+                        },
+                        received: {
+                            icon: <Icons.ReceivedIcon />,
+                            title: 'Received',
+                            number: '10,482.46',
+                        },
+                    };
+                    const username = dataUser.dataUser.find(
+                        (x) => x.payment.email === item.user
+                    ).payment.username;
+                    const infoUser = {
+                        name: username,
+                        email: item.user,
+                        path: `@${username.replace(' ', '-')}`,
+                    };
+                    return (
+                        <tr key={index}>
+                            <td>{handleUtils.indexTable(page, show, index)}</td>
+                            <td>{item.code}</td>
+                            <td>
+                                <TrObjectIcon item={sendReceived} />
+                            </td>
+                            <td>
+                                <TrObjectNoIcon item={infoUser} />
+                            </td>
+                            <td>
+                                {moment(item.createAt).format('DD/MM/YYYY')}
+                            </td>
+                            <td>
+                                <TrStatus
+                                    item={item.status}
+                                    onClick={(e) =>
+                                        toggleEditTrue(e, item.status, item._id)
+                                    }
+                                />
+                            </td>
+                            <td>
+                                <ActionsTable
+                                    view
+                                    linkView={`${routers.withdraw}/${routers.withdrawDetail}/${item._id}`}
+                                    onClickDel={(e) =>
+                                        modalDeleteTrue(e, item._id)
+                                    }
+                                    onClickView={() => handleViewWithdraw(item)}
+                                ></ActionsTable>
+                            </td>
+                        </tr>
+                    );
+                })}
+            </>
+        );
+    }
+    return (
+        <>
+            <General
+                className={cx('withdraw')}
+                valueSearch={withdraw}
+                nameSearch='withdraw'
+                dataFlag={dataWithdrawFlag}
+                dataHeaders={DataWithdraws(Icons).headers}
+                totalData={dataWithdraw.total}
+            >
+                <RenderBodyTable data={dataWithdrawFlag} />
+            </General>
+            {modalStatus && (
+                <Modal
+                    titleHeader='Change Status'
+                    actionButtonText='Submit'
+                    openModal={toggleEditTrue}
+                    closeModal={toggleEditFalse}
+                    onClick={() => editStatus(edit.id)}
+                >
+                    <p className='modal-delete-desc'>
+                        Are you sure change status this{' '}
+                        {window.location.pathname.includes(
+                            `${routers.deposits}`
+                        )
+                            ? 'deposits'
+                            : 'withdraw'}
+                        ?
+                    </p>
+                    <SelectStatus />
+                </Modal>
+            )}
+            {modalDelete && (
+                <Modal
+                    titleHeader='Delete Withdraw'
+                    actionButtonText='Delete'
+                    openModal={modalDeleteTrue}
+                    closeModal={modalDeleteFalse}
+                    classNameButton={`${cx('delete-button')}`}
+                    onClick={() => deleteWithdraw(edit.id)}
+                >
+                    <p className='modal-delete-desc'>
+                        Are you sure to delete this withdraw?
+                    </p>
+                </Modal>
+            )}
+        </>
+    );
+}
+
+export default Withdraw;

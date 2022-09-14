@@ -1,0 +1,12 @@
+.dashboard-container {
+    --cols: 2;
+    --sapcing: 1%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.item {
+    width: calc((100% / var(--cols)) - (var(--sapcing) * 2));
+    margin: var(--sapcing);
+}
