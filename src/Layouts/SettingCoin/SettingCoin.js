@@ -5,7 +5,13 @@ import moment from 'moment';
 import routers from '../../routers/routers';
 import { actions } from '../../app/';
 import { General } from '../';
-import { getCoins, searchCoins, onClickEdit, handleDelete, checkErrorCoins } from '../../services/coins';
+import {
+    getCoins,
+    searchCoins,
+    onClickEdit,
+    handleDelete,
+    checkErrorCoins,
+} from '../../services/coins';
 import {
     useAppContext,
     DataCoins,
@@ -29,6 +35,9 @@ function SettingCoin() {
         data: { dataSettingCoin },
     } = state.set;
     const { modalDelete } = state.toggle;
+    useEffect(() => {
+        document.title = 'Coins | Shop Coin';
+    }, []);
     useEffect(() => {
         getCoins({ dispatch, state, actions, page, show });
     }, [page, show]);

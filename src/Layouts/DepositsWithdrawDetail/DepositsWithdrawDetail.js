@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import moment from 'moment';
-import {getDepositsWithdrawById} from '../../services/deposits';
+import { getDepositsWithdrawById } from '../../services/deposits';
 import { useAppContext } from '../../utils';
 import { actions } from '../../app/';
 import styles from './DepositsWithdrawDetail.module.css';
@@ -15,9 +15,19 @@ const cx = className.bind(styles);
 function DepositsWithdrawDetail() {
     const { idDeposits, idWithdraw } = useParams();
     const { state, dispatch } = useAppContext();
-    const { edit, data: {dataUser} } = state.set;
+    const {
+        edit,
+        data: { dataUser },
+    } = state.set;
     useEffect(() => {
-        getDepositsWithdrawById({ idDeposits, idWithdraw, dispatch, state,actions })
+        document.title = 'Detail | Shop Coin';
+        getDepositsWithdrawById({
+            idDeposits,
+            idWithdraw,
+            dispatch,
+            state,
+            actions,
+        });
     }, []);
     function ItemRender({ title, info }) {
         return (

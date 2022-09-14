@@ -9,9 +9,9 @@ import {
     Menu,
     MenuItem,
     Tooltip,
-    Box
+    Box,
 } from '@mui/material';
-import {Logout, PersonAdd, Settings} from '@mui/icons-material';
+import { Logout, PersonAdd, Settings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import routers from '../../routers/routers';
 import { useAppContext, localStoreUtils, axiosUtils } from '../../utils';

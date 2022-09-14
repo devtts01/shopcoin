@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { Form } from '../../components';
 import styles from './ForgotPwd.module.css';
@@ -6,6 +6,9 @@ import styles from './ForgotPwd.module.css';
 const cx = className.bind(styles);
 
 function ForgotPwd() {
+    useEffect(() => {
+        document.title = 'Forgot Password | Shop Coin';
+    }, []);
     const handleForgot = async (e) => {
         e.preventDefault();
         try {

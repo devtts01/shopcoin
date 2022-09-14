@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import className from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext, axiosUtils } from '../../utils';
@@ -14,6 +14,9 @@ function Register() {
     const { email, password, username } = state.set.form;
     const [isProcess, setIsProcess] = useState(false);
     const history = useNavigate();
+    useEffect(() => {
+        document.title = 'Register | Shop Coin';
+    }, []);
     const handleRegister = async (e) => {
         e.preventDefault();
         try {

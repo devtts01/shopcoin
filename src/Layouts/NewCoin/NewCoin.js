@@ -67,6 +67,11 @@ function NewCoin() {
     const refLogo = useRef();
     const history = useNavigate();
     useEffect(() => {
+        document.title = `${
+            edit.itemData ? 'Update Coin' : 'Create Coin'
+        } | Shop Coin`;
+    });
+    useEffect(() => {
         getUsers({ dispatch, state, actions, page, show });
         getCoinById({ idCoin, dispatch, state, actions, setDataUserFake });
     }, []);
@@ -174,7 +179,7 @@ function NewCoin() {
             history,
             page,
             show,
-            dataUser
+            dataUser,
         });
     };
     const addNewCoin = async (e) => {

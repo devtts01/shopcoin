@@ -31,12 +31,8 @@ function TippyHLNotify({ className, children }) {
                                 className={cx('tippy-image')}
                             />
                             <div className={`${cx('tippy-info')}`}>
-                                <p className={`${cx('tippy-title')}`}>
-                                   ...
-                                </p>
-                                <p className={`${cx('tippy-desc')}`}>
-                                    ...
-                                </p>
+                                <p className={`${cx('tippy-title')}`}>...</p>
+                                <p className={`${cx('tippy-desc')}`}>...</p>
                             </div>
                         </div>
                         <div className={`${cx('tippy-item')}`}>

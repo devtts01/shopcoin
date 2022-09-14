@@ -7,7 +7,7 @@ import styles from './SelectStatus.module.css';
 
 const cx = className.bind(styles);
 
-function SelectStatus({status, rank}) {
+function SelectStatus({ status, rank }) {
     const { state, dispatch } = useAppContext();
     const { statusUpdate, statusCurrent } = state.set;
     const { selectStatus } = state.toggle;
@@ -47,16 +47,12 @@ function SelectStatus({status, rank}) {
         (statusUpdate || statusCurrent) &&
         (statusUpdate || statusCurrent).toLowerCase().replace(' ', '');
     const STATUS_LIST = [
-        {name: 'Confirm'},
-        {name: 'Complete'},
-        {name: 'Cancel'},
-        {name: 'On hold'}
+        { name: 'Confirm' },
+        { name: 'Complete' },
+        { name: 'Cancel' },
+        { name: 'On hold' },
     ];
-    const RANK_LIST = [
-        {name: 'VIP'},
-        {name: 'Pro'},
-        {name: 'Standard'}
-    ];
+    const RANK_LIST = [{ name: 'VIP' }, { name: 'Pro' }, { name: 'Standard' }];
     const LIST = rank ? RANK_LIST : STATUS_LIST;
     return (
         <>
@@ -73,15 +69,19 @@ function SelectStatus({status, rank}) {
                         className={`${cx('status-container')}`}
                         onClick={toggleOptionTrue}
                     >
-                        {LIST.map((item,index) => {
-                            const classItem = item.name.toLowerCase().replace(' ', '');
-                            return (<div
-                            key={index}
-                                className={`${cx('status', classItem)}`}
-                                onClick={() => setStatus(classItem)}
-                            >
-                                {item.name}
-                            </div>)
+                        {LIST.map((item, index) => {
+                            const classItem = item.name
+                                .toLowerCase()
+                                .replace(' ', '');
+                            return (
+                                <div
+                                    key={index}
+                                    className={`${cx('status', classItem)}`}
+                                    onClick={() => setStatus(classItem)}
+                                >
+                                    {item.name}
+                                </div>
+                            );
                         })}
                     </div>
                 )}

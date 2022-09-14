@@ -9,15 +9,18 @@ import {
     deleteUtils,
     handleUtils,
 } from '../../utils';
-import {
-    TrStatus,
-} from '../../components/TableData/TableData';
-import {requestRefreshToken} from '../../utils';
+import { TrStatus } from '../../components/TableData/TableData';
+import { requestRefreshToken } from '../../utils';
 import routers from '../../routers/routers';
 import { actions } from '../../app/';
 import { General } from '../';
-import {  Modal, ActionsTable, SelectStatus } from '../../components';
-import {getUsers, searchUsers, handleDelete, checkErrorUsers} from '../../services/users';
+import { Modal, ActionsTable, SelectStatus } from '../../components';
+import {
+    getUsers,
+    searchUsers,
+    handleDelete,
+    checkErrorUsers,
+} from '../../services/users';
 import styles from './User.module.css';
 
 const cx = className.bind(styles);
@@ -26,13 +29,22 @@ const DATA_USERS = DataUsers();
 function User() {
     const { state, dispatch } = useAppContext();
     const { headers } = DATA_USERS;
-    const { edit, currentUser, data: {dataUser}, pagination: {page, show}, searchValues: {user} } = state.set;
-    const {  modalDelete, modalStatus } = state.toggle;
+    const {
+        edit,
+        currentUser,
+        data: { dataUser },
+        pagination: { page, show },
+        searchValues: { user },
+    } = state.set;
+    const { modalDelete, modalStatus } = state.toggle;
     useEffect(() => {
-        getUsers({page, show, dispatch,state,actions});
+        document.title = 'User | Shop Coin';
+    }, []);
+    useEffect(() => {
+        getUsers({ page, show, dispatch, state, actions });
     }, [page, show]);
     //Search Data Users
-    let dataUserFlag = searchUsers({dataUser: dataUser.dataUser, user});
+    let dataUserFlag = searchUsers({ dataUser: dataUser.dataUser, user });
     const toggleEditTrue = (e, status, id) => {
         return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
     };
@@ -58,19 +70,21 @@ function User() {
         );
     };
     // Delete User + Update Status User
-    const handleDeleteUser = async (data,id) => {
-        handleDelete({data, id, dispatch, state, actions, page,show});
-    }
+    const handleDeleteUser = async (data, id) => {
+        handleDelete({ data, id, dispatch, state, actions, page, show });
+    };
     const deleteUser = async (id) => {
         try {
-            requestRefreshToken(currentUser,
+            requestRefreshToken(
+                currentUser,
                 handleDeleteUser,
                 state,
                 dispatch,
                 actions,
-                id)
+                id
+            );
         } catch (err) {
-            checkErrorUsers({err, dispatch, state, actions});
+            checkErrorUsers({ err, dispatch, state, actions });
         }
     };
     function RenderBodyTable({ data }) {
@@ -92,18 +106,18 @@ function User() {
                         </td>
                         <td>{item.payment.rule || <Skeleton with={50} />}</td>
                         <td>
-                                <TrStatus
-                                    item={item.rank}
-                                    onClick={(e) =>
-                                        toggleEditTrue(e, item.rank, item._id)
-                                    }
-                                />
-                            </td>
+                            <TrStatus
+                                item={item.rank}
+                                onClick={(e) =>
+                                    toggleEditTrue(e, item.rank, item._id)
+                                }
+                            />
+                        </td>
                         <td>
                             <ActionsTable
-                            view
-                            linkView={`${routers.user}/${item._id}`}
-                            onClickView={() => handleViewUser(item)}
+                                view
+                                linkView={`${routers.user}/${item._id}`}
+                                onClickView={() => handleViewUser(item)}
                                 onClickDel={(e) => modalDeleteTrue(e, item._id)}
                             ></ActionsTable>
                         </td>
@@ -135,7 +149,7 @@ function User() {
                     <p className='modal-delete-desc'>
                         Are you sure change rank this user?
                     </p>
-                    <SelectStatus rank/>
+                    <SelectStatus rank />
                 </Modal>
             )}
             {modalDelete && (

@@ -2,23 +2,25 @@ import {
     axiosUtils,
     searchUtils,
     dispatchEdit,
-    dispatchDelete
+    dispatchDelete,
 } from '../utils';
 
 // GET DATA WITHDRAWS
 export const getWithdraws = async (props = {}) => {
-    const processWithdraws = await axiosUtils.adminGet(`getAllWithdraw?page=${props.page}&show=${props.show}`);
-        const processUser = await axiosUtils.adminGet('getAllUser');
-        props.dispatch(
-            props.actions.setData({
-                ...props.state.set,
-                data: {
-                    ...props.state.set.data,
-                    dataWithdraw: processWithdraws,
-                    dataUser: processUser,
-                },
-            })
-        );
+    const processWithdraws = await axiosUtils.adminGet(
+        `getAllWithdraw?page=${props.page}&show=${props.show}`
+    );
+    const processUser = await axiosUtils.adminGet('getAllUser');
+    props.dispatch(
+        props.actions.setData({
+            ...props.state.set,
+            data: {
+                ...props.state.set.data,
+                dataWithdraw: processWithdraws,
+                dataUser: processUser,
+            },
+        })
+    );
 };
 // CHECK ERROR ACTIONS
 export const checkErrorWithdraw = (props = {}) => {
@@ -55,7 +57,9 @@ export const handleEdit = async (props = {}) => {
     });
     switch (resPut.code) {
         case 0:
-            const res = await axiosUtils.adminGet(`getAllWithdraw?page=${props.page}&show=${props.show}`);
+            const res = await axiosUtils.adminGet(
+                `getAllWithdraw?page=${props.page}&show=${props.show}`
+            );
             dispatchEdit(
                 props.dispatch,
                 props.state,
@@ -68,7 +72,7 @@ export const handleEdit = async (props = {}) => {
         default:
             break;
     }
-}
+};
 // HANDLE DELETE WITHDRAWS
 export const handleDelete = async (props = {}) => {
     const resDel = await axiosUtils.adminDelete(`deleteWithdraw/${props.id}`, {
@@ -76,7 +80,9 @@ export const handleDelete = async (props = {}) => {
             token: props.data?.token,
         },
     });
-    const res = await axiosUtils.adminGet(`getAllWithdraw?page=${props.page}&show=${props.show}`);
+    const res = await axiosUtils.adminGet(
+        `getAllWithdraw?page=${props.page}&show=${props.show}`
+    );
     dispatchDelete(
         props.dispatch,
         props.state,
@@ -85,4 +91,4 @@ export const handleDelete = async (props = {}) => {
         'dataWithdraw',
         resDel.message
     );
-}
+};

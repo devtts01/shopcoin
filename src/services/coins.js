@@ -240,14 +240,16 @@ export const handleUpdate = async (props = {}) => {
             );
             return props.data;
         case 1:
-                props.dispatch(props.actions.setData({
+            props.dispatch(
+                props.actions.setData({
                     ...props.state.set,
                     message: {
                         ...props.state.message,
                         error: resPut.message,
-                    }
-                }))
-                break;
+                    },
+                })
+            );
+            break;
         default:
             break;
     }

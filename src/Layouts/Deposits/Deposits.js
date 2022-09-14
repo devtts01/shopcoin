@@ -2,7 +2,13 @@
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import moment from 'moment';
-import { getDeposits, searchDeposits, handleEdit, checkErrorDeposits, handleDelete } from '../../services/deposits';
+import {
+    getDeposits,
+    searchDeposits,
+    handleEdit,
+    checkErrorDeposits,
+    handleDelete,
+} from '../../services/deposits';
 import {
     useAppContext,
     DataDeposits,
@@ -25,8 +31,19 @@ const cx = className.bind(styles);
 
 function Deposits() {
     const { state, dispatch } = useAppContext();
-    const { edit, currentUser, statusUpdate, statusCurrent, searchValues: {deposits}, pagination: {page, show}, data: {dataDeposits, dataUser} } = state.set;
+    const {
+        edit,
+        currentUser,
+        statusUpdate,
+        statusCurrent,
+        searchValues: { deposits },
+        pagination: { page, show },
+        data: { dataDeposits, dataUser },
+    } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
+    useEffect(() => {
+        document.title = 'Deposits | Shop Coin';
+    }, []);
     useEffect(() => {
         getDeposits({ page, show, dispatch, state, actions });
     }, [page, show]);
@@ -49,7 +66,7 @@ function Deposits() {
     };
     // Edit + Delete Deposits
     const handleDeleteDeposits = async (data, id) => {
-        handleDelete({ data, id, dispatch, state, actions, page,show });
+        handleDelete({ data, id, dispatch, state, actions, page, show });
     };
     const deleteDeposits = async (id) => {
         try {
@@ -66,7 +83,17 @@ function Deposits() {
         }
     };
     const handleEditStatus = async (data, id) => {
-        await handleEdit({data, id, dispatch, actions, state,statusCurrent,statusUpdate, page,show})
+        await handleEdit({
+            data,
+            id,
+            dispatch,
+            actions,
+            state,
+            statusCurrent,
+            statusUpdate,
+            page,
+            show,
+        });
     };
     const editStatus = async (id) => {
         try {

@@ -50,7 +50,7 @@ export const privateRouter = [
         component: BuySellDetail,
     },
     { path: routers.user, component: User },
-    {path: `${routers.user}/:idUser`, component: UserDetail},
+    { path: `${routers.user}/:idUser`, component: UserDetail },
     { path: `${routers.settingCoin}/${routers.newcoin}`, component: NewCoin },
     {
         path: `${routers.settingCoin}/${routers.editCoin}/:idCoin`,

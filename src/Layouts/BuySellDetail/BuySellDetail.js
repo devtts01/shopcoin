@@ -4,22 +4,35 @@ import className from 'classnames/bind';
 import { useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import moment from 'moment';
-import {FormInput, Button} from '../../components';
-import {getBuySellById} from '../../services/buy';
+import { FormInput, Button } from '../../components';
+import {
+    getBuySellById,
+    checkErrorBuys,
+    handleUpdateStatusFeeBuy,
+} from '../../services/buy';
+import { handleUpdateStatusFeeSell } from '../../services/sell';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { useAppContext } from '../../utils';
+import { useAppContext, requestRefreshToken } from '../../utils';
 import { actions } from '../../app/';
 import styles from './BuySellDetail.module.css';
 
 const cx = className.bind(styles);
 
 function BuySellDetail() {
-    const {idBuy, idSell} = useParams();
+    const { idBuy, idSell } = useParams();
     const { state, dispatch } = useAppContext();
-    const { edit, data: {dataUser} } = state.set;
-    const [feeValue, setFeeValue] = useState(edit?.itemData && edit?.itemData.fee);
+    const {
+        edit,
+        currentUser,
+        data: { dataUser },
+        pagination: { page, show },
+    } = state.set;
+    const [feeValue, setFeeValue] = useState(
+        edit?.itemData && edit?.itemData.fee
+    );
     useEffect(() => {
-        getBuySellById({idBuy, idSell, dispatch, state, actions});
+        document.title = 'Detail | Shop Coin';
+        getBuySellById({ idBuy, idSell, dispatch, state, actions });
     }, []);
     function ItemRender({ title, info, feeCustom }) {
         return (
@@ -35,7 +48,47 @@ function BuySellDetail() {
     }
     const changeFee = (e) => {
         setFeeValue(e.target.value);
-    }
+    };
+    const handleUpdateFee = async (data, id) => {
+        if (idBuy) {
+            await handleUpdateStatusFeeBuy({
+                data,
+                id,
+                dispatch,
+                state,
+                actions,
+                page,
+                show,
+                fee: parseFloat(feeValue),
+            });
+        } else if (idSell) {
+            await handleUpdateStatusFeeSell({
+                data,
+                id,
+                dispatch,
+                state,
+                actions,
+                page,
+                show,
+                fee: parseFloat(feeValue),
+            });
+        }
+    };
+    const updateFee = async (id) => {
+        try {
+            console.log(parseFloat(feeValue));
+            requestRefreshToken(
+                currentUser,
+                handleUpdateFee,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+        } catch (err) {
+            checkErrorBuys(err, dispatch, state, actions);
+        }
+    };
     const username = dataUser?.dataUser?.find(
         (x) => x.payment.email === edit?.itemData?.buyer.gmailUSer
     )?.payment?.username;
@@ -71,21 +124,44 @@ function BuySellDetail() {
                 <ItemRender title='Code' />
                 <ItemRender
                     title='Created'
-                    info={edit?.itemData && moment(edit?.itemData.createAt).format('DD/MM/YYYY')}
+                    info={
+                        edit?.itemData &&
+                        moment(edit?.itemData.createAt).format('DD/MM/YYYY')
+                    }
                 />
-                <ItemRender title='Symbol'  info={edit?.itemData && edit?.itemData.symbol}/>
+                <ItemRender
+                    title='Symbol'
+                    info={edit?.itemData && edit?.itemData.symbol}
+                />
                 <ItemRender title='Sent' />
-                <ItemRender title='Buy price'  info={edit?.itemData && edit?.itemData.price}/>
+                <ItemRender
+                    title='Buy price'
+                    info={edit?.itemData && edit?.itemData.price}
+                />
                 <ItemRender title='Received' />
-                <ItemRender title='Fee'  info={edit?.itemData && edit?.itemData.fee} feeCustom/>
+                <ItemRender
+                    title='Fee'
+                    info={edit?.itemData && edit?.itemData.fee}
+                    feeCustom
+                />
                 <ItemRender title='Document' />
             </div>
             <div className={`${cx('detail-container')}`}>
                 <div className={`${cx('detail-item')}`}>
-                    <FormInput type='text' name='fee' placeholder='Fee' className={`${cx('fee-input')}`} label='Change fee' value={feeValue} onChange={changeFee}/>
+                    <FormInput
+                        type='text'
+                        name='fee'
+                        placeholder='Fee'
+                        className={`${cx('fee-input')}`}
+                        label='Change fee'
+                        value={feeValue}
+                        onChange={changeFee}
+                    />
                 </div>
                 <div className={`${cx('detail-item', 'left')}`}>
-                    <Button>Update</Button>
+                    <Button onClick={() => updateFee(idBuy || idSell)}>
+                        Update
+                    </Button>
                 </div>
             </div>
         </div>

@@ -53,6 +53,9 @@ function Payment() {
     const refRateDeposit = useRef();
     const refRateWithdraw = useRef();
     useEffect(() => {
+        document.title = 'Payment | Shop Coin';
+    }, []);
+    useEffect(() => {
         getPayments({ dispatch, state, actions, page, show });
     }, [page, show]);
     const dataUserFlag = searchPayment({

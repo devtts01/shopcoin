@@ -6,9 +6,17 @@ import styles from './Button.module.css';
 
 const cx = className.bind(styles);
 
-function Button({ to, className, onClick, disabled,isProcess = false, children, passProps }) {
+function Button({
+    to,
+    className,
+    onClick,
+    disabled,
+    isProcess = false,
+    children,
+    passProps,
+}) {
     let Cp = 'button';
-    const classed = cx('button', {[className]: className, disabled});
+    const classed = cx('button', { [className]: className, disabled });
     const props = {
         ...passProps,
         onClick,
@@ -26,7 +34,14 @@ function Button({ to, className, onClick, disabled,isProcess = false, children, 
     }
     return (
         <Cp className={classed} {...props}>
-            {!isProcess ? children : <i className='bx bx-loader bx-spin bx-rotate-90' style={{color:"#fff"}} ></i>}
+            {!isProcess ? (
+                children
+            ) : (
+                <i
+                    className='bx bx-loader bx-spin bx-rotate-90'
+                    style={{ color: '#fff' }}
+                ></i>
+            )}
         </Cp>
     );
 }

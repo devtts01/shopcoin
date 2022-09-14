@@ -2,30 +2,34 @@ import {
     axiosUtils,
     searchUtils,
     dispatchEdit,
-    dispatchDelete
+    dispatchDelete,
 } from '../utils';
 
 // GET DATA DEPOSITS
 export const getDeposits = async (props = {}) => {
-    const processDeposits = await axiosUtils.adminGet(`getAllDeposit?page=${props.page}&show=${props.show}`);
-        const processUser = await axiosUtils.adminGet('getAllUser');
-        props.dispatch(
-            props.actions.setData({
-                ...props.state.set,
-                data: {
-                    ...props.state.set.data,
-                    dataDeposits: processDeposits,
-                    dataUser: processUser,
-                },
-            })
-        );
+    const processDeposits = await axiosUtils.adminGet(
+        `getAllDeposit?page=${props.page}&show=${props.show}`
+    );
+    const processUser = await axiosUtils.adminGet('getAllUser');
+    props.dispatch(
+        props.actions.setData({
+            ...props.state.set,
+            data: {
+                ...props.state.set.data,
+                dataDeposits: processDeposits,
+                dataUser: processUser,
+            },
+        })
+    );
 };
 // GET DEPOSITS/WITHDRAWS BY ID
 export const getDepositsWithdrawById = async (props = {}) => {
     if (props.idDeposits || props.idWithdraw) {
         const processUser = await axiosUtils.adminGet('getAllUser');
-        const process = await axiosUtils.adminGet(props.idDeposits ? 
-            `getDeposit/${props.idDeposits}` : `getWithdraw/${props.idWithdraw}`
+        const process = await axiosUtils.adminGet(
+            props.idDeposits
+                ? `getDeposit/${props.idDeposits}`
+                : `getWithdraw/${props.idWithdraw}`
         );
         const { data } = process;
         props.dispatch(
@@ -38,11 +42,11 @@ export const getDepositsWithdrawById = async (props = {}) => {
                 data: {
                     ...props.state.set.data,
                     dataUser: processUser,
-                }
+                },
             })
         );
     }
-}
+};
 // CHECK ERROR ACTIONS
 export const checkErrorDeposits = (props = {}) => {
     return props.dispatch(
@@ -78,7 +82,9 @@ export const handleEdit = async (props = {}) => {
     });
     switch (resPut.code) {
         case 0:
-            const res = await axiosUtils.adminGet(`getAllDeposit?page=${props.page}&show=${props.show}`);
+            const res = await axiosUtils.adminGet(
+                `getAllDeposit?page=${props.page}&show=${props.show}`
+            );
             dispatchEdit(
                 props.dispatch,
                 props.state,
@@ -91,7 +97,7 @@ export const handleEdit = async (props = {}) => {
         default:
             break;
     }
-}
+};
 // HANDLE DELETE DEPOSITS
 export const handleDelete = async (props = {}) => {
     const resDel = await axiosUtils.adminDelete(`deleteDeposit/${props.id}`, {
@@ -99,7 +105,9 @@ export const handleDelete = async (props = {}) => {
             token: props.data?.token,
         },
     });
-    const res = await axiosUtils.adminGet(`getAllDeposit?page=${props.page}&show=${props.show}`);
+    const res = await axiosUtils.adminGet(
+        `getAllDeposit?page=${props.page}&show=${props.show}`
+    );
     dispatchDelete(
         props.dispatch,
         props.state,
@@ -108,4 +116,4 @@ export const handleDelete = async (props = {}) => {
         'dataDeposits',
         resDel.message
     );
-}
+};

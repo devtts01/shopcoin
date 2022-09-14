@@ -1,12 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
-import {getSells, searchSells} from '../../services/sell';
+import {
+    getSells,
+    searchSells,
+    handleUpdateStatusFeeSell,
+    checkErrorSells,
+    handleDelete,
+} from '../../services/sell';
 import {
     useAppContext,
     DataSells,
     deleteUtils,
-    handleUtils
+    handleUtils,
+    requestRefreshToken,
 } from '../../utils';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -29,13 +36,19 @@ const DATA_SELL = DataSells(Icons);
 function Sell() {
     const { state, dispatch } = useAppContext();
     const { headers } = DATA_SELL;
-    const { dataSell, dataUser } = state.set.data;
-    const { page,show } = state.set.pagination;
-    const { sell } = state.set.searchValues;
+    const {
+        edit,
+        currentUser,
+        statusUpdate,
+        statusCurrent,
+        data: { dataSell, dataUser },
+        pagination: { page, show },
+        searchValues: { sell },
+    } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
-    const { edit } = state.set;
     useEffect(() => {
-        getSells({ page, show, dispatch, state,actions});
+        document.title = 'Sell | Shop Coin';
+        getSells({ page, show, dispatch, state, actions });
     }, []);
     let dataSellFlag = searchSells({ dataSell, sell });
     const toggleEditTrue = (e, status, id) => {
@@ -52,35 +65,29 @@ function Sell() {
     };
 
     // EDIT + DELETE
-    const deleteSell = async (id) => {
-        try {
-            await alert('Delete Sell id: ' + id);
-            dispatch(
-                actions.toggleModal({
-                    ...state.toggle,
-                    modalDelete: false,
-                    alertModal: true,
-                })
-            );
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        } catch (err) {
-            dispatch(
-                actions.setData({
-                    ...state.set,
-                    message: {
-                        ...state.set.message,
-                        error: err?.response?.data,
-                    },
-                })
-            );
-        }
+    const handleEdit = async (data, id) => {
+        await handleUpdateStatusFeeSell({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            statusUpdate,
+            statusCurrent,
+        });
     };
-    const handleEdit = async (id) => {
+    const editStatusSell = async (id) => {
         try {
-            await alert('Edit status: ' + id);
+            requestRefreshToken(
+                currentUser,
+                handleEdit,
+                state,
+                dispatch,
+                actions,
+                id
+            );
             dispatch(
                 actions.toggleModal({
                     ...state.toggle,
@@ -95,7 +102,35 @@ function Sell() {
                 })
             );
         } catch (err) {
-            console.log(err);
+            checkErrorSells({ err, dispatch, state, actions });
+        }
+    };
+    const handleDeleteSell = async (data, id) => {
+        await handleDelete({ data, id, dispatch, state, actions, page, show });
+    };
+    const deleteSell = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                handleDeleteSell,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+            dispatch(
+                actions.toggleModal({
+                    ...state.toggle,
+                    modalDelete: false,
+                    alertModal: true,
+                })
+            );
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+        } catch (err) {
+            checkErrorSells({ err, dispatch, state, actions });
         }
     };
     const handleViewSell = (item) => {
@@ -130,39 +165,41 @@ function Sell() {
                         email: item.buyer.gmailUSer,
                         path: `@${username.replace(' ', '-')}`,
                     };
-                    return (<tr key={index}>
-                        <td>{handleUtils.indexTable(page,show,index)}</td>
-                        <td>
-                            <Skeleton width={50} />
-                        </td>
-                        <td>
-                            <TrObjectIcon item={sendReceived} />
-                        </td>
-                        <td>
-                            <TrObjectNoIcon item={infoUser} />
-                        </td>
-                        <td>{moment(item.createAt).format('DD/MM/YYYY')}</td>
-                        <td>
-                            <TrStatus
-                                item={item.status}
-                                onClick={(e) =>
-                                    toggleEditTrue(
-                                        e,
-                                        item.status,
-                                        item._id
-                                    )
-                                }
-                            />
-                        </td>
-                        <td>
-                            <ActionsTable
-                                view
-                                linkView={`${routers.sell}/${routers.sellDetail}/${item._id}`}
-                                onClickDel={(e) => modalDeleteTrue(e, item._id)}
-                                onClickView={() => handleViewSell(item)}
-                            ></ActionsTable>
-                        </td>
-                    </tr>)
+                    return (
+                        <tr key={index}>
+                            <td>{handleUtils.indexTable(page, show, index)}</td>
+                            <td>
+                                <Skeleton width={50} />
+                            </td>
+                            <td>
+                                <TrObjectIcon item={sendReceived} />
+                            </td>
+                            <td>
+                                <TrObjectNoIcon item={infoUser} />
+                            </td>
+                            <td>
+                                {moment(item.createAt).format('DD/MM/YYYY')}
+                            </td>
+                            <td>
+                                <TrStatus
+                                    item={item.status}
+                                    onClick={(e) =>
+                                        toggleEditTrue(e, item.status, item._id)
+                                    }
+                                />
+                            </td>
+                            <td>
+                                <ActionsTable
+                                    view
+                                    linkView={`${routers.sell}/${routers.sellDetail}/${item._id}`}
+                                    onClickDel={(e) =>
+                                        modalDeleteTrue(e, item._id)
+                                    }
+                                    onClickView={() => handleViewSell(item)}
+                                ></ActionsTable>
+                            </td>
+                        </tr>
+                    );
                 })}
             </>
         );
@@ -189,7 +226,7 @@ function Sell() {
                     actionButtonText='Submit'
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
-                    onClick={() => handleEdit(edit.id)}
+                    onClick={() => editStatusSell(edit.id)}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change status this{' '}
@@ -208,7 +245,7 @@ function Sell() {
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
                     classNameButton={`${cx('delete-button')}`}
-                    onClick={() => deleteSell(edit._id || edit.id)}
+                    onClick={() => deleteSell(edit.id)}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure to delete this sell?

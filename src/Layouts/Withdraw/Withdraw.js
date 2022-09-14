@@ -2,7 +2,13 @@
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import moment from 'moment';
-import {getWithdraws, searchWithdraw, handleEdit, checkErrorWithdraw, handleDelete} from '../../services/withdraws';
+import {
+    getWithdraws,
+    searchWithdraw,
+    handleEdit,
+    checkErrorWithdraw,
+    handleDelete,
+} from '../../services/withdraws';
 import {
     useAppContext,
     DataWithdraws,
@@ -25,12 +31,26 @@ const cx = className.bind(styles);
 
 function Withdraw() {
     const { state, dispatch } = useAppContext();
-    const { edit, currentUser, statusCurrent, statusUpdate, data: {dataWithdraw, dataUser}, searchValues: {withdraw}, pagination: {page, show } } = state.set;
+    const {
+        edit,
+        currentUser,
+        statusCurrent,
+        statusUpdate,
+        data: { dataWithdraw, dataUser },
+        searchValues: { withdraw },
+        pagination: { page, show },
+    } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
     useEffect(() => {
-        getWithdraws({page, show, dispatch,state,actions})
+        document.title = 'Withdraw | Shop Coin';
+    }, []);
+    useEffect(() => {
+        getWithdraws({ page, show, dispatch, state, actions });
     }, [page, show]);
-    let dataWithdrawFlag = searchWithdraw({dataWithdraw: dataWithdraw.dataWithdraw, withdraw});
+    let dataWithdrawFlag = searchWithdraw({
+        dataWithdraw: dataWithdraw.dataWithdraw,
+        withdraw,
+    });
     // Modal
     const toggleEditTrue = (e, status, id) => {
         return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
@@ -46,10 +66,20 @@ function Withdraw() {
     };
     // Edit + Delete Withdraw
     const handleEditStatus = async (data, id) => {
-        handleEdit({data, id, dispatch, actions, state,statusCurrent,statusUpdate, page,show});
+        handleEdit({
+            data,
+            id,
+            dispatch,
+            actions,
+            state,
+            statusCurrent,
+            statusUpdate,
+            page,
+            show,
+        });
     };
     const handleDeleteWithdraw = async (data, id) => {
-        handleDelete({data, id, dispatch, state, actions, page,show})
+        handleDelete({ data, id, dispatch, state, actions, page, show });
     };
     const deleteWithdraw = async (id) => {
         try {
@@ -62,7 +92,7 @@ function Withdraw() {
                 id
             );
         } catch (err) {
-            checkErrorWithdraw({err, dispatch, state, actions});
+            checkErrorWithdraw({ err, dispatch, state, actions });
         }
     };
     const editStatus = async (id) => {
@@ -76,7 +106,7 @@ function Withdraw() {
                 id
             );
         } catch (err) {
-            checkErrorWithdraw({})
+            checkErrorWithdraw({});
         }
     };
     const handleViewWithdraw = (item) => {

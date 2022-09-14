@@ -12,24 +12,26 @@ import './App.css';
 function App() {
     const { state, dispatch } = useAppContext();
     const { currentUser } = state.set;
-    const {del,cre,upd,error} = state.set.message;
+    const { del, cre, upd, error } = state.set.message;
     const Routers = currentUser ? privateRouter : publicRouter;
     const history = useNavigate();
     const handleCloseAlert = () => {
         return alertUtils.closeAlert(dispatch, state, actions);
     };
-    if(error || del || cre || upd){
+    if (error || del || cre || upd) {
         setTimeout(() => {
             handleCloseAlert();
-            dispatch(actions.setData({
-                ...state.set,
-                message: {
-                    error: '',
-                    del: '',
-                    cre: '',
-                    upd: '',
-                }
-            }));
+            dispatch(
+                actions.setData({
+                    ...state.set,
+                    message: {
+                        error: '',
+                        del: '',
+                        cre: '',
+                        upd: '',
+                    },
+                })
+            );
         }, 5000);
     }
     useEffect(() => {

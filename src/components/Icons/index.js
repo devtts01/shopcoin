@@ -924,4 +924,3 @@ export const SelectOptionArrowIcon = ({
         </svg>
     );
 };
-

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import className from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form } from '../../components';
@@ -14,6 +14,9 @@ function Login() {
     const { email, password } = state.set.form;
     const [isProcess, setIsProcess] = useState(false);
     const history = useNavigate();
+    useEffect(() => {
+        document.title = 'Login | Shop Coin';
+    }, []);
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -40,7 +43,7 @@ function Login() {
                                 email: '',
                                 password: '',
                             },
-                            message:{
+                            message: {
                                 error: '',
                             },
                         })
@@ -61,8 +64,8 @@ function Login() {
                     break;
                 default:
                     break;
-                }
-                setIsProcess(false);
+            }
+            setIsProcess(false);
         } catch (error) {
             dispatch(
                 actions.setData({

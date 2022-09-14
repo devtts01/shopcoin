@@ -95,7 +95,12 @@ function Form({
                         />
                     )}
                     {children}
-                    <Button isProcess={isProcess} disabled={disabled} className={`${cx('form-btn')}`} onClick={onClick}>
+                    <Button
+                        isProcess={isProcess}
+                        disabled={disabled}
+                        className={`${cx('form-btn')}`}
+                        onClick={onClick}
+                    >
                         {textBtn}
                     </Button>
                     {(loginForm || registerForm) && (

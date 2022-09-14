@@ -4,13 +4,19 @@ import moment from 'moment';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import className from 'classnames/bind';
-import {getBuys, searchBuys, handleUpdate} from '../../services/buy';
+import {
+    getBuys,
+    searchBuys,
+    handleUpdateStatusFeeBuy,
+    checkErrorBuys,
+    handleDelete,
+} from '../../services/buy';
 import {
     useAppContext,
     DataBuys,
     deleteUtils,
     handleUtils,
-    requestRefreshToken
+    requestRefreshToken,
 } from '../../utils';
 import { Icons, ActionsTable, Modal, SelectStatus } from '../../components';
 import routers from '../../routers/routers';
@@ -27,11 +33,22 @@ const cx = className.bind(styles);
 
 function Buy() {
     const { state, dispatch } = useAppContext();
-    const { edit, currentUser, data: {dataBuy, dataUser}, pagination: {page, show}, searchValues: {buy} } = state.set;
+    const {
+        edit,
+        currentUser,
+        statusCurrent,
+        statusUpdate,
+        data: { dataBuy, dataUser },
+        pagination: { page, show },
+        searchValues: { buy },
+    } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
     useEffect(() => {
-        getBuys({ page, show, dispatch, state,actions});
-    }, [page,show]);
+        document.title = 'Buy | Shop Coin';
+    }, []);
+    useEffect(() => {
+        getBuys({ page, show, dispatch, state, actions });
+    }, [page, show]);
     let dataBuyFlag = searchBuys({ dataBuy, buy });
     const toggleEditStatusTrue = (e, status, id) => {
         return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
@@ -47,35 +64,19 @@ function Buy() {
     };
 
     // EDIT + DELETE
-    const deleteBuy = async (id) => {
-        try {
-            await alert('Delete Buy id: ' + id);
-            dispatch(
-                actions.toggleModal({
-                    ...state.toggle,
-                    modalDelete: false,
-                    alertModal: true,
-                })
-            );
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        } catch (err) {
-            dispatch(
-                actions.setData({
-                    ...state.set,
-                    message: {
-                        ...state.set.message,
-                        error: err?.response?.data,
-                    },
-                })
-            );
-        }
-    };
     const handleEdit = async (data, id) => {
-        await handleUpdate({data,id, dispatch,state,actions})
-    }
+        await handleUpdateStatusFeeBuy({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            statusUpdate,
+            statusCurrent,
+            page,
+            show,
+        });
+    };
     const editStatusBuy = async (id) => {
         try {
             requestRefreshToken(
@@ -85,7 +86,7 @@ function Buy() {
                 dispatch,
                 actions,
                 id
-            )
+            );
             dispatch(
                 actions.toggleModal({
                     ...state.toggle,
@@ -100,7 +101,35 @@ function Buy() {
                 })
             );
         } catch (err) {
-            console.log(err);
+            checkErrorBuys({ err, dispatch, state, actions });
+        }
+    };
+    const handleDeleteBuy = async (data, id) => {
+        await handleDelete({ data, id, dispatch, state, actions, page, show });
+    };
+    const deleteBuy = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                handleDeleteBuy,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+            dispatch(
+                actions.toggleModal({
+                    ...state.toggle,
+                    modalDelete: false,
+                    alertModal: true,
+                })
+            );
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+        } catch (err) {
+            checkErrorBuys({ err, dispatch, state, actions });
         }
     };
     const handleViewBuy = (item) => {
@@ -136,41 +165,45 @@ function Buy() {
                         email: item.buyer.gmailUSer,
                         path: `@${username.replace(' ', '-')}`,
                     };
-                    return (<tr key={index}>
-                        <td>{handleUtils.indexTable(page,show,index)}</td>
-                        <td>
-                            <Skeleton width={50}/>
-                        </td>
-                        <td>
-                            <TrObjectIcon item={sendReceived} />
-                        </td>
-                        <td>
-                            <TrObjectNoIcon item={infoUser} />
-                        </td>
-                        <td>
-                            {moment(item.createAt).format('DD/MM/YYYY')}
-                        </td>
-                        <td>
-                            <TrStatus
-                                item={item.status}
-                                onClick={(e) =>
-                                    toggleEditStatusTrue(
-                                        e,
-                                        item.status,
-                                        item._id
-                                    )
-                                }
-                            />
-                        </td>
-                        <td>
-                            <ActionsTable
-                                view
-                                linkView={`${routers.buy}/${routers.buyDetail}/${item._id}`}
-                                onClickDel={(e) => modalDeleteTrue(e, item._id)}
-                                onClickView={() => handleViewBuy(item)}
-                            ></ActionsTable>
-                        </td>
-                    </tr>)
+                    return (
+                        <tr key={index}>
+                            <td>{handleUtils.indexTable(page, show, index)}</td>
+                            <td>
+                                <Skeleton width={50} />
+                            </td>
+                            <td>
+                                <TrObjectIcon item={sendReceived} />
+                            </td>
+                            <td>
+                                <TrObjectNoIcon item={infoUser} />
+                            </td>
+                            <td>
+                                {moment(item.createAt).format('DD/MM/YYYY')}
+                            </td>
+                            <td>
+                                <TrStatus
+                                    item={item.status}
+                                    onClick={(e) =>
+                                        toggleEditStatusTrue(
+                                            e,
+                                            item.status,
+                                            item._id
+                                        )
+                                    }
+                                />
+                            </td>
+                            <td>
+                                <ActionsTable
+                                    view
+                                    linkView={`${routers.buy}/${routers.buyDetail}/${item._id}`}
+                                    onClickDel={(e) =>
+                                        modalDeleteTrue(e, item._id)
+                                    }
+                                    onClickView={() => handleViewBuy(item)}
+                                ></ActionsTable>
+                            </td>
+                        </tr>
+                    );
                 })}
             </>
         );
@@ -202,7 +235,7 @@ function Buy() {
                             : 'sell'}
                         ?
                     </p>
-                    <SelectStatus rank/>
+                    <SelectStatus />
                 </Modal>
             )}
             {modalDelete && (

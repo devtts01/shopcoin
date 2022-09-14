@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { Icons, Image,Loading } from '../';
+import { Icons, Image, Loading } from '../';
 import { useAppContext } from '../../utils';
 import { actions } from '../../app/';
 import styles from './TableData.module.css';
@@ -60,11 +60,16 @@ export function TrStatus({ item, onClick }) {
                 ? 'confirm'
                 : item.toLowerCase() === 'complete'
                 ? 'complete'
-                : item.toLowerCase() === 'on hold' || item.toLowerCase() === 'onhold'
+                : item.toLowerCase() === 'on hold' ||
+                  item.toLowerCase() === 'onhold'
                 ? 'onhold'
                 : item.toLowerCase() === 'cancel'
                 ? 'cancel'
-                : item.toLowerCase() === 'pro' ? 'pro' : item.toLowerCase() === 'vip' ? 'vip' : 'standard'
+                : item.toLowerCase() === 'pro'
+                ? 'pro'
+                : item.toLowerCase() === 'vip'
+                ? 'vip'
+                : 'standard'
         }`
     );
     return (
@@ -217,7 +222,9 @@ function TableData({ data = [], totalData, headers, search, children }) {
                             </td>
                         </tr>
                     </tbody>
-                ) : <Loading/>}
+                ) : (
+                    <Loading />
+                )}
             </table>
             <div className={`${cx('pagination-countpage')}`}>
                 <div className={`${cx('notvalue')}`}></div>

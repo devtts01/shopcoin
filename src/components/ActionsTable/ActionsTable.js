@@ -26,11 +26,15 @@ function ActionsTable({
                         className={`${cx('actions-item', 'link', 'edit')}`}
                         onClick={edit ? onClickEdit : onClickView}
                     >
-                        {edit ? <span className={`${cx('actions-item-icon')}`}>
-                            <Icons.EditIcon />
-                        </span> : <span>
-                            <i className='fa-solid fa-eye'></i>
-                        </span>}
+                        {edit ? (
+                            <span className={`${cx('actions-item-icon')}`}>
+                                <Icons.EditIcon />
+                            </span>
+                        ) : (
+                            <span>
+                                <i className='fa-solid fa-eye'></i>
+                            </span>
+                        )}
                     </Link>
                 ) : view ? (
                     <Link
