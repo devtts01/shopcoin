@@ -52,7 +52,7 @@ function SelectStatus({ status, rank }) {
         { name: 'Cancel' },
         { name: 'On hold' },
     ];
-    const RANK_LIST = [{ name: 'VIP' }, { name: 'Pro' }, { name: 'Standard' }];
+    const RANK_LIST = [{ name: 'VIP' }, { name: 'Pro' }, { name: 'Standard' }, {name: 'Demo'}];
     const LIST = rank ? RANK_LIST : STATUS_LIST;
     return (
         <>

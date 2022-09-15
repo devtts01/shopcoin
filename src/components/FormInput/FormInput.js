@@ -35,7 +35,7 @@ const FormInput = forwardRef(
         };
         return (
             <div className={classedField}>
-                <label className={`${cx('label')}`}>{label}</label>
+                {label && <label className={`${cx('label')}`}>{label}</label>}
                 <div className={cx('relative-input')}>
                     <input
                         ref={ref}

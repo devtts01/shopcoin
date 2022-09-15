@@ -8,10 +8,7 @@
     border-radius: 5px;
     width: 100%;
     font-size: 16px;
-}
-
-.selectStatus-container {
-    cursor: pointer;
+    cursor: pointer; 
 }
 
 .selectStatus-value {
@@ -44,7 +41,9 @@
 }
 
 .selectStatus-value.cancel,
-.status.cancel {
+.selectStatus-value.demo,
+.status.cancel,
+.status.demo {
     color: var(--table-status-cancel-color);
     background-color: var(--table-status-cancel-bgc);
 }

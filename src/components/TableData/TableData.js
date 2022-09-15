@@ -62,7 +62,7 @@ export function TrStatus({ item, onClick }) {
                 : item.toLowerCase() === 'on hold' ||
                   item.toLowerCase() === 'onhold'
                 ? 'onhold'
-                : item.toLowerCase() === 'cancel'
+                : item.toLowerCase() === 'cancel' || item.toLowerCase() === 'demo'
                 ? 'cancel'
                 : item.toLowerCase() === 'pro'
                 ? 'pro'
