@@ -213,7 +213,7 @@ export const handleUpdate = async (props = {}) => {
         {
             logo: form.logo[0],
             name: form.nameCoin,
-            symbols: form.symbolCoin,
+            symbol: form.symbolCoin,
             fullName: form.fullName,
             unshow: [unshowList],
         },

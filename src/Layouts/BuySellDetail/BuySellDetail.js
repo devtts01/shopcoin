@@ -1,18 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import moment from 'moment';
-import { FormInput, Button } from '../../components';
 import {
     getBuySellById,
-    checkErrorBuys,
-    handleUpdateStatusFeeBuy,
 } from '../../services/buy';
-import { handleUpdateStatusFeeSell } from '../../services/sell';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { useAppContext, requestRefreshToken } from '../../utils';
+import { useAppContext } from '../../utils';
 import { actions } from '../../app/';
 import styles from './BuySellDetail.module.css';
 
@@ -23,13 +19,13 @@ function BuySellDetail() {
     const { state, dispatch } = useAppContext();
     const {
         edit,
-        currentUser,
+        // currentUser,
         data: { dataUser },
-        pagination: { page, show },
+        // pagination: { page, show },
     } = state.set;
-    const [feeValue, setFeeValue] = useState(
-        edit?.itemData && edit?.itemData.fee
-    );
+    // const [feeValue, setFeeValue] = useState(
+    //     edit?.itemData && edit?.itemData.fee
+    // );
     useEffect(() => {
         document.title = 'Detail | Shop Coin';
         getBuySellById({ idBuy, idSell, dispatch, state, actions });
@@ -46,49 +42,49 @@ function BuySellDetail() {
             </div>
         );
     }
-    const changeFee = (e) => {
-        setFeeValue(e.target.value);
-    };
-    const handleUpdateFee = async (data, id) => {
-        if (idBuy) {
-            await handleUpdateStatusFeeBuy({
-                data,
-                id,
-                dispatch,
-                state,
-                actions,
-                page,
-                show,
-                fee: parseFloat(feeValue),
-            });
-        } else if (idSell) {
-            await handleUpdateStatusFeeSell({
-                data,
-                id,
-                dispatch,
-                state,
-                actions,
-                page,
-                show,
-                fee: parseFloat(feeValue),
-            });
-        }
-    };
-    const updateFee = async (id) => {
-        try {
-            console.log(parseFloat(feeValue));
-            requestRefreshToken(
-                currentUser,
-                handleUpdateFee,
-                state,
-                dispatch,
-                actions,
-                id
-            );
-        } catch (err) {
-            checkErrorBuys(err, dispatch, state, actions);
-        }
-    };
+    // const changeFee = (e) => {
+    //     setFeeValue(e.target.value);
+    // };
+    // const handleUpdateFee = async (data, id) => {
+    //     if (idBuy) {
+    //         await handleUpdateStatusFeeBuy({
+    //             data,
+    //             id,
+    //             dispatch,
+    //             state,
+    //             actions,
+    //             page,
+    //             show,
+    //             fee: parseFloat(feeValue),
+    //         });
+    //     } else if (idSell) {
+    //         await handleUpdateStatusFeeSell({
+    //             data,
+    //             id,
+    //             dispatch,
+    //             state,
+    //             actions,
+    //             page,
+    //             show,
+    //             fee: parseFloat(feeValue),
+    //         });
+    //     }
+    // };
+    // const updateFee = async (id) => {
+    //     try {
+    //         console.log(parseFloat(feeValue));
+    //         requestRefreshToken(
+    //             currentUser,
+    //             handleUpdateFee,
+    //             state,
+    //             dispatch,
+    //             actions,
+    //             id
+    //         );
+    //     } catch (err) {
+    //         checkErrorBuys(err, dispatch, state, actions);
+    //     }
+    // };
     const username = dataUser?.dataUser?.find(
         (x) => x.payment.email === edit?.itemData?.buyer.gmailUSer
     )?.payment?.username;
@@ -146,7 +142,7 @@ function BuySellDetail() {
                 />
                 <ItemRender title='Document' />
             </div>
-            <div className={`${cx('detail-container')}`}>
+            {/* <div className={`${cx('detail-container')}`}>
                 <div className={`${cx('detail-item')}`}>
                     <FormInput
                         type='text'
@@ -163,7 +159,7 @@ function BuySellDetail() {
                         Update
                     </Button>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

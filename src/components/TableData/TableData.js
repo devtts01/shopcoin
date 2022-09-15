@@ -2,10 +2,9 @@
 import React from 'react';
 import className from 'classnames/bind';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { Icons, Image, Loading } from '../';
+import { Image, Loading } from '../';
 import { useAppContext } from '../../utils';
 import { actions } from '../../app/';
 import styles from './TableData.module.css';
@@ -45,10 +44,10 @@ export function TrObjectNoIcon({ item }) {
         <>
             <div className={cx('name')}>{item.name}</div>
             <div className={cx('email')}>{item.email}</div>
-            <Link to={item.path} className={cx('link-user')}>
+            {/* <Link to={item.path} className={cx('link-user')}>
                 <span className={cx('link-user-text')}>View User</span>
                 <Icons.ViewUserIcon className={`${cx('link-user-icon')}`} />
-            </Link>
+            </Link> */}
         </>
     );
 }

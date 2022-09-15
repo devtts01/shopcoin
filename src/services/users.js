@@ -23,13 +23,13 @@ export const getUsers = async (props = {}) => {
 export const getUserById = async (props = {}) => {
     if (props.idUser) {
         const process = await axiosUtils.adminGet(`getUser/${props.idUser}`);
-        const { user } = process;
+        const { data } = process;
         props.dispatch(
             props.actions.setData({
                 ...props.state.set,
                 edit: {
                     ...props.state.set.edit,
-                    itemData: user,
+                    itemData: data,
                 },
             })
         );
@@ -70,10 +70,10 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
               token: props.data?.token,
           }
         : {
-              status: props.statusUpdate || props.statusCurrent,
+              rank: props.statusUpdate.toUpperCase() || props.statusCurrent.toUpperCase(),
               token: props.data?.token,
           };
-    const resPut = await axiosUtils.adminPut(`handleUser/${props.id}`, object);
+    const resPut = await axiosUtils.adminPut(`updateRankUser/${props.id}`, object);
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(

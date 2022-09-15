@@ -20,6 +20,7 @@ import {
     searchUsers,
     handleDelete,
     checkErrorUsers,
+    handleUpdateRankFeeUser
 } from '../../services/users';
 import styles from './User.module.css';
 
@@ -32,6 +33,7 @@ function User() {
     const {
         edit,
         currentUser,
+        statusUpdate, statusCurrent,
         data: { dataUser },
         pagination: { page, show },
         searchValues: { user },
@@ -87,6 +89,24 @@ function User() {
             checkErrorUsers({ err, dispatch, state, actions });
         }
     };
+    const handleEditRank = async (data,id) => {
+        handleUpdateRankFeeUser({ data, id, dispatch, state, actions, page, show, statusUpdate, statusCurrent });
+    }
+    const editStatus = async (id) => {
+        try{
+            requestRefreshToken(
+                currentUser,
+                handleEditRank,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+        }
+        catch(err){
+            checkErrorUsers({ err, dispatch, state, actions });
+        }
+    }
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -107,7 +127,7 @@ function User() {
                         <td>{item.payment.rule || <Skeleton with={50} />}</td>
                         <td>
                             <TrStatus
-                                item={item.rank}
+                                item={item.rank.charAt(0).toUpperCase() + item.rank.slice(1).toLowerCase()}
                                 onClick={(e) =>
                                     toggleEditTrue(e, item.rank, item._id)
                                 }
@@ -144,7 +164,7 @@ function User() {
                     actionButtonText='Submit'
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
-                    // onClick={() => editStatus(edit.id)}
+                    onClick={() => editStatus(edit.id)}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change rank this user?
