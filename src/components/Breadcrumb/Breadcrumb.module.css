@@ -14,15 +14,3 @@
     text-decoration: none;
     color: var(--breadcrumb-link-color);
 }
-
-.breadcrumb-link.home {
-    color: var(--color-primary);
-}
-
-.breadcrumb-link.home:hover {
-    color: var(--color-primary);
-}
-
-.breadcrumb-icon-home {
-    margin-right: 10px;
-}

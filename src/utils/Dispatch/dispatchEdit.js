@@ -4,6 +4,7 @@ const dispatchEdit = (dispatch, state, actions, data, nameData, message) => {
             ...state.set,
             statusUpdate: '',
             statusCurrent: '',
+            fee: '',
             message: {
                 ...state.set.message,
                 upd: message ? message : 'Updated Success',
@@ -15,7 +16,7 @@ const dispatchEdit = (dispatch, state, actions, data, nameData, message) => {
                 ...state.set.data,
                 [nameData]: data,
             },
-            edit: { ...state.set.edit, itemData: null },
+            edit: { ...state.set.edit, id: '', itemData: null, data: null },
             form: {
                 username: '',
                 email: '',

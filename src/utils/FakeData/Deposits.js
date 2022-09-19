@@ -12,7 +12,7 @@ const DataDeposits = (Icons) => {
                 title: 'Amount',
             },
             h3: {
-                title: 'Buyer',
+                title: 'User',
             },
             h4: {
                 title: 'Date',

@@ -54,7 +54,7 @@ function SettingCoin() {
     };
     // Edit + Delete Coin
     const handleDeleteCoins = async (data, id) => {
-        await handleDelete({ data, id, dispatch, state, actions });
+        await handleDelete({ data, id, dispatch, state, actions, page, show });
     };
     const deleteCoins = async (id) => {
         try {
@@ -118,6 +118,7 @@ function SettingCoin() {
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataCoins().headers}
                 totalData={dataSettingCoin.total || 10}
+                classNameButton='completebgc'
             >
                 <RenderBodyTable data={dataSettingFlag} />
             </General>
@@ -127,7 +128,7 @@ function SettingCoin() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton={`${cx('delete-button')}`}
+                    classNameButton='delete-button'
                     onClick={() => deleteCoins(edit.id)}
                 >
                     <p className='modal-delete-desc'>

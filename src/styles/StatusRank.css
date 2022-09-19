@@ -1,0 +1,62 @@
+.status {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    padding: 8px 11px;
+    border-radius: 30px;
+    text-transform: capitalize;
+}
+
+.confirm,
+.standard {
+    color: var(--table-status-confirm-color);
+}
+
+.complete,
+.pro {
+    color: var(--table-status-complete-color);
+}
+
+.onhold,
+.vip {
+    color: var(--table-status-onhold-color);
+}
+
+.cancel,
+.demo {
+    color: var(--table-status-cancel-color);
+}
+
+.confirmbgc,
+.confirmbgc:hover,
+.standardbgc,
+.standardbgc:hover {
+    color: var(--table-status-confirm-color);
+    background-color: var(--table-status-confirm-bgc);
+}
+
+.completebgc,
+.completebgc a,
+.completebgc:hover,
+.completebgc a:hover,
+.probgc,
+.probgc:hover {
+    color: var(--table-status-complete-color);
+    background-color: var(--table-status-complete-bgc);
+}
+
+.onholdbgc,
+.onholdbgc:hover,
+.vipbgc,
+.vipbgc:hover {
+    color: var(--table-status-onhold-color);
+    background-color: var(--table-status-onhold-bgc);
+}
+
+.cancelbgc,
+.cancelbgc:hover,
+.demobgc,
+.demobgc:hover {
+    color: var(--table-status-cancel-color);
+    background-color: var(--table-status-cancel-bgc);
+}

@@ -8,11 +8,7 @@ const cx = className.bind(styles);
 function Toggle({ label, status, onChange }) {
     return (
         <div className={`${cx('toggle-container')}`}>
-            <Switch
-                checked={status}
-                onChange={onChange}
-                className={`${cx('mb0')}`}
-            />
+            <Switch checked={status} onChange={onChange} className='mb0' />
             <p className={`${cx('toggle-label', 'mb0')}`}>{label}</p>
         </div>
     );

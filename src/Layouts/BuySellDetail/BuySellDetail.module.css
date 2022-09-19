@@ -1,45 +1,9 @@
-.buySellDetail-container{
-    --cols: 2;
-    --spacing: 8px;
-    display: flex;
-    flex-wrap: wrap;
-}
-.detail-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 32px;
-    width: calc((100% / var(--cols)) - (var(--spacing) * 2));
-    margin: var(--spacing);
-}
-
-.detail-item {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px;
-}
-
-.detail-item.left{
+.detail-item.left {
     display: flex;
     justify-content: flex-end;
 }
 
-.detail-title {
-    color: #424242;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 22px;
-}
-
-.info {
-    font-weight: bold;
-    font-size: 16px;
-}
-.item-container{
+.item-container {
     display: flex;
     align-items: center;
 }

@@ -53,7 +53,8 @@ function Modal({
                 </div>
                 <div className={`${cx('modal-footer-me')}`}>
                     <Button
-                        className={`${cx('modal-button-me', 'cancel')}`}
+                        // className={`${cx('modal-button-me')} btn-cancel`}
+                        className='completebgc'
                         onClick={closeModal}
                     >
                         Cancel

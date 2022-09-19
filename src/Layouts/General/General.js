@@ -2,8 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Alert from '@mui/material/Alert';
 import className from 'classnames/bind';
-import { useAppContext, alertUtils, searchUtils } from '../../utils';
-import { Search, Button, TableData } from '../../components';
+import {
+    useAppContext,
+    alertUtils,
+    searchUtils,
+    refreshPage,
+} from '../../utils';
+import { Search, Button, TableData, Icons } from '../../components';
 import { actions } from '../../app/';
 import styles from './General.module.css';
 
@@ -20,6 +25,7 @@ function General({
     dataHeaders,
     children,
     className,
+    classNameButton,
 }) {
     const { state, dispatch } = useAppContext();
     const { del, upd, cre, error } = state.set.message;
@@ -31,6 +37,11 @@ function General({
         return searchUtils.logicSearch(e, dispatch, state, actions);
     };
     const classed = cx('general-container', className);
+    const classedButton = cx(
+        'general-button',
+        // linkCreate && 'link',
+        classNameButton
+    );
     return (
         <>
             <div className={classed}>
@@ -49,23 +60,39 @@ function General({
                         value={valueSearch}
                         onChange={changeSearch}
                     />
-                    {textBtnNew && (
+                    <div className='flex-center'>
+                        {textBtnNew && (
+                            <Button
+                                className={classedButton}
+                                onClick={onCreate}
+                                to={linkCreate}
+                            >
+                                <span
+                                    className={`${cx('general-button-icon')}`}
+                                >
+                                    <i className='fa-solid fa-plus'></i>
+                                </span>
+                                <span
+                                    className={`${cx('general-button-text')}`}
+                                >
+                                    {textBtnNew}
+                                </span>
+                            </Button>
+                        )}
                         <Button
-                            className={`${cx(
-                                'general-button',
-                                `${linkCreate && 'link'}`
-                            )}`}
-                            onClick={onCreate}
-                            to={linkCreate}
+                            className='confirmbgc'
+                            onClick={refreshPage.refreshPage}
                         >
-                            <span className={`${cx('general-button-icon')}`}>
-                                <i className='fa-solid fa-plus'></i>
-                            </span>
-                            <span className={`${cx('general-button-text')}`}>
-                                {textBtnNew}
-                            </span>
+                            <div className='flex-center'>
+                                <Icons.RefreshIcon className='fz12' />
+                                <span
+                                    className={`${cx('general-button-text')}`}
+                                >
+                                    Refresh Page
+                                </span>
+                            </div>
                         </Button>
-                    )}
+                    </div>
                 </div>
                 <div className={`${cx('general-table-container')}`}>
                     <TableData

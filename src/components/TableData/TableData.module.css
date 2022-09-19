@@ -129,38 +129,6 @@
     color: var(--color-primary);
 }
 
-.status {
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 18px;
-    padding: 2px 11px;
-    border-radius: 30px;
-    text-transform: capitalize;
-}
-
-.status.confirm,
-.status.standard {
-    color: var(--table-status-confirm-color);
-    background-color: var(--table-status-confirm-bgc);
-}
-
-.status.complete,
-.status.pro {
-    color: var(--table-status-complete-color);
-    background-color: var(--table-status-complete-bgc);
-}
-
-.status.onhold,
-.status.vip {
-    color: var(--table-status-onhold-color);
-    background-color: var(--table-status-onhold-bgc);
-}
-
-.status.cancel {
-    color: var(--table-status-cancel-color);
-    background-color: var(--table-status-cancel-bgc);
-}
-
 .image {
     width: 23px;
     height: 30px;

@@ -244,7 +244,7 @@ function Sell() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton={`${cx('delete-button')}`}
+                    classNameButton='delete-button'
                     onClick={() => deleteSell(edit.id)}
                 >
                     <p className='modal-delete-desc'>

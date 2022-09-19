@@ -140,7 +140,6 @@ function Buy() {
             })
         );
     };
-
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -244,7 +243,7 @@ function Buy() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton={`${cx('delete-button')}`}
+                    classNameButton='delete-button'
                     onClick={() => deleteBuy(edit.id)}
                 >
                     <p className='modal-delete-desc'>

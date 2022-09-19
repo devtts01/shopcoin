@@ -52,28 +52,10 @@ export function TrObjectNoIcon({ item }) {
     );
 }
 export function TrStatus({ item, onClick }) {
-    const classed = cx(
-        'status',
-        `${
-            item.toLowerCase() === 'confirm'
-                ? 'confirm'
-                : item.toLowerCase() === 'complete'
-                ? 'complete'
-                : item.toLowerCase() === 'on hold' ||
-                  item.toLowerCase() === 'onhold'
-                ? 'onhold'
-                : item.toLowerCase() === 'cancel' || item.toLowerCase() === 'demo'
-                ? 'cancel'
-                : item.toLowerCase() === 'pro'
-                ? 'pro'
-                : item.toLowerCase() === 'vip'
-                ? 'vip'
-                : 'standard'
-        }`
-    );
+    const classItem = item.toLowerCase().replace(' ', '');
     return (
         <div onClick={onClick} className='cr-pointer'>
-            <span className={classed}>{item}</span>
+            <span className={`${classItem + 'bgc'} status`}>{item}</span>
         </div>
     );
 }
@@ -142,7 +124,10 @@ function TableData({ data = [], totalData, headers, search, children }) {
                 case process.env.REACT_APP_WITHDRAW_NAME:
                 case process.env.REACT_APP_BUY_NAME:
                 case process.env.REACT_APP_SELL_NAME:
-                    sortASC('createAt');
+                    sortASC('createAt' || 'createdAt');
+                    break;
+                case process.env.REACT_APP_USER_NAME:
+                    sortASC('payment.username');
                     break;
                 default:
                     sortASC('_id');

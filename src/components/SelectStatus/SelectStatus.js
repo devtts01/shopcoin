@@ -1,6 +1,6 @@
 import React from 'react';
 import className from 'classnames/bind';
-import { useAppContext } from '../../utils';
+import { useAppContext, textUtils } from '../../utils';
 import { actions } from '../../app/';
 import { Icons } from '..';
 import styles from './SelectStatus.module.css';
@@ -15,7 +15,7 @@ function SelectStatus({ status, rank }) {
         dispatch(
             actions.setData({
                 ...state.set,
-                statusUpdate: status.charAt(0).toUpperCase() + status.slice(1),
+                statusUpdate: textUtils.FirstUpc(status),
             })
         );
     };
@@ -24,7 +24,9 @@ function SelectStatus({ status, rank }) {
         dispatch(
             actions.setData({
                 ...state.set,
-                statusUpdate: statusUpdate || statusCurrent,
+                statusUpdate:
+                    textUtils.FirstUpc(statusUpdate) ||
+                    textUtils.FirstUpc(statusCurrent),
             })
         );
         dispatch(
@@ -52,7 +54,12 @@ function SelectStatus({ status, rank }) {
         { name: 'Cancel' },
         { name: 'On hold' },
     ];
-    const RANK_LIST = [{ name: 'VIP' }, { name: 'Pro' }, { name: 'Standard' }, {name: 'Demo'}];
+    const RANK_LIST = [
+        { name: 'Vip' },
+        { name: 'Pro' },
+        { name: 'Standard' },
+        { name: 'Demo' },
+    ];
     const LIST = rank ? RANK_LIST : STATUS_LIST;
     return (
         <>
@@ -60,8 +67,14 @@ function SelectStatus({ status, rank }) {
                 className={`${cx('selectStatus-container')}`}
                 onClick={toggleOption}
             >
-                <div className={`${cx('selectStatus-value', classStatus)}`}>
-                    {statusUpdate || statusCurrent}
+                <div
+                    className={`${cx(
+                        'selectStatus-value',
+                        classStatus + 'bgc'
+                    )}`}
+                >
+                    {textUtils.FirstUpc(statusUpdate) ||
+                        textUtils.FirstUpc(statusCurrent)}
                 </div>
                 <Icons.SelectOptionArrowIcon />
                 {selectStatus && (
@@ -76,10 +89,12 @@ function SelectStatus({ status, rank }) {
                             return (
                                 <div
                                     key={index}
-                                    className={`${cx('status', classItem)}`}
+                                    className={`${
+                                        classItem + 'bgc'
+                                    } status border0`}
                                     onClick={() => setStatus(classItem)}
                                 >
-                                    {item.name}
+                                    {textUtils.FirstUpc(item.name)}
                                 </div>
                             );
                         })}

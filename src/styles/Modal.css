@@ -1,0 +1,14 @@
+.modal-delete-desc {
+    font-size: 16px;
+    text-align: left;
+}
+
+.delete-button {
+    background-color: var(--color-btn-delete);
+    color: var(--color-white);
+}
+
+.delete-button:hover {
+    background-color: var(--color-btn-delete-hover);
+    color: var(--color-white);
+}

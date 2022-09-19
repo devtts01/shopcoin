@@ -40,7 +40,7 @@ export const getCoinById = async (props = {}) => {
                 form: {
                     ...props.state.set.form,
                     nameCoin: data.name,
-                    symbolCoin: data.symbols,
+                    symbolCoin: data.symbol,
                     indexCoin: data.index,
                     logo: [data.logo],
                     fullName: data.fullName,
@@ -290,13 +290,13 @@ export const onClickEdit = async (props = {}) => {
             : props.item.unshow.length === 1
             ? props.item.unshow[0].split(',').filter((x) => x)
             : [];
-    return props.dispatch(
+    props.dispatch(
         props.actions.setData({
             ...props.state.set,
             form: {
                 ...props.state.set.form,
                 nameCoin: props.item.name,
-                symbolCoin: props.item.symbols,
+                symbolCoin: props.item.symbol,
                 indexCoin: props.item.index,
                 logo: [props.item.logo],
                 fullName: props.item.fullName,

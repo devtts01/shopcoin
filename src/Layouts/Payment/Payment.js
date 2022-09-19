@@ -51,7 +51,7 @@ function Payment() {
     const refBankName = useRef();
     const refAccountNumber = useRef();
     const refRateDeposit = useRef();
-    const refRateWithdraw = useRef();
+    const refRateWidthdraw = useRef();
     useEffect(() => {
         document.title = 'Payment | Shop Coin';
     }, []);
@@ -196,11 +196,13 @@ function Payment() {
                                 {handleUtils.indexTable(page, show, index)}
                             </td>
                             <td>
-                                {item.accountName || <Skeleton with={50} />}
+                                {item.accountName || <Skeleton width={50} />}
                             </td>
-                            <td>{item.methodName || <Skeleton with={50} />}</td>
                             <td>
-                                {item.accountNumber || <Skeleton with={50} />}
+                                {item.methodName || <Skeleton width={50} />}
+                            </td>
+                            <td>
+                                {item.accountNumber || <Skeleton width={50} />}
                             </td>
                             <td>{item.rateDeposit || 0}</td>
                             <td>{item.rateWithdraw || 0}</td>
@@ -231,6 +233,7 @@ function Payment() {
                 dataFlag={dataUserFlag}
                 dataHeaders={DataPayments().headers}
                 totalData={dataPayment.total}
+                classNameButton='completebgc'
             >
                 <RenderBodyTable data={dataUserFlag} />
             </General>
@@ -240,6 +243,7 @@ function Payment() {
                     actionButtonText={edit.itemData ? 'Update' : 'Create'}
                     closeModal={modalPaymentFalse}
                     openModal={modalPaymentTrue}
+                    classNameButton='vipbgc'
                     errorMessage={error}
                     onClick={
                         edit.itemData
@@ -292,12 +296,12 @@ function Payment() {
                         classNameInput={`${cx('payment-form-input')}`}
                     />
                     <FormInput
-                        label='Rate Withdraw'
+                        label='Rate widthdraw'
                         type='text'
-                        placeholder='Enter rate withdraw'
+                        placeholder='Enter rate widthdraw'
                         name='rateWithdraw'
                         value={rateWithdraw}
-                        ref={refRateWithdraw}
+                        ref={refRateWidthdraw}
                         onChange={handleChange}
                         classNameField={`${cx('payment-form-field')}`}
                         classNameInput={`${cx('payment-form-input')}`}
@@ -310,7 +314,7 @@ function Payment() {
                     actionButtonText='Delete'
                     openModal={modalDeleteFalse}
                     closeModal={modalDeleteFalse}
-                    classNameButton={`${cx('delete-button')}`}
+                    classNameButton='cancelbgc'
                     onClick={() => deletePayment(edit.id)}
                 >
                     <p className='modal-delete-desc'>

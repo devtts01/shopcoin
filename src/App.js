@@ -7,7 +7,6 @@ import { DefaultLayout } from './Layouts';
 import { actions } from './app/';
 import routers from './routers/routers';
 import { privateRouter, publicRouter } from './routers/routerRender';
-import './App.css';
 
 function App() {
     const { state, dispatch } = useAppContext();

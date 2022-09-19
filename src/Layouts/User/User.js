@@ -8,9 +8,9 @@ import {
     DataUsers,
     deleteUtils,
     handleUtils,
+    requestRefreshToken,
 } from '../../utils';
 import { TrStatus } from '../../components/TableData/TableData';
-import { requestRefreshToken } from '../../utils';
 import routers from '../../routers/routers';
 import { actions } from '../../app/';
 import { General } from '../';
@@ -20,7 +20,7 @@ import {
     searchUsers,
     handleDelete,
     checkErrorUsers,
-    handleUpdateRankFeeUser
+    handleUpdateRankFeeUser,
 } from '../../services/users';
 import styles from './User.module.css';
 
@@ -33,7 +33,8 @@ function User() {
     const {
         edit,
         currentUser,
-        statusUpdate, statusCurrent,
+        statusUpdate,
+        statusCurrent,
         data: { dataUser },
         pagination: { page, show },
         searchValues: { user },
@@ -89,11 +90,21 @@ function User() {
             checkErrorUsers({ err, dispatch, state, actions });
         }
     };
-    const handleEditRank = async (data,id) => {
-        handleUpdateRankFeeUser({ data, id, dispatch, state, actions, page, show, statusUpdate, statusCurrent });
-    }
+    const handleEditRank = async (data, id) => {
+        handleUpdateRankFeeUser({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            statusUpdate,
+            statusCurrent,
+        });
+    };
     const editStatus = async (id) => {
-        try{
+        try {
             requestRefreshToken(
                 currentUser,
                 handleEditRank,
@@ -102,11 +113,10 @@ function User() {
                 actions,
                 id
             );
-        }
-        catch(err){
+        } catch (err) {
             checkErrorUsers({ err, dispatch, state, actions });
         }
-    }
+    };
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -116,18 +126,21 @@ function User() {
                             {handleUtils.indexTable(page, show, index)}
                         </td>
                         <td>
-                            {item.payment.username || <Skeleton with={50} />}
+                            {item.payment.username || <Skeleton width={50} />}
                         </td>
-                        <td>{item.payment.email || <Skeleton with={50} />}</td>
+                        <td>{item.payment.email || <Skeleton width={50} />}</td>
                         <td>
                             {item.payment.bank.bankName || (
-                                <Skeleton with={50} />
+                                <Skeleton width={30} />
                             )}
                         </td>
-                        <td>{item.payment.rule || <Skeleton with={50} />}</td>
+                        <td>{item.payment.rule || <Skeleton width={50} />}</td>
                         <td>
                             <TrStatus
-                                item={item.rank.charAt(0).toUpperCase() + item.rank.slice(1).toLowerCase()}
+                                item={
+                                    item.rank.charAt(0).toUpperCase() +
+                                    item.rank.slice(1).toLowerCase()
+                                }
                                 onClick={(e) =>
                                     toggleEditTrue(e, item.rank, item._id)
                                 }
@@ -178,7 +191,7 @@ function User() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton={`${cx('delete-button')}`}
+                    classNameButton='delete-button'
                     onClick={() => deleteUser(edit.id)}
                 >
                     <p className='modal-delete-desc'>

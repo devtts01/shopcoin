@@ -4,11 +4,10 @@ import className from 'classnames/bind';
 import { useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import moment from 'moment';
-import {
-    getBuySellById,
-} from '../../services/buy';
+import { Button, Icons } from '../../components';
+import { getBuySellById } from '../../services/buy';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { useAppContext } from '../../utils';
+import { useAppContext, textUtils, refreshPage } from '../../utils';
 import { actions } from '../../app/';
 import styles from './BuySellDetail.module.css';
 
@@ -19,89 +18,55 @@ function BuySellDetail() {
     const { state, dispatch } = useAppContext();
     const {
         edit,
-        // currentUser,
         data: { dataUser },
-        // pagination: { page, show },
     } = state.set;
-    // const [feeValue, setFeeValue] = useState(
-    //     edit?.itemData && edit?.itemData.fee
-    // );
     useEffect(() => {
         document.title = 'Detail | Shop Coin';
         getBuySellById({ idBuy, idSell, dispatch, state, actions });
     }, []);
     function ItemRender({ title, info, feeCustom }) {
         return (
-            <div className={`${cx('detail-item')}`}>
-                <div className={`${cx('detail-title')}`}>{title}</div>
+            <div className='detail-item'>
+                <div className='detail-title'>{title}</div>
                 <div className={`${cx('detail-status')}`}>
-                    <span className={`${cx('info')}`}>
-                        {info ? info : <Skeleton width={50} />}
+                    <span className='info'>
+                        {info ? info : <Skeleton width={30} />}
                     </span>
                 </div>
             </div>
         );
     }
-    // const changeFee = (e) => {
-    //     setFeeValue(e.target.value);
-    // };
-    // const handleUpdateFee = async (data, id) => {
-    //     if (idBuy) {
-    //         await handleUpdateStatusFeeBuy({
-    //             data,
-    //             id,
-    //             dispatch,
-    //             state,
-    //             actions,
-    //             page,
-    //             show,
-    //             fee: parseFloat(feeValue),
-    //         });
-    //     } else if (idSell) {
-    //         await handleUpdateStatusFeeSell({
-    //             data,
-    //             id,
-    //             dispatch,
-    //             state,
-    //             actions,
-    //             page,
-    //             show,
-    //             fee: parseFloat(feeValue),
-    //         });
-    //     }
-    // };
-    // const updateFee = async (id) => {
-    //     try {
-    //         console.log(parseFloat(feeValue));
-    //         requestRefreshToken(
-    //             currentUser,
-    //             handleUpdateFee,
-    //             state,
-    //             dispatch,
-    //             actions,
-    //             id
-    //         );
-    //     } catch (err) {
-    //         checkErrorBuys(err, dispatch, state, actions);
-    //     }
-    // };
     const username = dataUser?.dataUser?.find(
         (x) => x.payment.email === edit?.itemData?.buyer.gmailUSer
     )?.payment?.username;
+    const x = edit?.itemData && edit?.itemData;
     return (
-        <div className={`${cx('buySellDetail-container')}`}>
-            <div className={`${cx('detail-container')}`}>
-                <div className={`${cx('detail-item')}`}>
-                    <div className={`${cx('detail-title')}`}>Status</div>
+        <>
+            <Button
+                className='confirmbgc mb8'
+                onClick={refreshPage.refreshPage}
+            >
+                <div className='flex-center'>
+                    <Icons.RefreshIcon className='fz12 mr8' />
+                    <span className={`${cx('general-button-text')}`}>
+                        Refresh Page
+                    </span>
+                </div>
+            </Button>
+            <div className='detail-container'>
+                <div className='detail-item'>
+                    <div className='detail-title'>Status</div>
                     <div className={`${cx('detail-status')}`}>
-                        {edit?.itemData ? (
+                        {x ? (
                             <>
                                 <span
-                                    className={`status fwb ${edit.itemData.status
-                                        .toLowerCase()
-                                        .replace(' ', '')}`}
+                                    className={`status fwb ${
+                                        x.status
+                                            .toLowerCase()
+                                            .replace(' ', '') + 'bgc'
+                                    }`}
                                 >
-                                    {edit.itemData.status}
+                                    {textUtils.FirstUpc(x.status)}
                                 </span>
                             </>
                         ) : (
@@ -109,58 +74,21 @@ function BuySellDetail() {
                         )}
                     </div>
                 </div>
-                <ItemRender
-                    title='Username'
-                    info={edit?.itemData && username}
-                />
-                <ItemRender
-                    title='Email'
-                    info={edit?.itemData && edit?.itemData.buyer.gmailUSer}
-                />
+                <ItemRender title='Username' info={x && username} />
+                <ItemRender title='Email' info={x && x.buyer.gmailUSer} />
                 <ItemRender title='Code' />
                 <ItemRender
                     title='Created'
-                    info={
-                        edit?.itemData &&
-                        moment(edit?.itemData.createAt).format('DD/MM/YYYY')
-                    }
+                    info={x && moment(x.createAt).format('DD/MM/YYYY')}
                 />
-                <ItemRender
-                    title='Symbol'
-                    info={edit?.itemData && edit?.itemData.symbol}
-                />
+                <ItemRender title='Symbol' info={x && x.symbol} />
                 <ItemRender title='Sent' />
-                <ItemRender
-                    title='Buy price'
-                    info={edit?.itemData && edit?.itemData.price}
-                />
+                <ItemRender title='Buy price' info={x && x.price} />
                 <ItemRender title='Received' />
-                <ItemRender
-                    title='Fee'
-                    info={edit?.itemData && edit?.itemData.fee}
-                    feeCustom
-                />
+                <ItemRender title='Fee' info={x && x.fee} feeCustom />
                 <ItemRender title='Document' />
             </div>
-            {/* <div className={`${cx('detail-container')}`}>
-                <div className={`${cx('detail-item')}`}>
-                    <FormInput
-                        type='text'
-                        name='fee'
-                        placeholder='Fee'
-                        className={`${cx('fee-input')}`}
-                        label='Change fee'
-                        value={feeValue}
-                        onChange={changeFee}
-                    />
-                </div>
-                <div className={`${cx('detail-item', 'left')}`}>
-                    <Button onClick={() => updateFee(idBuy || idSell)}>
-                        Update
-                    </Button>
-                </div>
-            </div> */}
-        </div>
+        </>
     );
 }
 

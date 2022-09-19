@@ -110,7 +110,7 @@ export const handleUpdate = async (props = {}) => {
     const resPut = await axiosUtils.adminPut(`updatePayment/${props.id}`, {
         methodName: props.bankName,
         accountName: props.accountName,
-        idMethod: props.accountNumber,
+        accountNumber: props.accountNumber,
         rateDeposit: props.rateDeposit,
         rateWithdraw: props.rateWithdraw,
         token: props.data?.token,

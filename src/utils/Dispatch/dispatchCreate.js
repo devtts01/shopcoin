@@ -23,6 +23,7 @@ const dispatchCreate = (dispatch, state, actions, data, nameData, message) => {
                 ...state.set.data,
                 [nameData]: data,
             },
+            edit: { ...state.set.edit, id: '', itemData: null, data: null },
             message: {
                 ...state.set.message,
                 cre: message ? message : 'Created Success',

@@ -65,14 +65,3 @@
     align-items: center;
     justify-content: flex-end;
 }
-
-.cancel {
-    background-color: transparent;
-    border: 2px solid var(--cancel-btn-border-color) !important;
-    display: flex;
-    align-items: center;
-}
-
-.cancel:hover {
-    background-color: var(--cancel-btn-hover-bgc);
-}

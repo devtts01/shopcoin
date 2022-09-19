@@ -50,11 +50,11 @@ function Breadcrumb({ titleList, linkList }) {
                 >
                     <Link
                         to={routers.home}
-                        className={`${cx('breadcrumb-link', 'home')}`}
+                        className={`${cx(
+                            'breadcrumb-link'
+                        )} cl-primary hv-primary`}
                     >
-                        <Icons.BreadcrumbHomeIcon
-                            className={`${cx('breadcrumb-icon-home')}`}
-                        />
+                        <Icons.BreadcrumbHomeIcon className='mr8' />
                         Home
                     </Link>
                     {titleList &&

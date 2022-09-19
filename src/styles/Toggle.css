@@ -1,0 +1,8 @@
+.css-1yog12j:checked+div,
+.css-1yog12j:checked:hover+div {
+    background-color: var(--color-primary);
+}
+
+.css-1yog12j:not([disabled]):focus+div {
+    box-shadow: 0 0 0 2px #4c9aff;
+}

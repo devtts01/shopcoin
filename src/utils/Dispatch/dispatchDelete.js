@@ -6,7 +6,7 @@ const dispatchDelete = (dispatch, state, actions, data, nameData, message) => {
                 ...state.set.data,
                 [nameData]: data,
             },
-            edit: { ...state.set.edit, id: '' },
+            edit: { ...state.set.edit, id: '', itemData: null, data: null },
             message: {
                 ...state.set.message,
                 del: message ? message : 'Deleted Success',

@@ -924,3 +924,95 @@ export const SelectOptionArrowIcon = ({
         </svg>
     );
 };
+export const BlockUserIcon = ({
+    className,
+    width = '20px',
+    height = '20px',
+}) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth='1.5'
+            stroke='currentColor'
+            color='currentColor'
+            className={className}
+            width={width}
+            height={height}
+        >
+            <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636'
+            />
+        </svg>
+    );
+};
+export const UnBlockUserIcon = ({
+    className,
+    width = '20px',
+    height = '20px',
+}) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth='1.5'
+            stroke='currentColor'
+            color='currentColor'
+            className={className}
+            width={width}
+            height={height}
+        >
+            <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z'
+            />
+        </svg>
+    );
+};
+export const RefreshIcon = ({ className, width = '20px', height = '20px' }) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth='1.5'
+            stroke='currentColor'
+            color='currentColor'
+            className={className}
+            width={width}
+            height={height}
+        >
+            <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99'
+            />
+        </svg>
+    );
+};
+export const RefreshPageIcon = ({
+    className,
+    width = '18px',
+    height = '18px',
+}) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 512 512'
+            fill='currentColor'
+            className={className}
+            width={width}
+            height={height}
+            color='currentColor'
+            stroke='currentColor'
+            strokeWidth='1'
+        >
+            <path d='M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z' />
+        </svg>
+    );
+};

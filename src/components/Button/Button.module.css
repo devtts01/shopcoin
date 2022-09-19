@@ -14,11 +14,14 @@
 .button+.button {
     margin-left: 16px;
 }
+
 .button.disabled {
     pointer-events: none;
-        cursor: default !important;
-        opacity: 0.5 !important;
+    user-select: none;
+    cursor: default !important;
+    opacity: 0.5 !important;
 }
+
 .button:hover {
     background: var(--primary-hover);
     cursor: pointer;

@@ -11,6 +11,9 @@ const initialState = {
         statusUpdate: '',
         fileRejections: [],
         sort: 'asc',
+        isBlockUser: false,
+        changeCoin: '',
+        quantityCoin: '',
         fee: '',
         message: {
             del: '',
@@ -55,6 +58,7 @@ const initialState = {
             buy: '',
             sell: '',
             user: '',
+            coin: '',
             userBlacklist: '',
         },
         edit: {

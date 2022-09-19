@@ -25,6 +25,7 @@ import {
     alertUtils,
     requestRefreshToken,
     handleUtils,
+    refreshPage,
 } from '../../utils';
 import routers from '../../routers/routers';
 import { actions } from '../../app/';
@@ -293,7 +294,22 @@ function NewCoin() {
     return (
         <>
             <div className={`${cx('newcoin-container')}`}>
-                <h3 className={`${cx('newcoin-title')}`}>Coin Information</h3>
+                <div className='flex-space-between'>
+                    <h3 className={`${cx('newcoin-title')}`}>
+                        Coin Information
+                    </h3>
+                    <Button
+                        className='confirmbgc'
+                        onClick={refreshPage.refreshPage}
+                    >
+                        <div className='flex-center'>
+                            <Icons.RefreshIcon className='fz12 mr8' />
+                            <span className={`${cx('general-button-text')}`}>
+                                Refresh Page
+                            </span>
+                        </div>
+                    </Button>
+                </div>
                 {error && (
                     <Alert severity='error' onClose={handleCloseAlert}>
                         {error}
@@ -355,7 +371,7 @@ function NewCoin() {
                     onRejected={handleRejected}
                     fileRejections={fileRejections}
                 />
-                <h3 className={`${cx('newcoin-title', 'mt24', 'mb0')}`}>
+                <h3 className={`${cx('newcoin-title')} mb0 mt24`}>
                     User setting
                 </h3>
                 <p className={`${cx('user-setting-desc')}`}>
@@ -427,7 +443,12 @@ function NewCoin() {
                                         </div>
                                     )}
                                 </div>
-                                <Button onClick={handleApply}>Apply</Button>
+                                <Button
+                                    className='vipbgc'
+                                    onClick={handleApply}
+                                >
+                                    Apply
+                                </Button>
                             </div>
                             {del && (
                                 <Alert
@@ -458,13 +479,15 @@ function NewCoin() {
                 )}
                 <div className={`${cx('actions-container')}`}>
                     <Button
-                        className={`${cx('cancel')}`}
+                        // className={`${cx('cancel')}`}
+                        className='cancelbgc text-center'
                         to={`${routers.settingCoin}`}
                         onClick={resetForm}
                     >
                         Cancel
                     </Button>
                     <Button
+                        className='confirmbgc'
                         onClick={
                             edit?.itemData
                                 ? (e) => updateCoin(e, idCoin)
@@ -481,10 +504,10 @@ function NewCoin() {
                     actionButtonText='Delete'
                     openModal={toggleDeleteTrue}
                     closeModal={toggleDeleteFalse}
-                    classNameButton={`${cx('delete-button')}`}
+                    classNameButton='delete-button'
                     onClick={() => handleDeleteBlacklistUser(edit.id)}
                 >
-                    <p className={`${cx('modal-delete-desc')}`}>
+                    <p className='modal-delete-desc'>
                         Are you sure to delete this user blacklist?
                     </p>
                 </Modal>

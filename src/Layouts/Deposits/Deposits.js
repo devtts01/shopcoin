@@ -208,7 +208,7 @@ function Deposits() {
                             `${routers.deposits}`
                         )
                             ? 'deposits'
-                            : 'withdraw'}
+                            : 'widthdraw'}
                         ?
                     </p>
                     <SelectStatus />
@@ -220,7 +220,7 @@ function Deposits() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton={`${cx('delete-button')}`}
+                    classNameButton='delete-button'
                     onClick={() => deleteDeposits(edit.id)}
                 >
                     <p className='modal-delete-desc'>
