@@ -128,7 +128,7 @@ function SettingCoin() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton='delete-button'
+                    classNameButton='cancelbgc'
                     onClick={() => deleteCoins(edit.id)}
                 >
                     <p className='modal-delete-desc'>

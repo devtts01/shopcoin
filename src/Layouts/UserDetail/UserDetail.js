@@ -16,6 +16,8 @@ import {
     updateCoinGift,
     changePasswordUser,
     refreshPasswordUser,
+    blockUser,
+    unblockUser,
 } from '../../services/users';
 import {
     useAppContext,
@@ -43,7 +45,6 @@ function UserDetail() {
         searchValues: { coin },
         message: { upd, error },
         data: { dataSettingCoin },
-        isBlockUser,
         changeCoin,
         quantityCoin,
     } = state.set;
@@ -91,18 +92,6 @@ function UserDetail() {
     };
     const modalChangePwdFalse = (e) => {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
-    };
-    const handleBlockUser = async () => {
-        try {
-            dispatch(
-                actions.setData({
-                    ...state.set,
-                    isBlockUser: !isBlockUser,
-                })
-            );
-        } catch (err) {
-            checkErrorUsers({ err, dispatch, state, actions });
-        }
     };
     const handleUpdateFee = async (data, id) => {
         await handleUpdateRankFeeUser({
@@ -197,6 +186,54 @@ function UserDetail() {
             checkErrorUsers(err, dispatch, state, actions);
         }
     };
+    const handleBlockUser = async (data, id) => {
+        blockUser({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            blockUser: true,
+        });
+    };
+    const onBlockUser = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                handleBlockUser,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+        } catch (err) {
+            checkErrorUsers(err, dispatch, state, actions);
+        }
+    };
+    const handleUnBlockUser = async (data, id) => {
+        unblockUser({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            blockUser: false,
+        });
+    };
+    const onUnblockUser = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                handleUnBlockUser,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+        } catch (err) {
+            checkErrorUsers(err, dispatch, state, actions);
+        }
+    };
     const DATA_COINS =
         dataSettingCoin?.data?.map((coin) => {
             return {
@@ -208,7 +245,6 @@ function UserDetail() {
         coin,
         dataCoins: DATA_COINS,
     });
-
     function ItemRender({ title, info, feeCustom }) {
         return (
             <div className='detail-item'>
@@ -222,6 +258,7 @@ function UserDetail() {
         );
     }
     const x = edit?.itemData && edit?.itemData;
+
     return (
         <>
             <div className={`${cx('buySellDetail-container')}`}>
@@ -284,7 +321,7 @@ function UserDetail() {
                         />
                         <Button
                             onClick={() => updateFee(idUser)}
-                            className={`${cx('btn')}`}
+                            className={`${cx('btn')} vipbgc`}
                             disabled={!feeValue}
                         >
                             Update
@@ -346,6 +383,7 @@ function UserDetail() {
                     <div className='detail-item justify-flex-end'>
                         <Button
                             onClick={() => updateCoin(idUser)}
+                            className='vipbgc'
                             disabled={!coin && !quantityCoin}
                         >
                             Change
@@ -364,15 +402,22 @@ function UserDetail() {
                             </span>
                         </div>
                     </Button>
-                    <Button className='cancelbgc' onClick={handleBlockUser}>
+                    <Button
+                        className='cancelbgc'
+                        onClick={
+                            x?.blockUser
+                                ? () => onUnblockUser(idUser)
+                                : () => onBlockUser(idUser)
+                        }
+                    >
                         <div className='flex-center'>
-                            {!isBlockUser ? (
+                            {!x?.blockUser ? (
                                 <Icons.BlockUserIcon />
                             ) : (
                                 <Icons.UnBlockUserIcon />
                             )}{' '}
                             <span className='ml8'>
-                                {!isBlockUser ? 'Block User' : 'Unblock User'}
+                                {!x?.blockUser ? 'Block User' : 'Unblock User'}
                             </span>
                         </div>
                     </Button>

@@ -200,6 +200,7 @@ function Deposits() {
                     actionButtonText='Submit'
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
+                    classNameButton='vipbgc'
                     onClick={() => editStatus(edit.id)}
                 >
                     <p className='modal-delete-desc'>
@@ -220,7 +221,7 @@ function Deposits() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton='delete-button'
+                    classNameButton='cancelbgc'
                     onClick={() => deleteDeposits(edit.id)}
                 >
                     <p className='modal-delete-desc'>

@@ -58,8 +58,7 @@ function AccountMenu({ className }) {
         }
     };
     const classed = cx('accountMenu-container', className);
-    const avatarPlaceholder =
-        'https://www.mtsolar.us/wp-content/uploads/2020/04/avatar-placeholder.png';
+    const avatarPlaceholder = '/svgs/logo.svg';
     return (
         <>
             <Box className={classed}>

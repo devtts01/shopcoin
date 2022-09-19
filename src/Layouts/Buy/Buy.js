@@ -225,6 +225,7 @@ function Buy() {
                     actionButtonText='Submit'
                     openModal={toggleEditStatusTrue}
                     closeModal={toggleEditStatusFalse}
+                    classNameButton='vipbgc'
                     onClick={() => editStatusBuy(edit.id)}
                 >
                     <p className='modal-delete-desc'>
@@ -243,7 +244,7 @@ function Buy() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton='delete-button'
+                    classNameButton='cancelbgc'
                     onClick={() => deleteBuy(edit.id)}
                 >
                     <p className='modal-delete-desc'>

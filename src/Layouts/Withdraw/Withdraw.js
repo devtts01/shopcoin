@@ -196,6 +196,7 @@ function Withdraw() {
                     actionButtonText='Submit'
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
+                    classNameButton='vipbgc'
                     onClick={() => editStatus(edit.id)}
                 >
                     <p className='modal-delete-desc'>
@@ -216,7 +217,7 @@ function Withdraw() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton={`${cx('delete-button')}`}
+                    classNameButton='cancelbgc'
                     onClick={() => deleteWithdraw(edit.id)}
                 >
                     <p className='modal-delete-desc'>

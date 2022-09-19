@@ -226,6 +226,7 @@ function Sell() {
                     actionButtonText='Submit'
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
+                    classNameButton='vipbgc'
                     onClick={() => editStatusSell(edit.id)}
                 >
                     <p className='modal-delete-desc'>
@@ -244,7 +245,7 @@ function Sell() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton='delete-button'
+                    classNameButton='cancelbgc'
                     onClick={() => deleteSell(edit.id)}
                 >
                     <p className='modal-delete-desc'>

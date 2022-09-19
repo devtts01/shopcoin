@@ -273,3 +273,67 @@ export const refreshPasswordUser = async (props = {}) => {
         behavior: 'smooth',
     });
 };
+// BLOCK/UNBLOCK USER
+export const blockUser = async (props = {}) => {
+    const resPut = await axiosUtils.adminPut(`blockUser/${props.id}`, {
+        blockUser: props.blockUser,
+        token: props.data?.token,
+    });
+    switch (resPut.code) {
+        case 0:
+            const process = await axiosUtils.adminGet(`getUser/${props.id}`);
+            const { data } = process;
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    edit: {
+                        ...props.state.set.edit,
+                        itemData: data,
+                    },
+                    message: {
+                        ...props.state.set.message,
+                        upd: resPut.message,
+                    },
+                })
+            );
+            break;
+        default:
+            break;
+    }
+    window.scroll({
+        top: 0,
+        behavior: 'smooth',
+    });
+};
+// UNBLOCK USER
+export const unblockUser = async (props = {}) => {
+    const resPut = await axiosUtils.adminPut(`unBlockUser/${props.id}`, {
+        blockUser: props.blockUser,
+        token: props.data?.token,
+    });
+    switch (resPut.code) {
+        case 0:
+            const process = await axiosUtils.adminGet(`getUser/${props.id}`);
+            const { data } = process;
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    edit: {
+                        ...props.state.set.edit,
+                        itemData: data,
+                    },
+                    message: {
+                        ...props.state.set.message,
+                        upd: resPut.message,
+                    },
+                })
+            );
+            break;
+        default:
+            break;
+    }
+    window.scroll({
+        top: 0,
+        behavior: 'smooth',
+    });
+};

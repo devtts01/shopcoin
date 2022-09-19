@@ -177,6 +177,7 @@ function User() {
                     actionButtonText='Submit'
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
+                    classNameButton='vipbgc'
                     onClick={() => editStatus(edit.id)}
                 >
                     <p className='modal-delete-desc'>
@@ -191,7 +192,7 @@ function User() {
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
-                    classNameButton='delete-button'
+                    classNameButton='cancelbgc'
                     onClick={() => deleteUser(edit.id)}
                 >
                     <p className='modal-delete-desc'>
