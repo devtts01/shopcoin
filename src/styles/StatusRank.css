@@ -8,27 +8,33 @@
 }
 
 .confirm,
+.confirmed,
 .standard {
     color: var(--table-status-confirm-color);
 }
 
 .complete,
+.completed,
 .pro {
     color: var(--table-status-complete-color);
 }
 
 .onhold,
+.refunded,
 .vip {
     color: var(--table-status-onhold-color);
 }
 
 .cancel,
+.canceled,
 .demo {
     color: var(--table-status-cancel-color);
 }
 
 .confirmbgc,
 .confirmbgc:hover,
+.confirmedbgc,
+.confirmedbgc:hover,
 .standardbgc,
 .standardbgc:hover {
     color: var(--table-status-confirm-color);
@@ -39,6 +45,10 @@
 .completebgc a,
 .completebgc:hover,
 .completebgc a:hover,
+.completedbgc,
+.completedbgc a,
+.completedbgc:hover,
+.completedbgc a:hover,
 .probgc,
 .probgc:hover {
     color: var(--table-status-complete-color);
@@ -48,13 +58,17 @@
 .onholdbgc,
 .onholdbgc:hover,
 .vipbgc,
-.vipbgc:hover {
+.vipbgc:hover,
+.refundedbgc,
+.refundedbgc:hover {
     color: var(--table-status-onhold-color);
     background-color: var(--table-status-onhold-bgc);
 }
 
 .cancelbgc,
 .cancelbgc:hover,
+.canceledbgc,
+.canceledbgc:hover,
 .demobgc,
 .demobgc:hover {
     color: var(--table-status-cancel-color);

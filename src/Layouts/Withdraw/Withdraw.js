@@ -134,12 +134,12 @@ function Withdraw() {
                         },
                     };
                     const username = dataUser.dataUser.find(
-                        (x) => x.payment.email === item.user
-                    ).payment.username;
+                        (x) => x?.payment.email === item.user
+                    )?.payment.username;
                     const infoUser = {
                         name: username,
                         email: item.user,
-                        path: `@${username.replace(' ', '-')}`,
+                        path: `@${username?.replace(' ', '-')}`,
                     };
                     return (
                         <tr key={index}>

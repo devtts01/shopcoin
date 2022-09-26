@@ -157,12 +157,12 @@ function Buy() {
                         },
                     };
                     const username = dataUser.dataUser.find(
-                        (x) => x.payment.email === item.buyer.gmailUSer
-                    ).payment.username;
+                        (x) => x?.payment.email === item.buyer.gmailUSer
+                    )?.payment.username;
                     const infoUser = {
                         name: username,
                         email: item.buyer.gmailUSer,
-                        path: `@${username.replace(' ', '-')}`,
+                        path: `@${username?.replace(' ', '-')}`,
                     };
                     return (
                         <tr key={index}>
