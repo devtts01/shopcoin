@@ -241,9 +241,13 @@ function UserDetail() {
             };
         }) || [];
     DATA_COINS.push({ name: 'USDT' });
+    // loại bỏ các object trùng nhau trong DATA_COINS
+    const uniqueDataCoins = DATA_COINS.filter(
+        (v, i, a) => a.findIndex((t) => t.name === v.name) === i
+    );
     let DataCoinFlag = searchCoinGift({
         coin,
-        dataCoins: DATA_COINS,
+        dataCoins: uniqueDataCoins,
     });
     function ItemRender({ title, info, feeCustom }) {
         return (

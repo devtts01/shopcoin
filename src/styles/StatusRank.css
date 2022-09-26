@@ -8,6 +8,7 @@
 }
 
 .confirm,
+.pending,
 .confirmed,
 .standard {
     color: var(--table-status-confirm-color);
@@ -35,6 +36,8 @@
 .confirmbgc:hover,
 .confirmedbgc,
 .confirmedbgc:hover,
+.pendingbgc,
+.pendingbgc:hover,
 .standardbgc,
 .standardbgc:hover {
     color: var(--table-status-confirm-color);

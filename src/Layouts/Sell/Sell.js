@@ -48,8 +48,11 @@ function Sell() {
     const { modalStatus, modalDelete } = state.toggle;
     useEffect(() => {
         document.title = 'Sell | Shop Coin';
-        getSells({ page, show, dispatch, state, actions });
     }, []);
+    useEffect(() => {
+        getSells({ page, show, dispatch, state, actions });
+    }, [page, show]);
+    console.log(dataSell);
     let dataSellFlag = searchSells({ dataSell, sell });
     const toggleEditTrue = (e, status, id) => {
         return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
@@ -158,12 +161,12 @@ function Sell() {
                         },
                     };
                     const username = dataUser.dataUser.find(
-                        (x) => x.payment.email === item.buyer.gmailUSer
-                    ).payment.username;
+                        (x) => x?.payment.email === item.buyer.gmailUSer
+                    )?.payment.username;
                     const infoUser = {
                         name: username,
                         email: item.buyer.gmailUSer,
-                        path: `@${username.replace(' ', '-')}`,
+                        path: `@${username?.replace(' ', '-')}`,
                     };
                     return (
                         <tr key={index}>
@@ -216,7 +219,7 @@ function Sell() {
                 textDelModal='Are you sure to delete this sell?'
                 typeDataDel={dataSell}
                 nameTypeDataDel='dataSell'
-                totalData={dataSellFlag && dataSellFlag.length}
+                totalData={dataSell.total}
             >
                 <RenderBodyTable data={dataSellFlag} />
             </General>

@@ -8,7 +8,7 @@ import {
 // GET DATA BUYS
 export const getSells = async (props = {}) => {
     const processSells = await axiosUtils.adminGet(
-        `getAllBuy?page=${props.page}&show=${props.show}`
+        `getAllSell?page=${props.page}&show=${props.show}`
     );
     const processUser = await axiosUtils.adminGet('getAllUser');
     props.dispatch(
@@ -38,7 +38,7 @@ export const checkErrorSells = (props = {}) => {
 export const searchSells = (props = {}) => {
     let dataSellFlag =
         props.dataSell &&
-        props.dataSell?.sells?.filter((x) => x.type === 'SellCoin');
+        props.dataSell?.sells?.filter((x) => x?.type === 'SellCoin');
     if (props.sell) {
         dataSellFlag = dataSellFlag.filter((item) => {
             return (
@@ -68,7 +68,7 @@ export const handleUpdateStatusFeeSell = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllBuy?page=${props.page}&show=${props.show}`
+                `getAllSell?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -93,7 +93,7 @@ export const handleDelete = async (props = {}) => {
     switch (resDel.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllBuy?page=${props.page}&show=${props.show}`
+                `getAllSell?page=${props.page}&show=${props.show}`
             );
             dispatchDelete(
                 props.dispatch,

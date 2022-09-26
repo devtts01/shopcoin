@@ -43,6 +43,7 @@ function Buy() {
         searchValues: { buy },
     } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
+
     useEffect(() => {
         document.title = 'Buy | Shop Coin';
     }, []);
@@ -50,6 +51,7 @@ function Buy() {
         getBuys({ page, show, dispatch, state, actions });
     }, [page, show]);
     let dataBuyFlag = searchBuys({ dataBuy, buy });
+    console.log(dataBuyFlag);
     const toggleEditStatusTrue = (e, status, id) => {
         return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
     };
@@ -215,7 +217,7 @@ function Buy() {
                 nameSearch='buy'
                 dataFlag={dataBuyFlag}
                 dataHeaders={DataBuys(Icons).headers}
-                totalData={dataBuyFlag && dataBuyFlag.length}
+                totalData={dataBuy.total}
             >
                 <RenderBodyTable data={dataBuyFlag} />
             </General>
