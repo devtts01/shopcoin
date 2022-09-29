@@ -51,7 +51,6 @@ function Buy() {
         getBuys({ page, show, dispatch, state, actions });
     }, [page, show]);
     let dataBuyFlag = searchBuys({ dataBuy, buy });
-    console.log(dataBuyFlag);
     const toggleEditStatusTrue = (e, status, id) => {
         return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
     };
@@ -179,7 +178,7 @@ function Buy() {
                                 <TrObjectNoIcon item={infoUser} />
                             </td>
                             <td>
-                                {moment(item.createAt).format('DD/MM/YYYY')}
+                                {moment(item.createdAt).format('DD/MM/YYYY')}
                             </td>
                             <td>
                                 <TrStatus

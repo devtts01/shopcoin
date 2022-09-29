@@ -52,7 +52,6 @@ function Sell() {
     useEffect(() => {
         getSells({ page, show, dispatch, state, actions });
     }, [page, show]);
-    console.log(dataSell);
     let dataSellFlag = searchSells({ dataSell, sell });
     const toggleEditTrue = (e, status, id) => {
         return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
@@ -181,7 +180,7 @@ function Sell() {
                                 <TrObjectNoIcon item={infoUser} />
                             </td>
                             <td>
-                                {moment(item.createAt).format('DD/MM/YYYY')}
+                                {moment(item.createdAt).format('DD/MM/YYYY')}
                             </td>
                             <td>
                                 <TrStatus

@@ -152,7 +152,7 @@ function Withdraw() {
                                 <TrObjectNoIcon item={infoUser} />
                             </td>
                             <td>
-                                {moment(item.createAt).format('DD/MM/YYYY')}
+                                {moment(item.createdAt).format('DD/MM/YYYY')}
                             </td>
                             <td>
                                 <TrStatus

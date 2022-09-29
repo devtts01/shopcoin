@@ -89,7 +89,7 @@ function SettingCoin() {
                             </td>
                             <td>{item.name}</td>
                             <td>
-                                {moment(item.createAt).format('DD/MM/YYYY')}
+                                {moment(item.createdAt).format('DD/MM/YYYY')}
                             </td>
                             <td>
                                 <ActionsTable
