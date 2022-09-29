@@ -7,6 +7,41 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
   },
+  listCoin: {
+    marginBottom: 12,
+  },
+  coinItem: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    marginVertical: 8,
+    width: '100%',
+    height: 70,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderColor: '#d50000',
+    borderWidth: 1,
+  },
+  coinItem_Info_name: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  coinItem_Info_quantity: {
+    color: 'red',
+    fontWeight: '600',
+  },
+  coinItem_Price_text: {
+    fontWeight: '500',
+    fontSize: 14,
+  },
+  btn: {
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    borderRadius: 5,
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

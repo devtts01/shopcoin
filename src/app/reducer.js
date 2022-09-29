@@ -1,9 +1,18 @@
 /* eslint-disable prettier/prettier */
-import {SET_CURRENT_USER, SET_FORM, SET_MESSAGE} from './actions';
+/* eslint-disable prettier/prettier */
+import {
+  SET_CURRENT_USER,
+  SET_FORM,
+  SET_MESSAGE,
+  GET_ALL_COIN,
+  SET_SEARCH_VALUE,
+  GET_BY_ID,
+} from './actions';
 import {getAsyncStore} from '../utils/localStore/localStore';
 
 const initialState = {
   currentUser: getAsyncStore(),
+  search: '',
   message: {
     del: '',
     cre: '',
@@ -14,6 +23,10 @@ const initialState = {
     email: '',
     username: '',
     password: '',
+  },
+  data: {
+    dataCoins: [],
+    dataById: null,
   },
 };
 
@@ -38,6 +51,27 @@ const reducer = (state, action) => {
         message: {
           ...state.message,
           ...action.payload,
+        },
+      };
+    case GET_ALL_COIN:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          dataCoins: action.payload,
+        },
+      };
+    case SET_SEARCH_VALUE:
+      return {
+        ...state,
+        search: action.payload,
+      };
+    case GET_BY_ID:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          dataById: action.payload,
         },
       };
     default:

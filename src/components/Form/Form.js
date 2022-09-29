@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 import {
@@ -7,6 +9,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from 'react-native';
 import {useAppContext} from '../../utils';
 import {setFormValue} from '../../app/payloads/form';
@@ -47,58 +50,74 @@ const Form = ({
       style={[styles.container]}
       resizeMode="cover"
       source={uriBgc}>
-      <View style={[styles.content]}>
-        <View style={[stylesGeneral.flexCenter, stylesGeneral.mb10]}>
-          <Image
-            style={[styles.image_form]}
-            source={uriLogo}
-            resizeMode="contain"
-          />
-        </View>
-        <Text style={[styles.title_form]}>{titleForm}</Text>
-        {error && (
-          <View style={[styles.error_container]}>
-            <Text style={[styles.error_text]}>{error}</Text>
+      <ScrollView
+        style={[styles.scrollview]}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }}
+        showsVerticalScrollIndicator={false}>
+        <View style={[styles.content]}>
+          <View style={[stylesGeneral.flexCenter, stylesGeneral.mb10]}>
+            <Image
+              style={[styles.image_form]}
+              source={uriLogo}
+              resizeMode="contain"
+            />
           </View>
-        )}
-        {bolUsername && (
-          <FormInput
-            label="Username"
-            ref={refUsername}
-            placeholder="Enter your username"
-            onChangeText={value => handleChange('username', value)}
-            value={username}
-          />
-        )}
-        {bolEmail && (
-          <FormInput
-            label="Email"
-            ref={refEmail}
-            placeholder="Enter your email"
-            onChangeText={value => handleChange('email', value)}
-            value={email}
-          />
-        )}
-        {bolPwd && (
-          <FormInput
-            label="Password"
-            placeholder="Enter your password"
-            secureTextEntry={true}
-            ref={refPwd}
-            onChangeText={value => handleChange('password', value)}
-            value={password}
-          />
-        )}
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={[styles.input_item]}
-          onPress={onPress}>
-          <Text style={[styles.input_btn, stylesStatus.confirmbgc]}>
-            {textBtn}
-          </Text>
-        </TouchableOpacity>
-        {children}
-      </View>
+          <Text style={[styles.title_form]}>{titleForm}</Text>
+          {error && (
+            <View style={[styles.error_container]}>
+              <Text style={[styles.error_text]}>{error}</Text>
+            </View>
+          )}
+          {bolUsername && (
+            <FormInput
+              label="Username"
+              ref={refUsername}
+              placeholder="Enter your username"
+              onChangeText={value => handleChange('username', value)}
+              value={username}
+            />
+          )}
+          {bolEmail && (
+            <FormInput
+              label="Email"
+              ref={refEmail}
+              placeholder="Enter your email"
+              onChangeText={value => handleChange('email', value)}
+              value={email}
+            />
+          )}
+          {bolPwd && (
+            <FormInput
+              label="Password"
+              placeholder="Enter your password"
+              secureTextEntry={true}
+              ref={refPwd}
+              onChangeText={value => handleChange('password', value)}
+              value={password}
+              color="#000"
+              showPwd
+            />
+          )}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={[styles.input_item]}
+            onPress={onPress}>
+            <Text
+              style={[
+                styles.input_btn,
+                stylesStatus.confirmbgcbold,
+                stylesGeneral.fz16,
+              ]}>
+              {textBtn}
+            </Text>
+          </TouchableOpacity>
+          {children}
+        </View>
+      </ScrollView>
     </ImageBackground>
   );
 };

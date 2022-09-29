@@ -7,6 +7,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
   },
+  content: {
+    flex: 1,
+  },
+  container_btn: {
+    width: '100%',
+    borderRadius: 10,
+  },
+  btn: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    fontWeight: 'bold',
+    fontSize: 17,
+    width: '100%',
+    textAlign: 'center',
+  },
+  title_table: {
+    justifyContent: 'center',
+  },
 });
 
 export default styles;

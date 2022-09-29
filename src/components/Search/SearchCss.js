@@ -6,11 +6,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 5,
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 8,
     backgroundColor: 'white',
+    marginBottom: 12,
   },
   input: {
     flex: 1,

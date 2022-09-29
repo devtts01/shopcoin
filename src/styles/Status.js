@@ -23,21 +23,47 @@ const stylesStatus = StyleSheet.create({
   cancel: {
     color: '#d50000',
   },
+  primary: {
+    color: '#ffc000',
+  },
+  white: {
+    color: 'white',
+  },
   confirmbgc: {
     color: '#007aff',
     backgroundColor: '#e6f5ff',
+  },
+  confirmbgcbold: {
+    color: '#fff',
+    backgroundColor: '#007aff',
   },
   completebgc: {
     color: '#4CAF50',
     backgroundColor: '#edf7ee',
   },
+  completebgcbold: {
+    color: '#fff',
+    backgroundColor: '#4CAF50',
+  },
   vipbgc: {
     color: '#ffab00',
     backgroundColor: '#fff7e6',
   },
+  vipbgcbold: {
+    color: '#fff',
+    backgroundColor: '#ffab00',
+  },
   cancelbgc: {
     color: '#d50000',
     backgroundColor: '#ffebea',
+  },
+  cancelbgcbold: {
+    color: '#fff',
+    backgroundColor: '#d50000',
+  },
+  primarybgcbold: {
+    color: '#fff',
+    backgroundColor: '#ffc000',
   },
 });
 

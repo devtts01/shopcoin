@@ -18,8 +18,8 @@ export const refreshToken = async (path, options = {}) => {
 };
 // ADMIN
 export const adminInstance = axios.create({
-  //   baseURL: `https://apishopcoin.4eve.site/admin/`,
-  baseURL: 'http://localhost:8000/admin/',
+  baseURL: 'https://apishopcoin.4eve.site/admin/',
+  // baseURL: 'http://localhost:8000/admin/',
   withCredentials: true,
 });
 export const adminGet = async (path, options = {}) => {
@@ -40,8 +40,8 @@ export const adminDelete = async (path, options = {}) => {
 };
 // USERS
 export const userInstance = axios.create({
-  //   baseURL: `https://apishopcoin.4eve.site/users/`,
-  baseURL: 'http://localhost:8000/users/',
+  baseURL: 'https://apishopcoin.4eve.site/users/',
+  // baseURL: 'http://localhost:8000/users/',
   withCredentials: true,
 });
 export const userGet = async (path, options = {}) => {
@@ -62,8 +62,8 @@ export const userDelete = async (path, options = {}) => {
 };
 // COINS
 export const coinInstance = axios.create({
-  //   baseURL: `https://apishopcoin.4eve.site/coins/`,
-  baseURL: 'http://localhost:8000/coins/',
+  baseURL: 'https://apishopcoin.4eve.site/coins/',
+  // baseURL: 'http://localhost:8000/coins/',
   withCredentials: true,
 });
 export const coinGet = async (path, options = {}) => {

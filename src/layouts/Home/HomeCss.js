@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   listCoin: {
-    marginBottom: 55,
+    marginBottom: 145,
   },
   coinItem: {
     alignItems: 'center',
@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
     height: 70,
     backgroundColor: 'white',
     borderRadius: 8,
+    borderColor: '#4CAF50',
+    borderWidth: 1,
   },
   coinItem_Info_name: {
     fontSize: 16,
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   coinItem_Price_text: {
+    flexDirection: 'row',
     fontWeight: '500',
     fontSize: 14,
   },

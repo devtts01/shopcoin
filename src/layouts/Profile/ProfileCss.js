@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingHorizontal: 12,
     paddingVertical: 12,
+    marginBottom: 12,
   },
   user_info: {
     paddingVertical: 12,
@@ -38,10 +39,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     borderRadius: 6,
-    marginBottom: 12,
+    marginBottom: 15,
   },
   actions_text: {
     color: 'red',
+  },
+  info_detail_container: {
+    paddingVertical: 20,
+    paddingHorizontal: 17,
+    backgroundColor: 'white',
+    marginVertical: 8,
+  },
+  info_detail_item: {
+    justifyContent: 'space-between',
+    borderBottomColor: '#ededed',
+    borderBottomWidth: 1,
+    marginVertical: 5,
+  },
+  info_detail_title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  info_detail_desc: {
+    fontSize: 16,
+    marginBottom: 10,
   },
 });
 

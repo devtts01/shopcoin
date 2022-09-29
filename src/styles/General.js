@@ -8,11 +8,21 @@ const stylesGeneral = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
   },
+  flexColumn: {
+    flexDirection: 'column',
+  },
   flexCenter: {
     alignItems: 'center',
   },
+  flexCenterJustify: {
+    justifyContent: 'center',
+  },
   flexSpaceBetween: {
     justifyContent: 'space-between',
+  },
+  flexEnd: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   m_auto: {
     margin: 'auto',
