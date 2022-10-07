@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
@@ -10,15 +9,13 @@
 import {useCallback, useEffect, useState} from 'react';
 import {Text, ScrollView, RefreshControl, View, FlatList} from 'react-native';
 import {useAppContext} from '../../utils/';
+import {dateFormat} from '../../utils/format/Date';
+import {formatUSDT} from '../../utils/format/Money';
 import {SVgetBuyHistory} from '../../services/bills';
 import {getHistoryBuy} from '../../app/payloads/history';
 import styles from './BuyHistoryCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {dateFormat} from '../../utils/format/Date';
-import {formatUSDT} from '../../utils/format/Money';
-import {SVgetUserById} from '../../services/user';
-import {getUserById} from '../../app/payloads/user';
 
 const History = ({navigation}) => {
   const {state, dispatch} = useAppContext();

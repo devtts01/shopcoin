@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable radix */
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
@@ -14,8 +13,11 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import styles from './BuyCoinCss';
 import {useAppContext} from '../../utils';
+import {formatUSDT} from '../../utils/format/Money';
+import {getIdUserJWT} from '../../utils/getUser/Id';
+import requestRefreshToken from '../../utils/axios/refreshToken';
+import useGetUSDT from '../../utils/getData/USDT';
 import stylesGeneral from '../../styles/General';
 import {SVgetACoin, SVbuyCoin} from '../../services/coin';
 import {SVgetUserById} from '../../services/user';
@@ -25,12 +27,9 @@ import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
 import {getAllDeposits} from '../../app/payloads/getAll';
 import {setAmountCoin} from '../../app/payloads/form';
-import {formatUSDT} from '../../utils/format/Money';
-import useGetUSDT from '../../utils/getData/USDT';
 import {FormInput, ImageCp, ModalLoading} from '../../components';
+import styles from './BuyCoinCss';
 import stylesStatus from '../../styles/Status';
-import {getIdUserJWT} from '../../utils/getUser/Id';
-import requestRefreshToken from '../../utils/axios/refreshToken';
 
 export default function BuyCoin({navigation, route}) {
   const {state, dispatch} = useAppContext();

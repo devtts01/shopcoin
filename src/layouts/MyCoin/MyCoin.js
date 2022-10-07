@@ -2,7 +2,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
@@ -10,12 +9,12 @@ import {useCallback, useEffect, useState} from 'react';
 import {Text, ScrollView, RefreshControl, View, FlatList} from 'react-native';
 import {Header, ImageCp} from '../../components';
 import {useAppContext} from '../../utils';
+import {formatUSDT} from '../../utils/format/Money';
+import {SVgetBuyHistory} from '../../services/bills';
+import {getHistoryBuy} from '../../app/payloads/history';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import styles from './MyCoinCss';
-import {SVgetBuyHistory} from '../../services/bills';
-import {getHistoryBuy} from '../../app/payloads/history';
-import {formatUSDT} from '../../utils/format/Money';
 
 const MyCoin = ({navigation}) => {
   const {state, dispatch} = useAppContext();
@@ -70,6 +69,7 @@ const MyCoin = ({navigation}) => {
               params: {
                 id: item?._id,
                 item: item,
+                symbol: item?.symbol,
               },
             })
           }>

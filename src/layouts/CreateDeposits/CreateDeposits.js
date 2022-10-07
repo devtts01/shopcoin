@@ -13,8 +13,8 @@ import {
 import {AlertDialog, Button, Center} from 'native-base';
 import {FormInput, ModalLoading, SelectAlert} from '../../components';
 import {useAppContext} from '../../utils';
-import {setFormDeposits} from '../../app/payloads/form';
 import {formatVND} from '../../utils/format/Money';
+import {setFormDeposits} from '../../app/payloads/form';
 import styles from './CreateDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';

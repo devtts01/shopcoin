@@ -1,16 +1,16 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
+import {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {Form, ModalLoading} from '../../components';
 import {useAppContext} from '../../utils';
 import {setMessage} from '../../app/payloads/message';
 import {setFormValue} from '../../app/payloads/form';
+import {Form, ModalLoading} from '../../components';
 import {SVforgotPwd} from '../../services/user';
 import styles from './ForgotPwdCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {useState} from 'react';
 
 const ForgotPwd = ({navigation}) => {
   const {state, dispatch} = useAppContext();

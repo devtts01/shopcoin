@@ -11,18 +11,18 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import styles from './SellCoinCss';
 import {useAppContext} from '../../utils';
-import {getById} from '../../app/payloads/getById';
-import {SVgetACoin} from '../../services/coin';
-import stylesGeneral from '../../styles/General';
-import {FormInput, ImageCp, ModalLoading} from '../../components';
 import {formatUSDT} from '../../utils/format/Money';
-import stylesStatus from '../../styles/Status';
+import {getById} from '../../app/payloads/getById';
 import {setAmountSell} from '../../app/payloads/form';
+import {SVgetACoin, SVgetCoinBySymbol} from '../../services/coin';
+import {FormInput, ImageCp, ModalLoading} from '../../components';
+import styles from './SellCoinCss';
+import stylesStatus from '../../styles/Status';
+import stylesGeneral from '../../styles/General';
 
 export default function SellCoin({navigation, route}) {
-  const {item, id} = route.params;
+  const {item, symbol} = route.params;
   const {state, dispatch} = useAppContext();
   const {
     amountSell,
@@ -41,8 +41,8 @@ export default function SellCoin({navigation, route}) {
     wait(2000).then(() => setRefreshing(false));
   }, []);
   useEffect(() => {
-    SVgetACoin({
-      id,
+    SVgetCoinBySymbol({
+      symbol,
       dispatch,
       getById,
     });
@@ -79,7 +79,9 @@ export default function SellCoin({navigation, route}) {
         <ImageCp uri={item?.logo} />
         <View style={[styles.nameCoin, stylesGeneral.ml12]}>
           <Text style={[styles.name]}>{item?.symbol}</Text>
-          <Text style={[styles.desc, stylesGeneral.fz16]}>Bitcoin</Text>
+          <Text style={[styles.desc, stylesGeneral.fz16]}>
+            {dataById?.fullName}
+          </Text>
         </View>
       </View>
       <View style={[styles.info_sellCoin]}>

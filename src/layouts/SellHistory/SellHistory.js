@@ -1,18 +1,17 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import {View, Text, ScrollView, RefreshControl, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils/';
+import {dateFormat} from '../../utils/format/Date';
+import {formatUSDT} from '../../utils/format/Money';
 import {SVgetSellHistory} from '../../services/bills';
 import {getHistorySell} from '../../app/payloads/history';
 import styles from './SellHistoryCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {dateFormat} from '../../utils/format/Date';
-import {formatUSDT} from '../../utils/format/Money';
 
 export default function SellHistory({navigation}) {
   const {state, dispatch} = useAppContext();

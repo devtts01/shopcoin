@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
+import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {setAmountUsdt} from '../../app/payloads/form';
 import {getUserById} from '../../app/payloads/getById';
 import {FormInput, ModalLoading} from '../../components';
-import {formatUSDT, formatVND} from '../../utils/format/Money';
+import {SVgetUserById} from '../../services/user';
 import styles from './CreateWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {SVgetUserById} from '../../services/user';
 
 export default function CreateWithdraw({navigation}) {
   const {state, dispatch} = useAppContext();

@@ -9,10 +9,10 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, ScrollView, RefreshControl, FlatList} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {Search, ImageCp, Header} from '../../components';
 import {useAppContext} from '../../utils';
 import {getAllCoins} from '../../app/payloads/getAll';
 import {setSearchValue} from '../../app/payloads/search';
+import {Search, ImageCp, Header} from '../../components';
 import {SVgetAllCoins} from '../../services/coin';
 import styles from './HomeCss';
 import stylesStatus from '../../styles/Status';

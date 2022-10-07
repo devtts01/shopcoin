@@ -9,14 +9,13 @@ import {
   RefreshControl,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
-// import DocumentPicker from 'react-native-document-picker';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker from 'react-native-image-crop-picker';
 import {formatVND, formatUSDT} from '../../utils/format/Money';
+import {ModalLoading} from '../../components';
 import styles from './SingleDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {ModalLoading} from '../../components';
 
 export default function SingleDeposits({navigation}) {
   const [fileResponse, setFileResponse] = useState(null);

@@ -3,13 +3,13 @@
 /* eslint-disable prettier/prettier */
 import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
+import {SVgetDepositsByEmailUser} from '../../services/deposits';
+import {getAllDeposits} from '../../app/payloads/getAll';
 import {useAppContext} from '../../utils';
+import useGetUSDT from '../../utils/getData/USDT';
 import styles from './HeaderCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import useGetUSDT from '../../utils/getData/USDT';
-import {SVgetDepositsByEmailUser} from '../../services/deposits';
-import {getAllDeposits} from '../../app/payloads/getAll';
 
 export default function Header() {
   const {state, dispatch} = useAppContext();

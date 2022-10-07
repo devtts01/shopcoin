@@ -7,13 +7,13 @@
 /* eslint-disable prettier/prettier */
 import {useCallback, useState} from 'react';
 import {Text, ScrollView, RefreshControl, View} from 'react-native';
-import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {DataTable} from 'react-native-paper';
+import {useAppContext} from '../../utils';
+import {formatUSDT, formatVND} from '../../utils/format/Money';
+import {Header} from '../../components';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import styles from './WithdrawCss';
-import {useAppContext} from '../../utils';
-import {Header} from '../../components';
 
 const Withdraw = ({navigation}) => {
   const {state} = useAppContext();

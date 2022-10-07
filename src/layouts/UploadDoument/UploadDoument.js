@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import {
   View,
@@ -13,10 +12,10 @@ import {
 import React, {useCallback, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker from 'react-native-image-crop-picker';
+import {ModalLoading} from '../../components';
 import styles from './UploadDoumentCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {ModalLoading} from '../../components';
 
 export default function UploadDoument({navigation}) {
   const [refreshing, setRefreshing] = useState(false);

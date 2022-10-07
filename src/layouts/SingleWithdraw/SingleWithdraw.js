@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useAppContext} from '../../utils';
-import {setCodeValue} from '../../app/payloads/form';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
+import {setCodeValue} from '../../app/payloads/form';
+import {FormInput, ModalLoading} from '../../components';
 import styles from './SingleWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {FormInput, ModalLoading} from '../../components';
 
 export default function SingleWithdraw({navigation}) {
   const {state, dispatch} = useAppContext();

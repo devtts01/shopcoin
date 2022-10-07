@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, Alert} from 'react-native';
+import {View, Text, Alert, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {FormInput, ModalLoading} from '../../components';
 import {useAppContext} from '../../utils';
@@ -7,10 +7,10 @@ import requestRefreshToken from '../../utils/axios/refreshToken';
 import {setFormValue} from '../../app/payloads/form';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
+import {SVchangePassword} from '../../services/user';
 import styles from './ChangePwdCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {SVchangePassword} from '../../services/user';
 
 export default function ChangePwd({navigation}) {
   const {state, dispatch} = useAppContext();
@@ -94,10 +94,13 @@ export default function ChangePwd({navigation}) {
         secureTextEntry
         onChangeText={val => handleChangeInput('confirmPwd', val)}
       />
-      <View
-        onTouchStart={handleSubmit}
+      <TouchableOpacity
+        activeOpacity={0.6}
+        onPress={handleSubmit}
+        disabled={!password || !oldPwd || !confirmPwd}
         style={[
           styles.btn,
+          (!password || !oldPwd || !confirmPwd) && stylesGeneral.op6,
           stylesGeneral.flexCenter,
           stylesGeneral.mt10,
           stylesStatus.confirmbgcbold,
@@ -105,7 +108,7 @@ export default function ChangePwd({navigation}) {
         <Text style={[stylesStatus.white, stylesGeneral.fwbold]}>
           Change Password
         </Text>
-      </View>
+      </TouchableOpacity>
       {/* Modal Loading */}
       {loading && <ModalLoading />}
     </View>

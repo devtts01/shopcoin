@@ -11,12 +11,12 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import {FormInput} from '../../components';
 import {useAppContext} from '../../utils';
 import {setFormValue} from '../../app/payloads/form';
 import styles from './FormCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {FormInput} from '../../components';
 
 const Form = ({
   uriBgc = require('../../assets/images/bg-login.png'),
@@ -112,7 +112,7 @@ const Form = ({
             />
           )}
           <TouchableOpacity
-            activeOpacity={0.8}
+            activeOpacity={0.6}
             style={[styles.input_item]}
             onPress={onPress}>
             <Text

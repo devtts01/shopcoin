@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 import {
   View,
@@ -7,7 +6,6 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
-  Modal,
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';

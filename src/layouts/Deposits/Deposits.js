@@ -4,13 +4,13 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 import {View, Text, ScrollView, RefreshControl} from 'react-native';
-import styles from './DepositsCss';
-import {formatUSDT, formatVND} from '../../utils/format/Money';
-import stylesStatus from '../../styles/Status';
-import stylesGeneral from '../../styles/General';
 import {useCallback, useState} from 'react';
 import {useAppContext} from '../../utils';
+import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {Header} from '../../components';
+import styles from './DepositsCss';
+import stylesStatus from '../../styles/Status';
+import stylesGeneral from '../../styles/General';
 
 const Deposits = ({navigation}) => {
   const {state} = useAppContext();

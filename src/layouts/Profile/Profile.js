@@ -12,13 +12,13 @@ import {
 } from 'react-native';
 import {useAppContext} from '../../utils';
 import {formatUSDT} from '../../utils/format/Money';
-import styles from './ProfileCss';
 import {userLogout} from '../../services/userAuthen';
+import {SVgetUserById} from '../../services/user';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {getUserById} from '../../app/payloads/getById';
+import styles from './ProfileCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {SVgetUserById} from '../../services/user';
-import {getUserById} from '../../app/payloads/getById';
 
 const Profile = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);

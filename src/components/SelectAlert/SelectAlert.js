@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import {View, Text} from 'react-native';
 import React from 'react';
-import styles from './SelectAlertCss';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import styles from './SelectAlertCss';
 import stylesGeneral from '../../styles/General';
 
 export default function SelectAlert({label, onTouchStart, value}) {
