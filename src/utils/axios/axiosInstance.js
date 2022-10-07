@@ -48,8 +48,8 @@ export const userGet = async (path, options = {}) => {
   const res = await userInstance.get(path, options);
   return res.data;
 };
-export const userPost = async (path, options = {}) => {
-  const res = await userInstance.post(path, options);
+export const userPost = async (path, options = {}, others = {}) => {
+  const res = await userInstance.post(path, options, others);
   return res.data;
 };
 export const userPut = async (path, options = {}) => {

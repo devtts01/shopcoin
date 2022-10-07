@@ -16,6 +16,8 @@ export const userLogin = async (props = {}) => {
           username: resPost?.userInfo?.payment?.username,
           email: resPost?.userInfo?.payment?.email,
           rule: resPost?.userInfo?.payment.rule,
+          rank: resPost?.userInfo?.rank,
+          id: resPost?.userInfo?._id,
         });
         props.dispatch(
           props.setFormValue({

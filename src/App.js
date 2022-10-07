@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -23,11 +24,14 @@ import {
   BuyCoin,
   SellCoin,
   SellHistory,
+  ChangePwd,
   Login,
   Register,
   ForgotPwd,
 } from './layouts';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {setCurrentUser} from './app/payloads/user';
+import {getAsyncStore} from './utils/localStore/localStore';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -98,10 +102,10 @@ const Main = () => {
   const {state, dispatch} = useAppContext();
   const {
     currentUser,
-    message: {del, upd, cre, error},
+    message: {del, upd, cre, error, success},
   } = state;
   useEffect(() => {
-    if (error || del || cre || upd) {
+    if (error || del || cre || upd || success) {
       setTimeout(() => {
         dispatch(
           setMessage({
@@ -109,11 +113,16 @@ const Main = () => {
             del: '',
             upd: '',
             cre: '',
+            success: '',
           }),
         );
       }, 3000);
     }
   });
+  useEffect(() => {
+    dispatch(setCurrentUser(getAsyncStore(dispatch)));
+  }, []);
+
   return (
     <>
       <NavigationContainer theme={MyTheme}>
@@ -206,6 +215,14 @@ const Main = () => {
             component={SellHistory}
             options={{
               title: 'Sell History',
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Change Password"
+            component={ChangePwd}
+            options={{
+              title: 'Change Password',
               headerShown: true,
             }}
           />

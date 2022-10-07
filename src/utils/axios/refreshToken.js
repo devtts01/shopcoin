@@ -8,7 +8,8 @@ const requestRefreshToken = async (
   handleFunc,
   state,
   dispatch,
-  actions,
+  setCurrentUser,
+  setMessage,
   id,
 ) => {
   try {
@@ -25,9 +26,9 @@ const requestRefreshToken = async (
           };
           await setAsyncStore(refreshUser);
           dispatch(
-            actions.setData({
+            setCurrentUser({
               ...state.set,
-              currentUser: getAsyncStore(),
+              currentUser: getAsyncStore(dispatch),
             }),
           );
           currentUser.token = `${res.newtoken}`;
@@ -35,7 +36,7 @@ const requestRefreshToken = async (
           return refreshUser;
         } else {
           dispatch(
-            actions.setData({
+            setMessage({
               ...state.set,
               message: {
                 ...state.set.message,

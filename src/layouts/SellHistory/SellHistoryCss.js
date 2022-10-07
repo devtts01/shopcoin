@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   item: {
-    borderColor: '#4CAF50',
+    borderColor: '#d50000',
     borderWidth: 1,
     paddingHorizontal: 12,
     paddingVertical: 12,
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   },
   row_desc: {
     fontSize: 16,
+    fontWeight: '500',
   },
 });
 

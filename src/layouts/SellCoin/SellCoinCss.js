@@ -42,6 +42,11 @@ const styles = StyleSheet.create({
   row_desc: {
     fontSize: 16,
     marginBottom: 8,
+    fontWeight: '500',
+  },
+  btn_container: {
+    display: 'flex',
+    flexDirection: 'row',
   },
   btn: {
     paddingHorizontal: 12,
@@ -49,6 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
+    flex: 1,
   },
   btn_text: {
     fontSize: 17,

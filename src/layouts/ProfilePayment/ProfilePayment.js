@@ -11,6 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
+import {AlertDialog, Button, Center} from 'native-base';
 import {FormInput, ModalLoading, SelectAlert} from '../../components';
 import styles from './ProfilePaymentCss';
 import stylesGeneral from '../../styles/General';
@@ -20,7 +21,7 @@ export default function ProfilePayment({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [progressValue, setProgressValue] = useState(0.02);
+  const cancelRef = React.useRef(null);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -35,12 +36,12 @@ export default function ProfilePayment({navigation}) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setProgressValue(0.02);
       Alert.alert('Success!', 'Your payment has been updated!', [
         {text: 'OK', onPress: () => navigation.navigate('Profile Payment')},
       ]);
     }, 5000);
   };
+  const dataBank = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <ScrollView
       style={[styles.container]}
@@ -64,52 +65,48 @@ export default function ProfilePayment({navigation}) {
         onTouchStart={handleSubmit}>
         <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
       </View>
-      <View style={[styles.centeredView]}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(!modalVisible)}>
-          <View style={[styles.centeredView]}>
-            <View style={[styles.modalView]}>
-              <Text style={[styles.modalText]}>Select a bank</Text>
-              <View style={[styles.divider]}></View>
+      <Center>
+        <AlertDialog
+          leastDestructiveRef={cancelRef}
+          isOpen={modalVisible}
+          onClose={handleModalBank}>
+          <AlertDialog.Content>
+            <AlertDialog.CloseButton />
+            <AlertDialog.Header>Select Bank</AlertDialog.Header>
+            <AlertDialog.Body>
               <View style={[styles.bankList]}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                  <TouchableOpacity
-                    onPress={handleModalBank}
-                    activeOpacity={0.7}
-                    style={[styles.bankItem]}>
-                    <Text style={[stylesGeneral.fwbold]}>ACB</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={[styles.bankItem]}>
-                    <Text style={[stylesGeneral.fwbold]}>Vietcombank</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={[styles.bankItem]}>
-                    <Text style={[stylesGeneral.fwbold]}>BIDV</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={[styles.bankItem]}>
-                    <Text style={[stylesGeneral.fwbold]}>Agribank</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={[styles.bankItem]}>
-                    <Text style={[stylesGeneral.fwbold]}>ACB</Text>
-                  </TouchableOpacity>
+                  {dataBank.map((item, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={handleModalBank}
+                      activeOpacity={0.7}
+                      style={[styles.bankItem]}>
+                      <Text style={[stylesGeneral.fwbold]}>ACB</Text>
+                    </TouchableOpacity>
+                  ))}
                 </ScrollView>
               </View>
-            </View>
-          </View>
-        </Modal>
-      </View>
+            </AlertDialog.Body>
+            <AlertDialog.Footer>
+              <Button.Group space={2}>
+                <Button
+                  variant="unstyled"
+                  onPress={handleModalBank}
+                  style={[stylesStatus.confirmbgcbold]}
+                  ref={cancelRef}>
+                  <Text style={[stylesStatus.white]}>Cancel</Text>
+                </Button>
+                <Button colorScheme="danger" onPress={handleModalBank}>
+                  Submit
+                </Button>
+              </Button.Group>
+            </AlertDialog.Footer>
+          </AlertDialog.Content>
+        </AlertDialog>
+      </Center>
       {/* Modal Loading */}
-      {loading && progressValue < 1 && <ModalLoading value={progressValue} />}
+      {loading && <ModalLoading />}
     </ScrollView>
   );
 }

@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  btn_disabled: {
+    opacity: 0.6,
+  },
 });
 
 export default styles;

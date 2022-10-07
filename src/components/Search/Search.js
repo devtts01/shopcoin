@@ -11,10 +11,11 @@ const Search = ({name, value, onChange}) => {
     <View style={[styles.container]}>
       <FontAwesome5 name="search" size={20} />
       <TextInput
-        placeholder="Search ..."
+        placeholder="Search"
         style={[styles.input]}
         value={value}
         onChangeText={val => onChange(name, val)}
+        cursorColor="#ffab00"
       />
     </View>
   );

@@ -27,11 +27,13 @@ const styles = StyleSheet.create({
   },
   info_detail: {
     width: '100%',
+  },
+  info_detail_border: {
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 12,
-    borderRadius: 8,
-    // borderColor: '#ccc',
-    // borderWidth: 1,
   },
   info_item: {
     justifyContent: 'space-between',

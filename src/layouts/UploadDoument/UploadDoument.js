@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
@@ -6,6 +8,7 @@ import {
   RefreshControl,
   Image,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -19,7 +22,6 @@ export default function UploadDoument({navigation}) {
   const [refreshing, setRefreshing] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [progressValue, setProgressValue] = useState(0.02);
   const [fileResponseFront, setFileResponseFront] = useState(null);
   const [fileResponseBack, setFileResponseBack] = useState(null);
   const wait = timeout => {
@@ -54,7 +56,6 @@ export default function UploadDoument({navigation}) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setProgressValue(0.02);
       Alert.alert('Success!', 'Upload document successfully!', [
         {text: 'OK', onPress: () => navigation.navigate('Profile')},
       ]);
@@ -74,7 +75,7 @@ export default function UploadDoument({navigation}) {
             <View
               style={[
                 styles.btn_upload,
-                stylesStatus.confirmbgcbold,
+                stylesStatus.completebgcbold,
                 stylesGeneral.flexRow,
               ]}
               onTouchStart={handleDocumentSelectionFront}>
@@ -109,7 +110,7 @@ export default function UploadDoument({navigation}) {
             <View
               style={[
                 styles.btn_upload,
-                stylesStatus.confirmbgcbold,
+                stylesStatus.completebgcbold,
                 stylesGeneral.flexRow,
               ]}
               onTouchStart={handleDocumentSelectionBack}>
@@ -138,15 +139,24 @@ export default function UploadDoument({navigation}) {
             resizeMode="cover"
           />
         </View>
-        <View
-          style={[styles.btn, stylesStatus.vipbgcbold]}
-          onTouchStart={!isStatus ? handleChangeStatus : handleSubmit}>
-          <Text style={[styles.btn_text, stylesStatus.white]}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={[styles.btn, stylesStatus.confirmbgcbold]}
+          disabled={(!fileResponseFront || !fileResponseBack) && isStatus}
+          onPress={!isStatus ? handleChangeStatus : handleSubmit}>
+          <Text
+            style={[
+              styles.btn_text,
+              (!fileResponseFront || !fileResponseBack) &&
+                isStatus &&
+                stylesGeneral.op6,
+              stylesStatus.white,
+            ]}>
             {!isStatus ? 'Change your document' : 'Submit'}
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
-      {loading && progressValue < 1 && <ModalLoading value={progressValue} />}
+      {loading && <ModalLoading />}
     </ScrollView>
   );
 }

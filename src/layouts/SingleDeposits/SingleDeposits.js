@@ -21,7 +21,6 @@ import {ModalLoading} from '../../components';
 export default function SingleDeposits({navigation}) {
   const [fileResponse, setFileResponse] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [progressValue, setProgressValue] = useState(0.02);
   const [refreshing, setRefreshing] = useState(false);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -43,7 +42,6 @@ export default function SingleDeposits({navigation}) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setProgressValue(0.02);
       Alert.alert('Success!', 'Deposits confirm successfully!', [
         {text: 'OK', onPress: () => navigation.navigate('Deposits')},
       ]);
@@ -90,7 +88,7 @@ export default function SingleDeposits({navigation}) {
         </View>
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Method</Text>
-          <View style={[stylesGeneral.flexColumn]}>
+          <View style={[stylesGeneral.flexColumn, stylesGeneral.flexEnd]}>
             <Text style={[styles.item_desc]}>ACB</Text>
             <Text style={[styles.item_desc]}>Tran Van Dieu</Text>
             <Text style={[styles.item_desc]}>16744322</Text>
@@ -125,24 +123,22 @@ export default function SingleDeposits({navigation}) {
             />
           )}
         </View>
-        <TouchableOpacity activeOpacity={0.8} onPress={handleSubmit}>
-          <View
-            style={[
-              styles.btn,
-              stylesStatus.completebgcbold,
-              stylesGeneral.mt10,
-            ]}>
-            <Text
-              style={[
-                styles.btn_text,
-                stylesStatus.white,
-                stylesGeneral.fwbold,
-              ]}>
-              Submit
-            </Text>
-          </View>
+        <TouchableOpacity
+          onPress={handleSubmit}
+          activeOpacity={0.6}
+          disabled={!fileResponse}
+          style={[
+            styles.btn,
+            !fileResponse && stylesGeneral.op6,
+            stylesStatus.confirmbgcbold,
+            stylesGeneral.mt10,
+          ]}>
+          <Text
+            style={[styles.btn_text, stylesStatus.white, stylesGeneral.fwbold]}>
+            Submit
+          </Text>
         </TouchableOpacity>
-        {loading && progressValue < 1 && <ModalLoading value={progressValue} />}
+        {loading && <ModalLoading />}
       </View>
     </ScrollView>
   );

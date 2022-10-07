@@ -14,6 +14,9 @@ const stylesStatus = StyleSheet.create({
   confirm: {
     color: '#007aff',
   },
+  demo: {
+    color: '#007aff',
+  },
   complete: {
     color: '#4CAF50',
   },
@@ -34,6 +37,14 @@ const stylesStatus = StyleSheet.create({
     backgroundColor: '#e6f5ff',
   },
   confirmbgcbold: {
+    color: '#fff',
+    backgroundColor: '#007aff',
+  },
+  demobgc: {
+    color: '#007aff',
+    backgroundColor: '#e6f5ff',
+  },
+  demobgcbold: {
     color: '#fff',
     backgroundColor: '#007aff',
   },

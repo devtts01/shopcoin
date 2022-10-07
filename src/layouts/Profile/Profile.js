@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, {useCallback, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   RefreshControl,
@@ -8,15 +10,27 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useAppContext} from '../../utils';
 import {formatUSDT} from '../../utils/format/Money';
 import styles from './ProfileCss';
 import {userLogout} from '../../services/userAuthen';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {SVgetUserById} from '../../services/user';
+import {getUserById} from '../../app/payloads/getById';
 
 const Profile = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
+  const {state, dispatch} = useAppContext();
+  const {currentUser, userById} = state;
+  useEffect(() => {
+    SVgetUserById({
+      id: currentUser?.id,
+      dispatch,
+      getUserById,
+    });
+  }, []);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -37,37 +51,53 @@ const Profile = ({navigation}) => {
       }>
       <View style={[styles.user_info]}>
         <Image
-          source={require('../../assets/images/bg-login.png')}
+          source={{
+            uri: 'https://img.capital.com/imgs/articles/1200x627x1/shutterstock_1923715325.jpg',
+          }}
           resizeMode="cover"
           style={[styles.avatar]}
         />
-        <Text style={[styles.name_user, stylesGeneral.mt10, stylesGeneral.mb5]}>
-          @Nguyễn Minh Châu
+        <Text
+          style={[
+            styles.name_user,
+            stylesGeneral.mt10,
+            stylesGeneral.mb5,
+            stylesGeneral.fz16,
+          ]}>
+          {currentUser?.username}
         </Text>
-        <Text style={[styles.email_user]}>nmchauhcmue@gmail.com</Text>
+        <Text style={[styles.email_user]}>{currentUser?.email}</Text>
       </View>
       <View style={[styles.info_detail_container]}>
         <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_detail_title]}>Username</Text>
-          <Text style={[styles.info_detail_desc]}>Nguyen Minh Chau</Text>
+          <Text style={[styles.info_detail_desc]}>{currentUser?.username}</Text>
         </View>
         <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_detail_title]}>Email</Text>
-          <Text style={[styles.info_detail_desc]}>nmchauhcmue@gmail.com</Text>
+          <Text style={[styles.info_detail_desc]}>{currentUser?.email}</Text>
         </View>
         <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_detail_title]}>Wallet</Text>
-          <Text style={[styles.info_detail_desc]}>{formatUSDT(0)}T</Text>
+          <Text style={[styles.info_detail_desc]}>
+            {formatUSDT(userById?.Wallet?.balance)}T
+          </Text>
         </View>
         <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_detail_title]}>Rank</Text>
           <Text
             style={[
               styles.info_detail_desc,
-              stylesStatus.confirmbgc,
               stylesStatus.status,
+              currentUser?.rank.toLowerCase() === 'vip'
+                ? stylesStatus.vipbgc
+                : currentUser?.rank.toLowerCase() === 'pro'
+                ? stylesStatus.probgc
+                : currentUser?.rank.toLowerCase() === 'standard'
+                ? stylesStatus.confirmbgc
+                : stylesStatus.demobgc,
             ]}>
-            Standard
+            {currentUser?.rank}
           </Text>
         </View>
         <View
@@ -76,7 +106,9 @@ const Profile = ({navigation}) => {
           <Text style={[styles.info_detail_title]}>Upload document</Text>
           <FontAwesome5 name="chevron-right" size={12} />
         </View>
-        <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
+        <View
+          style={[styles.info_detail_item, stylesGeneral.flexRow]}
+          onTouchStart={() => navigation.navigate('Change Password')}>
           <Text style={[styles.info_detail_title]}>Change password</Text>
           <FontAwesome5 name="chevron-right" size={12} />
         </View>

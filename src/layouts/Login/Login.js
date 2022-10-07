@@ -19,7 +19,6 @@ const Login = ({navigation}) => {
   } = state;
   const refEmail = useRef();
   const refPwd = useRef();
-
   const handleLogin = () => {
     userLogin({
       email,

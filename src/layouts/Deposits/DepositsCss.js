@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 17,
     width: '100%',
     textAlign: 'center',
   },
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   },
   row_desc: {
     fontSize: 16,
+    fontWeight: '500',
   },
 });
 

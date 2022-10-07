@@ -30,6 +30,12 @@ const stylesGeneral = StyleSheet.create({
   mb10: {
     marginBottom: 10,
   },
+  mb20: {
+    marginBottom: 20,
+  },
+  mb30: {
+    marginBottom: 30,
+  },
   mb5: {
     marginBottom: 5,
   },
@@ -57,11 +63,20 @@ const stylesGeneral = StyleSheet.create({
   fz16: {
     fontSize: 16,
   },
+  fw500: {
+    fontWeight: '500',
+  },
   text_center: {
     textAlign: 'center',
   },
   w100: {
     width: '100%',
+  },
+  mw50: {
+    minWidth: 50,
+  },
+  op6: {
+    opacity: 0.6,
   },
 });
 

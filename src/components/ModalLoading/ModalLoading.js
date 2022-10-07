@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import {View, Text, Modal} from 'react-native';
 import React from 'react';
-import {ProgressBar, MD3Colors} from 'react-native-paper';
+import ProgressBar from 'react-native-animated-progress';
 import styles from './ModalLoadingCss';
 import stylesGeneral from '../../styles/General';
 
@@ -20,7 +20,7 @@ export default function ModalLoading({value}) {
               ]}>
               Đang xử lý...
             </Text>
-            <ProgressBar progress={value} color="#007aff" />
+            <ProgressBar height={5} indeterminate backgroundColor="#007aff" />
           </View>
         </View>
       </Modal>

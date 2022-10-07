@@ -1,6 +1,15 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, ScrollView, RefreshControl, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  RefreshControl,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
+import {useAppContext} from '../../utils';
+import {setCodeValue} from '../../app/payloads/form';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
 import styles from './SingleWithdrawCss';
 import stylesGeneral from '../../styles/General';
@@ -8,9 +17,10 @@ import stylesStatus from '../../styles/Status';
 import {FormInput, ModalLoading} from '../../components';
 
 export default function SingleWithdraw({navigation}) {
+  const {state, dispatch} = useAppContext();
+  const {codeVerify} = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
-  const [progressValue, setProgressValue] = useState(0.02);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -18,11 +28,13 @@ export default function SingleWithdraw({navigation}) {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
+  const handleChangeInput = (name, val) => {
+    dispatch(setCodeValue(val));
+  };
   const handleSubmit = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setProgressValue(0.02);
       Alert.alert('Success!', 'Withdraw code confirm successfully!', [
         {text: 'OK', onPress: () => navigation.navigate('Withdraw')},
       ]);
@@ -72,32 +84,46 @@ export default function SingleWithdraw({navigation}) {
         </View>
       </View>
       <View style={[styles.verify_code_container]}>
-        <FormInput label="Enter the following code" />
+        <FormInput
+          label="Enter the following code"
+          placeholder="Enter verify code"
+          nameSymbol="shield-alt"
+          onChangeText={val => handleChangeInput('codeVerify', val)}
+        />
         <Text style={[stylesGeneral.mb5, stylesGeneral.fz16]}>
           This code is valid in 5 minutes.
         </Text>
         <Text
-          style={[stylesGeneral.fwbold, stylesStatus.vip, stylesGeneral.mb10]}>
+          style={[
+            stylesGeneral.fwbold,
+            stylesStatus.complete,
+            stylesGeneral.mb30,
+          ]}>
           Resend Code
         </Text>
-        <View
-          style={[styles.btn, stylesStatus.vipbgcbold]}
-          onTouchStart={handleSubmit}>
-          <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
+        <View style={[styles.btn_container]}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={[
+              styles.btn,
+              !codeVerify && stylesGeneral.op6,
+              stylesStatus.confirmbgcbold,
+              stylesGeneral.mr10,
+            ]}
+            disabled={!codeVerify}
+            onPress={handleSubmit}>
+            <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={[styles.btn, stylesStatus.cancelbgcbold]}
+            onPress={() => navigation.navigate('Withdraw')}>
+            <Text style={[styles.btn_text, stylesStatus.white]}>Cancel</Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <View
-        style={[
-          styles.btn,
-          styles.btn_margin,
-          stylesStatus.cancelbgcbold,
-          stylesGeneral.mt10,
-        ]}
-        onTouchStart={() => navigation.navigate('Withdraw')}>
-        <Text style={[styles.btn_text, stylesStatus.white]}>Cancel</Text>
-      </View>
       {/* Modal Loading */}
-      {loading && progressValue < 1 && <ModalLoading value={progressValue} />}
+      {loading && <ModalLoading />}
     </ScrollView>
   );
 }

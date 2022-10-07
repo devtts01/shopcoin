@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   info_detail_desc: {
     fontSize: 16,
     marginBottom: 10,
+    fontWeight: '500',
   },
 });
 

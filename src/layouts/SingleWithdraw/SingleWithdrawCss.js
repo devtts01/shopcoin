@@ -24,13 +24,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   info_item_desc: {
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 10,
+    fontWeight: '500',
+  },
+  btn_container: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 30,
   },
   btn: {
     width: '100%',
     paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingVertical: 15,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
@@ -38,9 +45,6 @@ const styles = StyleSheet.create({
   btn_text: {
     fontWeight: 'bold',
     fontSize: 17,
-  },
-  btn_margin: {
-    marginBottom: 30,
   },
 });
 export default styles;

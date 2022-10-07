@@ -1,14 +1,40 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
-import {useCallback, useState} from 'react';
-import {Text, ScrollView, RefreshControl, View} from 'react-native';
+import {useCallback, useEffect, useState} from 'react';
+import {Text, ScrollView, RefreshControl, View, FlatList} from 'react-native';
+import {useAppContext} from '../../utils/';
+import {SVgetBuyHistory} from '../../services/bills';
+import {getHistoryBuy} from '../../app/payloads/history';
 import styles from './BuyHistoryCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {dateFormat} from '../../utils/format/Date';
+import {formatUSDT} from '../../utils/format/Money';
+import {SVgetUserById} from '../../services/user';
+import {getUserById} from '../../app/payloads/user';
 
 const History = ({navigation}) => {
+  const {state, dispatch} = useAppContext();
+  const {
+    currentUser,
+    history: {dataBuyHistory},
+  } = state;
   const [refreshing, setRefreshing] = useState(false);
+  useEffect(() => {
+    SVgetBuyHistory({
+      id: currentUser.id,
+      dispatch,
+      getHistoryBuy,
+    });
+  }, []);
+
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -16,13 +42,57 @@ const History = ({navigation}) => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
+  const renderItem = ({item}) => {
+    return (
+      <View style={[styles.item]}>
+        <View style={[styles.row]}>
+          <Text style={[styles.row_title]}>
+            {item?.symbol.replace('USDT', '')}
+          </Text>
+          <Text style={[styles.row_desc]}>
+            {dateFormat(item?.createdAt, 'DD/MM/YYYY')}
+          </Text>
+        </View>
+        <View style={[styles.row]}>
+          <Text style={[styles.row_title]}>Status</Text>
+          <Text
+            style={[
+              styles.row_desc,
+              stylesStatus.status,
+              stylesStatus.completebgc,
+              item?.status.toLowerCase().replace(' ', '') === 'onhold'
+                ? stylesStatus.vipbgc
+                : item?.status.toLowerCase() === 'completed' ||
+                  item?.status.toLowerCase() === 'complete'
+                ? stylesStatus.probgc
+                : item?.status.toLowerCase() === 'canceled' ||
+                  item?.status.toLowerCase() === 'cancel'
+                ? stylesStatus.cancelbgc
+                : item?.status.toLowerCase() === 'confirmed' ||
+                  item?.status.toLowerCase() === 'confirm'
+                ? stylesStatus.confirmbgc
+                : stylesStatus.demobgc,
+            ]}>
+            {item?.status}
+          </Text>
+        </View>
+        <View style={[styles.row]}>
+          <Text style={[styles.row_title]}>Amount</Text>
+          <Text style={[styles.row_desc]}>{item?.amount}</Text>
+        </View>
+        <View style={[styles.row]}>
+          <Text style={[styles.row_title]}>USDT</Text>
+          <Text style={[styles.row_desc]}>
+            ~ {formatUSDT(item?.amountUsd).replace('USD', '')}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
-    <ScrollView
-      style={[styles.container]}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      <View style={[styles.btn_container]}>
+    <View style={[styles.container]}>
+      <View style={[styles.btn_container, stylesGeneral.mb10]}>
         <View
           style={[styles.btn]}
           onTouchStart={() => navigation.navigate('History')}>
@@ -34,35 +104,33 @@ const History = ({navigation}) => {
           <Text style={[styles.btn_text]}>Sell History</Text>
         </View>
       </View>
-      <View style={[styles.listItem]}>
-        <View style={[styles.item]}>
-          <View style={[styles.row]}>
-            <Text style={[styles.row_title]}>BTC</Text>
-            <Text style={[styles.row_desc]}>{new Date().toISOString()}</Text>
-          </View>
-          <View style={[styles.row]}>
-            <Text style={[styles.row_title]}>Status</Text>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        style={[styles.listItem]}
+        showsVerticalScrollIndicator={false}>
+        {dataBuyHistory?.length > 0 ? (
+          <FlatList
+            contentContainerStyle={{flex: 1}}
+            data={dataBuyHistory}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItem}
+          />
+        ) : (
+          <View style={[stylesGeneral.flexCenter, stylesGeneral.mt10]}>
             <Text
               style={[
-                styles.row_desc,
-                stylesStatus.completebgc,
-                stylesStatus.complete,
-                stylesStatus.status,
+                stylesGeneral.fz16,
+                stylesGeneral.fwbold,
+                stylesStatus.confirm,
               ]}>
-              Complete
+              No History Buy Coin
             </Text>
           </View>
-          <View style={[styles.row]}>
-            <Text style={[styles.row_title]}>Amount</Text>
-            <Text style={[styles.row_desc]}>1</Text>
-          </View>
-          <View style={[styles.row]}>
-            <Text style={[styles.row_title]}>USDT</Text>
-            <Text style={[styles.row_desc]}>~ 46.5</Text>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

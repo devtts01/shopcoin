@@ -12,7 +12,7 @@ const ImageCp = ({uri}) => {
       style={[styles.image]}
       source={
         error
-          ? {uri: `https://apishopcoin.4eve.site${uri}`}
+          ? {uri: `https://apishopcoin.4eve.site/${uri}`}
           : {
               uri: 'https://img.capital.com/imgs/articles/1200x627x1/shutterstock_1923715325.jpg',
             }

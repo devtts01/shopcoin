@@ -12,6 +12,7 @@ export {default as CreateWithdraw} from './CreateWithdraw/CreateWithdraw';
 export {default as ProfilePayment} from './ProfilePayment/ProfilePayment';
 export {default as SingleWithdraw} from './SingleWithdraw/SingleWithdraw';
 export {default as SellHistory} from './SellHistory/SellHistory';
+export {default as ChangePwd} from './ChangePwd/ChangePwd';
 export {default as BuyCoin} from './BuyCoin/BuyCoin';
 export {default as SellCoin} from './SellCoin/SellCoin';
 export {default as Login} from './Login/Login';

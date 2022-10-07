@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   },
   row_desc: {
     fontSize: 16,
+    fontWeight: '500',
   },
 });
 

@@ -9,7 +9,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, ScrollView, RefreshControl, FlatList} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {Search, ImageCp} from '../../components';
+import {Search, ImageCp, Header} from '../../components';
 import {useAppContext} from '../../utils';
 import {getAllCoins} from '../../app/payloads/getAll';
 import {setSearchValue} from '../../app/payloads/search';
@@ -21,7 +21,6 @@ import stylesGeneral from '../../styles/General';
 const Home = ({navigation}) => {
   const {state, dispatch} = useAppContext();
   const {
-    currentUser,
     search,
     data: {dataCoins},
   } = state;
@@ -76,12 +75,6 @@ const Home = ({navigation}) => {
         <View style={[stylesGeneral.flexRow]}>
           <View style={[styles.coinItem_Image]}>
             <ImageCp uri={item?.logo} />
-            {/* <SkeletonPlaceholder.Item
-              width={50}
-              height={50}
-              borderRadius={100}
-              backgroundColor="#ededed"
-            /> */}
           </View>
           <View style={[styles.coinItem_Info, stylesGeneral.ml12]}>
             <Text style={[styles.coinItem_Info_name]}>
@@ -100,7 +93,9 @@ const Home = ({navigation}) => {
         </View>
         <View style={[styles.coinItem_Price]}>
           <View style={[styles.coinItem_Price_text, stylesGeneral.flexCenter]}>
-            <Text>High: </Text>
+            <Text style={[stylesGeneral.mw50, stylesGeneral.fw500]}>
+              High:{' '}
+            </Text>
             <SkeletonPlaceholder.Item
               marginTop={6}
               width={80}
@@ -110,7 +105,7 @@ const Home = ({navigation}) => {
             />
           </View>
           <View style={[styles.coinItem_Price_text, stylesGeneral.flexCenter]}>
-            <Text>Low: </Text>
+            <Text style={[stylesGeneral.mw50, stylesGeneral.fw500]}>Low: </Text>
             <SkeletonPlaceholder.Item
               marginTop={6}
               width={80}
@@ -141,48 +136,7 @@ const Home = ({navigation}) => {
 
   return (
     <View style={[styles.container]}>
-      <View style={[stylesGeneral.flexRow, stylesGeneral.flexCenter]}>
-        <Text
-          style={[
-            stylesGeneral.mb10,
-            stylesGeneral.fwbold,
-            stylesGeneral.fz16,
-            stylesGeneral.mr10,
-          ]}>
-          Welcome: Test
-        </Text>
-        <Text
-          style={[
-            stylesGeneral.mb10,
-            stylesGeneral.fwbold,
-            stylesGeneral.fz16,
-            stylesStatus.status,
-            stylesStatus.confirmbgc,
-          ]}>
-          Standard
-        </Text>
-      </View>
-      <View style={[stylesGeneral.flexRow, stylesGeneral.flexCenter]}>
-        <Text
-          style={[
-            stylesGeneral.fwbold,
-            stylesGeneral.fz16,
-            stylesGeneral.mr10,
-            stylesGeneral.mb10,
-          ]}>
-          = 0.003 USDT
-        </Text>
-        <Text
-          style={[
-            stylesGeneral.mb10,
-            stylesGeneral.fwbold,
-            stylesGeneral.fz16,
-            stylesStatus.status,
-            stylesStatus.completebgc,
-          ]}>
-          Refresh
-        </Text>
-      </View>
+      <Header />
       <View>
         <Search name="search" value={search} onChange={handleChangeSearch} />
       </View>

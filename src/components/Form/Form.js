@@ -35,7 +35,7 @@ const Form = ({
   const {state, dispatch} = useAppContext();
   const {
     form: {username, email, password},
-    message: {error},
+    message: {error, success},
   } = state;
   const handleChange = (name, value) => {
     dispatch(
@@ -67,9 +67,15 @@ const Form = ({
             />
           </View>
           <Text style={[styles.title_form]}>{titleForm}</Text>
-          {error && (
-            <View style={[styles.error_container]}>
-              <Text style={[styles.error_text]}>{error}</Text>
+          {(error || success) && (
+            <View style={[styles.error_container, stylesGeneral.flexCenter]}>
+              <Text
+                style={[
+                  error ? stylesStatus.cancel : stylesStatus.complete,
+                  stylesGeneral.text_center,
+                ]}>
+                {error || success}
+              </Text>
             </View>
           )}
           {bolUsername && (
@@ -79,6 +85,7 @@ const Form = ({
               placeholder="Enter your username"
               onChangeText={value => handleChange('username', value)}
               value={username}
+              nameSymbol="user"
             />
           )}
           {bolEmail && (
@@ -88,6 +95,7 @@ const Form = ({
               placeholder="Enter your email"
               onChangeText={value => handleChange('email', value)}
               value={email}
+              nameSymbol="envelope"
             />
           )}
           {bolPwd && (
@@ -100,6 +108,7 @@ const Form = ({
               value={password}
               color="#000"
               showPwd
+              nameSymbol="lock"
             />
           )}
           <TouchableOpacity

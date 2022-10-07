@@ -16,8 +16,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontStyle: 'italic',
   },
-  input_padding: {
+  input_padding_right: {
     paddingRight: 45,
+  },
+  input_padding_left: {
+    paddingLeft: 45,
   },
   input_relative: {
     position: 'relative',
@@ -27,6 +30,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     right: 15,
+    transform: [{translateY: -10}],
+  },
+  icon_symbol: {
+    flexDirection: 'row',
+    position: 'absolute',
+    top: '50%',
+    left: 15,
     transform: [{translateY: -10}],
   },
 });

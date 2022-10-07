@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     maxHeight: 150,
   },
   bankItem: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#ededed',
     paddingHorizontal: 8,
     paddingVertical: 10,
     marginVertical: 2,
