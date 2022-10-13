@@ -6,7 +6,13 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 import {useCallback, useState} from 'react';
-import {Text, ScrollView, RefreshControl, View} from 'react-native';
+import {
+  Text,
+  ScrollView,
+  RefreshControl,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import {DataTable} from 'react-native-paper';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
@@ -28,19 +34,14 @@ const Withdraw = ({navigation}) => {
   }, []);
   const dataDetailWithdraw = [];
   return (
-    <ScrollView
-      style={[styles.container]}
-      showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
+    <View style={[styles.container]}>
       <View style={[styles.content]}>
         <Header />
-        <View
+        <TouchableOpacity
           style={[styles.container_btn, stylesStatus.vipbgcbold]}
-          onTouchStart={() => navigation.navigate('Create Withdraw')}>
+          onPress={() => navigation.navigate('Create Withdraw')}>
           <Text style={[styles.btn, stylesStatus.white]}>Create</Text>
-        </View>
+        </TouchableOpacity>
         <View style={[styles.listWithdraw, stylesGeneral.mt10]}></View>
       </View>
       {dataDetailWithdraw.length > 0 ? (
@@ -59,20 +60,26 @@ const Withdraw = ({navigation}) => {
               Status
             </DataTable.Title>
           </DataTable.Header>
-          <DataTable.Row>
-            <DataTable.Cell numeric style={[styles.title_table]}>
-              {formatUSDT(30000)}T
-            </DataTable.Cell>
-            <DataTable.Cell numeric style={[styles.title_table]}>
-              {formatVND(7200000)}
-            </DataTable.Cell>
-            <DataTable.Cell numeric style={[styles.title_table]}>
-              {new Date().toISOString()}
-            </DataTable.Cell>
-            <DataTable.Cell numeric style={[styles.title_table]}>
-              <Text style={[stylesStatus.complete]}>Complete</Text>
-            </DataTable.Cell>
-          </DataTable.Row>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
+            <DataTable.Row>
+              <DataTable.Cell numeric style={[styles.title_table]}>
+                {formatUSDT(30000)}T
+              </DataTable.Cell>
+              <DataTable.Cell numeric style={[styles.title_table]}>
+                {formatVND(7200000)}
+              </DataTable.Cell>
+              <DataTable.Cell numeric style={[styles.title_table]}>
+                {new Date().toISOString()}
+              </DataTable.Cell>
+              <DataTable.Cell numeric style={[styles.title_table]}>
+                <Text style={[stylesStatus.complete]}>Complete</Text>
+              </DataTable.Cell>
+            </DataTable.Row>
+          </ScrollView>
         </DataTable>
       ) : (
         <View style={[stylesGeneral.flexCenter, stylesGeneral.mt10]}>
@@ -86,7 +93,7 @@ const Withdraw = ({navigation}) => {
           </Text>
         </View>
       )}
-    </ScrollView>
+    </View>
   );
 };
 

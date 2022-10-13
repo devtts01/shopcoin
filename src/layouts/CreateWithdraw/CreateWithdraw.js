@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import {
@@ -6,23 +8,30 @@ import {
   Text,
   ScrollView,
   RefreshControl,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
-import {setAmountUsdt} from '../../app/payloads/form';
+import {setFormWithdraw} from '../../app/payloads/form';
 import {getUserById} from '../../app/payloads/getById';
+import requestRefreshToken from '../../utils/axios/refreshToken';
 import {FormInput, ModalLoading} from '../../components';
 import {SVgetUserById} from '../../services/user';
+import {setCurrentUser} from '../../app/payloads/user';
+import {setMessage} from '../../app/payloads/message';
 import styles from './CreateWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {SVcreateWithdraw} from '../../services/withdraw';
 
 export default function CreateWithdraw({navigation}) {
   const {state, dispatch} = useAppContext();
-  const {currentUser, amountUsdt, userById} = state;
+  const {
+    currentUser,
+    withdraw: {amountUSDT},
+    userById,
+  } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const wait = timeout => {
@@ -38,18 +47,37 @@ export default function CreateWithdraw({navigation}) {
       dispatch,
       getUserById,
     });
-  }, []);
+  }, [userById]);
   const handleChangeInput = (name, val) => {
-    dispatch(setAmountUsdt(val));
+    dispatch(
+      setFormWithdraw({
+        [name]: val,
+      }),
+    );
+  };
+  const createWithdrawAPI = data => {
+    SVcreateWithdraw({
+      amount: amountUSDT,
+      email: currentUser?.email,
+      setLoading,
+      navigation,
+      token: data?.token,
+      setFormWithdraw,
+    });
   };
   const handleSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      Alert.alert('Success!', 'Withdraw request was successfully!', [
-        {text: 'OK', onPress: () => navigation.navigate('Single Withdraw')},
-      ]);
-    }, 5000);
+    try {
+      requestRefreshToken(
+        currentUser,
+        createWithdrawAPI,
+        state,
+        dispatch,
+        setCurrentUser,
+        setMessage,
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <ScrollView
@@ -58,8 +86,8 @@ export default function CreateWithdraw({navigation}) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View style={[styles.container]}>
-        {!userById?.payment?.username &&
-        !userById?.payment?.bank?.bankName &&
+        {!userById?.payment?.username ||
+        !userById?.payment?.bank?.bankName ||
         !userById?.payment?.bank?.account ? (
           <>
             <Text>You must create your bank account first.</Text>
@@ -116,9 +144,9 @@ export default function CreateWithdraw({navigation}) {
               label="Amount USDT"
               placeholder="0.00"
               keyboardType="number-pad"
-              onChangeText={val => handleChangeInput('amountUsdt', val)}
+              onChangeText={val => handleChangeInput('amountUSDT', val)}
             />
-            {amountUsdt * 23000 > 0 && (
+            {amountUSDT * 23000 > 0 && (
               <View style={[styles.info_detail, stylesGeneral.mb10]}>
                 <Text
                   style={[
@@ -127,7 +155,7 @@ export default function CreateWithdraw({navigation}) {
                     stylesStatus.complete,
                     stylesGeneral.fz16,
                   ]}>
-                  Receive (VND): {formatVND(amountUsdt * 23000)}
+                  Receive (VND): {formatVND(amountUSDT * 23000)}
                 </Text>
               </View>
             )}
@@ -137,9 +165,9 @@ export default function CreateWithdraw({navigation}) {
                 styles.btn,
                 stylesStatus.confirmbgcbold,
                 stylesGeneral.mt10,
-                !amountUsdt && stylesGeneral.op6,
+                !amountUSDT && stylesGeneral.op6,
               ]}
-              disabled={!amountUsdt}
+              disabled={!amountUSDT}
               onPress={handleSubmit}>
               <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
             </TouchableOpacity>

@@ -4,6 +4,8 @@ import {
   SET_AMOUNT_COIN,
   SET_AMOUNT_SELL,
   SET_FORM_DEPOSITS_VALUE,
+  SET_FORM_WITHDRAW_VALUE,
+  SET_FORM_PROFILE_PAYMENT_VALUE,
   SET_AMOUNT_USDT,
   SET_CODE_VALUE,
 } from '../actions';
@@ -41,6 +43,18 @@ export const setAmountUsdt = payload => {
 export const setCodeValue = payload => {
   return {
     type: SET_CODE_VALUE,
+    payload,
+  };
+};
+export const setFormWithdraw = payload => {
+  return {
+    type: SET_FORM_WITHDRAW_VALUE,
+    payload,
+  };
+};
+export const setFormProfilePayment = payload => {
+  return {
+    type: SET_FORM_PROFILE_PAYMENT_VALUE,
     payload,
   };
 };

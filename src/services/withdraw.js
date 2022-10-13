@@ -7,38 +7,39 @@ import {
   userPut,
 } from '../utils/axios/axiosInstance';
 
-// GET ALL DEPOSITS
-export const SVgetAllDeposits = async (props = {}) => {
+// GET ALL WITHDRAW
+export const SVgetAllWithdraw = async (props = {}) => {
   const resGet = await adminGet(
-    `/getAllDeposit?page=${props.page}&show=${props.show}`,
+    `/getAllWithdraw?page=${props.page}&show=${props.show}`,
   );
-  props.dispatch(props.getAllDeposits(resGet));
+  props.dispatch(props.getAllWithdraws(resGet));
 };
 
-// GET DEPOSITS BY EMAIL/ID USER
-export const SVgetDepositsByEmailUser = async (props = {}) => {
-  const resGet = await userGet(`/getAllDeposits/${props?.email}`);
-  props.dispatch(props.getAllDeposits(resGet?.data));
+// GET WITHDRAW BY EMAIL/ID USER
+export const SVgetWithdrawByEmailUser = async (props = {}) => {
+  const resGet = await userGet(`/getAllWithdraw/${props?.email}`);
+  props.dispatch(props.getAllWithdraws(resGet?.data));
 };
-// CREATE DEPOSITS
-export const SVcreateDeposits = async (props = {}) => {
-  const resPost = await userPost('/deposit', {
-    amount: props?.amount,
+
+// CREATE WITHDRAW
+export const SVcreateWithdraw = async (props = {}) => {
+  const resPost = await userPost('/withdraw', {
+    amount: parseFloat(props?.amount),
     user: props?.email,
-    amountVnd: props.amountVnd,
     token: props?.token,
   });
+  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Success!', 'Deposits request was successfully!', [
+        Alert.alert('Success!', 'Withdraw request was successfully!', [
           {
             text: 'OK',
             onPress: () =>
               props.navigation.navigate({
-                name: 'Single Deposits',
+                name: 'Single Withdraw',
                 params: {
                   data: resPost?.data,
                 },
@@ -46,9 +47,8 @@ export const SVcreateDeposits = async (props = {}) => {
           },
         ]);
         props.dispatch(
-          props.setFormDeposits({
+          props.setFormWithdraw({
             amountUSDT: '',
-            bank: '',
           }),
         );
       }, 5000);
@@ -65,7 +65,7 @@ export const SVupdateDeposits = async (props = {}) => {
     {
       headers: {
         'Content-Type': 'multipart/form-data',
-        // Accept: 'application/json',
+        Accept: 'application/json',
         token: props?.token,
       },
     },

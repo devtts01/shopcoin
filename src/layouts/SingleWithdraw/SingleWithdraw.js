@@ -16,7 +16,9 @@ import styles from './SingleWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 
-export default function SingleWithdraw({navigation}) {
+export default function SingleWithdraw({navigation, route}) {
+  const {data} = route.params;
+  console.log(data);
   const {state, dispatch} = useAppContext();
   const {codeVerify} = state;
   const [refreshing, setRefreshing] = React.useState(false);

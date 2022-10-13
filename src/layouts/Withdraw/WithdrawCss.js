@@ -7,9 +7,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
   },
-  content: {
-    flex: 1,
-  },
   container_btn: {
     width: '100%',
     borderRadius: 10,

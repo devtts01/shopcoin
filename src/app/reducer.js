@@ -7,9 +7,12 @@ import {
   SET_AMOUNT_COIN,
   SET_AMOUNT_SELL,
   SET_FORM_DEPOSITS_VALUE,
+  SET_FORM_WITHDRAW_VALUE,
+  SET_FORM_PROFILE_PAYMENT_VALUE,
   SET_AMOUNT_USDT,
   GET_ALL_COIN,
   GET_ALL_DEPOSITS,
+  GET_ALL_WITHDRAW,
   SET_SEARCH_VALUE,
   SET_CODE_VALUE,
   GET_BY_ID,
@@ -29,6 +32,14 @@ const initialState = {
   deposits: {
     amountUSDT: '',
     bank: '',
+  },
+  withdraw: {
+    amountUSDT: '',
+  },
+  profilePayment: {
+    bank: '',
+    accountName: '',
+    accountNumber: '',
   },
   user: {
     id: '',
@@ -52,6 +63,7 @@ const initialState = {
   data: {
     dataCoins: [],
     dataDeposits: [],
+    dataWithdraws: [],
     dataById: null,
   },
   history: {
@@ -119,6 +131,22 @@ const reducer = (state, action) => {
           ...action.payload,
         },
       };
+    case SET_FORM_WITHDRAW_VALUE:
+      return {
+        ...state,
+        withdraw: {
+          ...state.withdraw,
+          ...action.payload,
+        },
+      };
+    case SET_FORM_PROFILE_PAYMENT_VALUE:
+      return {
+        ...state,
+        profilePayment: {
+          ...state.profilePayment,
+          ...action.payload,
+        },
+      };
     case SET_CODE_VALUE:
       return {
         ...state,
@@ -167,6 +195,14 @@ const reducer = (state, action) => {
         data: {
           ...state.data,
           dataDeposits: action.payload,
+        },
+      };
+    case GET_ALL_WITHDRAW:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          dataWithdraws: action.payload,
         },
       };
     default:

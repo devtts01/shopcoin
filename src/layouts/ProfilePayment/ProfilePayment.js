@@ -6,16 +6,26 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {AlertDialog, Button, Center} from 'native-base';
 import {FormInput, ModalLoading, SelectAlert} from '../../components';
+import {useAppContext} from '../../utils';
+import {setCurrentUser} from '../../app/payloads/user';
+import {setMessage} from '../../app/payloads/message';
+import requestRefreshToken from '../../utils/axios/refreshToken';
 import styles from './ProfilePaymentCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {setFormProfilePayment} from '../../app/payloads/form';
+import {addBankInfo} from '../../services/payment';
 
 export default function ProfilePayment({navigation}) {
+  const {state, dispatch} = useAppContext();
+  const {
+    currentUser,
+    profilePayment: {bank, accountName, accountNumber},
+  } = state;
   const [modalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,16 +40,57 @@ export default function ProfilePayment({navigation}) {
   const handleModalBank = () => {
     setModalVisible(!modalVisible);
   };
-  const handleSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      Alert.alert('Success!', 'Your payment has been updated!', [
-        {text: 'OK', onPress: () => navigation.navigate('Profile Payment')},
-      ]);
-    }, 5000);
+  const handleChangeInput = (name, val) => {
+    dispatch(setFormProfilePayment({[name]: val}));
+    setModalVisible(false);
   };
-  const dataBank = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const addBankInfoAPI = data => {
+    addBankInfo({
+      id: currentUser?.id,
+      bank,
+      accountName,
+      accountNumber,
+      token: data?.token,
+      setLoading,
+      navigation,
+    });
+  };
+  const handleSubmit = async () => {
+    try {
+      requestRefreshToken(
+        currentUser,
+        addBankInfoAPI,
+        state,
+        dispatch,
+        setCurrentUser,
+        setMessage,
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const dataBank = [
+    {
+      id: 1,
+      name: 'Vietcombank',
+    },
+    {
+      id: 2,
+      name: 'Techcombank',
+    },
+    {
+      id: 3,
+      name: 'BIDV',
+    },
+    {
+      id: 4,
+      name: 'Vietinbank',
+    },
+    {
+      id: 5,
+      name: 'Agribank',
+    },
+  ];
   return (
     <ScrollView
       style={[styles.container]}
@@ -51,18 +102,32 @@ export default function ProfilePayment({navigation}) {
       <Text style={[styles.desc]}>
         Support the following pyayment methods to load or withdraw funds.
       </Text>
-      <SelectAlert label="Choose bank" onTouchStart={handleModalBank} />
-      <FormInput label="Account name" placeholder="Enter account name" />
+      <SelectAlert
+        label="Choose bank"
+        onTouchStart={handleModalBank}
+        value={bank}
+      />
+      <FormInput
+        label="Account name"
+        placeholder="Enter account name"
+        onChangeText={val => handleChangeInput('accountName', val)}
+      />
       <FormInput
         label="Account number"
         keyboardType="number-pad"
         placeholder="Enter account number"
+        onChangeText={val => handleChangeInput('accountNumber', val)}
       />
-      <View
-        style={[styles.btn, stylesStatus.vipbgcbold]}
-        onTouchStart={handleSubmit}>
+      <TouchableOpacity
+        style={[
+          styles.btn,
+          (!bank || !accountName || !accountNumber) && stylesGeneral.op6,
+          stylesStatus.confirmbgcbold,
+        ]}
+        onPress={handleSubmit}
+        disabled={!bank || !accountName || !accountNumber}>
         <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
-      </View>
+      </TouchableOpacity>
       <Center>
         <AlertDialog
           leastDestructiveRef={cancelRef}
@@ -77,10 +142,10 @@ export default function ProfilePayment({navigation}) {
                   {dataBank.map((item, index) => (
                     <TouchableOpacity
                       key={index}
-                      onPress={handleModalBank}
+                      onPress={() => handleChangeInput('bank', item.name)}
                       activeOpacity={0.7}
                       style={[styles.bankItem]}>
-                      <Text style={[stylesGeneral.fwbold]}>ACB</Text>
+                      <Text style={[stylesGeneral.fwbold]}>{item?.name}</Text>
                     </TouchableOpacity>
                   ))}
                 </ScrollView>

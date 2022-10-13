@@ -61,7 +61,7 @@ const History = ({navigation}) => {
                 ? stylesStatus.vipbgc
                 : item?.status.toLowerCase() === 'completed' ||
                   item?.status.toLowerCase() === 'complete'
-                ? stylesStatus.probgc
+                ? stylesStatus.completebgc
                 : item?.status.toLowerCase() === 'canceled' ||
                   item?.status.toLowerCase() === 'cancel'
                 ? stylesStatus.cancelbgc

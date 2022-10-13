@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   RefreshControl,
+  Platform,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -48,13 +49,22 @@ export default function SingleDeposits({navigation, route}) {
       selectionLimit: 1,
       mediaType: 'photo',
       includeBase64: false,
+      allowsEditing: true,
+      noData: true,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
     },
   };
   const handleDocumentSelection = async () => {
     const images = await launchImageLibrary(options);
     const formData = new FormData();
     formData.append('image', {
-      uri: images?.assets[0]?.uri,
+      uri:
+        Platform.OS === 'android'
+          ? images?.assets[0]?.uri
+          : images?.assets[0]?.uri.replace('file://', ''),
       type: images?.assets[0]?.type,
       name: images?.assets[0]?.fileName,
     });

@@ -53,7 +53,9 @@ export const SVbuyCoin = async (props = {}) => {
         ]);
       }, 5000);
       break;
+    case 1:
     case 2:
+    case 3:
       props.setLoading(false);
       Alert.alert('Error', resPost.message);
       break;
