@@ -43,11 +43,11 @@ export default function Header() {
             stylesGeneral.fwbold,
             stylesGeneral.fz16,
             stylesStatus.status,
-            currentUser?.rank.toLowerCase() === 'vip'
+            currentUser?.rank?.toLowerCase() === 'vip'
               ? stylesStatus.vipbgc
-              : currentUser?.rank.toLowerCase() === 'pro'
+              : currentUser?.rank?.toLowerCase() === 'pro'
               ? stylesStatus.probgc
-              : currentUser?.rank.toLowerCase() === 'standard'
+              : currentUser?.rank?.toLowerCase() === 'standard'
               ? stylesStatus.confirmbgc
               : stylesStatus.demobgc,
           ]}>

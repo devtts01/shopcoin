@@ -7,7 +7,6 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Alert,
   RefreshControl,
 } from 'react-native';
 import {AlertDialog, Button, Center} from 'native-base';
@@ -15,13 +14,18 @@ import {FormInput, ModalLoading, SelectAlert} from '../../components';
 import {useAppContext} from '../../utils';
 import {formatVND} from '../../utils/format/Money';
 import {setFormDeposits} from '../../app/payloads/form';
+import {setCurrentUser} from '../../app/payloads/user';
+import {setMessage} from '../../app/payloads/message';
+import requestRefreshToken from '../../utils/axios/refreshToken';
 import styles from './CreateDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {SVcreateDeposits} from '../../services/deposits';
 
 export default function CreateDeposits({navigation}) {
   const {state, dispatch} = useAppContext();
   const {
+    currentUser,
     deposits: {amountUSDT, bank},
   } = state;
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,20 +47,31 @@ export default function CreateDeposits({navigation}) {
     dispatch(setFormDeposits({[name]: val}));
     setModalVisible(false);
   };
+  const createDepositsAPI = data => {
+    SVcreateDeposits({
+      amount: amountUSDT,
+      email: currentUser.email,
+      amountVnd: parseFloat(amountUSDT * 23000),
+      token: data?.token,
+      setLoading,
+      dispatch,
+      navigation,
+      setFormDeposits,
+    });
+  };
   const handleSubmit = async () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      Alert.alert('Success!', 'Deposits request was successfully!', [
-        {text: 'OK', onPress: () => navigation.navigate('Single Deposits')},
-      ]);
-      dispatch(
-        setFormDeposits({
-          amountUSDT: '',
-          bank: '',
-        }),
+    try {
+      requestRefreshToken(
+        currentUser,
+        createDepositsAPI,
+        state,
+        dispatch,
+        setCurrentUser,
+        setMessage,
       );
-    }, 5000);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const dataBank = [
     {
@@ -98,16 +113,18 @@ export default function CreateDeposits({navigation}) {
         onTouchStart={handleModalBank}
         value={bank}
       />
-      <View style={[styles.deposits_VND]}>
-        <Text
-          style={[
-            styles.deposits_money,
-            stylesGeneral.fwbold,
-            stylesStatus.confirm,
-          ]}>
-          Deposits (VND): {formatVND(72000000)}
-        </Text>
-      </View>
+      {amountUSDT * 23000 > 0 && (
+        <View style={[styles.deposits_VND]}>
+          <Text
+            style={[
+              styles.deposits_money,
+              stylesGeneral.fwbold,
+              stylesStatus.confirm,
+            ]}>
+            Deposits (VND): {formatVND(amountUSDT * 23000)}
+          </Text>
+        </View>
+      )}
       <TouchableOpacity
         disabled={!amountUSDT || !bank}
         activeOpacity={0.6}

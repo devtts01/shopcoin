@@ -12,10 +12,10 @@ import {
 import React, {useEffect, useState} from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {useAppContext} from '../../utils';
-import {formatUSDT} from '../../utils/format/Money';
+import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {getById} from '../../app/payloads/getById';
 import {setAmountSell} from '../../app/payloads/form';
-import {SVgetACoin, SVgetCoinBySymbol} from '../../services/coin';
+import {SVgetCoinBySymbol} from '../../services/coin';
 import {FormInput, ImageCp, ModalLoading} from '../../components';
 import styles from './SellCoinCss';
 import stylesStatus from '../../styles/Status';
@@ -118,15 +118,17 @@ export default function SellCoin({navigation, route}) {
             // name="exclamation-triangle"
             // color="red"
           />
-          <Text
-            style={[
-              stylesGeneral.mb10,
-              stylesGeneral.fz16,
-              stylesGeneral.fwbold,
-              stylesStatus.complete,
-            ]}>
-            Receive: {formatUSDT(0)}T
-          </Text>
+          {amountSell * 23000 > 0 && (
+            <Text
+              style={[
+                stylesGeneral.mb10,
+                stylesGeneral.fz16,
+                stylesGeneral.fwbold,
+                stylesStatus.complete,
+              ]}>
+              Receive (VND): {formatVND(amountSell * 23000)}
+            </Text>
+          )}
         </View>
       </View>
       <View style={[styles.btn_container]}>

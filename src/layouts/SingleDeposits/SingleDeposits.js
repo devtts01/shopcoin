@@ -1,24 +1,35 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   Image,
-  Alert,
   RefreshControl,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import ImagePicker from 'react-native-image-crop-picker';
+// import ImagePicker from 'react-native-image-crop-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useAppContext} from '../../utils';
+import {setCurrentUser} from '../../app/payloads/user';
+import {setMessage} from '../../app/payloads/message';
 import {formatVND, formatUSDT} from '../../utils/format/Money';
+import requestRefreshToken from '../../utils/axios/refreshToken';
+import {dateFormat} from '../../utils/format/Date';
 import {ModalLoading} from '../../components';
 import styles from './SingleDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {SVupdateDeposits} from '../../services/deposits';
 
-export default function SingleDeposits({navigation}) {
+export default function SingleDeposits({navigation, route}) {
+  const {state, dispatch} = useAppContext();
+  const {currentUser} = state;
+  const {data} = route.params;
   const [fileResponse, setFileResponse] = useState(null);
+  const [dataImageForm, setDataImageForm] = useState(null);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const wait = timeout => {
@@ -28,23 +39,51 @@ export default function SingleDeposits({navigation}) {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
-  const handleDocumentSelection = useCallback(() => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then(image => {
-      setFileResponse(image.path);
+  const options = {
+    title: 'Select Image',
+    type: 'library',
+    options: {
+      maxHeight: 200,
+      maxWidth: 200,
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    },
+  };
+  const handleDocumentSelection = async () => {
+    const images = await launchImageLibrary(options);
+    const formData = new FormData();
+    formData.append('image', {
+      uri: images?.assets[0]?.uri,
+      type: images?.assets[0]?.type,
+      name: images?.assets[0]?.fileName,
     });
-  }, []);
-  const handleSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      Alert.alert('Success!', 'Deposits confirm successfully!', [
-        {text: 'OK', onPress: () => navigation.navigate('Deposits')},
-      ]);
-    }, 5000);
+    setFileResponse(images.assets[0]);
+    setDataImageForm(formData);
+  };
+  const submitSingleDepositsAPI = (dataAPI, id) => {
+    SVupdateDeposits({
+      token: dataAPI?.token,
+      id: data?._id,
+      image: dataImageForm,
+      setLoading,
+      navigation,
+    });
+  };
+  const handleSubmit = id => {
+    try {
+      requestRefreshToken(
+        currentUser,
+        submitSingleDepositsAPI,
+        state,
+        dispatch,
+        setCurrentUser,
+        setMessage,
+        id,
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <ScrollView
@@ -56,48 +95,62 @@ export default function SingleDeposits({navigation}) {
         <Text style={[styles.title]}>Deposits Detail</Text>
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Code</Text>
-          <Text style={[styles.item_desc]}>#676281</Text>
+          <Text style={[styles.item_desc]}>{data?.code}</Text>
         </View>
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Status</Text>
           <Text
             style={[
               styles.item_desc,
-              stylesStatus.completebgc,
               stylesStatus.status,
+              data?.status?.toLowerCase() === 'on hold'
+                ? stylesStatus.vipbgc
+                : data?.status?.toLowerCase() === 'confirm'
+                ? stylesStatus.confirmbgc
+                : data?.status?.toLowerCase() === 'complete'
+                ? stylesStatus.completebgc
+                : data?.status?.toLowerCase() === 'cancel'
+                ? stylesStatus.cancelbgc
+                : stylesStatus.demobgc,
             ]}>
-            Complete
+            {data?.status?.toLowerCase()}
           </Text>
         </View>
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Created At</Text>
-          <Text style={[styles.item_desc]}>{new Date().toUTCString()}</Text>
+          <Text style={[styles.item_desc]}>
+            {dateFormat(data?.createdAt, 'DD/MM/YYYY')}
+          </Text>
         </View>
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Updated At</Text>
-          <Text style={[styles.item_desc]}>{new Date().toUTCString()}</Text>
+          <Text style={[styles.item_desc]}>
+            {dateFormat(data?.updatedAt, 'DD/MM/YYYY')}
+          </Text>
         </View>
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Amount USDT</Text>
-          <Text style={[styles.item_desc]}>{formatUSDT(300000)}T</Text>
+          <Text style={[styles.item_desc]}>{formatUSDT(data?.amount)}T</Text>
         </View>
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Amount VND</Text>
-          <Text style={[styles.item_desc]}>{formatVND(72000000)}</Text>
+          <Text style={[styles.item_desc]}>{formatVND(data?.amountVnd)}</Text>
         </View>
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Method</Text>
           <View style={[stylesGeneral.flexColumn, stylesGeneral.flexEnd]}>
-            <Text style={[styles.item_desc]}>ACB</Text>
-            <Text style={[styles.item_desc]}>Tran Van Dieu</Text>
-            <Text style={[styles.item_desc]}>16744322</Text>
+            <Text style={[styles.item_desc]}>{data?.method?.methodName}</Text>
+            <Text style={[styles.item_desc]}>{data?.method?.accountName}</Text>
+            <Text style={[styles.item_desc]}>
+              {data?.method?.accountNumber}
+            </Text>
           </View>
         </View>
         <View>
-          <TouchableOpacity activeOpacity={0.8}>
-            <View
-              style={[styles.btn, stylesStatus.vipbgcbold]}
-              onTouchStart={handleDocumentSelection}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={handleDocumentSelection}>
+            <View style={[styles.btn, stylesStatus.vipbgcbold]}>
               <FontAwesome5
                 name="file-image"
                 size={25}
@@ -115,15 +168,17 @@ export default function SingleDeposits({navigation}) {
             </View>
           </TouchableOpacity>
           {fileResponse !== null && (
-            <Image
-              source={{uri: `${fileResponse}`}}
-              style={[styles.image, stylesGeneral.mt10]}
-              resizeMode="contain"
-            />
+            <View style={[stylesGeneral.flexCenter]}>
+              <Image
+                source={{uri: `${fileResponse.uri}`}}
+                style={[styles.image, stylesGeneral.mt10]}
+                resizeMode="contain"
+              />
+            </View>
           )}
         </View>
         <TouchableOpacity
-          onPress={handleSubmit}
+          onPress={() => handleSubmit(data?._id)}
           activeOpacity={0.6}
           disabled={!fileResponse}
           style={[

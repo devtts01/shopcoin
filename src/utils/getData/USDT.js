@@ -10,7 +10,7 @@ const useGetUSDT = (dataDeposits, email) => {
     acc += parseFloat(item?.amount);
     return acc;
   }, 0);
-  return totalAmountUSDT;
+  return totalAmountUSDT.toFixed(2);
 };
 
 export default useGetUSDT;

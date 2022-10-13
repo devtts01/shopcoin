@@ -118,17 +118,19 @@ export default function CreateWithdraw({navigation}) {
               keyboardType="number-pad"
               onChangeText={val => handleChangeInput('amountUsdt', val)}
             />
-            <View style={[styles.info_detail, stylesGeneral.mb10]}>
-              <Text
-                style={[
-                  styles.receive,
-                  stylesGeneral.fwbold,
-                  stylesStatus.complete,
-                  stylesGeneral.fz16,
-                ]}>
-                Receive (VND): {formatVND(0)}
-              </Text>
-            </View>
+            {amountUsdt * 23000 > 0 && (
+              <View style={[styles.info_detail, stylesGeneral.mb10]}>
+                <Text
+                  style={[
+                    styles.receive,
+                    stylesGeneral.fwbold,
+                    stylesStatus.complete,
+                    stylesGeneral.fz16,
+                  ]}>
+                  Receive (VND): {formatVND(amountUsdt * 23000)}
+                </Text>
+              </View>
+            )}
             <TouchableOpacity
               activeOpacity={0.6}
               style={[

@@ -1,5 +1,11 @@
 /* eslint-disable prettier/prettier */
-import {adminGet, userGet} from '../utils/axios/axiosInstance';
+import {Alert} from 'react-native';
+import {
+  adminGet,
+  userGet,
+  userPost,
+  userPut,
+} from '../utils/axios/axiosInstance';
 
 // GET ALL DEPOSITS
 export const SVgetAllDeposits = async (props = {}) => {
@@ -13,4 +19,57 @@ export const SVgetAllDeposits = async (props = {}) => {
 export const SVgetDepositsByEmailUser = async (props = {}) => {
   const resGet = await userGet(`/getAllDeposits/${props.email}`);
   props.dispatch(props.getAllDeposits(resGet?.data));
+};
+// CREATE DEPOSITS
+export const SVcreateDeposits = async (props = {}) => {
+  const resPost = await userPost('/deposit', {
+    amount: props?.amount,
+    user: props?.email,
+    amountVnd: props.amountVnd,
+    token: props?.token,
+  });
+  switch (resPost.code) {
+    case 0:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Success!', 'Deposits request was successfully!', [
+          {
+            text: 'OK',
+            onPress: () =>
+              props.navigation.navigate({
+                name: 'Single Deposits',
+                params: {
+                  data: resPost?.data,
+                },
+              }),
+          },
+        ]);
+        props.dispatch(
+          props.setFormDeposits({
+            amountUSDT: '',
+            bank: '',
+          }),
+        );
+      }, 5000);
+      break;
+    default:
+      break;
+  }
+};
+// UPDATE DEPOSITS
+export const SVupdateDeposits = async (props = {}) => {
+  const resPut = await userPut(
+    `/updateImageDeposit/${props.id}`,
+    {
+      image: props?.image,
+    },
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        token: props?.token,
+      },
+    },
+  );
+  console.log(resPut);
 };
