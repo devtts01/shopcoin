@@ -29,10 +29,10 @@ export const getCoinById = async (props = {}) => {
         const processUser = await axiosUtils.adminGet('getAllUser');
         const { data } = res;
         const unShowList =
-            data.unshow.length > 1
-                ? data.unshow
-                : data.unshow.length === 1
-                ? data.unshow[0].split(',').filter((x) => x)
+            data?.unshow?.length > 1
+                ? data?.unshow
+                : data?.unshow.length === 1
+                ? data?.unshow[0]?.split(',')?.filter((x) => x)
                 : [];
         props.dispatch(
             props.actions.setData({
@@ -47,9 +47,9 @@ export const getCoinById = async (props = {}) => {
                 },
                 data: {
                     ...props.state.set.data,
-                    dataBlacklistUser: unShowList.reduce((acc, item) => {
-                        processUser.dataUser.map((user) => {
-                            if (user.payment.email === item) {
+                    dataBlacklistUser: unShowList?.reduce((acc, item) => {
+                        processUser?.dataUser?.map((user) => {
+                            if (user?.payment?.email === item) {
                                 acc.push(user);
                             }
                         });
@@ -285,10 +285,10 @@ export const handleDelete = async (props = {}) => {
 export const onClickEdit = async (props = {}) => {
     const dataUser = await axiosUtils.adminGet('getAllUser');
     const data =
-        props.item.unshow.length > 1
-            ? props.item.unshow
-            : props.item.unshow.length === 1
-            ? props.item.unshow[0].split(',').filter((x) => x)
+        props?.item?.unshow?.length > 1
+            ? props?.item?.unshow
+            : props?.item?.unshow?.length === 1
+            ? props?.item?.unshow[0]?.split(',')?.filter((x) => x)
             : [];
     props.dispatch(
         props.actions.setData({
@@ -303,9 +303,9 @@ export const onClickEdit = async (props = {}) => {
             },
             data: {
                 ...props.state.set.data,
-                dataBlacklistUser: data.reduce((acc, item) => {
-                    dataUser.dataUser.map((user) => {
-                        if (user.payment.email === item) {
+                dataBlacklistUser: data?.reduce((acc, item) => {
+                    dataUser?.dataUser?.map((user) => {
+                        if (user?.payment?.email === item) {
                             acc.push(user);
                         }
                     });
@@ -313,9 +313,9 @@ export const onClickEdit = async (props = {}) => {
                 }, []),
             },
             edit: {
-                ...props.state.set.edit,
-                id: props.item._id || props.item.id,
-                itemData: props.item,
+                // ...props.state.set.edit,
+                id: props?.item?._id || props?.item?.id,
+                itemData: props?.item,
             },
         })
     );

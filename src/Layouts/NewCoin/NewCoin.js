@@ -80,7 +80,6 @@ function NewCoin() {
         userBlacklist,
         dataUser: dataUser.dataUser,
     });
-
     // Modal + Input Form + File Upload
     const toggleDeleteTrue = (e, id) => {
         return deleteUtils.deleteTrue(e, id, dispatch, state, actions);

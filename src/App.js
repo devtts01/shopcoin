@@ -11,13 +11,13 @@ import { privateRouter, publicRouter } from './routers/routerRender';
 function App() {
     const { state, dispatch } = useAppContext();
     const { currentUser } = state.set;
-    const { del, cre, upd, error } = state.set.message;
+    const { del, cre, upd, error, success } = state.set.message;
     const Routers = currentUser ? privateRouter : publicRouter;
     const history = useNavigate();
     const handleCloseAlert = () => {
         return alertUtils.closeAlert(dispatch, state, actions);
     };
-    if (error || del || cre || upd) {
+    if (error || del || cre || upd || success) {
         setTimeout(() => {
             handleCloseAlert();
             dispatch(
@@ -28,6 +28,7 @@ function App() {
                         del: '',
                         cre: '',
                         upd: '',
+                        success: '',
                     },
                 })
             );

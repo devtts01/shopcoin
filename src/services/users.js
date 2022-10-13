@@ -279,6 +279,7 @@ export const blockUser = async (props = {}) => {
         blockUser: props.blockUser,
         token: props.data?.token,
     });
+    console.log(resPut);
     switch (resPut.code) {
         case 0:
             const process = await axiosUtils.adminGet(`getUser/${props.id}`);
