@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {
   BuyCoin,
+  Contact,
   ChangePwd,
   CreateDeposits,
   CreateWithdraw,
@@ -27,6 +28,7 @@ const routersMain = {
   ProfilePayment: 'Profile Payment',
   UploadDoument: 'Upload Document',
   BuyCoin: 'Buy Coin',
+  Contact: 'Contact',
   SellCoin: 'Sell Coin',
   SellHistory: 'Sell History',
   ChangePwd: 'Change Password',
@@ -81,6 +83,11 @@ const MainObject = [
   {
     name: routersMain.BuyCoin,
     component: BuyCoin,
+    options: 'custom',
+  },
+  {
+    name: routersMain.Contact,
+    component: Contact,
     options: 'custom',
   },
   {

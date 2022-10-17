@@ -16,6 +16,7 @@ import {
   SET_SEARCH_VALUE,
   SET_CODE_VALUE,
   GET_BY_ID,
+  GET_BY_SYMBOL,
   GET_USER_BY_ID,
   GET_HISTORY_BUY,
   GET_HISTORY_SELL,
@@ -65,6 +66,7 @@ const initialState = {
     dataDeposits: [],
     dataWithdraws: [],
     dataById: null,
+    dataBySymbol: null,
   },
   history: {
     dataBuyHistory: [],
@@ -158,6 +160,14 @@ const reducer = (state, action) => {
         data: {
           ...state.data,
           dataById: action.payload,
+        },
+      };
+    case GET_BY_SYMBOL:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          dataBySymbol: action.payload,
         },
       };
     case GET_USER_BY_ID:

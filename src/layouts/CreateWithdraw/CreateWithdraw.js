@@ -20,17 +20,22 @@ import {FormInput, ModalLoading} from '../../components';
 import {SVgetUserById} from '../../services/user';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
+import {getAllDeposits} from '../../app/payloads/getAll';
 import styles from './CreateWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateWithdraw} from '../../services/withdraw';
+import {SVgetDepositsByEmailUser} from '../../services/deposits';
+import useGetUSDT from '../../utils/getData/USDT';
 
 export default function CreateWithdraw({navigation}) {
   const {state, dispatch} = useAppContext();
+  const [error, setError] = useState('');
   const {
     currentUser,
     withdraw: {amountUSDT},
     userById,
+    data: {dataDeposits},
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,6 +53,22 @@ export default function CreateWithdraw({navigation}) {
       getUserById,
     });
   }, [userById]);
+  useEffect(() => {
+    SVgetDepositsByEmailUser({
+      email: currentUser.email,
+      dispatch,
+      getAllDeposits,
+    });
+  }, []);
+  const totalAmountUSDT = useGetUSDT(dataDeposits, currentUser?.email);
+  useEffect(() => {
+    if (parseFloat(amountUSDT) < 10) {
+      setError('Minimum withdrawal amount is 10 USDT');
+    } else if (parseFloat(amountUSDT) > 10 || amountUSDT === '') {
+      setError('');
+    }
+  }, [amountUSDT]);
+
   const handleChangeInput = (name, val) => {
     dispatch(
       setFormWithdraw({
@@ -55,11 +76,13 @@ export default function CreateWithdraw({navigation}) {
       }),
     );
   };
+
   const createWithdrawAPI = data => {
     SVcreateWithdraw({
       amount: amountUSDT,
       email: currentUser?.email,
       setLoading,
+      dispatch,
       navigation,
       token: data?.token,
       setFormWithdraw,
@@ -121,7 +144,8 @@ export default function CreateWithdraw({navigation}) {
                   Your Wallet
                 </Text>
                 <Text style={[styles.info_item_text]}>
-                  {formatUSDT(userById?.Wallet?.balance)}T
+                  {/* {formatUSDT(userById?.Wallet?.balance)}T */}
+                  {formatUSDT(totalAmountUSDT)} USDT
                 </Text>
               </View>
               <View style={[styles.info_item]}>
@@ -145,7 +169,15 @@ export default function CreateWithdraw({navigation}) {
               placeholder="0.00"
               keyboardType="number-pad"
               onChangeText={val => handleChangeInput('amountUSDT', val)}
+              icon={error}
+              color={error ? 'red' : ''}
+              name="exclamation-triangle"
             />
+            {error && (
+              <View style={[stylesGeneral.mb5]}>
+                <Text style={[stylesStatus.cancel]}>{error}</Text>
+              </View>
+            )}
             {amountUSDT * 23000 > 0 && (
               <View style={[styles.info_detail, stylesGeneral.mb10]}>
                 <Text
@@ -165,9 +197,9 @@ export default function CreateWithdraw({navigation}) {
                 styles.btn,
                 stylesStatus.confirmbgcbold,
                 stylesGeneral.mt10,
-                !amountUSDT && stylesGeneral.op6,
+                (!amountUSDT || !!error) && stylesGeneral.op6,
               ]}
-              disabled={!amountUSDT}
+              disabled={!amountUSDT || !!error}
               onPress={handleSubmit}>
               <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
             </TouchableOpacity>

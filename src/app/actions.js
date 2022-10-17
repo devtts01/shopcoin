@@ -14,6 +14,7 @@ export const GET_ALL_COIN = 'GET_ALL_COIN';
 export const GET_ALL_DEPOSITS = 'GET_ALL_DEPOSITS';
 export const GET_ALL_WITHDRAW = 'GET_ALL_WITHDRAW';
 export const GET_BY_ID = 'GET_BY_ID';
+export const GET_BY_SYMBOL = 'GET_BY_SYMBOL';
 export const GET_USER_BY_ID = 'GET_USER_BY_ID';
 export const GET_HISTORY_BUY = 'GET_HISTORY_BUY';
 export const GET_HISTORY_SELL = 'GET_HISTORY_SELL';

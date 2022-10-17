@@ -77,6 +77,7 @@ export default function ChangePwd({navigation}) {
         color="#000"
         secureTextEntry
         onChangeText={val => handleChangeInput('oldPwd', val)}
+        nameSymbol="lock"
       />
       <FormInput
         label="New Password"
@@ -85,6 +86,7 @@ export default function ChangePwd({navigation}) {
         color="#000"
         secureTextEntry
         onChangeText={val => handleChangeInput('password', val)}
+        nameSymbol="lock"
       />
       <FormInput
         label="Confirm Password"
@@ -93,6 +95,7 @@ export default function ChangePwd({navigation}) {
         color="#000"
         secureTextEntry
         onChangeText={val => handleChangeInput('confirmPwd', val)}
+        nameSymbol="lock"
       />
       <TouchableOpacity
         activeOpacity={0.6}

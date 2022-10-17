@@ -4,8 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setCurrentUser} from '../../app/payloads/user';
 const KEY = 'loginDataMobile';
 
-export const getAsyncStore = dispatch => {
-  AsyncStorage.getItem(`@${KEY}`)
+export const getAsyncStore = async dispatch => {
+  await AsyncStorage.getItem(`@${KEY}`)
     .then(JSON.parse)
     .then(res => {
       dispatch(setCurrentUser(res));
@@ -14,10 +14,10 @@ export const getAsyncStore = dispatch => {
   // return jsonValue ? jsonValue : null;
 };
 
-export const setAsyncStore = data => {
-  const jsonValue = JSON.stringify(data);
-  AsyncStorage.setItem(`@${KEY}`, jsonValue);
+export const setAsyncStore = async data => {
+  const jsonValue = await JSON.stringify(data);
+  await AsyncStorage.setItem(`@${KEY}`, jsonValue);
 };
-export const removeAsyncStore = () => {
-  AsyncStorage.removeItem(`@${KEY}`);
+export const removeAsyncStore = async () => {
+  await AsyncStorage.removeItem(`@${KEY}`);
 };

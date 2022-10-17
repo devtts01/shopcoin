@@ -17,21 +17,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  front_image_container: {
+  image_container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+  image_container_item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  image_item: {
+    width: '49%',
     marginTop: 24,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  back_image_container: {
-    marginTop: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  front_title: {
-    fontSize: 15,
-    marginBottom: 12,
-  },
-  back_title: {
+  image_title: {
     fontSize: 15,
     marginBottom: 12,
   },
@@ -46,10 +47,11 @@ const styles = StyleSheet.create({
   },
   btn_text: {
     fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: 12,
+    textAlign: 'center',
   },
   image: {
-    width: 350,
+    width: '100%',
     height: 180,
   },
   btn_upload: {

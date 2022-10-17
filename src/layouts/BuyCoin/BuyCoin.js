@@ -38,10 +38,8 @@ export default function BuyCoin({navigation, route}) {
     amountCoin,
     data: {dataById, dataDeposits},
     user: {email},
-    userById,
   } = state;
   const {id} = route.params;
-  const dataId = dataById?.data;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -63,6 +61,7 @@ export default function BuyCoin({navigation, route}) {
       getAllDeposits,
     });
   }, []);
+  console.log(dataById);
 
   const totalAmountUSDT = useGetUSDT(dataDeposits, email);
 
@@ -81,7 +80,7 @@ export default function BuyCoin({navigation, route}) {
       gmailUser: currentUser?.email,
       amount: parseInt(amountCoin),
       amountUsd: parseInt(amountCoin) * 10000,
-      symbol: dataId?.symbol,
+      symbol: dataById?.symbol,
       price: 10000,
       token: data?.token,
       setLoading,
@@ -112,35 +111,53 @@ export default function BuyCoin({navigation, route}) {
           stylesGeneral.flexRow,
           stylesGeneral.flexCenter,
         ]}>
-        <ImageCp uri={dataId?.logo} />
+        <ImageCp uri={dataById?.logo} />
         <View style={[styles.nameCoin, stylesGeneral.ml12]}>
           <Text style={[styles.name]}>
-            {dataId?.symbol.replace('USDT', '')}
+            {dataById?.symbol.replace('USDT', '')}
           </Text>
-          <Text style={[styles.desc]}>{dataId?.fullName}</Text>
+          <Text style={[styles.desc]}>{dataById?.fullName}</Text>
         </View>
       </View>
       <View style={[styles.exchange]}>
-        <SkeletonPlaceholder.Item
-          marginTop={6}
-          width={120}
-          height={20}
-          borderRadius={4}
-          backgroundColor="#ededed"
-        />
+        {Number(totalAmountUSDT / amountCoin) && amountCoin ? (
+          <Text
+            style={[
+              stylesStatus.complete,
+              stylesGeneral.fz16,
+              stylesGeneral.fw500,
+            ]}>
+            = {totalAmountUSDT / amountCoin}
+          </Text>
+        ) : (
+          <SkeletonPlaceholder.Item
+            marginTop={6}
+            width={120}
+            height={20}
+            borderRadius={4}
+            backgroundColor="#ededed"
+          />
+        )}
       </View>
       <Text style={[stylesGeneral.fz16, stylesGeneral.mb10, stylesGeneral.fwb]}>
-        Your Walet: {formatUSDT(userById?.Wallet?.balance)}T
+        Your Walet: {formatUSDT(totalAmountUSDT)} USDT
       </Text>
       <FormInput
         label="Amount Coin"
         placeholder="Enter mount coin"
         keyboardType="number-pad"
         onChangeText={val => handleChange('amountCoin', val)}
-        icon
-        color="red"
+        icon={amountCoin}
+        color={amountCoin ? 'red' : ''}
         name="exclamation-triangle"
       />
+      {amountCoin && (
+        <View style={[stylesGeneral.mb5]}>
+          <Text>Suggest amount</Text>
+          <Text style={[stylesStatus.cancel]}>Min: ...</Text>
+          <Text style={[stylesStatus.cancel]}>Max: ...</Text>
+        </View>
+      )}
       <View style={[styles.amountUsdt, stylesStatus.completebgc]}>
         <Text
           style={[
@@ -149,7 +166,7 @@ export default function BuyCoin({navigation, route}) {
             stylesGeneral.fwbold,
             stylesStatus.complete,
           ]}>
-          Amount USDT: {totalAmountUSDT || NaN}
+          Amount USDT: ...
         </Text>
       </View>
       <TouchableOpacity

@@ -9,6 +9,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, ScrollView, RefreshControl, FlatList} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import socketIO from 'socket.io-client';
 import {useAppContext} from '../../utils';
 import {getAllCoins} from '../../app/payloads/getAll';
 import {setSearchValue} from '../../app/payloads/search';
@@ -21,6 +22,7 @@ import stylesGeneral from '../../styles/General';
 const Home = ({navigation}) => {
   const {state, dispatch} = useAppContext();
   const {
+    currentUser,
     search,
     data: {dataCoins},
   } = state;
@@ -28,7 +30,15 @@ const Home = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [page, setPage] = useState(1);
   const [show, setShow] = useState(10);
-
+  // connnect socket io
+  const socket = socketIO('https://apishopcoin.4eve.site/', {
+    transports: ['websocket'],
+  });
+  console.log(socket);
+  socket.connect();
+  socket.on('connect', () => {
+    console.log('connect socket');
+  });
   useEffect(() => {
     SVgetAllCoins({
       page,

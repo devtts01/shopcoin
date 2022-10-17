@@ -15,10 +15,10 @@ import {FormInput, ModalLoading} from '../../components';
 import styles from './SingleWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {dateFormat} from '../../utils/format/Date';
 
 export default function SingleWithdraw({navigation, route}) {
   const {data} = route.params;
-  console.log(data);
   const {state, dispatch} = useAppContext();
   const {codeVerify} = state;
   const [refreshing, setRefreshing] = React.useState(false);
@@ -56,32 +56,53 @@ export default function SingleWithdraw({navigation, route}) {
           <Text
             style={[
               styles.info_item_desc,
-              stylesStatus.completebgc,
               stylesStatus.status,
+              data?.status.toLowerCase().replace(' ', '') === 'onhold'
+                ? stylesStatus.vipbgc
+                : data?.status.toLowerCase() === 'completed' ||
+                  data?.status.toLowerCase() === 'complete'
+                ? stylesStatus.completebgc
+                : data?.status.toLowerCase() === 'canceled' ||
+                  data?.status.toLowerCase() === 'cancel'
+                ? stylesStatus.cancelbgc
+                : data?.status.toLowerCase() === 'confirmed' ||
+                  data?.status.toLowerCase() === 'confirm'
+                ? stylesStatus.confirmbgc
+                : stylesStatus.demobgc,
             ]}>
-            Complete
+            {data?.status}
           </Text>
         </View>
         <View style={[styles.info_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_item_text]}>Created At</Text>
           <Text style={[styles.info_item_desc]}>
-            {new Date().toISOString()}
+            {dateFormat(data?.createdAt, 'DD/MM/YYYY')}
           </Text>
         </View>
         <View style={[styles.info_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_item_text]}>Amount USDT</Text>
-          <Text style={[styles.info_item_desc]}>{formatUSDT(300000)}T</Text>
+          <Text style={[styles.info_item_desc]}>
+            {formatUSDT(data?.amount)}T
+          </Text>
         </View>
         <View style={[styles.info_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_item_text]}>Amount VND</Text>
-          <Text style={[styles.info_item_desc]}>{formatVND(72000000)}</Text>
+          <Text style={[styles.info_item_desc]}>
+            {formatVND(data?.amountVnd)}
+          </Text>
         </View>
         <View style={[styles.info_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_item_text]}>Method</Text>
           <View style={[stylesGeneral.flexEnd]}>
-            <Text style={[styles.info_item_desc]}>MB bank</Text>
-            <Text style={[styles.info_item_desc]}>Nguyen Van A</Text>
-            <Text style={[styles.info_item_desc]}>1234567</Text>
+            <Text style={[styles.info_item_desc]}>
+              {data?.method?.methodName}
+            </Text>
+            <Text style={[styles.info_item_desc]}>
+              {data?.method?.accountName}
+            </Text>
+            <Text style={[styles.info_item_desc]}>
+              {data?.method?.accountNumber}
+            </Text>
           </View>
         </View>
       </View>

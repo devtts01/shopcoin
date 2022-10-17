@@ -16,21 +16,34 @@ import {userLogout} from '../../services/userAuthen';
 import {SVgetUserById} from '../../services/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {getUserById} from '../../app/payloads/getById';
+import {getAllDeposits} from '../../app/payloads/getAll';
 import styles from './ProfileCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {SVgetDepositsByEmailUser} from '../../services/deposits';
+import useGetUSDT from '../../utils/getData/USDT';
 
 const Profile = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const {state, dispatch} = useAppContext();
-  const {currentUser, userById} = state;
+  const {
+    currentUser,
+    userById,
+    data: {dataDeposits},
+  } = state;
   useEffect(() => {
     SVgetUserById({
       id: currentUser?.id,
       dispatch,
       getUserById,
     });
+    SVgetDepositsByEmailUser({
+      email: currentUser.email,
+      dispatch,
+      getAllDeposits,
+    });
   }, []);
+  const totalAmountUSDT = useGetUSDT(dataDeposits, currentUser?.email);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -80,7 +93,8 @@ const Profile = ({navigation}) => {
         <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_detail_title]}>Wallet</Text>
           <Text style={[styles.info_detail_desc]}>
-            {formatUSDT(userById?.Wallet?.balance)}T
+            {/* {formatUSDT(userById?.Wallet?.balance)}T */}
+            {formatUSDT(totalAmountUSDT)} USDT
           </Text>
         </View>
         <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
@@ -89,11 +103,11 @@ const Profile = ({navigation}) => {
             style={[
               styles.info_detail_desc,
               stylesStatus.status,
-              currentUser?.rank.toLowerCase() === 'vip'
+              currentUser?.rank?.toLowerCase() === 'vip'
                 ? stylesStatus.vipbgc
-                : currentUser?.rank.toLowerCase() === 'pro'
+                : currentUser?.rank?.toLowerCase() === 'pro'
                 ? stylesStatus.probgc
-                : currentUser?.rank.toLowerCase() === 'standard'
+                : currentUser?.rank?.toLowerCase() === 'standard'
                 ? stylesStatus.confirmbgc
                 : stylesStatus.demobgc,
             ]}>
@@ -112,11 +126,15 @@ const Profile = ({navigation}) => {
           <Text style={[styles.info_detail_title]}>Change password</Text>
           <FontAwesome5 name="chevron-right" size={12} />
         </View>
-        <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
+        <View
+          style={[styles.info_detail_item, stylesGeneral.flexRow]}
+          onTouchStart={() => navigation.navigate('Contact')}>
           <Text style={[styles.info_detail_title]}>Contact</Text>
           <FontAwesome5 name="chevron-right" size={12} />
         </View>
-        <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
+        <View
+          style={[styles.info_detail_item, stylesGeneral.flexRow]}
+          onTouchStart={() => navigation.navigate('Profile Payment')}>
           <Text style={[styles.info_detail_title]}>Payment</Text>
           <FontAwesome5 name="chevron-right" size={12} />
         </View>

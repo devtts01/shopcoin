@@ -12,10 +12,10 @@ import {
 import React, {useEffect, useState} from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {useAppContext} from '../../utils';
-import {formatUSDT, formatVND} from '../../utils/format/Money';
-import {getById} from '../../app/payloads/getById';
+import {formatUSDT} from '../../utils/format/Money';
+import {getBySymbol, getById} from '../../app/payloads/getById';
 import {setAmountSell} from '../../app/payloads/form';
-import {SVgetCoinBySymbol} from '../../services/coin';
+import {SVgetACoin, SVgetCoinBySymbol} from '../../services/coin';
 import {FormInput, ImageCp, ModalLoading} from '../../components';
 import styles from './SellCoinCss';
 import stylesStatus from '../../styles/Status';
@@ -26,7 +26,7 @@ export default function SellCoin({navigation, route}) {
   const {state, dispatch} = useAppContext();
   const {
     amountSell,
-    data: {dataById},
+    data: {dataBySymbol, dataById},
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
@@ -43,6 +43,11 @@ export default function SellCoin({navigation, route}) {
   useEffect(() => {
     SVgetCoinBySymbol({
       symbol,
+      dispatch,
+      getBySymbol,
+    });
+    SVgetACoin({
+      id: dataBySymbol?._id,
       dispatch,
       getById,
     });
@@ -80,7 +85,7 @@ export default function SellCoin({navigation, route}) {
         <View style={[styles.nameCoin, stylesGeneral.ml12]}>
           <Text style={[styles.name]}>{item?.symbol}</Text>
           <Text style={[styles.desc, stylesGeneral.fz16]}>
-            {dataById?.fullName}
+            {dataBySymbol?.fullName}
           </Text>
         </View>
       </View>
@@ -97,16 +102,13 @@ export default function SellCoin({navigation, route}) {
         </View>
         <View style={[styles.row, stylesGeneral.flexRow]}>
           <Text style={[styles.row_text]}>Average buy price</Text>
-          <Text style={[styles.row_desc]}>14.58</Text>
+          <Text style={[styles.row_desc]}>{dataById?.price}</Text>
         </View>
         <View style={[styles.row, stylesGeneral.flexRow]}>
           <Text style={[styles.row_text]}>Coin price</Text>
-          <SkeletonPlaceholder.Item
-            width={100}
-            height={20}
-            borderRadius={4}
-            backgroundColor="#ededed"
-          />
+          <Text style={[styles.row_desc]}>
+            {dataById?.price ? dataById?.price : 0}
+          </Text>
         </View>
         <View style={[styles.row_single]}>
           <FormInput
@@ -114,10 +116,21 @@ export default function SellCoin({navigation, route}) {
             placeholder="0.00"
             onChangeText={val => handleChangeInput('amountSell', val)}
             keyboardType="number-pad"
-            // icon
-            // name="exclamation-triangle"
-            // color="red"
+            icon={amountSell && (amountSell < 1 || amountSell > item?.amount)}
+            color={
+              amountSell && (amountSell < 1 || amountSell > item?.amount)
+                ? 'red'
+                : ''
+            }
+            name="exclamation-triangle"
           />
+          {amountSell && (
+            <View style={[stylesGeneral.mb5]}>
+              <Text>Suggest amount</Text>
+              <Text style={[stylesStatus.cancel]}>Min: 1</Text>
+              <Text style={[stylesStatus.cancel]}>Max: {item?.amount}</Text>
+            </View>
+          )}
           {amountSell * 23000 > 0 && (
             <Text
               style={[
@@ -126,7 +139,7 @@ export default function SellCoin({navigation, route}) {
                 stylesGeneral.fwbold,
                 stylesStatus.complete,
               ]}>
-              Receive (VND): {formatVND(amountSell * 23000)}
+              Receive: {formatUSDT(amountSell * 23000)}T
             </Text>
           )}
         </View>
@@ -141,10 +154,11 @@ export default function SellCoin({navigation, route}) {
             stylesStatus.confirmbgcbold,
             stylesGeneral.mr10,
           ]}
-          onTouchStart={handleSubmit}>
+          onPress={handleSubmit}>
           <Text style={[styles.btn_text, stylesStatus.white]}>Sell Coin</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={handleSubmit}
           activeOpacity={0.6}
           style={[styles.btn, stylesStatus.vipbgcbold]}>
           <Text style={[styles.btn_text, stylesStatus.white]}>Sell All</Text>

@@ -24,11 +24,10 @@ export const SVgetWithdrawByEmailUser = async (props = {}) => {
 // CREATE WITHDRAW
 export const SVcreateWithdraw = async (props = {}) => {
   const resPost = await userPost('/withdraw', {
-    amount: parseFloat(props?.amount),
+    amountUsd: parseFloat(props?.amount),
     user: props?.email,
     token: props?.token,
   });
-  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
@@ -46,17 +45,29 @@ export const SVcreateWithdraw = async (props = {}) => {
               }),
           },
         ]);
-        props.dispatch(
-          props.setFormWithdraw({
-            amountUSDT: '',
-          }),
-        );
+      }, 5000);
+      break;
+    case 1:
+    case 2:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Error!', 'Payment no field rateWithdarw. Result is NaN', [
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate('Create Withdraw'),
+          },
+        ]);
       }, 5000);
       break;
     default:
       break;
   }
 };
+
+// DELETE WITHDRAW
+export const SVdeleteWithdraw = async (props = {}) => {};
+
 // UPDATE DEPOSITS
 export const SVupdateDeposits = async (props = {}) => {
   const resPut = await userPut(

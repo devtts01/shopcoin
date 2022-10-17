@@ -15,14 +15,14 @@ export const SVgetAllCoins = async (props = {}) => {
 export const SVgetACoin = async (props = {}) => {
   if (props.id) {
     const resGet = await coinGet(`/getCoin/${props.id}`);
-    props.dispatch(props.getById(resGet));
+    props.dispatch(props.getById(resGet?.data));
   }
 };
 // GET COIN BY SYMBOL
 export const SVgetCoinBySymbol = async (props = {}) => {
   if (props.symbol) {
     const resGet = await coinGet(`/getCoinSymbol/${props.symbol}`);
-    props.dispatch(props.getById(resGet?.data));
+    props.dispatch(props.getBySymbol(resGet?.data));
   }
 };
 // BUY COIN

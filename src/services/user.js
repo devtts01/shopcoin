@@ -86,3 +86,37 @@ export const SVforgotPwd = async (props = {}) => {
       break;
   }
 };
+// UPLOAD DOCUMENT
+export const SVuploadDocument = async (props = {}) => {
+  console.log(props);
+  const resPut = await userPut(`uploadImage/${props.id}`, ...props?.imageForm, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      token: props?.token,
+    },
+  });
+  console.log(resPut);
+  switch (resPut.code) {
+    case 0:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Success!', 'Upload document successfully!', [
+          {text: 'OK', onPress: () => props.navigation.navigate('Profile')},
+        ]);
+      }, 5000);
+      break;
+    case 1:
+    case 2:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Error!', resPut?.message, [
+          {text: 'OK', onPress: () => props.navigation.navigate('Profile')},
+        ]);
+      }, 5000);
+      break;
+    default:
+      break;
+  }
+};
