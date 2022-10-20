@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
     borderColor: '#4CAF50',
     borderWidth: 1,
   },
+  coinItem_Info: {
+    minWidth: 60,
+  },
   coinItem_Info_name: {
     fontSize: 16,
     fontWeight: '600',
@@ -39,6 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     fontWeight: '500',
     fontSize: 14,
+    minWidth: 120,
   },
   btn: {
     paddingHorizontal: 15,

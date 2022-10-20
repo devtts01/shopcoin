@@ -44,8 +44,8 @@ export const userInstance = axios.create({
   // baseURL: 'http://localhost:8000/users/',
   withCredentials: true,
 });
-export const userGet = async (path, options = {}) => {
-  const res = await userInstance.get(path, options);
+export const userGet = async (path, options = {}, others = {}) => {
+  const res = await userInstance.get(path, options, others);
   return res.data;
 };
 export const userPost = async (path, options = {}, others = {}) => {

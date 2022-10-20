@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 import {
@@ -10,23 +12,24 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 // import ImagePicker from 'react-native-image-crop-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useAppContext} from '../../utils';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {setCurrentUser} from '../../app/payloads/user';
+import {getUserById} from '../../app/payloads/getById';
 import {setMessage} from '../../app/payloads/message';
 import {ModalLoading} from '../../components';
 import styles from './UploadDoumentCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import {SVuploadDocument} from '../../services/user';
+import {SVgetUserById, SVuploadDocument} from '../../services/user';
 
 export default function UploadDoument({navigation}) {
   const {state, dispatch} = useAppContext();
-  const {currentUser} = state;
+  const {currentUser, userById} = state;
   const [refreshing, setRefreshing] = useState(false);
   const [isStatus, setIsStatus] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -43,6 +46,14 @@ export default function UploadDoument({navigation}) {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
+  useEffect(() => {
+    SVgetUserById({
+      id: currentUser?.id,
+      dispatch,
+      getUserById,
+    });
+  }, []);
+  console.log(userById);
   const options = {
     title: 'Select Image',
     type: 'library',
@@ -117,15 +128,15 @@ export default function UploadDoument({navigation}) {
     setDataImageForm([...dataImageForm, formData]);
   };
   const handleChangeStatus = () => {
-    setIsStatus(!isStatus);
+    setIsStatus(true);
   };
   const uploadImageAPI = (data, id) => {
     SVuploadDocument({
       id: id,
       imageForm: dataImageForm,
+      token: data?.token,
       setLoading,
       navigation,
-      token: data?.token,
     });
   };
   const handleSubmit = id => {
@@ -185,6 +196,11 @@ export default function UploadDoument({navigation}) {
                   uri: `${
                     fileResponseFrontCCCD !== null
                       ? fileResponseFrontCCCD?.uri
+                      : userById?.uploadCCCDFont
+                      ? `https://apishopcoin.4eve.site/${userById?.uploadCCCDFont.replace(
+                          'uploads/',
+                          '',
+                        )}`
                       : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
                   }`,
                 }}
@@ -223,6 +239,11 @@ export default function UploadDoument({navigation}) {
                   uri: `${
                     fileResponseBackCCCD !== null
                       ? fileResponseBackCCCD?.uri
+                      : userById?.uploadCCCDBeside
+                      ? `https://apishopcoin.4eve.site/${userById?.uploadCCCDBeside.replace(
+                          'uploads/',
+                          '',
+                        )}`
                       : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
                   }`,
                 }}
@@ -263,6 +284,11 @@ export default function UploadDoument({navigation}) {
                   uri: `${
                     fileResponseFrontLicense !== null
                       ? fileResponseFrontLicense?.uri
+                      : userById?.uploadLicenseFont
+                      ? `https://apishopcoin.4eve.site/${userById?.uploadLicenseFont.replace(
+                          'uploads/',
+                          '',
+                        )}`
                       : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
                   }`,
                 }}
@@ -301,6 +327,11 @@ export default function UploadDoument({navigation}) {
                   uri: `${
                     fileResponseBackLicense !== null
                       ? fileResponseBackLicense?.uri
+                      : userById?.uploadLicenseBeside
+                      ? `https://apishopcoin.4eve.site/${userById?.uploadLicenseBeside.replace(
+                          'uploads/',
+                          '',
+                        )}`
                       : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
                   }`,
                 }}
@@ -314,27 +345,36 @@ export default function UploadDoument({navigation}) {
           activeOpacity={0.6}
           style={[
             styles.btn,
-            (!fileResponseFrontCCCD ||
-              !fileResponseBackCCCD ||
-              !fileResponseFrontLicense ||
-              !fileResponseBackLicense) &&
-              isStatus &&
-              stylesGeneral.op6,
+            (!fileResponseFrontCCCD && !userById?.uploadCCCDFont) ||
+              (!fileResponseBackCCCD && !userById?.uploadCCCDBeside) ||
+              (!fileResponseFrontLicense && !userById?.uploadLicenseFont) ||
+              (!fileResponseBackLicense &&
+                !userById?.uploadLicenseBeside &&
+                isStatus &&
+                stylesGeneral.op6),
             stylesStatus.confirmbgcbold,
           ]}
           disabled={
-            (!fileResponseFrontCCCD ||
-              !fileResponseBackCCCD ||
-              !fileResponseFrontLicense ||
-              !fileResponseBackLicense) &&
-            isStatus
+            (!fileResponseFrontCCCD && !userById?.uploadCCCDFont) ||
+            (!fileResponseBackCCCD && !userById?.uploadCCCDBeside) ||
+            (!fileResponseFrontLicense && !userById?.uploadLicenseFont) ||
+            (!fileResponseBackLicense &&
+              !userById?.uploadLicenseBeside &&
+              isStatus)
           }
           onPress={
             !isStatus ? handleChangeStatus : () => handleSubmit(currentUser?.id)
           }>
           <Text
             style={[styles.btn_text, stylesStatus.white, stylesGeneral.fz16]}>
-            {!isStatus ? 'Change your document' : 'Submit'}
+            {!isStatus
+              ? userById?.uploadCCCDFont ||
+                userById?.uploadCCCDBeside ||
+                userById?.uploadLicenseFont ||
+                userById?.uploadLicenseBeside
+                ? 'Change your document'
+                : 'Upload your document'
+              : 'Submit'}
           </Text>
         </TouchableOpacity>
       </View>

@@ -38,6 +38,11 @@ const Deposits = ({navigation}) => {
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    SVgetDepositsByEmailUser({
+      email: currentUser?.email,
+      dispatch,
+      getAllDeposits,
+    });
     wait(2000).then(() => setRefreshing(false));
   }, []);
   return (

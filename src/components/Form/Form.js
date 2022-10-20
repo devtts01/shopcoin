@@ -26,15 +26,17 @@ const Form = ({
   bolUsername,
   bolEmail,
   bolPwd,
+  bolOTP,
   refEmail,
   refPwd,
   refUsername,
+  refOtp,
   children,
   onPress,
 }) => {
   const {state, dispatch} = useAppContext();
   const {
-    form: {username, email, password},
+    form: {username, email, password, otpCode},
     message: {error, success},
   } = state;
   const handleChange = (name, value) => {
@@ -95,6 +97,16 @@ const Form = ({
               placeholder="Enter your email"
               onChangeText={value => handleChange('email', value)}
               value={email}
+              nameSymbol="envelope"
+            />
+          )}
+          {bolOTP && (
+            <FormInput
+              label="OTP"
+              ref={refOtp}
+              placeholder="Enter your OTP"
+              onChangeText={value => handleChange('otpCode', value)}
+              value={otpCode}
               nameSymbol="envelope"
             />
           )}

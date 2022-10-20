@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
 import {Alert} from 'react-native';
 import {
+  adminDelete,
   adminGet,
+  userDelete,
   userGet,
   userPost,
   userPut,
@@ -65,8 +67,74 @@ export const SVcreateWithdraw = async (props = {}) => {
   }
 };
 
+// CHECK CODE
+export const SVcheckCode = async (props = {}) => {
+  const resGet = await userGet(`/enterOTPWithdraw/${props?.code}`, {
+    code: props?.code,
+    headers: {
+      token: props?.token,
+    },
+  });
+  switch (resGet.code) {
+    case 0:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Success!', resGet?.message, [
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate('Withdraw'),
+          },
+        ]);
+      }, 5000);
+      break;
+    case 1:
+    case 2:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Error!', resGet?.message, [
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate('Single Withdraw'),
+          },
+        ]);
+      }, 5000);
+      break;
+    default:
+      break;
+  }
+};
+
 // DELETE WITHDRAW
-export const SVdeleteWithdraw = async (props = {}) => {};
+export const SVdeleteWithdraw = async (props = {}) => {
+  const resDel = await userDelete(`/cancelWithdraw/${props.id}`);
+  console.log(resDel);
+  switch (resDel.code) {
+    case 0:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        props.navigation.navigate('Withdraw');
+      }, 5000);
+      break;
+    case 1:
+    case 2:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Error!', resDel?.message, [
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate('Single Withdraw'),
+          },
+        ]);
+      }, 5000);
+      break;
+    default:
+      break;
+  }
+};
 
 // UPDATE DEPOSITS
 export const SVupdateDeposits = async (props = {}) => {

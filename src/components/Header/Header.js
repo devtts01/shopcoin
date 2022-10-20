@@ -6,25 +6,35 @@ import React, {useEffect} from 'react';
 import {SVgetDepositsByEmailUser} from '../../services/deposits';
 import {getAllDeposits} from '../../app/payloads/getAll';
 import {useAppContext} from '../../utils';
+import {getUserById} from '../../app/payloads/getById';
 import useGetUSDT from '../../utils/getData/USDT';
 import styles from './HeaderCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {SVgetUserById} from '../../services/user';
+import {formatUSDT} from '../../utils/format/Money';
 
 export default function Header() {
   const {state, dispatch} = useAppContext();
   const {
     currentUser,
-    data: {dataDeposits},
+    userById,
+    // data: {dataDeposits},
   } = state;
   useEffect(() => {
-    SVgetDepositsByEmailUser({
-      email: currentUser.email,
+    // SVgetDepositsByEmailUser({
+    //   email: currentUser.email,
+    //   dispatch,
+    //   getAllDeposits,
+    // });
+    SVgetUserById({
+      id: currentUser.id,
       dispatch,
-      getAllDeposits,
+      getUserById,
     });
   }, []);
-  const totalAmountUSDT = useGetUSDT(dataDeposits, currentUser?.email);
+  // const totalAmountUSDT = useGetUSDT(dataDeposits, currentUser?.email);
+
   return (
     <View style={[styles.container]}>
       <View style={[stylesGeneral.flexRow, stylesGeneral.flexCenter]}>
@@ -62,7 +72,8 @@ export default function Header() {
             stylesGeneral.mr10,
             stylesGeneral.mb10,
           ]}>
-          = {totalAmountUSDT} USDT
+          {/* = {totalAmountUSDT} USDT */}={' '}
+          {formatUSDT(userById?.Wallet?.balance)}T
         </Text>
         <Text
           style={[

@@ -6,26 +6,32 @@ import {
   Text,
   ScrollView,
   RefreshControl,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {useAppContext} from '../../utils';
 import {formatUSDT} from '../../utils/format/Money';
 import {getBySymbol, getById} from '../../app/payloads/getById';
 import {setAmountSell} from '../../app/payloads/form';
-import {SVgetACoin, SVgetCoinBySymbol} from '../../services/coin';
+import {setCurrentUser} from '../../app/payloads/user';
+import {setMessage} from '../../app/payloads/message';
+import socketIO from 'socket.io-client';
+import {SVgetACoin, SVgetCoinBySymbol, SVsellCoin} from '../../services/coin';
 import {FormInput, ImageCp, ModalLoading} from '../../components';
 import styles from './SellCoinCss';
 import stylesStatus from '../../styles/Status';
 import stylesGeneral from '../../styles/General';
+import requestRefreshToken from '../../utils/axios/refreshToken';
+import {setPriceCoinSocket} from '../../app/payloads/socket';
 
 export default function SellCoin({navigation, route}) {
   const {item, symbol} = route.params;
   const {state, dispatch} = useAppContext();
   const {
+    priceCoinSocket,
     amountSell,
+    currentUser,
     data: {dataBySymbol, dataById},
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
@@ -38,6 +44,7 @@ export default function SellCoin({navigation, route}) {
   };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    dispatch(setAmountSell(''));
     wait(2000).then(() => setRefreshing(false));
   }, []);
   useEffect(() => {
@@ -51,22 +58,43 @@ export default function SellCoin({navigation, route}) {
       dispatch,
       getById,
     });
+    const socket = socketIO('https://apishopcoin.4eve.site/', {
+      jsonp: false,
+    });
+    socket.on(`send-data-${dataById?.symbol}`, data => {
+      dispatch(setPriceCoinSocket(data));
+    });
+    return () => {
+      socket.disconnect();
+      socket.close();
+    };
   }, []);
-  const handleSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      Alert.alert('Success!', `${item?.symbol} has been sold!`, [
-        {
-          text: 'Continue',
-          onPress: () => navigation.navigate('My Coin'),
-        },
-        {
-          text: 'View History',
-          onPress: () => navigation.navigate('Sell History'),
-        },
-      ]);
-    }, 5000);
+  const sellCoinAPI = data => {
+    SVsellCoin({
+      gmailUser: currentUser?.email,
+      amount: amountSell ? amountSell : item?.amount,
+      amountUsd: item?.coin?.price * (amountSell ? amountSell : item?.amount),
+      symbol: item?.coin?.symbol,
+      price: item?.coin?.price,
+      token: data?.token,
+      setLoading,
+      navigation,
+    });
+  };
+  const handleSubmit = async () => {
+    try {
+      requestRefreshToken(
+        currentUser,
+        sellCoinAPI,
+        state,
+        dispatch,
+        setCurrentUser,
+        setMessage,
+      );
+      dispatch(setAmountSell(''));
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <ScrollView
@@ -83,7 +111,9 @@ export default function SellCoin({navigation, route}) {
         ]}>
         <ImageCp uri={item?.logo} />
         <View style={[styles.nameCoin, stylesGeneral.ml12]}>
-          <Text style={[styles.name]}>{item?.symbol}</Text>
+          <Text style={[styles.name]}>
+            {item?.coin?.symbol?.replace('USDT', '')}
+          </Text>
           <Text style={[styles.desc, stylesGeneral.fz16]}>
             {dataBySymbol?.fullName}
           </Text>
@@ -97,28 +127,36 @@ export default function SellCoin({navigation, route}) {
         <View style={[styles.row, stylesGeneral.flexRow]}>
           <Text style={[styles.row_text]}>USDT</Text>
           <Text style={[styles.row_desc]}>
-            ~ {formatUSDT(item?.amountUsd)}T
+            ~ {formatUSDT(item?.amount * item?.coin?.price)}T
           </Text>
         </View>
         <View style={[styles.row, stylesGeneral.flexRow]}>
           <Text style={[styles.row_text]}>Average buy price</Text>
-          <Text style={[styles.row_desc]}>{dataById?.price}</Text>
+          <Text style={[styles.row_desc]}>
+            {priceCoinSocket?.weightedAvgPrice}
+          </Text>
         </View>
         <View style={[styles.row, stylesGeneral.flexRow]}>
           <Text style={[styles.row_text]}>Coin price</Text>
-          <Text style={[styles.row_desc]}>
-            {dataById?.price ? dataById?.price : 0}
-          </Text>
+          <Text style={[styles.row_desc]}>{priceCoinSocket?.lastPrice}</Text>
         </View>
         <View style={[styles.row_single]}>
           <FormInput
             label="Amount Sell"
             placeholder="0.00"
-            onChangeText={val => handleChangeInput('amountSell', val)}
+            onChangeText={val =>
+              handleChangeInput('amountSell', val.replace(',', '.'))
+            }
             keyboardType="number-pad"
-            icon={amountSell && (amountSell < 1 || amountSell > item?.amount)}
+            icon={
+              amountSell &&
+              (parseFloat(amountSell) <= 0 ||
+                parseFloat(amountSell) > item?.amount)
+            }
             color={
-              amountSell && (amountSell < 1 || amountSell > item?.amount)
+              amountSell &&
+              (parseFloat(amountSell) <= 0 ||
+                parseFloat(amountSell) > item?.amount)
                 ? 'red'
                 : ''
             }
@@ -127,30 +165,42 @@ export default function SellCoin({navigation, route}) {
           {amountSell && (
             <View style={[stylesGeneral.mb5]}>
               <Text>Suggest amount</Text>
-              <Text style={[stylesStatus.cancel]}>Min: 1</Text>
+              <Text style={[stylesStatus.cancel]}>Min: ...</Text>
               <Text style={[stylesStatus.cancel]}>Max: {item?.amount}</Text>
             </View>
           )}
-          {amountSell * 23000 > 0 && (
-            <Text
-              style={[
-                stylesGeneral.mb10,
-                stylesGeneral.fz16,
-                stylesGeneral.fwbold,
-                stylesStatus.complete,
-              ]}>
-              Receive: {formatUSDT(amountSell * 23000)}T
-            </Text>
-          )}
+          {parseFloat(amountSell * priceCoinSocket?.lastPrice) >= 0 &&
+            amountSell && (
+              <Text
+                style={[
+                  stylesGeneral.mb10,
+                  stylesGeneral.fz16,
+                  stylesGeneral.fwbold,
+                  stylesStatus.complete,
+                ]}>
+                Receive:{' '}
+                {formatUSDT(
+                  parseFloat(amountSell * priceCoinSocket?.lastPrice),
+                )}
+                T
+              </Text>
+            )}
         </View>
       </View>
       <View style={[styles.btn_container]}>
         <TouchableOpacity
           activeOpacity={0.6}
-          disabled={!amountSell}
+          disabled={
+            !amountSell ||
+            parseFloat(amountSell) <= 0 ||
+            parseFloat(amountSell) > item?.amount
+          }
           style={[
             styles.btn,
-            !amountSell && stylesGeneral.op6,
+            (!amountSell ||
+              parseFloat(amountSell) <= 0 ||
+              parseFloat(amountSell) > item?.amount) &&
+              stylesGeneral.op6,
             stylesStatus.confirmbgcbold,
             stylesGeneral.mr10,
           ]}

@@ -9,7 +9,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, ScrollView, RefreshControl, FlatList} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import socketIO from 'socket.io-client';
+// import socketIO from 'socket.io-client';
 import {useAppContext} from '../../utils';
 import {getAllCoins} from '../../app/payloads/getAll';
 import {setSearchValue} from '../../app/payloads/search';
@@ -29,26 +29,17 @@ const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [page, setPage] = useState(1);
-  const [show, setShow] = useState(10);
-  // connnect socket io
-  const socket = socketIO('https://apishopcoin.4eve.site/', {
-    transports: ['websocket'],
-  });
-  console.log(socket);
-  socket.connect();
-  socket.on('connect', () => {
-    console.log('connect socket');
-  });
+  const [show, setShow] = useState(dataCoins?.total || 10);
+  let data = dataCoins?.data || [];
   useEffect(() => {
     SVgetAllCoins({
       page,
-      show,
+      show: dataCoins?.total || 10,
       dispatch,
       getAllCoins,
     });
   }, [page, show]);
 
-  let data = dataCoins?.data || [];
   if (search) {
     data = data.filter(item => {
       return item?.symbol?.toLowerCase().includes(search?.toLowerCase());
@@ -61,7 +52,15 @@ const Home = ({navigation}) => {
   };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    SVgetAllCoins({
+      page,
+      show: dataCoins?.total || 10,
+      dispatch,
+      getAllCoins,
+    });
+    wait(2000).then(() => {
+      setRefreshing(false);
+    });
   }, []);
   const ListFooterComponent = () => {
     return (
@@ -74,7 +73,7 @@ const Home = ({navigation}) => {
     setLoading(true);
     if (!stopLoadingData) {
       await 1;
-      setShow(show + 10);
+      setShow(dataCoins?.total);
       stopLoadingData = true;
     }
     setLoading(false);
@@ -91,6 +90,20 @@ const Home = ({navigation}) => {
               {item?.symbol?.replace('USDT', '')}
             </Text>
             <Text style={[styles.coinItem_Info_quantity]}>
+              {item?.price ? item?.price : 0}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.coinItem_Price]}>
+          <View style={[styles.coinItem_Price_text, stylesGeneral.flexCenter]}>
+            <Text style={[stylesGeneral.mw50, stylesGeneral.fwbold]}>
+              High:{' '}
+            </Text>
+            {item?.high ? (
+              <Text style={[stylesGeneral.fwbold, stylesStatus.complete]}>
+                {item?.high}
+              </Text>
+            ) : (
               <SkeletonPlaceholder.Item
                 marginTop={6}
                 width={40}
@@ -98,31 +111,25 @@ const Home = ({navigation}) => {
                 borderRadius={4}
                 backgroundColor="#ededed"
               />
-            </Text>
-          </View>
-        </View>
-        <View style={[styles.coinItem_Price]}>
-          <View style={[styles.coinItem_Price_text, stylesGeneral.flexCenter]}>
-            <Text style={[stylesGeneral.mw50, stylesGeneral.fw500]}>
-              High:{' '}
-            </Text>
-            <SkeletonPlaceholder.Item
-              marginTop={6}
-              width={80}
-              height={20}
-              borderRadius={4}
-              backgroundColor="#ededed"
-            />
+            )}
           </View>
           <View style={[styles.coinItem_Price_text, stylesGeneral.flexCenter]}>
-            <Text style={[stylesGeneral.mw50, stylesGeneral.fw500]}>Low: </Text>
-            <SkeletonPlaceholder.Item
-              marginTop={6}
-              width={80}
-              height={20}
-              borderRadius={4}
-              backgroundColor="#ededed"
-            />
+            <Text style={[stylesGeneral.mw50, stylesGeneral.fwbold]}>
+              Low:{' '}
+            </Text>
+            {item?.low ? (
+              <Text style={[stylesGeneral.fwbold, stylesStatus.cancel]}>
+                {item?.low}
+              </Text>
+            ) : (
+              <SkeletonPlaceholder.Item
+                marginTop={6}
+                width={40}
+                height={20}
+                borderRadius={4}
+                backgroundColor="#ededed"
+              />
+            )}
           </View>
         </View>
         <View
@@ -151,7 +158,7 @@ const Home = ({navigation}) => {
         <Search name="search" value={search} onChange={handleChangeSearch} />
       </View>
       <View style={[styles.listCoin]}>
-        <ScrollView
+        <FlatList
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -159,15 +166,13 @@ const Home = ({navigation}) => {
           onEndReached={handleEndReached}
           onScroll={handleEndReached}
           onEndReachedThreshold={0.5}
-          onScrollBeginDrag={() => (stopLoadingData = false)}>
-          <FlatList
-            contentContainerStyle={{flex: 1}}
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-            ListFooterComponent={loading && ListFooterComponent}
-          />
-        </ScrollView>
+          onScrollBeginDrag={() => (stopLoadingData = false)}
+          contentContainerStyle={{flex: 1}}
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderItem}
+          ListFooterComponent={loading && ListFooterComponent}
+        />
       </View>
     </View>
   );

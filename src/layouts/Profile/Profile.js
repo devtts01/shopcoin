@@ -93,8 +93,8 @@ const Profile = ({navigation}) => {
         <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_detail_title]}>Wallet</Text>
           <Text style={[styles.info_detail_desc]}>
-            {/* {formatUSDT(userById?.Wallet?.balance)}T */}
-            {formatUSDT(totalAmountUSDT)} USDT
+            {formatUSDT(userById?.Wallet?.balance)}T
+            {/* {formatUSDT(totalAmountUSDT)} USDT */}
           </Text>
         </View>
         <View style={[styles.info_detail_item, stylesGeneral.flexRow]}>

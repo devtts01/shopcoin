@@ -88,8 +88,7 @@ export const SVforgotPwd = async (props = {}) => {
 };
 // UPLOAD DOCUMENT
 export const SVuploadDocument = async (props = {}) => {
-  console.log(props);
-  const resPut = await userPut(`uploadImage/${props.id}`, ...props?.imageForm, {
+  const resPut = await userPut(`/uploadImage/${props.id}`, props?.imageForm, {
     headers: {
       'Content-Type': 'multipart/form-data',
       token: props?.token,

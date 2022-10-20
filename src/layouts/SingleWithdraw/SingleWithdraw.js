@@ -16,11 +16,23 @@ import styles from './SingleWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {dateFormat} from '../../utils/format/Date';
+import {
+  SVcheckCode,
+  SVcreateWithdraw,
+  SVdeleteWithdraw,
+} from '../../services/withdraw';
+import {setCurrentUser} from '../../app/payloads/user';
+import {setMessage} from '../../app/payloads/message';
+import requestRefreshToken from '../../utils/axios/refreshToken';
 
 export default function SingleWithdraw({navigation, route}) {
   const {data} = route.params;
   const {state, dispatch} = useAppContext();
-  const {codeVerify} = state;
+  const {
+    currentUser,
+    codeVerify,
+    withdraw: {amountUSDT},
+  } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const wait = timeout => {
@@ -33,14 +45,34 @@ export default function SingleWithdraw({navigation, route}) {
   const handleChangeInput = (name, val) => {
     dispatch(setCodeValue(val));
   };
-  const handleSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      Alert.alert('Success!', 'Withdraw code confirm successfully!', [
-        {text: 'OK', onPress: () => navigation.navigate('Withdraw')},
-      ]);
-    }, 5000);
+  const createWithdrawAPI = dataAPI => {
+    SVcheckCode({
+      code: codeVerify,
+      token: dataAPI?.token,
+      setLoading,
+      navigation,
+    });
+  };
+  const handleSubmit = async () => {
+    try {
+      requestRefreshToken(
+        currentUser,
+        createWithdrawAPI,
+        state,
+        dispatch,
+        setCurrentUser,
+        setMessage,
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleCancel = async id => {
+    SVdeleteWithdraw({
+      id: id,
+      setLoading,
+      navigation,
+    });
   };
   return (
     <ScrollView
@@ -140,7 +172,7 @@ export default function SingleWithdraw({navigation, route}) {
           <TouchableOpacity
             activeOpacity={0.6}
             style={[styles.btn, stylesStatus.cancelbgcbold]}
-            onPress={() => navigation.navigate('Withdraw')}>
+            onPress={() => handleCancel(data?._id)}>
             <Text style={[styles.btn_text, stylesStatus.white]}>Cancel</Text>
           </TouchableOpacity>
         </View>

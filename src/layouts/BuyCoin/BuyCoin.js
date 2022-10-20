@@ -14,6 +14,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {useAppContext} from '../../utils';
+import socketIO from 'socket.io-client';
 import {formatUSDT} from '../../utils/format/Money';
 import {getIdUserJWT} from '../../utils/getUser/Id';
 import requestRefreshToken from '../../utils/axios/refreshToken';
@@ -22,6 +23,7 @@ import stylesGeneral from '../../styles/General';
 import {SVgetACoin, SVbuyCoin} from '../../services/coin';
 import {SVgetUserById} from '../../services/user';
 import {SVgetDepositsByEmailUser} from '../../services/deposits';
+import {setPriceCoinSocket} from '../../app/payloads/socket';
 import {getById, getUserById} from '../../app/payloads/getById';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
@@ -34,10 +36,11 @@ import stylesStatus from '../../styles/Status';
 export default function BuyCoin({navigation, route}) {
   const {state, dispatch} = useAppContext();
   const {
+    userById,
+    priceCoinSocket,
     currentUser,
     amountCoin,
-    data: {dataById, dataDeposits},
-    user: {email},
+    data: {dataById},
   } = state;
   const {id} = route.params;
   const [refreshing, setRefreshing] = React.useState(false);
@@ -61,15 +64,27 @@ export default function BuyCoin({navigation, route}) {
       getAllDeposits,
     });
   }, []);
-  console.log(dataById);
+  useEffect(() => {
+    const socket = socketIO('https://apishopcoin.4eve.site/', {
+      jsonp: false,
+    });
+    socket.on(`send-data-${dataById?.symbol}`, data => {
+      dispatch(setPriceCoinSocket(data));
+    });
+    return () => {
+      socket.disconnect();
+      socket.close();
+    };
+  }, [dataById?.symbol]);
 
-  const totalAmountUSDT = useGetUSDT(dataDeposits, email);
+  // const totalAmountUSDT = useGetUSDT(dataDeposits, email);
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    dispatch(setAmountCoin(''));
     wait(2000).then(() => setRefreshing(false));
   }, []);
   const handleChange = (name, val) => {
@@ -78,10 +93,11 @@ export default function BuyCoin({navigation, route}) {
   const handleBuy = data => {
     SVbuyCoin({
       gmailUser: currentUser?.email,
-      amount: parseInt(amountCoin),
-      amountUsd: parseInt(amountCoin) * 10000,
+      amount: parseFloat(amountCoin),
+      amountUsd:
+        parseFloat(amountCoin) * parseFloat(priceCoinSocket?.lastPrice),
       symbol: dataById?.symbol,
-      price: 10000,
+      price: parseFloat(priceCoinSocket?.lastPrice),
       token: data?.token,
       setLoading,
       navigation,
@@ -120,14 +136,14 @@ export default function BuyCoin({navigation, route}) {
         </View>
       </View>
       <View style={[styles.exchange]}>
-        {Number(totalAmountUSDT / amountCoin) && amountCoin ? (
+        {amountCoin ? (
           <Text
             style={[
               stylesStatus.complete,
               stylesGeneral.fz16,
               stylesGeneral.fw500,
             ]}>
-            = {totalAmountUSDT / amountCoin}
+            = {priceCoinSocket?.lastPrice}
           </Text>
         ) : (
           <SkeletonPlaceholder.Item
@@ -140,7 +156,7 @@ export default function BuyCoin({navigation, route}) {
         )}
       </View>
       <Text style={[stylesGeneral.fz16, stylesGeneral.mb10, stylesGeneral.fwb]}>
-        Your Walet: {formatUSDT(totalAmountUSDT)} USDT
+        Your Walet: {formatUSDT(userById?.Wallet?.balance)}T
       </Text>
       <FormInput
         label="Amount Coin"
@@ -166,7 +182,7 @@ export default function BuyCoin({navigation, route}) {
             stylesGeneral.fwbold,
             stylesStatus.complete,
           ]}>
-          Amount USDT: ...
+          Amount USDT: {amountCoin * priceCoinSocket?.lastPrice}
         </Text>
       </View>
       <TouchableOpacity

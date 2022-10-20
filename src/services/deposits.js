@@ -20,6 +20,7 @@ export const SVgetDepositsByEmailUser = async (props = {}) => {
   const resGet = await userGet(`/getAllDeposits/${props?.email}`);
   props.dispatch(props.getAllDeposits(resGet?.data));
 };
+
 // CREATE DEPOSITS
 export const SVcreateDeposits = async (props = {}) => {
   const resPost = await userPost('/deposit', {

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {Alert} from 'react-native';
-import {coinGet, userPost} from '../utils/axios/axiosInstance';
+import {coinGet, userGet, userPost} from '../utils/axios/axiosInstance';
 
 // GET ALL COINS
 export const SVgetAllCoins = async (props = {}) => {
@@ -17,6 +17,11 @@ export const SVgetACoin = async (props = {}) => {
     const resGet = await coinGet(`/getCoin/${props.id}`);
     props.dispatch(props.getById(resGet?.data));
   }
+};
+// GET ALL MY COIN
+export const SVgetAllMyCoin = async (props = {}) => {
+  const resGet = await userGet(`/getAllCoinOfUser/${props.id}`);
+  props.dispatch(props.getAllMyCoin(resGet?.data));
 };
 // GET COIN BY SYMBOL
 export const SVgetCoinBySymbol = async (props = {}) => {
@@ -41,16 +46,20 @@ export const SVbuyCoin = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Success!', `${props.nameCoin} has been bought!`, [
-          {
-            text: 'Continue',
-            onPress: () => props.navigation.navigate('Home'),
-          },
-          {
-            text: 'View History',
-            onPress: () => props.navigation.navigate('History'),
-          },
-        ]);
+        Alert.alert(
+          'Success!',
+          `${props.symbol.replace('USDT', '')} has been bought!`,
+          [
+            {
+              text: 'Continue',
+              onPress: () => props.navigation.navigate('Home'),
+            },
+            {
+              text: 'View History',
+              onPress: () => props.navigation.navigate('History'),
+            },
+          ],
+        );
       }, 5000);
       break;
     case 1:
@@ -79,16 +88,20 @@ export const SVsellCoin = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Success!', 'ETC has been sold!', [
-          {
-            text: 'Continue',
-            onPress: () => props.navigation.navigate('My Coin'),
-          },
-          {
-            text: 'View History',
-            onPress: () => props.navigation.navigate('Sell History'),
-          },
-        ]);
+        Alert.alert(
+          'Success!',
+          `${props.symbol.replace('USDT', '')} has been sold!`,
+          [
+            {
+              text: 'Continue',
+              onPress: () => props.navigation.navigate('My Coin'),
+            },
+            {
+              text: 'View History',
+              onPress: () => props.navigation.navigate('Sell History'),
+            },
+          ],
+        );
       }, 5000);
       break;
     case 2:

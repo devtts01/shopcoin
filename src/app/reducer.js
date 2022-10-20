@@ -9,10 +9,12 @@ import {
   SET_FORM_DEPOSITS_VALUE,
   SET_FORM_WITHDRAW_VALUE,
   SET_FORM_PROFILE_PAYMENT_VALUE,
+  SET_PRICE_COIN_SOCKET,
   SET_AMOUNT_USDT,
   GET_ALL_COIN,
   GET_ALL_DEPOSITS,
   GET_ALL_WITHDRAW,
+  GET_ALL_MYCOIN,
   SET_SEARCH_VALUE,
   SET_CODE_VALUE,
   GET_BY_ID,
@@ -30,6 +32,7 @@ const initialState = {
   amountSell: '',
   amountUsdt: '',
   codeVerify: '',
+  priceCoinSocket: null,
   deposits: {
     amountUSDT: '',
     bank: '',
@@ -60,6 +63,7 @@ const initialState = {
     password: '',
     oldPwd: '',
     confirmPwd: '',
+    otpCode: '',
   },
   data: {
     dataCoins: [],
@@ -67,6 +71,7 @@ const initialState = {
     dataWithdraws: [],
     dataById: null,
     dataBySymbol: null,
+    dataMyCoin: [],
   },
   history: {
     dataBuyHistory: [],
@@ -149,6 +154,11 @@ const reducer = (state, action) => {
           ...action.payload,
         },
       };
+    case SET_PRICE_COIN_SOCKET:
+      return {
+        ...state,
+        priceCoinSocket: action.payload,
+      };
     case SET_CODE_VALUE:
       return {
         ...state,
@@ -213,6 +223,14 @@ const reducer = (state, action) => {
         data: {
           ...state.data,
           dataWithdraws: action.payload,
+        },
+      };
+    case GET_ALL_MYCOIN:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          dataMyCoin: action.payload,
         },
       };
     default:

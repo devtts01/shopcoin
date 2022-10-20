@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 export const formatVND = money => {
-  return money.toLocaleString('it-IT', {
+  return money?.toLocaleString('it-IT', {
     style: 'currency',
     currency: 'VND',
   });

@@ -35,7 +35,7 @@ export default function CreateWithdraw({navigation}) {
     currentUser,
     withdraw: {amountUSDT},
     userById,
-    data: {dataDeposits},
+    // data: {dataDeposits},
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,6 +44,12 @@ export default function CreateWithdraw({navigation}) {
   };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    dispatch(
+      setFormWithdraw({
+        ...state.withdraw,
+        amountUSDT: '',
+      }),
+    );
     wait(2000).then(() => setRefreshing(false));
   }, []);
   useEffect(() => {
@@ -53,14 +59,14 @@ export default function CreateWithdraw({navigation}) {
       getUserById,
     });
   }, [userById]);
-  useEffect(() => {
-    SVgetDepositsByEmailUser({
-      email: currentUser.email,
-      dispatch,
-      getAllDeposits,
-    });
-  }, []);
-  const totalAmountUSDT = useGetUSDT(dataDeposits, currentUser?.email);
+  // useEffect(() => {
+  //   SVgetDepositsByEmailUser({
+  //     email: currentUser.email,
+  //     dispatch,
+  //     getAllDeposits,
+  //   });
+  // }, []);
+  // const totalAmountUSDT = useGetUSDT(dataDeposits, currentUser?.email);
   useEffect(() => {
     if (parseFloat(amountUSDT) < 10) {
       setError('Minimum withdrawal amount is 10 USDT');
@@ -145,7 +151,7 @@ export default function CreateWithdraw({navigation}) {
                 </Text>
                 <Text style={[styles.info_item_text]}>
                   {/* {formatUSDT(userById?.Wallet?.balance)}T */}
-                  {formatUSDT(totalAmountUSDT)} USDT
+                  {formatUSDT(userById?.Wallet?.balance)}T
                 </Text>
               </View>
               <View style={[styles.info_item]}>

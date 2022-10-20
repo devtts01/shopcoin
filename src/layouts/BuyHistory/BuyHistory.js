@@ -101,14 +101,13 @@ const History = ({navigation}) => {
           <Text style={[styles.btn_text]}>Sell History</Text>
         </View>
       </View>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        style={[styles.listItem]}
-        showsVerticalScrollIndicator={false}>
+      <View style={[styles.listItem]}>
         {dataBuyHistory?.length > 0 ? (
           <FlatList
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{flex: 1}}
             data={dataBuyHistory}
             keyExtractor={(item, index) => index.toString()}
@@ -126,7 +125,7 @@ const History = ({navigation}) => {
             </Text>
           </View>
         )}
-      </ScrollView>
+      </View>
     </View>
   );
 };

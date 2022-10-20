@@ -35,6 +35,7 @@ export const addBankInfo = async (props = {}) => {
           },
         ]);
       }, 5000);
+      break;
     default:
       break;
   }

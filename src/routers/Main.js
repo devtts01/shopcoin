@@ -11,6 +11,7 @@ import {
   Register,
   SellCoin,
   SellHistory,
+  ResetPwd,
   SingleDeposits,
   SingleWithdraw,
   UploadDoument,
@@ -30,6 +31,7 @@ const routersMain = {
   BuyCoin: 'Buy Coin',
   Contact: 'Contact',
   SellCoin: 'Sell Coin',
+  ResetPwd: 'Reset Password',
   SellHistory: 'Sell History',
   ChangePwd: 'Change Password',
   Main: 'Main',
@@ -93,6 +95,11 @@ const MainObject = [
   {
     name: routersMain.SellCoin,
     component: SellCoin,
+    options: 'custom',
+  },
+  {
+    name: routersMain.ResetPwd,
+    component: ResetPwd,
     options: 'custom',
   },
   {

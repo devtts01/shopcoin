@@ -42,7 +42,7 @@ export default function SellHistory({navigation}) {
             {item?.symbol.replace('USDT', '')}
           </Text>
           <Text style={[styles.row_desc]}>
-            {dateFormat(item?.createdAt, 'DD/MM/YYYY')}
+            {dateFormat(item?.createdAt, 'DD/MM/YYYY HH:mm:ss')}
           </Text>
         </View>
         <View style={[styles.row]}>
@@ -95,14 +95,13 @@ export default function SellHistory({navigation}) {
           <Text style={[styles.btn_text]}>Sell History</Text>
         </View>
       </View>
-      <ScrollView
-        style={[styles.listItem]}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
+      <View style={[styles.listItem]}>
         {dataSellHistory?.length > 0 ? (
           <FlatList
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
             contentContainerStyle={{flex: 1}}
             data={dataSellHistory}
             keyExtractor={(item, index) => index.toString()}
@@ -115,7 +114,7 @@ export default function SellHistory({navigation}) {
             </Text>
           </View>
         )}
-      </ScrollView>
+      </View>
     </View>
   );
 }
