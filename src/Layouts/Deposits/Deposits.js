@@ -49,7 +49,7 @@ function Deposits() {
     }, [page, show]);
     let dataDepositsFlag = searchDeposits({
         deposits,
-        dataDeposits: dataDeposits.dataDeposit,
+        dataDeposits: dataDeposits.data,
     });
     // Modal
     const toggleEditTrue = (e, status, id) => {

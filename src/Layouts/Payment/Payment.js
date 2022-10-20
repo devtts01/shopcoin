@@ -60,7 +60,7 @@ function Payment() {
     }, [page, show]);
     const dataUserFlag = searchPayment({
         payment,
-        dataPayment: dataPayment.dataUser,
+        dataPayment: dataPayment.data,
     });
     // Modal Payment + Input Form
     const modalPaymentTrue = (e, item) => {

@@ -48,7 +48,7 @@ function Withdraw() {
         getWithdraws({ page, show, dispatch, state, actions });
     }, [page, show]);
     let dataWithdrawFlag = searchWithdraw({
-        dataWithdraw: dataWithdraw.dataWithdraw,
+        dataWithdraw: dataWithdraw.data,
         withdraw,
     });
     // Modal

@@ -61,7 +61,7 @@ export const checkErrorBuys = (props = {}) => {
 export const searchBuys = (props = {}) => {
     let dataBuyFlag =
         props.dataBuy &&
-        props.dataBuy?.sells?.filter((x) => x?.type === 'BuyCoin');
+        props.dataBuy?.data?.filter((x) => x?.type === 'BuyCoin');
     if (props.buy) {
         dataBuyFlag = dataBuyFlag.filter((item) => {
             return (

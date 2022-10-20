@@ -38,7 +38,7 @@ export const checkErrorSells = (props = {}) => {
 export const searchSells = (props = {}) => {
     let dataSellFlag =
         props.dataSell &&
-        props.dataSell?.sells?.filter((x) => x?.type === 'SellCoin');
+        props.dataSell?.data?.filter((x) => x?.type === 'SellCoin');
     if (props.sell) {
         dataSellFlag = dataSellFlag.filter((item) => {
             return (
