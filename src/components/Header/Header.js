@@ -3,11 +3,8 @@
 /* eslint-disable prettier/prettier */
 import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
-import {SVgetDepositsByEmailUser} from '../../services/deposits';
-import {getAllDeposits} from '../../app/payloads/getAll';
 import {useAppContext} from '../../utils';
 import {getUserById} from '../../app/payloads/getById';
-import useGetUSDT from '../../utils/getData/USDT';
 import styles from './HeaderCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
@@ -16,24 +13,14 @@ import {formatUSDT} from '../../utils/format/Money';
 
 export default function Header() {
   const {state, dispatch} = useAppContext();
-  const {
-    currentUser,
-    userById,
-    // data: {dataDeposits},
-  } = state;
+  const {currentUser, userById} = state;
   useEffect(() => {
-    // SVgetDepositsByEmailUser({
-    //   email: currentUser.email,
-    //   dispatch,
-    //   getAllDeposits,
-    // });
     SVgetUserById({
-      id: currentUser.id,
+      id: currentUser && currentUser?.id,
       dispatch,
       getUserById,
     });
   }, []);
-  // const totalAmountUSDT = useGetUSDT(dataDeposits, currentUser?.email);
 
   return (
     <View style={[styles.container]}>
@@ -72,8 +59,7 @@ export default function Header() {
             stylesGeneral.mr10,
             stylesGeneral.mb10,
           ]}>
-          {/* = {totalAmountUSDT} USDT */}={' '}
-          {formatUSDT(userById?.Wallet?.balance)}T
+          = {formatUSDT(userById?.Wallet?.balance)}
         </Text>
         <Text
           style={[

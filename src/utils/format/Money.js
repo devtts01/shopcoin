@@ -6,8 +6,10 @@ export const formatVND = money => {
   });
 };
 export const formatUSDT = usdt => {
-  return usdt?.toLocaleString('it-IT', {
-    style: 'currency',
-    currency: 'USD',
-  });
+  return (
+    usdt?.toLocaleString('it-IT', {
+      style: 'currency',
+      currency: 'USD',
+    }) + 'T'
+  );
 };

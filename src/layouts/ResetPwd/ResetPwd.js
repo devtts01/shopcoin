@@ -2,18 +2,19 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 import {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {useRoute} from '@react-navigation/native';
 import {useAppContext} from '../../utils';
-import {setMessage} from '../../app/payloads/message';
-import {setFormValue} from '../../app/payloads/form';
 import {Form, ModalLoading} from '../../components';
-import {SVforgotPwd} from '../../services/user';
+import {routersMain} from '../../routers/Main';
 import styles from './ResetPwdCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 
 const ResetPwd = ({navigation}) => {
-  const {state, dispatch} = useAppContext();
+  const route = useRoute();
+  console.log(route);
+  const {state} = useAppContext();
   const {
     form: {password, otpCode},
   } = state;
@@ -21,6 +22,22 @@ const ResetPwd = ({navigation}) => {
   const handleSubmit = async () => {
     try {
       await 1;
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        Alert.alert(
+          {
+            title: 'Thông báo',
+            message: 'Mật khẩu đã được thay đổi thành công',
+          },
+          [
+            {
+              text: 'OK',
+              onPress: () => navigation.navigate(routersMain.Login),
+            },
+          ],
+        );
+      }, 5000);
       console.log(password, otpCode);
     } catch (err) {
       console.log(err);
@@ -38,7 +55,7 @@ const ResetPwd = ({navigation}) => {
           <Text style={[styles.desc_text]}>You have an acount?</Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() => navigation.navigate(routersMain.Login)}>
             <Text
               style={[
                 stylesGeneral.ml4,
@@ -53,7 +70,7 @@ const ResetPwd = ({navigation}) => {
           <Text style={[styles.desc_text]}>You don't have an acount?</Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('Register')}>
+            onPress={() => navigation.navigate(routersMain.Register)}>
             <Text
               style={[
                 stylesGeneral.ml4,

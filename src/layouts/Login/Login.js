@@ -8,6 +8,7 @@ import {setFormValue} from '../../app/payloads/form';
 import {setMessage} from '../../app/payloads/message';
 import {userLogin} from '../../services/userAuthen';
 import {Form} from '../../components';
+import {routersMain} from '../../routers/Main';
 import styles from './LoginCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
@@ -27,7 +28,7 @@ const Login = ({navigation}) => {
       state,
       setFormValue,
       setMessage,
-      redirect: () => navigation.navigate('Main'),
+      redirect: () => navigation.navigate(routersMain.MainPage),
     });
   };
   return (
@@ -43,7 +44,7 @@ const Login = ({navigation}) => {
         <Text style={[styles.desc_text]}>You don't have an acount?</Text>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('Register')}>
+          onPress={() => navigation.navigate(routersMain.Register)}>
           <Text
             style={[stylesGeneral.ml4, styles.register, stylesStatus.confirm]}>
             Register
@@ -53,7 +54,7 @@ const Login = ({navigation}) => {
       <View style={[styles.desc, stylesGeneral.flexRow, stylesGeneral.mt10]}>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('ForgotPassword')}>
+          onPress={() => navigation.navigate(routersMain.ForgotPassword)}>
           <Text
             style={[stylesGeneral.ml4, styles.register, stylesStatus.confirm]}>
             Forgot Password?

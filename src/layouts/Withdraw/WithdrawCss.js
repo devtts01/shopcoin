@@ -22,6 +22,10 @@ const styles = StyleSheet.create({
   title_table: {
     justifyContent: 'center',
   },
+  listWithdraw: {
+    // flex: 1,
+    // marginBottom: 140,
+  },
 });
 
 export default styles;

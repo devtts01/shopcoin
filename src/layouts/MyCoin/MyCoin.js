@@ -6,40 +6,39 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 import {useCallback, useEffect, useState} from 'react';
-import {Text, ScrollView, RefreshControl, View, FlatList} from 'react-native';
-import {Header, ImageCp} from '../../components';
+import {Text, RefreshControl, View, FlatList} from 'react-native';
+import {Header, ImageCp, NodataText} from '../../components';
 import {useAppContext} from '../../utils';
 import {formatUSDT} from '../../utils/format/Money';
 import {getAllMyCoin} from '../../app/payloads/getAll';
+import {SVgetAllMyCoin} from '../../services/coin';
+import {routersMain} from '../../routers/Main';
+import styles from './MyCoinCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
-import styles from './MyCoinCss';
-import {SVgetAllMyCoin} from '../../services/coin';
 
 const MyCoin = ({navigation}) => {
   const {state, dispatch} = useAppContext();
   const {
     currentUser,
     data: {dataMyCoin},
-    history: {dataBuyHistory},
   } = state;
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     SVgetAllMyCoin({
-      id: currentUser.id,
+      id: currentUser?.id,
       dispatch,
       getAllMyCoin,
     });
   }, []);
   const data = dataMyCoin || [];
-
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     SVgetAllMyCoin({
-      id: currentUser.id,
+      id: currentUser?.id,
       dispatch,
       getAllMyCoin,
     });
@@ -75,7 +74,7 @@ const MyCoin = ({navigation}) => {
           style={[styles.coinItem_Btn]}
           onTouchStart={() =>
             navigation.navigate({
-              name: 'Sell Coin',
+              name: routersMain.SellCoin,
               params: {
                 id: item?.coin?._id,
                 item: item,
@@ -104,16 +103,7 @@ const MyCoin = ({navigation}) => {
             renderItem={renderItem}
           />
         ) : (
-          <View style={[stylesGeneral.flexCenter, stylesGeneral.mt10]}>
-            <Text
-              style={[
-                stylesGeneral.fz16,
-                stylesGeneral.fwbold,
-                stylesStatus.confirm,
-              ]}>
-              No coin
-            </Text>
-          </View>
+          <NodataText text="No coin" />
         )}
       </View>
     </View>

@@ -5,7 +5,7 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
 import {useAppContext} from '../utils';
-import MainObject from '../routers/Main';
+import MainObject, {routersMain} from '../routers/Main';
 import {setMessage} from '../app/payloads/message';
 import {setCurrentUser} from '../app/payloads/user';
 import {getAsyncStore} from '../utils/localStore/localStore';
@@ -15,7 +15,7 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'rgb(255, 45, 85)',
+    primary: '#007aff',
     background: '#fafafa',
   },
 };
@@ -47,7 +47,9 @@ export default function Main() {
   return (
     <NavigationContainer theme={MyTheme}>
       <Stack.Navigator
-        initialRouteName={currentUser ? 'Main' : ' Login'}
+        initialRouteName={
+          currentUser ? routersMain.MainPage : routersMain.Login
+        }
         screenOptions={{
           headerShown: false,
         }}>

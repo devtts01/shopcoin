@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-// import ImagePicker from 'react-native-image-crop-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useAppContext} from '../../utils';
 import {setCurrentUser} from '../../app/payloads/user';
@@ -19,11 +18,12 @@ import {setMessage} from '../../app/payloads/message';
 import {formatVND, formatUSDT} from '../../utils/format/Money';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {dateFormat} from '../../utils/format/Date';
-import {ModalLoading} from '../../components';
+import {ModalLoading, RowDetail} from '../../components';
 import styles from './SingleDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVupdateDeposits} from '../../services/deposits';
+import {textLower} from '../../utils/format/textLowercase';
 
 export default function SingleDeposits({navigation, route}) {
   const {state, dispatch} = useAppContext();
@@ -103,49 +103,33 @@ export default function SingleDeposits({navigation, route}) {
       }>
       <View style={[styles.container]}>
         <Text style={[styles.title]}>Deposits Detail</Text>
-        <View style={[styles.item, stylesGeneral.flexRow]}>
-          <Text style={[styles.item_title]}>Code</Text>
-          <Text style={[styles.item_desc]}>{data?.code}</Text>
-        </View>
-        <View style={[styles.item, stylesGeneral.flexRow]}>
-          <Text style={[styles.item_title]}>Status</Text>
-          <Text
-            style={[
-              styles.item_desc,
-              stylesStatus.status,
-              data?.status?.toLowerCase() === 'on hold'
-                ? stylesStatus.vipbgc
-                : data?.status?.toLowerCase() === 'confirm'
-                ? stylesStatus.confirmbgc
-                : data?.status?.toLowerCase() === 'complete'
-                ? stylesStatus.completebgc
-                : data?.status?.toLowerCase() === 'cancel'
-                ? stylesStatus.cancelbgc
-                : stylesStatus.demobgc,
-            ]}>
-            {data?.status?.toLowerCase()}
-          </Text>
-        </View>
-        <View style={[styles.item, stylesGeneral.flexRow]}>
-          <Text style={[styles.item_title]}>Created At</Text>
-          <Text style={[styles.item_desc]}>
-            {dateFormat(data?.createdAt, 'DD/MM/YYYY')}
-          </Text>
-        </View>
-        <View style={[styles.item, stylesGeneral.flexRow]}>
-          <Text style={[styles.item_title]}>Updated At</Text>
-          <Text style={[styles.item_desc]}>
-            {dateFormat(data?.updatedAt, 'DD/MM/YYYY')}
-          </Text>
-        </View>
-        <View style={[styles.item, stylesGeneral.flexRow]}>
-          <Text style={[styles.item_title]}>Amount USDT</Text>
-          <Text style={[styles.item_desc]}>{formatUSDT(data?.amount)}T</Text>
-        </View>
-        <View style={[styles.item, stylesGeneral.flexRow]}>
-          <Text style={[styles.item_title]}>Amount VND</Text>
-          <Text style={[styles.item_desc]}>{formatVND(data?.amountVnd)}</Text>
-        </View>
+        <RowDetail title="Code" text={data?.code} />
+        <RowDetail
+          title="Status"
+          text={data?.status?.toLowerCase()}
+          styleDesc={[
+            stylesStatus.status,
+            textLower(data?.status) === 'on hold'
+              ? stylesStatus.vipbgc
+              : textLower(data?.status) === 'confirm'
+              ? stylesStatus.confirmbgc
+              : textLower(data?.status) === 'complete'
+              ? stylesStatus.completebgc
+              : textLower(data?.status) === 'cancel'
+              ? stylesStatus.cancelbgc
+              : stylesStatus.demobgc,
+          ]}
+        />
+        <RowDetail
+          title="Created At"
+          text={dateFormat(data?.createdAt, 'DD/MM/YYYY')}
+        />
+        <RowDetail
+          title="Updated At"
+          text={dateFormat(data?.updatedAt, 'DD/MM/YYYY')}
+        />
+        <RowDetail title="Amount USDT" text={formatUSDT(data?.amount)} />
+        <RowDetail title="Amount VND" text={formatVND(data?.amountVnd)} />
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Method</Text>
           <View style={[stylesGeneral.flexColumn, stylesGeneral.flexEnd]}>

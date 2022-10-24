@@ -107,7 +107,7 @@ const Form = ({
               placeholder="Enter your OTP"
               onChangeText={value => handleChange('otpCode', value)}
               value={otpCode}
-              nameSymbol="envelope"
+              nameSymbol="shield-alt"
             />
           )}
           {bolPwd && (

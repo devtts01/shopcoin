@@ -9,8 +9,12 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import {AlertDialog, Button, Center} from 'native-base';
-import {FormInput, ModalLoading, SelectAlert} from '../../components';
+import {
+  FormInput,
+  ModalBank,
+  ModalLoading,
+  SelectAlert,
+} from '../../components';
 import {useAppContext} from '../../utils';
 import {formatVND} from '../../utils/format/Money';
 import {setFormDeposits} from '../../app/payloads/form';
@@ -41,9 +45,7 @@ export default function CreateDeposits({navigation}) {
   const handleModalBank = () => {
     setModalVisible(!modalVisible);
   };
-  const cancelRef = React.useRef(null);
-
-  const handleChangeInput = (name, val) => {
+  const handleChange = (name, val) => {
     dispatch(setFormDeposits({[name]: val}));
     setModalVisible(false);
   };
@@ -106,7 +108,7 @@ export default function CreateDeposits({navigation}) {
         label="Amount USDT"
         placeholder="0.00"
         keyboardType="number-pad"
-        onChangeText={val => handleChangeInput('amountUSDT', val)}
+        onChangeText={val => handleChange('amountUSDT', val)}
       />
       <SelectAlert
         label="Choose Payment Method"
@@ -136,48 +138,12 @@ export default function CreateDeposits({navigation}) {
         onPress={handleSubmit}>
         <Text style={[stylesStatus.white, stylesGeneral.fwbold]}>Submit</Text>
       </TouchableOpacity>
-      {/* Modal Bank */}
-      <Center>
-        <AlertDialog
-          leastDestructiveRef={cancelRef}
-          isOpen={modalVisible}
-          onClose={handleModalBank}>
-          <AlertDialog.Content>
-            <AlertDialog.CloseButton />
-            <AlertDialog.Header>Select Bank</AlertDialog.Header>
-            <AlertDialog.Body>
-              <View style={[styles.bankList]}>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                  {dataBank.map((item, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() => handleChangeInput('bank', item.name)}
-                      activeOpacity={0.7}
-                      style={[styles.bankItem]}>
-                      <Text style={[stylesGeneral.fwbold]}>{item.name}</Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
-            </AlertDialog.Body>
-            <AlertDialog.Footer>
-              <Button.Group space={2}>
-                <Button
-                  variant="unstyled"
-                  onPress={handleModalBank}
-                  style={[stylesStatus.confirmbgcbold]}
-                  ref={cancelRef}>
-                  <Text style={[stylesStatus.white]}>Cancel</Text>
-                </Button>
-                <Button colorScheme="danger" onPress={handleModalBank}>
-                  Submit
-                </Button>
-              </Button.Group>
-            </AlertDialog.Footer>
-          </AlertDialog.Content>
-        </AlertDialog>
-      </Center>
-      {/* Modal Loading */}
+      <ModalBank
+        modalVisible={modalVisible}
+        handleModalBank={handleModalBank}
+        handleChange={handleChange}
+        dataBank={dataBank}
+      />
       {loading && <ModalLoading />}
     </ScrollView>
   );

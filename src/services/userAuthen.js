@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {authPost} from '../utils/axios/axiosInstance';
 import {setAsyncStore, removeAsyncStore} from '../utils/localStore/localStore';
+import {routersMain} from '../routers/Main';
 
 // USER LOGIN
 export const userLogin = async (props = {}) => {
@@ -53,8 +54,8 @@ export const userLogin = async (props = {}) => {
 // USER LOGOUT
 export const userLogout = async (props = {}) => {
   try {
+    await removeAsyncStore();
     await authPost('logout');
-    removeAsyncStore();
   } catch (err) {
     console.log(err);
   }
@@ -82,7 +83,7 @@ export const userRegister = async (props = {}) => {
             error: '',
           }),
         );
-        props.navigation.navigate('Login');
+        props.navigation.navigate(routersMain.Login);
         break;
       case 1:
       case 2:

@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
@@ -20,13 +19,11 @@ import {FormInput, ModalLoading} from '../../components';
 import {SVgetUserById} from '../../services/user';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
-import {getAllDeposits} from '../../app/payloads/getAll';
+import {routersMain} from '../../routers/Main';
 import styles from './CreateWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateWithdraw} from '../../services/withdraw';
-import {SVgetDepositsByEmailUser} from '../../services/deposits';
-import useGetUSDT from '../../utils/getData/USDT';
 
 export default function CreateWithdraw({navigation}) {
   const {state, dispatch} = useAppContext();
@@ -35,7 +32,6 @@ export default function CreateWithdraw({navigation}) {
     currentUser,
     withdraw: {amountUSDT},
     userById,
-    // data: {dataDeposits},
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
@@ -59,14 +55,6 @@ export default function CreateWithdraw({navigation}) {
       getUserById,
     });
   }, [userById]);
-  // useEffect(() => {
-  //   SVgetDepositsByEmailUser({
-  //     email: currentUser.email,
-  //     dispatch,
-  //     getAllDeposits,
-  //   });
-  // }, []);
-  // const totalAmountUSDT = useGetUSDT(dataDeposits, currentUser?.email);
   useEffect(() => {
     if (parseFloat(amountUSDT) < 10) {
       setError('Minimum withdrawal amount is 10 USDT');
@@ -74,15 +62,13 @@ export default function CreateWithdraw({navigation}) {
       setError('');
     }
   }, [amountUSDT]);
-
-  const handleChangeInput = (name, val) => {
+  const handleChange = (name, val) => {
     dispatch(
       setFormWithdraw({
         [name]: val,
       }),
     );
   };
-
   const createWithdrawAPI = data => {
     SVcreateWithdraw({
       amount: amountUSDT,
@@ -126,7 +112,9 @@ export default function CreateWithdraw({navigation}) {
                 stylesStatus.confirmbgcbold,
                 stylesGeneral.mt10,
               ]}
-              onTouchStart={() => navigation.navigate('Profile Payment')}>
+              onTouchStart={() =>
+                navigation.navigate(routersMain.ProfilePayment)
+              }>
               <Text style={[styles.btn_text, stylesStatus.white]}>
                 Click here
               </Text>
@@ -150,8 +138,7 @@ export default function CreateWithdraw({navigation}) {
                   Your Wallet
                 </Text>
                 <Text style={[styles.info_item_text]}>
-                  {/* {formatUSDT(userById?.Wallet?.balance)}T */}
-                  {formatUSDT(userById?.Wallet?.balance)}T
+                  {formatUSDT(userById?.Wallet?.balance)}
                 </Text>
               </View>
               <View style={[styles.info_item]}>
@@ -174,7 +161,7 @@ export default function CreateWithdraw({navigation}) {
               label="Amount USDT"
               placeholder="0.00"
               keyboardType="number-pad"
-              onChangeText={val => handleChangeInput('amountUSDT', val)}
+              onChangeText={val => handleChange('amountUSDT', val)}
               icon={error}
               color={error ? 'red' : ''}
               name="exclamation-triangle"
@@ -212,7 +199,6 @@ export default function CreateWithdraw({navigation}) {
           </View>
         )}
       </View>
-      {/* Modal Loading */}
       {loading && <ModalLoading />}
     </ScrollView>
   );

@@ -11,7 +11,6 @@
 import {useCallback, useEffect, useState} from 'react';
 import {
   Text,
-  ScrollView,
   RefreshControl,
   View,
   TouchableOpacity,
@@ -20,13 +19,15 @@ import {
 import {DataTable} from 'react-native-paper';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
-import {Header} from '../../components';
+import {Header, NodataText} from '../../components';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {getAllWithdraws} from '../../app/payloads/getAll';
-import styles from './WithdrawCss';
 import {SVgetWithdrawByEmailUser} from '../../services/withdraw';
 import {dateFormat} from '../../utils/format/Date';
+import {textLower} from '../../utils/format/textLowercase';
+import {routersMain} from '../../routers/Main';
+import styles from './WithdrawCss';
 
 const Withdraw = ({navigation}) => {
   const {state, dispatch} = useAppContext();
@@ -35,24 +36,21 @@ const Withdraw = ({navigation}) => {
     data: {dataWithdraws},
   } = state;
   const [refreshing, setRefreshing] = useState(false);
-
   useEffect(() => {
     SVgetWithdrawByEmailUser({
-      email: currentUser.email,
+      email: currentUser?.email,
       dispatch,
       getAllWithdraws,
     });
   }, []);
   const data = dataWithdraws || [];
-  console.log(data);
-
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     SVgetWithdrawByEmailUser({
-      email: currentUser.email,
+      email: currentUser?.email,
       dispatch,
       getAllWithdraws,
     });
@@ -62,7 +60,7 @@ const Withdraw = ({navigation}) => {
     return (
       <DataTable.Row>
         <DataTable.Cell numeric style={[styles.title_table]}>
-          {formatUSDT(item?.amountUsd)}T
+          {formatUSDT(item?.amountUsd)}
         </DataTable.Cell>
         <DataTable.Cell numeric style={[styles.title_table]}>
           {formatVND(item?.amountVnd)}
@@ -73,16 +71,16 @@ const Withdraw = ({navigation}) => {
         <DataTable.Cell numeric style={[styles.title_table]}>
           <Text
             style={[
-              item?.status.toLowerCase().replace(' ', '') === 'onhold'
+              textLower(item?.status) === 'onhold'
                 ? stylesStatus.vip
-                : item?.status.toLowerCase() === 'completed' ||
-                  item?.status.toLowerCase() === 'complete'
+                : textLower(item?.status) === 'completed' ||
+                  textLower(item?.status) === 'complete'
                 ? stylesStatus.complete
-                : item?.status.toLowerCase() === 'canceled' ||
-                  item?.status.toLowerCase() === 'cancel'
+                : textLower(item?.status) === 'canceled' ||
+                  textLower(item?.status) === 'cancel'
                 ? stylesStatus.cancel
-                : item?.status.toLowerCase() === 'confirmed' ||
-                  item?.status.toLowerCase() === 'confirm'
+                : textLower(item?.status) === 'confirmed' ||
+                  textLower(item?.status) === 'confirm'
                 ? stylesStatus.confirm
                 : stylesStatus.demo,
             ]}>
@@ -98,7 +96,7 @@ const Withdraw = ({navigation}) => {
         <Header />
         <TouchableOpacity
           style={[styles.container_btn, stylesStatus.vipbgcbold]}
-          onPress={() => navigation.navigate('Create Withdraw')}>
+          onPress={() => navigation.navigate(routersMain.CreateWithdraw)}>
           <Text style={[styles.btn, stylesStatus.white]}>Create</Text>
         </TouchableOpacity>
         <View style={[styles.listWithdraw, stylesGeneral.mt10]}></View>
@@ -119,7 +117,7 @@ const Withdraw = ({navigation}) => {
               Status
             </DataTable.Title>
           </DataTable.Header>
-          <View>
+          <View style={[styles.listWithdraw]}>
             <FlatList
               showsVerticalScrollIndicator={false}
               refreshControl={
@@ -133,16 +131,7 @@ const Withdraw = ({navigation}) => {
           </View>
         </DataTable>
       ) : (
-        <View style={[stylesGeneral.flexCenter, stylesGeneral.mt10]}>
-          <Text
-            style={[
-              stylesGeneral.fz16,
-              stylesGeneral.fwbold,
-              stylesStatus.confirm,
-            ]}>
-            No Data Withdraw
-          </Text>
-        </View>
+        <NodataText text="No Data Withdraw" />
       )}
     </View>
   );

@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable radix */
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -12,14 +11,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {useAppContext} from '../../utils';
 import socketIO from 'socket.io-client';
+import {URL_SERVER} from '@env';
+import {useAppContext} from '../../utils';
 import {formatUSDT} from '../../utils/format/Money';
 import {getIdUserJWT} from '../../utils/getUser/Id';
 import requestRefreshToken from '../../utils/axios/refreshToken';
-import useGetUSDT from '../../utils/getData/USDT';
-import stylesGeneral from '../../styles/General';
 import {SVgetACoin, SVbuyCoin} from '../../services/coin';
 import {SVgetUserById} from '../../services/user';
 import {SVgetDepositsByEmailUser} from '../../services/deposits';
@@ -29,11 +26,14 @@ import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
 import {getAllDeposits} from '../../app/payloads/getAll';
 import {setAmountCoin} from '../../app/payloads/form';
-import {FormInput, ImageCp, ModalLoading} from '../../components';
+import {removeUSDT} from '../../utils/format/removeUSDT';
+import {FormInput, ImageCp, ModalLoading, Skeleton} from '../../components';
+import stylesGeneral from '../../styles/General';
 import styles from './BuyCoinCss';
 import stylesStatus from '../../styles/Status';
 
 export default function BuyCoin({navigation, route}) {
+  const {id} = route.params;
   const {state, dispatch} = useAppContext();
   const {
     userById,
@@ -42,10 +42,8 @@ export default function BuyCoin({navigation, route}) {
     amountCoin,
     data: {dataById},
   } = state;
-  const {id} = route.params;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     SVgetACoin({
       id,
@@ -63,9 +61,10 @@ export default function BuyCoin({navigation, route}) {
       dispatch,
       getAllDeposits,
     });
+    dispatch(setAmountCoin(''));
   }, []);
   useEffect(() => {
-    const socket = socketIO('https://apishopcoin.4eve.site/', {
+    const socket = socketIO(`${URL_SERVER}`, {
       jsonp: false,
     });
     socket.on(`send-data-${dataById?.symbol}`, data => {
@@ -76,9 +75,6 @@ export default function BuyCoin({navigation, route}) {
       socket.close();
     };
   }, [dataById?.symbol]);
-
-  // const totalAmountUSDT = useGetUSDT(dataDeposits, email);
-
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -90,7 +86,7 @@ export default function BuyCoin({navigation, route}) {
   const handleChange = (name, val) => {
     dispatch(setAmountCoin(val));
   };
-  const handleBuy = data => {
+  const handleBuyAPI = data => {
     SVbuyCoin({
       gmailUser: currentUser?.email,
       amount: parseFloat(amountCoin),
@@ -106,14 +102,13 @@ export default function BuyCoin({navigation, route}) {
   const handleSubmit = () => {
     requestRefreshToken(
       currentUser,
-      handleBuy,
+      handleBuyAPI,
       state,
       dispatch,
       setCurrentUser,
       setMessage,
     );
   };
-
   return (
     <ScrollView
       style={[styles.container]}
@@ -129,9 +124,7 @@ export default function BuyCoin({navigation, route}) {
         ]}>
         <ImageCp uri={dataById?.logo} />
         <View style={[styles.nameCoin, stylesGeneral.ml12]}>
-          <Text style={[styles.name]}>
-            {dataById?.symbol.replace('USDT', '')}
-          </Text>
+          <Text style={[styles.name]}>{removeUSDT(dataById?.symbol)}</Text>
           <Text style={[styles.desc]}>{dataById?.fullName}</Text>
         </View>
       </View>
@@ -146,17 +139,11 @@ export default function BuyCoin({navigation, route}) {
             = {priceCoinSocket?.lastPrice}
           </Text>
         ) : (
-          <SkeletonPlaceholder.Item
-            marginTop={6}
-            width={120}
-            height={20}
-            borderRadius={4}
-            backgroundColor="#ededed"
-          />
+          <Skeleton />
         )}
       </View>
       <Text style={[stylesGeneral.fz16, stylesGeneral.mb10, stylesGeneral.fwb]}>
-        Your Walet: {formatUSDT(userById?.Wallet?.balance)}T
+        Your Walet: {formatUSDT(userById?.Wallet?.balance)}
       </Text>
       <FormInput
         label="Amount Coin"
@@ -171,13 +158,14 @@ export default function BuyCoin({navigation, route}) {
         <View style={[stylesGeneral.mb5]}>
           <Text>Suggest amount</Text>
           <Text style={[stylesStatus.cancel]}>Min: ...</Text>
-          <Text style={[stylesStatus.cancel]}>Max: ...</Text>
+          <Text style={[stylesStatus.cancel]}>
+            Max: {parseFloat(userById?.Wallet?.balance / amountCoin)}
+          </Text>
         </View>
       )}
       <View style={[styles.amountUsdt, stylesStatus.completebgc]}>
         <Text
           style={[
-            styles.amountUsdt_text,
             stylesGeneral.fz16,
             stylesGeneral.fwbold,
             stylesStatus.complete,
@@ -196,7 +184,6 @@ export default function BuyCoin({navigation, route}) {
         disabled={!amountCoin}>
         <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
       </TouchableOpacity>
-      {/* Modal Loading */}
       {loading && <ModalLoading />}
     </ScrollView>
   );

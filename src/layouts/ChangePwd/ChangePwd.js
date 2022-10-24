@@ -19,7 +19,6 @@ export default function ChangePwd({navigation}) {
     form: {password, oldPwd, confirmPwd},
     message: {error},
   } = state;
-
   const [loading, setLoading] = useState(false);
   const handleChangeInput = (name, val) => {
     dispatch(
@@ -29,7 +28,7 @@ export default function ChangePwd({navigation}) {
       }),
     );
   };
-  const changePwd = data => {
+  const changePwdAPI = data => {
     SVchangePassword({
       id: currentUser?.id,
       oldPWD: oldPwd,
@@ -52,7 +51,7 @@ export default function ChangePwd({navigation}) {
         await 1;
         requestRefreshToken(
           currentUser,
-          changePwd,
+          changePwdAPI,
           state,
           dispatch,
           setCurrentUser,
@@ -112,7 +111,6 @@ export default function ChangePwd({navigation}) {
           Change Password
         </Text>
       </TouchableOpacity>
-      {/* Modal Loading */}
       {loading && <ModalLoading />}
     </View>
   );

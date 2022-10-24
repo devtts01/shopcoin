@@ -45,15 +45,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ededed',
     marginVertical: 10,
   },
-  bankList: {
-    maxHeight: 150,
-  },
-  bankItem: {
-    backgroundColor: '#ededed',
-    paddingHorizontal: 8,
-    paddingVertical: 10,
-    marginVertical: 2,
-  },
 });
 
 export default styles;

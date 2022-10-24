@@ -8,7 +8,7 @@ import {
   Withdraw,
 } from '../layouts';
 
-const routers = {
+export const routers = {
   Home: 'Home',
   Profile: 'Profile',
   MyCoin: 'My Coin',

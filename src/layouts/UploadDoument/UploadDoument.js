@@ -14,14 +14,13 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-// import ImagePicker from 'react-native-image-crop-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useAppContext} from '../../utils';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {setCurrentUser} from '../../app/payloads/user';
 import {getUserById} from '../../app/payloads/getById';
 import {setMessage} from '../../app/payloads/message';
-import {ModalLoading} from '../../components';
+import {ImageItemUpload, ModalLoading} from '../../components';
 import styles from './UploadDoumentCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
@@ -44,6 +43,11 @@ export default function UploadDoument({navigation}) {
   };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    SVgetUserById({
+      id: currentUser?.id,
+      dispatch,
+      getUserById,
+    });
     wait(2000).then(() => setRefreshing(false));
   }, []);
   useEffect(() => {
@@ -53,7 +57,6 @@ export default function UploadDoument({navigation}) {
       getUserById,
     });
   }, []);
-  console.log(userById);
   const options = {
     title: 'Select Image',
     type: 'library',
@@ -141,6 +144,7 @@ export default function UploadDoument({navigation}) {
   };
   const handleSubmit = id => {
     try {
+      // console.log(dataImageForm, id);
       requestRefreshToken(
         currentUser,
         uploadImageAPI,
@@ -165,203 +169,49 @@ export default function UploadDoument({navigation}) {
         <Text style={[styles.title]}>Upload your image document</Text>
         <View style={[styles.image_container]}>
           <View style={[styles.image_container_item]}>
-            <View style={[styles.image_item]}>
-              {isStatus ? (
-                <View
-                  style={[
-                    styles.btn_upload,
-                    stylesStatus.completebgcbold,
-                    stylesGeneral.flexRow,
-                  ]}
-                  onTouchStart={handleDocumentSelectionFrontCCCD}>
-                  <FontAwesome5
-                    name="image"
-                    size={16}
-                    style={[stylesStatus.white]}
-                  />
-                  <Text
-                    style={[
-                      styles.btn_text,
-                      stylesStatus.white,
-                      stylesGeneral.ml10,
-                    ]}>
-                    Upload front CCCD image
-                  </Text>
-                </View>
-              ) : (
-                <Text style={[styles.image_title]}>Front CCCD image</Text>
-              )}
-              <Image
-                source={{
-                  uri: `${
-                    fileResponseFrontCCCD !== null
-                      ? fileResponseFrontCCCD?.uri
-                      : userById?.uploadCCCDFont
-                      ? `https://apishopcoin.4eve.site/${userById?.uploadCCCDFont.replace(
-                          'uploads/',
-                          '',
-                        )}`
-                      : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
-                  }`,
-                }}
-                style={[styles.image]}
-                resizeMode="contain"
-              />
-            </View>
-            <View style={[styles.image_item]}>
-              {isStatus ? (
-                <View
-                  style={[
-                    styles.btn_upload,
-                    stylesStatus.completebgcbold,
-                    stylesGeneral.flexRow,
-                  ]}
-                  onTouchStart={handleDocumentSelectionBackCCCD}>
-                  <FontAwesome5
-                    name="image"
-                    size={16}
-                    style={[stylesStatus.white]}
-                  />
-                  <Text
-                    style={[
-                      styles.btn_text,
-                      stylesStatus.white,
-                      stylesGeneral.ml10,
-                    ]}>
-                    Upload back CCCD image
-                  </Text>
-                </View>
-              ) : (
-                <Text style={[styles.image_title]}>Back CCCD image</Text>
-              )}
-              <Image
-                source={{
-                  uri: `${
-                    fileResponseBackCCCD !== null
-                      ? fileResponseBackCCCD?.uri
-                      : userById?.uploadCCCDBeside
-                      ? `https://apishopcoin.4eve.site/${userById?.uploadCCCDBeside.replace(
-                          'uploads/',
-                          '',
-                        )}`
-                      : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
-                  }`,
-                }}
-                style={[styles.image]}
-                resizeMode="contain"
-              />
-            </View>
+            <ImageItemUpload
+              isStatus={isStatus}
+              selectFile={handleDocumentSelectionFrontCCCD}
+              textUpload="Upload front CCCD image"
+              text="Front CCCD image"
+              fileResponse={fileResponseFrontCCCD}
+              userById={userById}
+              field="uploadCCCDFont"
+            />
+            <ImageItemUpload
+              isStatus={isStatus}
+              selectFile={handleDocumentSelectionBackCCCD}
+              textUpload="Upload back CCCD image"
+              text="Back CCCD image"
+              fileResponse={fileResponseBackCCCD}
+              userById={userById}
+              field="uploadCCCDBeside"
+            />
           </View>
           <View style={[styles.image_container_item]}>
-            <View style={[styles.image_item]}>
-              {isStatus ? (
-                <View
-                  style={[
-                    styles.btn_upload,
-                    stylesStatus.completebgcbold,
-                    stylesGeneral.flexRow,
-                  ]}
-                  onTouchStart={handleDocumentSelectionFrontLicense}>
-                  <FontAwesome5
-                    name="image"
-                    size={16}
-                    style={[stylesStatus.white]}
-                  />
-                  <Text
-                    style={[
-                      styles.btn_text,
-                      stylesStatus.white,
-                      stylesGeneral.ml10,
-                    ]}>
-                    Upload front license image
-                  </Text>
-                </View>
-              ) : (
-                <Text style={[styles.image_title]}>Front license image</Text>
-              )}
-              <Image
-                source={{
-                  uri: `${
-                    fileResponseFrontLicense !== null
-                      ? fileResponseFrontLicense?.uri
-                      : userById?.uploadLicenseFont
-                      ? `https://apishopcoin.4eve.site/${userById?.uploadLicenseFont.replace(
-                          'uploads/',
-                          '',
-                        )}`
-                      : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
-                  }`,
-                }}
-                style={[styles.image]}
-                resizeMode="contain"
-              />
-            </View>
-            <View style={[styles.image_item]}>
-              {isStatus ? (
-                <View
-                  style={[
-                    styles.btn_upload,
-                    stylesStatus.completebgcbold,
-                    stylesGeneral.flexRow,
-                  ]}
-                  onTouchStart={handleDocumentSelectionBackLicense}>
-                  <FontAwesome5
-                    name="image"
-                    size={16}
-                    style={[stylesStatus.white]}
-                  />
-                  <Text
-                    style={[
-                      styles.btn_text,
-                      stylesStatus.white,
-                      stylesGeneral.ml10,
-                    ]}>
-                    Upload back license image
-                  </Text>
-                </View>
-              ) : (
-                <Text style={[styles.image_title]}>Back license image</Text>
-              )}
-              <Image
-                source={{
-                  uri: `${
-                    fileResponseBackLicense !== null
-                      ? fileResponseBackLicense?.uri
-                      : userById?.uploadLicenseBeside
-                      ? `https://apishopcoin.4eve.site/${userById?.uploadLicenseBeside.replace(
-                          'uploads/',
-                          '',
-                        )}`
-                      : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
-                  }`,
-                }}
-                style={[styles.image]}
-                resizeMode="contain"
-              />
-            </View>
+            <ImageItemUpload
+              isStatus={isStatus}
+              selectFile={handleDocumentSelectionFrontLicense}
+              textUpload="Upload front license image"
+              text="Front license image"
+              fileResponse={fileResponseFrontLicense}
+              userById={userById}
+              field="uploadCCCDFont"
+            />
+            <ImageItemUpload
+              isStatus={isStatus}
+              selectFile={handleDocumentSelectionBackLicense}
+              textUpload="Upload back license image"
+              text="Back license image"
+              fileResponse={fileResponseBackLicense}
+              userById={userById}
+              field="uploadLicenseBeside"
+            />
           </View>
         </View>
         <TouchableOpacity
           activeOpacity={0.6}
-          style={[
-            styles.btn,
-            (!fileResponseFrontCCCD && !userById?.uploadCCCDFont) ||
-              (!fileResponseBackCCCD && !userById?.uploadCCCDBeside) ||
-              (!fileResponseFrontLicense && !userById?.uploadLicenseFont) ||
-              (!fileResponseBackLicense &&
-                !userById?.uploadLicenseBeside &&
-                isStatus &&
-                stylesGeneral.op6),
-            stylesStatus.confirmbgcbold,
-          ]}
-          disabled={
-            (!fileResponseFrontCCCD && !userById?.uploadCCCDFont) ||
-            (!fileResponseBackCCCD && !userById?.uploadCCCDBeside) ||
-            (!fileResponseFrontLicense && !userById?.uploadLicenseFont) ||
-            (!fileResponseBackLicense &&
-              !userById?.uploadLicenseBeside &&
-              isStatus)
-          }
+          style={[styles.btn, stylesStatus.confirmbgcbold]}
           onPress={
             !isStatus ? handleChangeStatus : () => handleSubmit(currentUser?.id)
           }>

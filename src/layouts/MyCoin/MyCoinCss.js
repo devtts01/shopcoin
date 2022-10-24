@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   listCoin: {
-    marginBottom: 12,
+    // flex: 1,
+    marginBottom: 80,
   },
   coinItem: {
     alignItems: 'center',

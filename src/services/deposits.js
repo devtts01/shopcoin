@@ -6,6 +6,8 @@ import {
   userPost,
   userPut,
 } from '../utils/axios/axiosInstance';
+import {routersMain} from '../routers/Main';
+import {routers} from '../routers/Routers';
 
 // GET ALL DEPOSITS
 export const SVgetAllDeposits = async (props = {}) => {
@@ -39,7 +41,7 @@ export const SVcreateDeposits = async (props = {}) => {
             text: 'OK',
             onPress: () =>
               props.navigation.navigate({
-                name: 'Single Deposits',
+                name: routersMain.SingleDeposits,
                 params: {
                   data: resPost?.data,
                 },
@@ -81,7 +83,7 @@ export const SVupdateDeposits = async (props = {}) => {
             text: 'OK',
             onPress: () =>
               props.navigation.navigate({
-                name: 'Deposits',
+                name: routers.Deposits,
                 params: {
                   data: resPut?.data,
                 },

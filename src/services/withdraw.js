@@ -1,13 +1,14 @@
-/* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */ routers;
 import {Alert} from 'react-native';
 import {
-  adminDelete,
   adminGet,
   userDelete,
   userGet,
   userPost,
   userPut,
 } from '../utils/axios/axiosInstance';
+import {routersMain} from '../routers/Main';
+import {routers} from '../routers/Routers';
 
 // GET ALL WITHDRAW
 export const SVgetAllWithdraw = async (props = {}) => {
@@ -40,7 +41,7 @@ export const SVcreateWithdraw = async (props = {}) => {
             text: 'OK',
             onPress: () =>
               props.navigation.navigate({
-                name: 'Single Withdraw',
+                name: routersMain.SingleWithdraw,
                 params: {
                   data: resPost?.data,
                 },
@@ -57,7 +58,8 @@ export const SVcreateWithdraw = async (props = {}) => {
         Alert.alert('Error!', 'Payment no field rateWithdarw. Result is NaN', [
           {
             text: 'OK',
-            onPress: () => props.navigation.navigate('Create Withdraw'),
+            onPress: () =>
+              props.navigation.navigate(routersMain.CreateWithdraw),
           },
         ]);
       }, 5000);
@@ -83,7 +85,7 @@ export const SVcheckCode = async (props = {}) => {
         Alert.alert('Success!', resGet?.message, [
           {
             text: 'OK',
-            onPress: () => props.navigation.navigate('Withdraw'),
+            onPress: () => props.navigation.navigate(routers.Withdraw),
           },
         ]);
       }, 5000);
@@ -96,7 +98,8 @@ export const SVcheckCode = async (props = {}) => {
         Alert.alert('Error!', resGet?.message, [
           {
             text: 'OK',
-            onPress: () => props.navigation.navigate('Single Withdraw'),
+            onPress: () =>
+              props.navigation.navigate(routersMain.SingleWithdraw),
           },
         ]);
       }, 5000);
@@ -115,7 +118,7 @@ export const SVdeleteWithdraw = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        props.navigation.navigate('Withdraw');
+        props.navigation.navigate(routers.Withdraw);
       }, 5000);
       break;
     case 1:
@@ -126,7 +129,8 @@ export const SVdeleteWithdraw = async (props = {}) => {
         Alert.alert('Error!', resDel?.message, [
           {
             text: 'OK',
-            onPress: () => props.navigation.navigate('Single Withdraw'),
+            onPress: () =>
+              props.navigation.navigate(routersMain.SingleWithdraw),
           },
         ]);
       }, 5000);
@@ -159,7 +163,7 @@ export const SVupdateDeposits = async (props = {}) => {
             text: 'OK',
             onPress: () =>
               props.navigation.navigate({
-                name: 'Deposits',
+                name: routers.Deposits,
                 params: {
                   data: resPut?.data,
                 },

@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
   },
+  listDeposits: {
+    //flex: 1,
+    marginBottom: 130,
+  },
   item: {
     borderColor: '#4CAF50',
     borderWidth: 1,

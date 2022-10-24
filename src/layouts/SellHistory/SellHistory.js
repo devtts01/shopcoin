@@ -2,16 +2,16 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-import {View, Text, ScrollView, RefreshControl, FlatList} from 'react-native';
+import {View, Text, RefreshControl, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils/';
-import {dateFormat} from '../../utils/format/Date';
-import {formatUSDT} from '../../utils/format/Money';
 import {SVgetSellHistory} from '../../services/bills';
 import {getHistorySell} from '../../app/payloads/history';
+import {BuySellHistoryDetail, NodataText} from '../../components';
+import {routersMain} from '../../routers/Main';
+import {routers} from '../../routers/Routers';
 import styles from './SellHistoryCss';
 import stylesGeneral from '../../styles/General';
-import stylesStatus from '../../styles/Status';
 
 export default function SellHistory({navigation}) {
   const {state, dispatch} = useAppContext();
@@ -22,7 +22,7 @@ export default function SellHistory({navigation}) {
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     SVgetSellHistory({
-      id: currentUser.id,
+      id: currentUser?.id,
       dispatch,
       getHistorySell,
     });
@@ -32,66 +32,27 @@ export default function SellHistory({navigation}) {
   };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    SVgetSellHistory({
+      id: currentUser?.id,
+      dispatch,
+      getHistorySell,
+    });
     wait(2000).then(() => setRefreshing(false));
   }, []);
   const renderItem = ({item}) => {
-    return (
-      <View style={[styles.item]}>
-        <View style={[styles.row]}>
-          <Text style={[styles.row_title]}>
-            {item?.symbol.replace('USDT', '')}
-          </Text>
-          <Text style={[styles.row_desc]}>
-            {dateFormat(item?.createdAt, 'DD/MM/YYYY HH:mm:ss')}
-          </Text>
-        </View>
-        <View style={[styles.row]}>
-          <Text style={[styles.row_title]}>Status</Text>
-          <Text
-            style={[
-              styles.row_desc,
-              stylesStatus.status,
-              stylesStatus.completebgc,
-              item?.status.toLowerCase().replace(' ', '') === 'onhold'
-                ? stylesStatus.vipbgc
-                : item?.status.toLowerCase() === 'completed' ||
-                  item?.status.toLowerCase() === 'complete'
-                ? stylesStatus.probgc
-                : item?.status.toLowerCase() === 'canceled' ||
-                  item?.status.toLowerCase() === 'cancel'
-                ? stylesStatus.cancelbgc
-                : item?.status.toLowerCase() === 'confirmed' ||
-                  item?.status.toLowerCase() === 'confirm'
-                ? stylesStatus.confirmbgc
-                : stylesStatus.demobgc,
-            ]}>
-            {item?.status}
-          </Text>
-        </View>
-        <View style={[styles.row]}>
-          <Text style={[styles.row_title]}>Amount</Text>
-          <Text style={[styles.row_desc]}>{item?.amount}</Text>
-        </View>
-        <View style={[styles.row]}>
-          <Text style={[styles.row_title]}>USDT</Text>
-          <Text style={[styles.row_desc]}>
-            ~ {formatUSDT(item?.amountUsd).replace('USD', '')}
-          </Text>
-        </View>
-      </View>
-    );
+    return <BuySellHistoryDetail item={item} style={{borderColor: 'red'}} />;
   };
   return (
     <View style={[styles.container]}>
       <View style={[styles.btn_container, stylesGeneral.mb10]}>
         <View
           style={[styles.btn]}
-          onTouchStart={() => navigation.navigate('History')}>
+          onTouchStart={() => navigation.navigate(routers.History)}>
           <Text style={[styles.btn_text]}>Buy History</Text>
         </View>
         <View
           style={[styles.btn]}
-          onTouchStart={() => navigation.navigate('Sell History')}>
+          onTouchStart={() => navigation.navigate(routersMain.SellHistory)}>
           <Text style={[styles.btn_text]}>Sell History</Text>
         </View>
       </View>
@@ -108,11 +69,7 @@ export default function SellHistory({navigation}) {
             renderItem={renderItem}
           />
         ) : (
-          <View style={[stylesGeneral.flexCenter, stylesGeneral.mt10]}>
-            <Text style={[stylesGeneral.fwbold, stylesStatus.confirm]}>
-              No History Sell Coin
-            </Text>
-          </View>
+          <NodataText text="No History Sell Coin" />
         )}
       </View>
     </View>

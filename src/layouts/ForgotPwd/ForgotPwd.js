@@ -8,6 +8,7 @@ import {setMessage} from '../../app/payloads/message';
 import {setFormValue} from '../../app/payloads/form';
 import {Form, ModalLoading} from '../../components';
 import {SVforgotPwd} from '../../services/user';
+import {routersMain} from '../../routers/Main';
 import styles from './ForgotPwdCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
@@ -44,7 +45,7 @@ const ForgotPwd = ({navigation}) => {
           <Text style={[styles.desc_text]}>You have an acount?</Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() => navigation.navigate(routersMain.Login)}>
             <Text
               style={[
                 stylesGeneral.ml4,
@@ -59,7 +60,7 @@ const ForgotPwd = ({navigation}) => {
           <Text style={[styles.desc_text]}>You don't have an acount?</Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigation.navigate('Register')}>
+            onPress={() => navigation.navigate(routersMain.Register)}>
             <Text
               style={[
                 stylesGeneral.ml4,

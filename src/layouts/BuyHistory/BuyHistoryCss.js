@@ -22,26 +22,9 @@ const styles = StyleSheet.create({
   btn_text: {
     fontWeight: 'bold',
   },
-  item: {
-    borderColor: '#4CAF50',
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    borderRadius: 8,
-    marginVertical: 12,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  row_title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  row_desc: {
-    fontSize: 16,
-    fontWeight: '500',
+  listItem: {
+    // flex: 1,
+    marginBottom: 50,
   },
 });
 

@@ -7,6 +7,8 @@ import {
   userPut,
 } from '../utils/axios/axiosInstance';
 import {removeAsyncStore} from '../utils/localStore/localStore';
+import {routersMain} from '../routers/Main';
+import {routers} from '../routers/Routers';
 
 // GET USER BY ID
 export const SVgetUserById = async (props = {}) => {
@@ -27,7 +29,10 @@ export const SVchangePassword = async (props = {}) => {
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Change password successfully!', [
-          {text: 'OK', onPress: () => props.navigation.navigate('Login')},
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate(routersMain.Login),
+          },
         ]);
       }, 5000);
       props.dispatch(
@@ -59,7 +64,10 @@ export const SVforgotPwd = async (props = {}) => {
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Please check email with new password!', [
-          {text: 'OK', onPress: () => props.navigation.navigate('Login')},
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate(routersMain.ResetPwd),
+          },
         ]);
       }, 3000);
       props.dispatch(
@@ -88,12 +96,27 @@ export const SVforgotPwd = async (props = {}) => {
 };
 // UPLOAD DOCUMENT
 export const SVuploadDocument = async (props = {}) => {
-  const resPut = await userPut(`/uploadImage/${props.id}`, props?.imageForm, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      token: props?.token,
+  const resPut = await userPut(
+    `/uploadImage/${props.id}`,
+    {
+      body: {
+        cccdFont: props?.imageForm[0],
+        cccdBeside: props?.imageForm[1],
+        licenseFont: props?.imageForm[2],
+        licenseBeside: props?.imageForm[3],
+      },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        token: props?.token,
+      },
     },
-  });
+    // {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data',
+    //     token: props?.token,
+    //   },
+    // },
+  );
   console.log(resPut);
   switch (resPut.code) {
     case 0:
@@ -101,7 +124,10 @@ export const SVuploadDocument = async (props = {}) => {
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Upload document successfully!', [
-          {text: 'OK', onPress: () => props.navigation.navigate('Profile')},
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate(routers.Profile),
+          },
         ]);
       }, 5000);
       break;
@@ -111,7 +137,10 @@ export const SVuploadDocument = async (props = {}) => {
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Error!', resPut?.message, [
-          {text: 'OK', onPress: () => props.navigation.navigate('Profile')},
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate(routers.Profile),
+          },
         ]);
       }, 5000);
       break;

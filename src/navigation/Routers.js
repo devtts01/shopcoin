@@ -2,7 +2,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React from 'react';
-import RouterObject from '../routers/Routers';
+import RouterObject, {routers} from '../routers/Routers';
 
 const Tab = createBottomTabNavigator();
 const headerStyle = {
@@ -20,7 +20,7 @@ const headerStyle = {
 export default function Routers() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={routers.Home}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -39,8 +39,16 @@ export default function Routers() {
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#007aff',
-        labelStyle: {fontSize: 14},
+        tabBarActiveTintColor: '#007aff',
+        tabBarLabelStyle: {
+          fontSize: 14,
+        },
+        tabBarStyle: [
+          {
+            display: 'flex',
+          },
+          null,
+        ],
       }}>
       {RouterObject.map(item => {
         return (

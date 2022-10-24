@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {Alert} from 'react-native';
 import {userPut} from '../utils/axios/axiosInstance';
+import {routersMain} from '../routers/Main';
 
 // ADD BANK INFO
 export const addBankInfo = async (props = {}) => {
@@ -18,7 +19,8 @@ export const addBankInfo = async (props = {}) => {
         Alert.alert('Success!', 'Your payment has been updated!', [
           {
             text: 'OK',
-            onPress: () => props.navigation.navigate('Create Withdraw'),
+            onPress: () =>
+              props.navigation.navigate(routersMain.CreateWithdraw),
           },
         ]);
       }, 5000);
@@ -31,7 +33,8 @@ export const addBankInfo = async (props = {}) => {
         Alert.alert('Error!', resPut?.message, [
           {
             text: 'OK',
-            onPress: () => props.navigation.navigate('Pofile Payment'),
+            onPress: () =>
+              props.navigation.navigate(routersMain.ProfilePayment),
           },
         ]);
       }, 5000);

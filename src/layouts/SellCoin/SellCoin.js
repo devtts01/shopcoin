@@ -18,7 +18,7 @@ import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
 import socketIO from 'socket.io-client';
 import {SVgetACoin, SVgetCoinBySymbol, SVsellCoin} from '../../services/coin';
-import {FormInput, ImageCp, ModalLoading} from '../../components';
+import {FormInput, ImageCp, ModalLoading, RowDetail} from '../../components';
 import styles from './SellCoinCss';
 import stylesStatus from '../../styles/Status';
 import stylesGeneral from '../../styles/General';
@@ -120,26 +120,16 @@ export default function SellCoin({navigation, route}) {
         </View>
       </View>
       <View style={[styles.info_sellCoin]}>
-        <View style={[styles.row, stylesGeneral.flexRow]}>
-          <Text style={[styles.row_text]}>Quantity</Text>
-          <Text style={[styles.row_desc]}>{item?.amount}</Text>
-        </View>
-        <View style={[styles.row, stylesGeneral.flexRow]}>
-          <Text style={[styles.row_text]}>USDT</Text>
-          <Text style={[styles.row_desc]}>
-            ~ {formatUSDT(item?.amount * item?.coin?.price)}T
-          </Text>
-        </View>
-        <View style={[styles.row, stylesGeneral.flexRow]}>
-          <Text style={[styles.row_text]}>Average buy price</Text>
-          <Text style={[styles.row_desc]}>
-            {priceCoinSocket?.weightedAvgPrice}
-          </Text>
-        </View>
-        <View style={[styles.row, stylesGeneral.flexRow]}>
-          <Text style={[styles.row_text]}>Coin price</Text>
-          <Text style={[styles.row_desc]}>{priceCoinSocket?.lastPrice}</Text>
-        </View>
+        <RowDetail title="Quantity" text={item?.amount} />
+        <RowDetail
+          title="USDT"
+          text={`~ ${formatUSDT(item?.amount * item?.coin?.price)}`}
+        />
+        <RowDetail
+          title="Average buy price"
+          text={priceCoinSocket?.weightedAvgPrice}
+        />
+        <RowDetail title="Coin price" text={priceCoinSocket?.lastPrice} />
         <View style={[styles.row_single]}>
           <FormInput
             label="Amount Sell"
@@ -214,7 +204,6 @@ export default function SellCoin({navigation, route}) {
           <Text style={[styles.btn_text, stylesStatus.white]}>Sell All</Text>
         </TouchableOpacity>
       </View>
-      {/* Modal Loading */}
       {loading && <ModalLoading />}
     </ScrollView>
   );

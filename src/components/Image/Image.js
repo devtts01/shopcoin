@@ -5,11 +5,11 @@ import {useState} from 'react';
 import {Image} from 'react-native';
 import styles from './ImageCss';
 
-const ImageCp = ({uri}) => {
+const ImageCp = ({uri, style}) => {
   const [error, setError] = useState(true);
   return (
     <Image
-      style={[styles.image]}
+      style={[styles.image, {...style}]}
       source={
         error
           ? {uri: `https://apishopcoin.4eve.site/${uri}`}

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, ScrollView, RefreshControl} from 'react-native';
+import {Text, ScrollView, RefreshControl} from 'react-native';
 import React from 'react';
 import styles from './ContactCss';
 

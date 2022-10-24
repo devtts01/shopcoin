@@ -43,6 +43,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
+  listItem: {
+    // flex: 1,
+    marginBottom: 50,
+  },
 });
 
 export default styles;

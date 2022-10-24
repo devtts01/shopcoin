@@ -1,20 +1,24 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
-import {View, Text, ScrollView, RefreshControl} from 'react-native';
+import {View, Text, RefreshControl, FlatList} from 'react-native';
 import {useCallback, useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {getAllDeposits} from '../../app/payloads/getAll';
-import {Header} from '../../components';
+import {Header, RowDetail} from '../../components';
+import {SVgetDepositsByEmailUser} from '../../services/deposits';
+import {dateFormat} from '../../utils/format/Date';
+import {textLower} from '../../utils/format/textLowercase';
+import {routersMain} from '../../routers/Main';
 import styles from './DepositsCss';
 import stylesStatus from '../../styles/Status';
 import stylesGeneral from '../../styles/General';
-import {SVgetDepositsByEmailUser} from '../../services/deposits';
-import {dateFormat} from '../../utils/format/Date';
 
 const Deposits = ({navigation}) => {
   const {state, dispatch} = useAppContext();
@@ -23,7 +27,6 @@ const Deposits = ({navigation}) => {
     data: {dataDeposits},
   } = state;
   const [refreshing, setRefreshing] = useState(false);
-
   useEffect(() => {
     SVgetDepositsByEmailUser({
       email: currentUser?.email,
@@ -32,7 +35,6 @@ const Deposits = ({navigation}) => {
     });
   }, []);
   const data = dataDeposits || [];
-
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -45,65 +47,69 @@ const Deposits = ({navigation}) => {
     });
     wait(2000).then(() => setRefreshing(false));
   }, []);
+  const renderItem = ({item}) => {
+    return (
+      <View style={[styles.item]}>
+        <RowDetail
+          noneBorderBottom
+          title="Created At"
+          text={dateFormat(item?.createdAt, 'DD/MM/YYYY')}
+        />
+        <RowDetail
+          noneBorderBottom
+          title="Status"
+          text={item?.status}
+          styleDesc={[
+            styles.row_desc,
+            stylesStatus.status,
+            textLower(item?.status) === 'onhold'
+              ? stylesStatus.vipbgc
+              : textLower(item?.status) === 'completed' ||
+                textLower(item?.status) === 'complete'
+              ? stylesStatus.completebgc
+              : textLower(item?.status) === 'canceled' ||
+                textLower(item?.status) === 'cancel'
+              ? stylesStatus.cancelbgc
+              : textLower(item?.status) === 'confirmed' ||
+                textLower(item?.status) === 'confirm'
+              ? stylesStatus.confirmbgc
+              : stylesStatus.demobgc,
+          ]}
+        />
+        <RowDetail
+          title="Amount USDT"
+          text={formatUSDT(item?.amount)}
+          noneBorderBottom
+        />
+        <RowDetail
+          title="Amount VND"
+          text={formatVND(item?.amountVnd)}
+          noneBorderBottom
+        />
+      </View>
+    );
+  };
   return (
     <View style={[styles.container]}>
       <Header />
       <View
         style={[styles.container_btn, stylesStatus.vipbgcbold]}
-        onTouchStart={() => navigation.navigate('Create Deposits')}>
+        onTouchStart={() => navigation.navigate(routersMain.CreateDeposits)}>
         <Text style={[styles.btn, stylesStatus.white]}>Create</Text>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        style={[styles.listDeposits, stylesGeneral.mt10]}>
+      <View style={[styles.listDeposits, stylesGeneral.mt10]}>
         {data.length > 0 ? (
-          data.map((item, index) => (
-            <View style={[styles.item]} key={index}>
-              <View style={[styles.row, stylesGeneral.flexRow]}>
-                <Text style={[styles.row_title]}>Created At</Text>
-                <Text style={[styles.row_desc]}>
-                  {dateFormat(item?.createdAt, 'DD/MM/YYYY')}
-                </Text>
-              </View>
-              <View style={[styles.row, stylesGeneral.flexRow]}>
-                <Text style={[styles.row_title]}>Status</Text>
-                <Text
-                  style={[
-                    styles.row_desc,
-                    stylesStatus.status,
-                    item?.status.toLowerCase().replace(' ', '') === 'onhold'
-                      ? stylesStatus.vipbgc
-                      : item?.status.toLowerCase() === 'completed' ||
-                        item?.status.toLowerCase() === 'complete'
-                      ? stylesStatus.completebgc
-                      : item?.status.toLowerCase() === 'canceled' ||
-                        item?.status.toLowerCase() === 'cancel'
-                      ? stylesStatus.cancelbgc
-                      : item?.status.toLowerCase() === 'confirmed' ||
-                        item?.status.toLowerCase() === 'confirm'
-                      ? stylesStatus.confirmbgc
-                      : stylesStatus.demobgc,
-                  ]}>
-                  {item?.status}
-                </Text>
-              </View>
-              <View style={[styles.row, stylesGeneral.flexRow]}>
-                <Text style={[styles.row_title]}>Amount USDT</Text>
-                <Text style={[styles.row_desc]}>
-                  {formatUSDT(item?.amount)}T
-                </Text>
-              </View>
-              <View style={[styles.row, stylesGeneral.flexRow]}>
-                <Text style={[styles.row_title]}>Amount VND</Text>
-                <Text style={[styles.row_desc]}>
-                  {formatVND(item?.amountVnd)}
-                </Text>
-              </View>
-            </View>
-          ))
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            onEndReachedThreshold={0.5}
+            contentContainerStyle={{flex: 1}}
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItem}
+          />
         ) : (
           <View style={[stylesGeneral.flexCenter, stylesGeneral.mt10]}>
             <Text
@@ -116,7 +122,7 @@ const Deposits = ({navigation}) => {
             </Text>
           </View>
         )}
-      </ScrollView>
+      </View>
     </View>
   );
 };

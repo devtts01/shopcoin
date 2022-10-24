@@ -11,28 +11,21 @@ import React, {useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {setCodeValue} from '../../app/payloads/form';
-import {FormInput, ModalLoading} from '../../components';
+import {FormInput, ModalLoading, RowDetail} from '../../components';
 import styles from './SingleWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {dateFormat} from '../../utils/format/Date';
-import {
-  SVcheckCode,
-  SVcreateWithdraw,
-  SVdeleteWithdraw,
-} from '../../services/withdraw';
+import {SVcheckCode, SVdeleteWithdraw} from '../../services/withdraw';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
 import requestRefreshToken from '../../utils/axios/refreshToken';
+import {textLower} from '../../utils/format/textLowercase';
 
 export default function SingleWithdraw({navigation, route}) {
   const {data} = route.params;
   const {state, dispatch} = useAppContext();
-  const {
-    currentUser,
-    codeVerify,
-    withdraw: {amountUSDT},
-  } = state;
+  const {currentUser, codeVerify} = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const wait = timeout => {
@@ -83,46 +76,31 @@ export default function SingleWithdraw({navigation, route}) {
       }>
       <Text style={[styles.title]}>Detail</Text>
       <View style={[styles.info_withdraw, stylesGeneral.mb10]}>
-        <View style={[styles.info_item, stylesGeneral.flexRow]}>
-          <Text style={[styles.info_item_text]}>Status</Text>
-          <Text
-            style={[
-              styles.info_item_desc,
-              stylesStatus.status,
-              data?.status.toLowerCase().replace(' ', '') === 'onhold'
-                ? stylesStatus.vipbgc
-                : data?.status.toLowerCase() === 'completed' ||
-                  data?.status.toLowerCase() === 'complete'
-                ? stylesStatus.completebgc
-                : data?.status.toLowerCase() === 'canceled' ||
-                  data?.status.toLowerCase() === 'cancel'
-                ? stylesStatus.cancelbgc
-                : data?.status.toLowerCase() === 'confirmed' ||
-                  data?.status.toLowerCase() === 'confirm'
-                ? stylesStatus.confirmbgc
-                : stylesStatus.demobgc,
-            ]}>
-            {data?.status}
-          </Text>
-        </View>
-        <View style={[styles.info_item, stylesGeneral.flexRow]}>
-          <Text style={[styles.info_item_text]}>Created At</Text>
-          <Text style={[styles.info_item_desc]}>
-            {dateFormat(data?.createdAt, 'DD/MM/YYYY')}
-          </Text>
-        </View>
-        <View style={[styles.info_item, stylesGeneral.flexRow]}>
-          <Text style={[styles.info_item_text]}>Amount USDT</Text>
-          <Text style={[styles.info_item_desc]}>
-            {formatUSDT(data?.amount)}T
-          </Text>
-        </View>
-        <View style={[styles.info_item, stylesGeneral.flexRow]}>
-          <Text style={[styles.info_item_text]}>Amount VND</Text>
-          <Text style={[styles.info_item_desc]}>
-            {formatVND(data?.amountVnd)}
-          </Text>
-        </View>
+        <RowDetail
+          title="Status"
+          text={data?.status}
+          styleDesc={[
+            stylesStatus.status,
+            textLower(data?.status) === 'onhold'
+              ? stylesStatus.vipbgc
+              : textLower(data?.status) === 'completed' ||
+                textLower(data?.status) === 'complete'
+              ? stylesStatus.completebgc
+              : textLower(data?.status) === 'canceled' ||
+                textLower(data?.status) === 'cancel'
+              ? stylesStatus.cancelbgc
+              : textLower(data?.status) === 'confirmed' ||
+                textLower(data?.status) === 'confirm'
+              ? stylesStatus.confirmbgc
+              : stylesStatus.demobgc,
+          ]}
+        />
+        <RowDetail
+          title="Created At"
+          text={dateFormat(data?.createdAt, 'DD/MM/YYYY')}
+        />
+        <RowDetail title="Amount USDT" text={formatUSDT(data?.amount)} />
+        <RowDetail title="Amount VND" text={formatVND(data?.amountVnd)} />
         <View style={[styles.info_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_item_text]}>Method</Text>
           <View style={[stylesGeneral.flexEnd]}>
@@ -177,7 +155,6 @@ export default function SingleWithdraw({navigation, route}) {
           </TouchableOpacity>
         </View>
       </View>
-      {/* Modal Loading */}
       {loading && <ModalLoading />}
     </ScrollView>
   );

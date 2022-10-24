@@ -18,6 +18,6 @@ export const setAsyncStore = async data => {
   const jsonValue = await JSON.stringify(data);
   await AsyncStorage.setItem(`@${KEY}`, jsonValue);
 };
-export const removeAsyncStore = async () => {
+export const removeAsyncStore = async dispatch => {
   await AsyncStorage.removeItem(`@${KEY}`);
 };

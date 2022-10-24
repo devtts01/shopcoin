@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import {Alert} from 'react-native';
 import {coinGet, userGet, userPost} from '../utils/axios/axiosInstance';
+import {routersMain} from '../routers/Main';
+import {routers} from '../routers/Routers';
 
 // GET ALL COINS
 export const SVgetAllCoins = async (props = {}) => {
@@ -52,11 +54,11 @@ export const SVbuyCoin = async (props = {}) => {
           [
             {
               text: 'Continue',
-              onPress: () => props.navigation.navigate('Home'),
+              onPress: () => props.navigation.navigate(routers.Home),
             },
             {
               text: 'View History',
-              onPress: () => props.navigation.navigate('History'),
+              onPress: () => props.navigation.navigate(routers.History),
             },
           ],
         );
@@ -94,11 +96,11 @@ export const SVsellCoin = async (props = {}) => {
           [
             {
               text: 'Continue',
-              onPress: () => props.navigation.navigate('My Coin'),
+              onPress: () => props.navigation.navigate(routers.MyCoin),
             },
             {
               text: 'View History',
-              onPress: () => props.navigation.navigate('Sell History'),
+              onPress: () => props.navigation.navigate(routersMain.SellHistory),
             },
           ],
         );

@@ -7,6 +7,7 @@ import {setFormValue} from '../../app/payloads/form';
 import {setMessage} from '../../app/payloads/message';
 import {useAppContext} from '../../utils/';
 import {Form} from '../../components';
+import {routersMain} from '../../routers/Main';
 import styles from './RegisterCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
@@ -40,7 +41,7 @@ const Register = ({navigation}) => {
         <Text style={[styles.desc_text]}>You have an acount?</Text>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('Login')}>
+          onPress={() => navigation.navigate(routersMain.Login)}>
           <Text
             style={[stylesGeneral.ml4, styles.register, stylesStatus.confirm]}>
             Login

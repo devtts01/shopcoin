@@ -18,7 +18,7 @@ import {
 } from '../layouts';
 import {Routers} from '../navigation';
 
-const routersMain = {
+export const routersMain = {
   Login: 'Login',
   Register: 'Register',
   ForgotPassword: 'ForgotPassword',
@@ -34,7 +34,7 @@ const routersMain = {
   ResetPwd: 'Reset Password',
   SellHistory: 'Sell History',
   ChangePwd: 'Change Password',
-  Main: 'Main',
+  MainPage: 'MainPage',
 };
 const MainObject = [
   {
@@ -50,6 +50,11 @@ const MainObject = [
   {
     name: routersMain.ForgotPassword,
     component: ForgotPwd,
+    options: 'headerNull',
+  },
+  {
+    name: routersMain.ResetPwd,
+    component: ResetPwd,
     options: 'headerNull',
   },
   {
@@ -98,11 +103,6 @@ const MainObject = [
     options: 'custom',
   },
   {
-    name: routersMain.ResetPwd,
-    component: ResetPwd,
-    options: 'custom',
-  },
-  {
     name: routersMain.SellHistory,
     component: SellHistory,
     options: 'custom',
@@ -113,7 +113,7 @@ const MainObject = [
     options: 'custom',
   },
   {
-    name: routersMain.Main,
+    name: routersMain.MainPage,
     component: Routers,
   },
 ];

@@ -4,7 +4,6 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: 12,
     paddingVertical: 12,
     marginBottom: 12,
   },
@@ -49,22 +48,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 17,
     backgroundColor: 'white',
     marginVertical: 8,
-  },
-  info_detail_item: {
-    justifyContent: 'space-between',
-    borderBottomColor: '#ededed',
-    borderBottomWidth: 1,
-    marginVertical: 5,
-  },
-  info_detail_title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  info_detail_desc: {
-    fontSize: 16,
-    marginBottom: 10,
-    fontWeight: '500',
   },
 });
 
