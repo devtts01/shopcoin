@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   listWithdraw: {
     // flex: 1,
-    // marginBottom: 140,
+    // marginBottom: 10,
   },
 });
 

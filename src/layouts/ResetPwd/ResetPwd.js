@@ -2,43 +2,32 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 import {useState} from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {useAppContext} from '../../utils';
 import {Form, ModalLoading} from '../../components';
 import {routersMain} from '../../routers/Main';
 import styles from './ResetPwdCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {SVresetPassword} from '../../services/user';
 
 const ResetPwd = ({navigation}) => {
-  const route = useRoute();
-  console.log(route);
-  const {state} = useAppContext();
+  const {state, dispatch} = useAppContext();
   const {
+    tokenForgot,
     form: {password, otpCode},
   } = state;
   const [loading, setLoading] = useState(false);
   const handleSubmit = async () => {
     try {
-      await 1;
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        Alert.alert(
-          {
-            title: 'Thông báo',
-            message: 'Mật khẩu đã được thay đổi thành công',
-          },
-          [
-            {
-              text: 'OK',
-              onPress: () => navigation.navigate(routersMain.Login),
-            },
-          ],
-        );
-      }, 5000);
-      console.log(password, otpCode);
+      SVresetPassword({
+        token: tokenForgot,
+        otp: otpCode,
+        pwd: password,
+        setLoading,
+        dispatch,
+        navigation,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -46,8 +35,8 @@ const ResetPwd = ({navigation}) => {
   return (
     <>
       <Form
-        titleForm="Reset Password"
-        textBtn="Reset"
+        titleForm="Change Password"
+        textBtn="Change"
         bolOTP
         bolPwd
         onPress={handleSubmit}>

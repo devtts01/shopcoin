@@ -99,7 +99,7 @@ export const SVcheckCode = async (props = {}) => {
           {
             text: 'OK',
             onPress: () =>
-              props.navigation.navigate(routersMain.SingleWithdraw),
+              props.navigation.navigate(routersMain.CreateWithdraw),
           },
         ]);
       }, 5000);

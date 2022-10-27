@@ -2,6 +2,7 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {URL_SERVER} from '@env';
 import styles from './ImageItemUploadCss';
 import stylesStatus from '../../styles/Status';
 import stylesGeneral from '../../styles/General';
@@ -40,10 +41,7 @@ export default function ImageItemUpload({
             fileResponse !== null
               ? fileResponse?.uri
               : userById[field]
-              ? `https://apishopcoin.4eve.site/${userById[field].replace(
-                  'uploads/',
-                  '',
-                )}`
+              ? `${URL_SERVER}${userById[field]?.replace('uploads/', '')}`
               : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'
           }`,
         }}

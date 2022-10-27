@@ -8,6 +8,7 @@ import {setMessage} from '../../app/payloads/message';
 import {setFormValue} from '../../app/payloads/form';
 import {Form, ModalLoading} from '../../components';
 import {SVforgotPwd} from '../../services/user';
+import {getTokenForgotPwd} from '../../app/payloads/getToken';
 import {routersMain} from '../../routers/Main';
 import styles from './ForgotPwdCss';
 import stylesGeneral from '../../styles/General';
@@ -27,6 +28,7 @@ const ForgotPwd = ({navigation}) => {
         dispatch,
         setMessage,
         setFormValue,
+        getTokenForgotPwd,
         setLoading,
         navigation,
       });

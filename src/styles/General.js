@@ -14,6 +14,9 @@ const stylesGeneral = StyleSheet.create({
   flexCenter: {
     alignItems: 'center',
   },
+  texttf_none: {
+    textTransform: 'none',
+  },
   flexCenterJustify: {
     justifyContent: 'center',
   },

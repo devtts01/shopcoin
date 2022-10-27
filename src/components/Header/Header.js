@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect} from 'react';
 import {useAppContext} from '../../utils';
 import {getUserById} from '../../app/payloads/getById';
@@ -15,12 +15,21 @@ export default function Header() {
   const {state, dispatch} = useAppContext();
   const {currentUser, userById} = state;
   useEffect(() => {
+    if (currentUser) {
+      SVgetUserById({
+        id: currentUser?.id,
+        dispatch,
+        getUserById,
+      });
+    }
+  }, []);
+  const handleRefreshUSDT = () => {
     SVgetUserById({
-      id: currentUser && currentUser?.id,
+      id: currentUser?.id,
       dispatch,
       getUserById,
     });
-  }, []);
+  };
 
   return (
     <View style={[styles.container]}>
@@ -59,18 +68,24 @@ export default function Header() {
             stylesGeneral.mr10,
             stylesGeneral.mb10,
           ]}>
-          = {formatUSDT(userById?.Wallet?.balance)}
+          ={' '}
+          {userById?.Wallet?.balance
+            ? formatUSDT(userById?.Wallet?.balance)
+            : 'Loading...'}
         </Text>
-        <Text
-          style={[
-            stylesGeneral.mb10,
-            stylesGeneral.fwbold,
-            stylesGeneral.fz16,
-            stylesStatus.status,
-            stylesStatus.completebgc,
-          ]}>
-          Refresh
-        </Text>
+        <TouchableOpacity activeOpacity={0.8} onPress={handleRefreshUSDT}>
+          <Text
+            style={[
+              stylesGeneral.mb10,
+              stylesGeneral.fwbold,
+              stylesGeneral.fz16,
+              stylesStatus.status,
+              stylesStatus.completebgc,
+              stylesGeneral.texttf_none,
+            ]}>
+            Refresh USDT
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

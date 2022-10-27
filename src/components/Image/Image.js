@@ -3,6 +3,7 @@
 /* eslint-disable prettier/prettier */
 import {useState} from 'react';
 import {Image} from 'react-native';
+import {URL_SERVER} from '@env';
 import styles from './ImageCss';
 
 const ImageCp = ({uri, style}) => {
@@ -12,9 +13,11 @@ const ImageCp = ({uri, style}) => {
       style={[styles.image, {...style}]}
       source={
         error
-          ? {uri: `https://apishopcoin.4eve.site/${uri}`}
+          ? {
+              uri: `${URL_SERVER}${uri?.replace('uploads/', '')}`,
+            }
           : {
-              uri: 'https://img.capital.com/imgs/articles/1200x627x1/shutterstock_1923715325.jpg',
+              uri: 'https://img.freepik.com/premium-vector/bitcoin-golden-cryptocurrency-coin-electronics-finance-money-symbol_53562-8482.jpg?w=2000',
             }
       }
       resizeMode="cover"

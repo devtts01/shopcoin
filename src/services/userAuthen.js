@@ -5,100 +5,87 @@ import {routersMain} from '../routers/Main';
 
 // USER LOGIN
 export const userLogin = async (props = {}) => {
-  try {
-    const resPost = await authPost('login', {
-      email: props.email,
-      password: props.password,
-    });
-    switch (resPost.code) {
-      case 0:
-        setAsyncStore({
-          token: resPost?.token,
-          username: resPost?.userInfo?.payment?.username,
-          email: resPost?.userInfo?.payment?.email,
-          rule: resPost?.userInfo?.payment.rule,
-          rank: resPost?.userInfo?.rank,
-          id: resPost?.userInfo?._id,
-        });
-        props.dispatch(
-          props.setFormValue({
-            username: '',
-            email: '',
-            password: '',
-          }),
-        );
-        props.dispatch(
-          props.setMessage({
-            ...props.state.message,
-            error: '',
-          }),
-        );
-        props.redirect();
-        break;
-      case 1:
-      case 2:
-        props.dispatch(
-          props.setMessage({
-            ...props.state.message,
-            error: resPost?.message,
-          }),
-        );
-        break;
-      default:
-        break;
-    }
-  } catch (err) {
-    console.log(err);
+  const resPost = await authPost('login', {
+    email: props.email,
+    password: props.password,
+  });
+  switch (resPost.code) {
+    case 0:
+      await setAsyncStore({
+        token: resPost?.token,
+        username: resPost?.userInfo?.payment?.username,
+        email: resPost?.userInfo?.payment?.email,
+        rule: resPost?.userInfo?.payment.rule,
+        rank: resPost?.userInfo?.rank,
+        id: resPost?.userInfo?._id,
+      });
+      props.dispatch(
+        props.setFormValue({
+          username: '',
+          email: '',
+          password: '',
+        }),
+      );
+      props.dispatch(
+        props.setMessage({
+          ...props.state.message,
+          error: '',
+        }),
+      );
+      props.redirect();
+      break;
+    case 1:
+    case 2:
+      props.dispatch(
+        props.setMessage({
+          ...props.state.message,
+          error: resPost?.message,
+        }),
+      );
+      break;
+    default:
+      break;
   }
 };
 // USER LOGOUT
 export const userLogout = async (props = {}) => {
-  try {
-    await removeAsyncStore();
-    await authPost('logout');
-  } catch (err) {
-    console.log(err);
-  }
+  await authPost('logout');
+  removeAsyncStore();
 };
 // USER REGISTER
 export const userRegister = async (props = {}) => {
-  try {
-    const resPost = await authPost('register', {
-      username: props.username,
-      email: props.email,
-      password: props.password,
-    });
-    switch (resPost.code) {
-      case 0:
-        props.dispatch(
-          props.setFormValue({
-            username: '',
-            email: '',
-            password: '',
-          }),
-        );
-        props.dispatch(
-          props.setMessage({
-            ...props.state.message,
-            error: '',
-          }),
-        );
-        props.navigation.navigate(routersMain.Login);
-        break;
-      case 1:
-      case 2:
-        props.dispatch(
-          props.setMessage({
-            ...props.state.message,
-            error: resPost?.message,
-          }),
-        );
-        break;
-      default:
-        break;
-    }
-    console.log(resPost);
-  } catch (err) {
-    console.log(err);
+  const resPost = await authPost('register', {
+    username: props.username,
+    email: props.email,
+    password: props.password,
+  });
+  switch (resPost.code) {
+    case 0:
+      props.dispatch(
+        props.setFormValue({
+          username: '',
+          email: '',
+          password: '',
+        }),
+      );
+      props.dispatch(
+        props.setMessage({
+          ...props.state.message,
+          error: '',
+        }),
+      );
+      props.navigation.navigate(routersMain.Login);
+      break;
+    case 1:
+    case 2:
+      props.dispatch(
+        props.setMessage({
+          ...props.state.message,
+          error: resPost?.message,
+        }),
+      );
+      break;
+    default:
+      break;
   }
 };

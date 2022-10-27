@@ -11,9 +11,10 @@ import {View, RefreshControl, FlatList} from 'react-native';
 import {useAppContext} from '../../utils';
 import {getAllCoins} from '../../app/payloads/getAll';
 import {setSearchValue} from '../../app/payloads/search';
-import {Search, Header, CoinDetail} from '../../components';
+import {Search, Header, CoinDetail, NodataText} from '../../components';
 import {SVgetAllCoins} from '../../services/coin';
 import styles from './HomeCss';
+import {getAsyncStore} from '../../utils/localStore/localStore';
 
 const Home = ({navigation}) => {
   const {state, dispatch} = useAppContext();
@@ -25,15 +26,18 @@ const Home = ({navigation}) => {
   const [loading, setLoading] = React.useState(false);
   const [page, setPage] = useState(1);
   const [show, setShow] = useState(dataCoins?.total || 10);
-  let data = dataCoins?.data || [];
+  useEffect(() => {
+    getAsyncStore(dispatch);
+  }, []);
   useEffect(() => {
     SVgetAllCoins({
       page,
-      show: dataCoins?.total || 10,
+      show: dataCoins?.total,
       dispatch,
       getAllCoins,
     });
   }, [page, show]);
+  let data = dataCoins?.data || [];
   if (search) {
     data = data.filter(item => {
       return item?.symbol?.toLowerCase().includes(search?.toLowerCase());
@@ -47,7 +51,7 @@ const Home = ({navigation}) => {
     setRefreshing(true);
     SVgetAllCoins({
       page,
-      show: dataCoins?.total || 10,
+      show: dataCoins?.total,
       dispatch,
       getAllCoins,
     });
@@ -60,6 +64,12 @@ const Home = ({navigation}) => {
     if (!stopLoadingData) {
       await 1;
       setShow(dataCoins?.total);
+      SVgetAllCoins({
+        page,
+        show: dataCoins?.total,
+        dispatch,
+        getAllCoins,
+      });
       stopLoadingData = true;
     }
     setLoading(false);
@@ -74,23 +84,31 @@ const Home = ({navigation}) => {
     <View style={[styles.container]}>
       <Header />
       <View>
-        <Search name="search" value={search} onChange={handleChangeSearch} />
+        <Search
+          name="search"
+          // value={search}
+          onChange={handleChangeSearch}
+        />
       </View>
       <View style={[styles.listCoin]}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          onEndReached={handleEndReached}
-          onScroll={handleEndReached}
-          onEndReachedThreshold={0.5}
-          onScrollBeginDrag={() => (stopLoadingData = false)}
-          contentContainerStyle={{flex: 1}}
-          data={data}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItem}
-        />
+        {data.length > 0 ? (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            onEndReached={handleEndReached}
+            onScroll={handleEndReached}
+            onEndReachedThreshold={0.5}
+            onScrollBeginDrag={() => (stopLoadingData = false)}
+            contentContainerStyle={{flex: 1}}
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItem}
+          />
+        ) : (
+          <NodataText text="No data" />
+        )}
       </View>
     </View>
   );

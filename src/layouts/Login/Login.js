@@ -20,8 +20,8 @@ const Login = ({navigation}) => {
   } = state;
   const refEmail = useRef();
   const refPwd = useRef();
-  const handleLogin = () => {
-    userLogin({
+  const handleLogin = async () => {
+    await userLogin({
       email,
       password,
       dispatch,

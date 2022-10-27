@@ -8,7 +8,11 @@ import {useAppContext} from '../utils';
 import MainObject, {routersMain} from '../routers/Main';
 import {setMessage} from '../app/payloads/message';
 import {setCurrentUser} from '../app/payloads/user';
-import {getAsyncStore} from '../utils/localStore/localStore';
+import {
+  getAsyncStore,
+  setAsyncStore,
+  updateAsyncStore,
+} from '../utils/localStore/localStore';
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
@@ -42,7 +46,7 @@ export default function Main() {
     }
   });
   useEffect(() => {
-    dispatch(setCurrentUser(getAsyncStore(dispatch)));
+    getAsyncStore(dispatch);
   }, []);
   return (
     <NavigationContainer theme={MyTheme}>

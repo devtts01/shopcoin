@@ -90,6 +90,7 @@ const Withdraw = ({navigation}) => {
       </DataTable.Row>
     );
   };
+  console.log(data);
   return (
     <View style={[styles.container]}>
       <View style={[styles.content]}>
@@ -102,7 +103,7 @@ const Withdraw = ({navigation}) => {
         <View style={[styles.listWithdraw, stylesGeneral.mt10]}></View>
       </View>
       {data.length > 0 ? (
-        <DataTable style={{flex: 1}}>
+        <DataTable style={{flex: 1, marginBottom: 40}}>
           <DataTable.Header>
             <DataTable.Title style={[styles.title_table]} numeric>
               Send

@@ -144,7 +144,6 @@ export default function UploadDoument({navigation}) {
   };
   const handleSubmit = id => {
     try {
-      // console.log(dataImageForm, id);
       requestRefreshToken(
         currentUser,
         uploadImageAPI,
