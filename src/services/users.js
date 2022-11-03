@@ -100,6 +100,10 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
             props.dispatch(
                 props.actions.setData({
                     ...props.state.set,
+                    data: {
+                        ...props.state.set.data,
+                        dataUser: res,
+                    },
                     message: {
                         ...props.state.set.message,
                         upd: resPut.message,

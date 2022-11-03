@@ -9,6 +9,7 @@ import {
     deleteUtils,
     handleUtils,
     requestRefreshToken,
+    localStoreUtils,
 } from '../../utils';
 import { TrStatus } from '../../components/TableData/TableData';
 import routers from '../../routers/routers';
@@ -48,8 +49,12 @@ function User() {
     }, [page, show]);
     //Search Data Users
     let dataUserFlag = searchUsers({ dataUser: dataUser.dataUser, user });
-    const toggleEditTrue = (e, status, id) => {
-        return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
+    const toggleEditTrue = async (e, status, id) => {
+        await localStoreUtils.setStore({
+            ...currentUser,
+            idUpdate: id,
+        });
+        deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
     };
     const toggleEditFalse = (e) => {
         return deleteUtils.statusFalse(e, dispatch, state, actions);
@@ -178,7 +183,7 @@ function User() {
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
                     classNameButton='vipbgc'
-                    onClick={() => editStatus(edit.id)}
+                    onClick={() => editStatus(currentUser?.idUpdate || edit.id)}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change rank this user?
