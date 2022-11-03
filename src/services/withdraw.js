@@ -5,7 +5,6 @@ import {
   userDelete,
   userGet,
   userPost,
-  userPut,
 } from '../utils/axios/axiosInstance';
 import {routersMain} from '../routers/Main';
 import {routers} from '../routers/Routers';
@@ -112,7 +111,6 @@ export const SVcheckCode = async (props = {}) => {
 // DELETE WITHDRAW
 export const SVdeleteWithdraw = async (props = {}) => {
   const resDel = await userDelete(`/cancelWithdraw/${props.id}`);
-  console.log(resDel);
   switch (resDel.code) {
     case 0:
       props.setLoading(true);
@@ -129,8 +127,7 @@ export const SVdeleteWithdraw = async (props = {}) => {
         Alert.alert('Error!', resDel?.message, [
           {
             text: 'OK',
-            onPress: () =>
-              props.navigation.navigate(routersMain.SingleWithdraw),
+            onPress: () => {},
           },
         ]);
       }, 5000);
@@ -140,34 +137,37 @@ export const SVdeleteWithdraw = async (props = {}) => {
   }
 };
 
-// UPDATE DEPOSITS
-export const SVupdateDeposits = async (props = {}) => {
-  const resPut = await userPut(
-    `/updateImageDeposit/${props.id}`,
-    props?.image,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Accept: 'application/json',
-        token: props?.token,
-      },
-    },
-  );
-  switch (resPut.code) {
+// RESEND CODE
+export const SVresendCode = async (props = {}) => {
+  const resPost = await userPost(`/resendOTPWithdraw/${props?.id}`, {
+    email: props?.email,
+  });
+  switch (resPost.code) {
     case 0:
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Success!', resPut?.message, [
+        Alert.alert(
+          'Success!',
+          'Resend Code successfully. Please check your mail!',
+          [
+            {
+              text: 'OK',
+              onPress: () => {},
+            },
+          ],
+        );
+      }, 5000);
+      break;
+    case 1:
+    case 2:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Error!', resPost?.message, [
           {
             text: 'OK',
-            onPress: () =>
-              props.navigation.navigate({
-                name: routers.Deposits,
-                params: {
-                  data: resPut?.data,
-                },
-              }),
+            onPress: () => {},
           },
         ]);
       }, 5000);

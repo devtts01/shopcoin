@@ -90,7 +90,6 @@ const Withdraw = ({navigation}) => {
       </DataTable.Row>
     );
   };
-  console.log(data);
   return (
     <View style={[styles.container]}>
       <View style={[styles.content]}>

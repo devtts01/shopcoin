@@ -4,10 +4,9 @@ import {
   Text,
   ScrollView,
   RefreshControl,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {setCodeValue} from '../../app/payloads/form';
@@ -16,7 +15,11 @@ import styles from './SingleWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {dateFormat} from '../../utils/format/Date';
-import {SVcheckCode, SVdeleteWithdraw} from '../../services/withdraw';
+import {
+  SVcheckCode,
+  SVdeleteWithdraw,
+  SVresendCode,
+} from '../../services/withdraw';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
 import requestRefreshToken from '../../utils/axios/refreshToken';
@@ -27,10 +30,18 @@ export default function SingleWithdraw({navigation, route}) {
   const {state, dispatch} = useAppContext();
   const {currentUser, codeVerify} = state;
   const [refreshing, setRefreshing] = React.useState(false);
+  const [timer, setTimer] = useState(300);
   const [loading, setLoading] = useState(false);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
+  useEffect(() => {
+    if (timer > 0) {
+      setTimeout(() => setTimer(timer - 1), 1000);
+    } else {
+      setTimer(0);
+    }
+  }, [timer]);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
@@ -67,6 +78,20 @@ export default function SingleWithdraw({navigation, route}) {
       navigation,
     });
   };
+  const handleResendCode = async () => {
+    try {
+      SVresendCode({
+        id: data?._id,
+        email: currentUser?.email,
+        setLoading,
+        navigation,
+      });
+      setTimer(300);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <ScrollView
       style={[styles.container]}
@@ -124,9 +149,17 @@ export default function SingleWithdraw({navigation, route}) {
           onChangeText={val => handleChangeInput('codeVerify', val)}
         />
         <Text style={[stylesGeneral.mb5, stylesGeneral.fz16]}>
-          This code is valid in 5 minutes.
+          This code is valid in 5 minutes. Code:{' '}
+          <Text style={[timer <= 10 && stylesStatus.cancel]}>
+            {timer > 0
+              ? `${'0' + Math.floor(timer / 60)}:${
+                  timer % 60 >= 10 ? timer % 60 : '0' + (timer % 60)
+                }`
+              : '00:00'}
+          </Text>
         </Text>
         <Text
+          onPress={handleResendCode}
           style={[
             stylesGeneral.fwbold,
             stylesStatus.complete,

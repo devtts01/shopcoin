@@ -42,6 +42,7 @@ export default function BuyCoin({navigation, route}) {
     amountCoin,
     data: {dataById},
   } = state;
+  console.log(dataById);
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -90,10 +91,9 @@ export default function BuyCoin({navigation, route}) {
     SVbuyCoin({
       gmailUser: currentUser?.email,
       amount: parseFloat(amountCoin),
-      amountUsd:
-        parseFloat(amountCoin) * parseFloat(priceCoinSocket?.lastPrice),
+      amountUsd: parseFloat(amountCoin) * parseFloat(dataById?.price),
       symbol: dataById?.symbol,
-      price: parseFloat(priceCoinSocket?.lastPrice),
+      price: parseFloat(dataById?.price),
       token: data?.token,
       setLoading,
       navigation,
@@ -170,7 +170,7 @@ export default function BuyCoin({navigation, route}) {
             stylesGeneral.fwbold,
             stylesStatus.complete,
           ]}>
-          Amount USDT: {amountCoin * priceCoinSocket?.lastPrice}
+          Amount USDT: {amountCoin * dataById?.price}
         </Text>
       </View>
       <TouchableOpacity
