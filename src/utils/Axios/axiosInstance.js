@@ -2,8 +2,8 @@ import axios from 'axios';
 
 // AUTHENTICATION
 export const authInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_URL_SERVER}authen/`,
-    // baseURL: 'http://localhost:8000/authen/',
+    // baseURL: `${process.env.REACT_APP_URL_SERVER}/authen/`,
+    baseURL: 'http://localhost:8000/authen/',
     withCredentials: true,
 });
 export const authPost = async (path, options = {}) => {
@@ -17,7 +17,7 @@ export const refreshToken = async (path, options = {}) => {
 };
 // ADMIN
 export const adminInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_URL_SERVER}admin/`,
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/admin/`,
     // baseURL: 'http://localhost:8000/admin/',
     withCredentials: true,
 });
@@ -39,7 +39,7 @@ export const adminDelete = async (path, options = {}) => {
 };
 // USERS
 export const userInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_URL_SERVER}users/`,
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/users/`,
     // baseURL: 'http://localhost:8000/users/',
     withCredentials: true,
 });
@@ -61,7 +61,7 @@ export const userDelete = async (path, options = {}) => {
 };
 // COINS
 export const coinInstance = axios.create({
-    baseURL: `${process.env.REACT_APP_URL_SERVER}coins/`,
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/coins/`,
     // baseURL: 'http://localhost:8000/coins/',
     withCredentials: true,
 });

@@ -15,6 +15,8 @@ import {
     deleteUtils,
     handleUtils,
     requestRefreshToken,
+    localStoreUtils,
+    numberUtils,
 } from '../../utils';
 import routers from '../../routers/routers';
 import { Icons, ActionsTable, Modal, SelectStatus } from '../../components';
@@ -52,8 +54,12 @@ function Withdraw() {
         withdraw,
     });
     // Modal
-    const toggleEditTrue = (e, status, id) => {
-        return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
+    const toggleEditTrue = async (e, status, id) => {
+        await localStoreUtils.setStore({
+            ...currentUser,
+            idUpdate: id,
+        });
+        deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
     };
     const toggleEditFalse = (e) => {
         return deleteUtils.statusFalse(e, dispatch, state, actions);
@@ -125,12 +131,12 @@ function Withdraw() {
                         send: {
                             icon: <Icons.SendIcon />,
                             title: 'Send',
-                            number: '100,039.38',
+                            number: numberUtils.formatUSD(item?.amountUsd),
                         },
                         received: {
                             icon: <Icons.ReceivedIcon />,
                             title: 'Received',
-                            number: '10,482.46',
+                            number: numberUtils.formatVND(item?.amountVnd),
                         },
                     };
                     const username = dataUser.dataUser.find(
@@ -197,7 +203,7 @@ function Withdraw() {
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
                     classNameButton='vipbgc'
-                    onClick={() => editStatus(edit.id)}
+                    onClick={() => editStatus(currentUser?.idUpdate || edit.id)}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change status this{' '}

@@ -1,6 +1,7 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import className from 'classnames/bind';
-import { useAppContext, textUtils } from '../../utils';
+import { useAppContext, textUtils, localStoreUtils } from '../../utils';
 import { actions } from '../../app/';
 import { Icons } from '..';
 import styles from './SelectStatus.module.css';
@@ -11,6 +12,14 @@ function SelectStatus({ status, rank }) {
     const { state, dispatch } = useAppContext();
     const { statusUpdate, statusCurrent } = state.set;
     const { selectStatus } = state.toggle;
+    useEffect(() => {
+        dispatch(
+            actions.setData({
+                ...state.set,
+                currentUser: localStoreUtils.getStore(),
+            })
+        );
+    }, []);
     const setStatus = (status) => {
         dispatch(
             actions.setData({
@@ -47,11 +56,11 @@ function SelectStatus({ status, rank }) {
     };
     const classStatus =
         (statusUpdate || statusCurrent) &&
-        (statusUpdate || statusCurrent).toLowerCase().replace(' ', '');
+        (statusUpdate || statusCurrent)?.toLowerCase();
     const STATUS_LIST = [
-        { name: 'Confirm' },
-        { name: 'Complete' },
-        { name: 'Cancel' },
+        { name: 'Confirmed' },
+        { name: 'Completed' },
+        { name: 'Canceled' },
         { name: 'On hold' },
     ];
     const RANK_LIST = [
@@ -70,11 +79,10 @@ function SelectStatus({ status, rank }) {
                 <div
                     className={`${cx(
                         'selectStatus-value',
-                        classStatus + 'bgc'
+                        classStatus?.replace(' ', '') + 'bgc'
                     )}`}
                 >
-                    {textUtils.FirstUpc(statusUpdate) ||
-                        textUtils.FirstUpc(statusCurrent)}
+                    {textUtils.FirstUpc(statusUpdate || statusCurrent)}
                 </div>
                 <Icons.SelectOptionArrowIcon />
                 {selectStatus && (
@@ -84,17 +92,17 @@ function SelectStatus({ status, rank }) {
                     >
                         {LIST.map((item, index) => {
                             const classItem = item.name
-                                .toLowerCase()
-                                .replace(' ', '');
+                                ?.toLowerCase()
+                                ?.replace(' ', '');
                             return (
                                 <div
                                     key={index}
                                     className={`${
                                         classItem + 'bgc'
                                     } status border0`}
-                                    onClick={() => setStatus(classItem)}
+                                    onClick={() => setStatus(item.name)}
                                 >
-                                    {textUtils.FirstUpc(item.name)}
+                                    {item.name}
                                 </div>
                             );
                         })}

@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
-import { useAppContext, alertUtils } from './utils';
+import { alertUtils, useAppContext } from './utils';
 import { DefaultLayout } from './Layouts';
 import { actions } from './app/';
 import routers from './routers/routers';
@@ -20,20 +20,9 @@ function App() {
     if (error || del || cre || upd || success) {
         setTimeout(() => {
             handleCloseAlert();
-            dispatch(
-                actions.setData({
-                    ...state.set,
-                    message: {
-                        error: '',
-                        del: '',
-                        cre: '',
-                        upd: '',
-                        success: '',
-                    },
-                })
-            );
         }, 5000);
     }
+
     useEffect(() => {
         if (currentUser) {
             dispatch(

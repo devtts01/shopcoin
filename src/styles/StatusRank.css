@@ -10,7 +10,8 @@
 .confirm,
 .pending,
 .confirmed,
-.standard {
+.standard,
+.waiting {
     color: var(--table-status-confirm-color);
 }
 
@@ -39,7 +40,9 @@
 .pendingbgc,
 .pendingbgc:hover,
 .standardbgc,
-.standardbgc:hover {
+.standardbgc:hover,
+.waitingbgc,
+.waitingbgc:hover {
     color: var(--table-status-confirm-color);
     background-color: var(--table-status-confirm-bgc);
 }

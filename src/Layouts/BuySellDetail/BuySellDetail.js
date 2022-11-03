@@ -7,7 +7,12 @@ import moment from 'moment';
 import { Button, Icons } from '../../components';
 import { getBuySellById } from '../../services/buy';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { useAppContext, textUtils, refreshPage } from '../../utils';
+import {
+    useAppContext,
+    textUtils,
+    refreshPage,
+    numberUtils,
+} from '../../utils';
 import { actions } from '../../app/';
 import styles from './BuySellDetail.module.css';
 
@@ -15,10 +20,11 @@ const cx = className.bind(styles);
 
 function BuySellDetail() {
     const { idBuy, idSell } = useParams();
+    // const { pathname } = useLocation();
     const { state, dispatch } = useAppContext();
     const {
         edit,
-        data: { dataUser },
+        // data: { dataUser },
     } = state.set;
     useEffect(() => {
         document.title = 'Detail | Shop Coin';
@@ -36,9 +42,9 @@ function BuySellDetail() {
             </div>
         );
     }
-    const username = dataUser?.dataUser?.find(
-        (x) => x.payment.email === edit?.itemData?.buyer.gmailUSer
-    )?.payment?.username;
+    // const username = dataUser?.dataUser?.find(
+    //     (x) => x.payment.email === edit?.itemData?.buyer.gmailUSer
+    // )?.payment?.username;
     const x = edit?.itemData && edit?.itemData;
     return (
         <>
@@ -74,17 +80,23 @@ function BuySellDetail() {
                         )}
                     </div>
                 </div>
-                <ItemRender title='Username' info={x && username} />
+                {/* <ItemRender title='Username' info={x && ''} /> */}
                 <ItemRender title='Email' info={x && x.buyer.gmailUSer} />
-                <ItemRender title='Code' />
+                {/* {pathname.includes('buy') && <ItemRender title='Code' />} */}
                 <ItemRender
                     title='Created'
-                    info={x && moment(x.createAt).format('DD/MM/YYYY')}
+                    info={x && moment(x.createAt).format('DD/MM/YYYY HH:MM:SS')}
                 />
                 <ItemRender title='Symbol' info={x && x.symbol} />
-                <ItemRender title='Sent' />
-                <ItemRender title='Buy price' info={x && x.price} />
-                <ItemRender title='Received' />
+                <ItemRender title='Sent' info={x && x.amount} />
+                <ItemRender
+                    title='Buy price'
+                    info={x && numberUtils.formatUSD(x.price)}
+                />
+                <ItemRender
+                    title='Received'
+                    info={x && numberUtils.formatUSD(x?.amountUsd)}
+                />
                 <ItemRender title='Fee' info={x && x.fee} feeCustom />
                 <ItemRender title='Document' />
             </div>

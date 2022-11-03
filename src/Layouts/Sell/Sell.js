@@ -14,8 +14,10 @@ import {
     deleteUtils,
     handleUtils,
     requestRefreshToken,
+    localStoreUtils,
+    numberUtils,
 } from '../../utils';
-import Skeleton from 'react-loading-skeleton';
+// import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import moment from 'moment';
 import { Icons, ActionsTable, SelectStatus, Modal } from '../../components';
@@ -53,8 +55,12 @@ function Sell() {
         getSells({ page, show, dispatch, state, actions });
     }, [page, show]);
     let dataSellFlag = searchSells({ dataSell, sell });
-    const toggleEditTrue = (e, status, id) => {
-        return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
+    const toggleEditTrue = async (e, status, id) => {
+        await localStoreUtils.setStore({
+            ...currentUser,
+            idUpdate: id,
+        });
+        deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
     };
     const toggleEditFalse = (e) => {
         return deleteUtils.statusFalse(e, dispatch, state, actions);
@@ -151,12 +157,12 @@ function Sell() {
                         send: {
                             icon: <Icons.SendIcon />,
                             title: 'Send',
-                            number: '100,039.38',
+                            number: item?.amount,
                         },
                         received: {
                             icon: <Icons.ReceivedIcon />,
                             title: 'Received',
-                            number: '10,482.46',
+                            number: numberUtils.formatUSD(item?.amountUsd),
                         },
                     };
                     const username = dataUser.dataUser.find(
@@ -171,7 +177,8 @@ function Sell() {
                         <tr key={index}>
                             <td>{handleUtils.indexTable(page, show, index)}</td>
                             <td>
-                                <Skeleton width={50} />
+                                {/* <Skeleton width={50} /> */}
+                                {item?.symbol}
                             </td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
@@ -229,7 +236,9 @@ function Sell() {
                     openModal={toggleEditTrue}
                     closeModal={toggleEditFalse}
                     classNameButton='vipbgc'
-                    onClick={() => editStatusSell(edit.id)}
+                    onClick={() =>
+                        editStatusSell(currentUser?.idUpdate || edit.id)
+                    }
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change status this{' '}

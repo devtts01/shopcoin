@@ -174,7 +174,7 @@ export const handleCreate = async (props = {}) => {
         }
     );
     switch (resPost.code) {
-        case 1:
+        case 0:
             props.history(`${routers.settingCoin}`);
             const res = await axiosUtils.coinGet(
                 `getAllCoin?page=${props.page}&show=${props.show}`

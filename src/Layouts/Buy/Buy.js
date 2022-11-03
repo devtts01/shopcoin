@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import Skeleton from 'react-loading-skeleton';
+// import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import className from 'classnames/bind';
 import {
@@ -17,6 +17,8 @@ import {
     deleteUtils,
     handleUtils,
     requestRefreshToken,
+    localStoreUtils,
+    numberUtils,
 } from '../../utils';
 import { Icons, ActionsTable, Modal, SelectStatus } from '../../components';
 import routers from '../../routers/routers';
@@ -51,8 +53,12 @@ function Buy() {
         getBuys({ page, show, dispatch, state, actions });
     }, [page, show]);
     let dataBuyFlag = searchBuys({ dataBuy, buy });
-    const toggleEditStatusTrue = (e, status, id) => {
-        return deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
+    const toggleEditStatusTrue = async (e, status, id) => {
+        await localStoreUtils.setStore({
+            ...currentUser,
+            idUpdate: id,
+        });
+        deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
     };
     const toggleEditStatusFalse = (e) => {
         return deleteUtils.statusFalse(e, dispatch, state, actions);
@@ -149,12 +155,12 @@ function Buy() {
                         send: {
                             icon: <Icons.SendIcon />,
                             title: 'Send',
-                            number: '100,039.38',
+                            number: numberUtils.formatUSD(item?.amountUsd),
                         },
                         received: {
                             icon: <Icons.ReceivedIcon />,
                             title: 'Received',
-                            number: '10,482.46',
+                            number: item?.amount,
                         },
                     };
                     const username = dataUser.dataUser.find(
@@ -169,7 +175,8 @@ function Buy() {
                         <tr key={index}>
                             <td>{handleUtils.indexTable(page, show, index)}</td>
                             <td>
-                                <Skeleton width={50} />
+                                {/* <Skeleton width={50} /> */}
+                                {item?.symbol}
                             </td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
@@ -227,7 +234,9 @@ function Buy() {
                     openModal={toggleEditStatusTrue}
                     closeModal={toggleEditStatusFalse}
                     classNameButton='vipbgc'
-                    onClick={() => editStatusBuy(edit.id)}
+                    onClick={() =>
+                        editStatusBuy(currentUser?.idUpdate || edit?.id)
+                    }
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change status this{' '}

@@ -13,6 +13,7 @@ export const closeAlert = (dispatch, state, actions) => {
                 upd: '',
                 cre: '',
                 error: '',
+                success: '',
             },
         })
     );

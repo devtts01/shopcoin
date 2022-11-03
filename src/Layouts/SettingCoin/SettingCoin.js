@@ -84,12 +84,14 @@ function SettingCoin() {
                                 <TrObjectImage
                                     item={`${
                                         process.env.REACT_APP_URL_SERVER
-                                    }${item.logo.replace('uploads/', '')}`}
+                                    }${item.logo?.replace('uploads/', '')}`}
                                 />
                             </td>
                             <td>{item.name}</td>
                             <td>
-                                {moment(item.createdAt).format('DD/MM/YYYY')}
+                                {moment(item.createdAt).format(
+                                    'DD/MM/YYYY HH:SS:SS'
+                                )}
                             </td>
                             <td>
                                 <ActionsTable

@@ -309,7 +309,10 @@ function UserDetail() {
                     <ItemRender feeCustom title='Fee' info={x && x.fee} />
                     <ItemRender
                         title='Created At'
-                        info={x && moment(x.createAt).format('DD/MM/YYYY')}
+                        info={
+                            x &&
+                            moment(x.createAt).format('DD/MM/YYYY HH:MM:SS')
+                        }
                     />
                 </div>
                 <div className={`${cx('detail-container')}`}>

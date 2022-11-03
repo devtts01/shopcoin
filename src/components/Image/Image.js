@@ -11,10 +11,12 @@ function Image({ src, alt, className, errorImage }) {
         'https://via.placeholder.com/139x39/FFFF00/000000?text=Shopcoinusa.com';
     return (
         <img
+            crossorigin='anonymous'
+            className={classed}
             src={src}
             alt={alt}
-            className={classed}
             onError={(e) => {
+                e.target.onerror = null;
                 e.target.src = errorImage || errorImgPlaceholder;
             }}
         />

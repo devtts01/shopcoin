@@ -63,7 +63,7 @@ function NewCoin() {
     const refCheckbox = useRef();
     const refNameCoin = useRef();
     const refSymbolCoin = useRef();
-    const refIndexCoin = useRef();
+    // const refIndexCoin = useRef();
     const refFullName = useRef();
     const refLogo = useRef();
     const history = useNavigate();
@@ -112,6 +112,11 @@ function NewCoin() {
                     indexCoin: '',
                     fullName: '',
                     logo: null,
+                },
+                edit: {
+                    id: '',
+                    data: null,
+                    itemData: null,
                 },
             })
         );
@@ -339,7 +344,7 @@ function NewCoin() {
                         />
                     </div>
                     <div className={`${cx('newcoin-info')}`}>
-                        <FormInput
+                        {/* <FormInput
                             label='Index'
                             type='text'
                             placeholder='Enter index'
@@ -349,7 +354,7 @@ function NewCoin() {
                             onChange={handleChangeForm}
                             classNameField={`${cx('field-container')}`}
                             readOnly
-                        />
+                        /> */}
                         <FormInput
                             label='FullName'
                             type='text'

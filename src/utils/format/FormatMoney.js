@@ -7,3 +7,12 @@ export const formatUSD = (number) => {
         // compactDisplay: 'short'  ,
     }).format(number);
 };
+// FORMAT VND
+export const formatVND = (number) => {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        // notation: 'compact', // compact, short, long - rút gọn
+        // compactDisplay: 'short'  ,
+    }).format(number);
+};

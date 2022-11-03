@@ -7,7 +7,12 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { Button, Icons } from '../../components';
 import moment from 'moment';
 import { getDepositsWithdrawById } from '../../services/deposits';
-import { useAppContext, textUtils, refreshPage } from '../../utils';
+import {
+    useAppContext,
+    textUtils,
+    refreshPage,
+    numberUtils,
+} from '../../utils';
 import { actions } from '../../app/';
 import styles from './DepositsWithdrawDetail.module.css';
 
@@ -18,7 +23,7 @@ function DepositsWithdrawDetail() {
     const { state, dispatch } = useAppContext();
     const {
         edit,
-        data: { dataUser },
+        // data: { dataUser },
     } = state.set;
     useEffect(() => {
         document.title = 'Detail | Shop Coin';
@@ -42,9 +47,9 @@ function DepositsWithdrawDetail() {
             </div>
         );
     }
-    const username = dataUser?.dataUser?.find(
-        (x) => x.payment.email === edit?.itemData?.user
-    )?.payment?.username;
+    // const username = dataUser?.dataUser?.find(
+    //     (x) => x.payment.email === edit?.itemData?.user
+    // )?.payment?.username;
     const x = edit?.itemData && edit?.itemData;
     return (
         <>
@@ -80,17 +85,26 @@ function DepositsWithdrawDetail() {
                         )}
                     </div>
                 </div>
-                <ItemRender title='Username' info={x && username} />
+                <ItemRender title='Username' info={x && x.method.accountName} />
                 <ItemRender title='Email' info={x && x.user} />
                 <ItemRender title='Code' info={x && x.code} />
                 <ItemRender
                     title='Created'
-                    info={x && moment(x.createAt).format('DD/MM/YYYY')}
+                    info={x && moment(x.createAt).format('DD/MM/YYYY HH:MM:SS')}
                 />
-                <ItemRender title='Amount USDT' info={x && x.amountUsd} />
-                <ItemRender title='Amount VND' info={x && x.amountVnd} />
-                <ItemRender title='Content' info={x && x.symbol} />
-                <ItemRender title='Payment method' />
+                <ItemRender
+                    title='Amount USDT'
+                    info={x && numberUtils.formatUSD(x.amountUsd)}
+                />
+                <ItemRender
+                    title='Amount VND'
+                    info={x && numberUtils.formatVND(x.amountVnd)}
+                />
+                <ItemRender title='Symbol' info={x && x.symbol} />
+                <ItemRender
+                    title='Payment method'
+                    info={x && x.method.methodName}
+                />
                 {idDeposits && <ItemRender title='Document' />}
             </div>
         </>
