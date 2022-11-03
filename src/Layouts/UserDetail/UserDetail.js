@@ -311,7 +311,7 @@ function UserDetail() {
                         title='Created At'
                         info={
                             x &&
-                            moment(x.createAt).format('DD/MM/YYYY HH:MM:SS')
+                            moment(x.createdAt).format('DD/MM/YYYY HH:mm:ss')
                         }
                     />
                 </div>

@@ -90,7 +90,9 @@ function DepositsWithdrawDetail() {
                 <ItemRender title='Code' info={x && x.code} />
                 <ItemRender
                     title='Created'
-                    info={x && moment(x.createAt).format('DD/MM/YYYY HH:MM:SS')}
+                    info={
+                        x && moment(x.createdAt).format('DD/MM/YYYY HH:mm:ss')
+                    }
                 />
                 <ItemRender
                     title='Amount USDT'

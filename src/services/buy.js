@@ -8,9 +8,9 @@ import {
 // GET DATA BUYS
 export const getBuys = async (props = {}) => {
     const processBuys = await axiosUtils.adminGet(
-        `getAllBuy?page=${props.page}&show=${props.show}`
+        `/getAllBuy?page=${props.page}&show=${props.show}`
     );
-    const processUser = await axiosUtils.adminGet('getAllUser');
+    const processUser = await axiosUtils.adminGet('/getAllUser');
     props.dispatch(
         props.actions.setData({
             ...props.state.set,
@@ -25,9 +25,9 @@ export const getBuys = async (props = {}) => {
 // GET BUY/SELL BY ID
 export const getBuySellById = async (props = {}) => {
     if (props.idBuy || props.idSell) {
-        const processUser = await axiosUtils.adminGet('getAllUser');
+        const processUser = await axiosUtils.adminGet('/getAllUser');
         const process = await axiosUtils.adminGet(
-            props.idBuy ? `getBuy/${props.idBuy}` : `getSell/${props.idSell}`
+            props.idBuy ? `/getBuy/${props.idBuy}` : `/getSell/${props.idSell}`
         );
         const { data } = process;
         props.dispatch(
@@ -91,7 +91,7 @@ export const handleUpdateStatusFeeBuy = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllBuy?page=${props.page}&show=${props.show}`
+                `/getAllBuy?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -108,7 +108,7 @@ export const handleUpdateStatusFeeBuy = async (props = {}) => {
 };
 // DELETE BUYS
 export const handleDelete = async (props = {}) => {
-    const resDel = await axiosUtils.adminDelete(`deleteBuy/${props.id}`, {
+    const resDel = await axiosUtils.adminDelete(`/deleteBuy/${props.id}`, {
         headers: {
             token: props.data?.token,
         },

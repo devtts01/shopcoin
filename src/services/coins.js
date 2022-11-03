@@ -10,7 +10,7 @@ import routers from '../routers/routers';
 // GET DATA COINS
 export const getCoins = async (props = {}) => {
     const processCoins = await axiosUtils.coinGet(
-        `getAllCoin?page=${props.page}&show=${props.show}`
+        `/getAllCoin?page=${props.page}&show=${props.show}`
     );
     props.dispatch(
         props.actions.setData({
@@ -25,8 +25,8 @@ export const getCoins = async (props = {}) => {
 // GET COIN BY ID
 export const getCoinById = async (props = {}) => {
     if (props.idCoin) {
-        const res = await axiosUtils.coinGet(`getCoin/${props.idCoin}`);
-        const processUser = await axiosUtils.adminGet('getAllUser');
+        const res = await axiosUtils.coinGet(`/getCoin/${props.idCoin}`);
+        const processUser = await axiosUtils.adminGet('/getAllUser');
         const { data } = res;
         const unShowList =
             data?.unshow?.length > 1
@@ -158,7 +158,7 @@ export const handleCreate = async (props = {}) => {
         return acc;
     }, '');
     const resPost = await axiosUtils.coinPost(
-        'add',
+        '/add',
         {
             logo: form.logo[0],
             name: form.nameCoin,
@@ -177,7 +177,7 @@ export const handleCreate = async (props = {}) => {
         case 0:
             props.history(`${routers.settingCoin}`);
             const res = await axiosUtils.coinGet(
-                `getAllCoin?page=${props.page}&show=${props.show}`
+                `/getAllCoin?page=${props.page}&show=${props.show}`
             );
             dispatchCreate(
                 props.dispatch,
@@ -210,7 +210,7 @@ export const handleUpdate = async (props = {}) => {
         return acc;
     }, '');
     const resPut = await axiosUtils.coinPut(
-        `updateCoin/${props.id}`,
+        `/updateCoin/${props.id}`,
         {
             logo: form.logo[0],
             name: form.nameCoin,
@@ -229,7 +229,7 @@ export const handleUpdate = async (props = {}) => {
         case 0:
             props.history(`${routers.settingCoin}`);
             const res = await axiosUtils.coinGet(
-                `getAllCoin?page=${props.page}&show=${props.show}`
+                `/getAllCoin?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -258,7 +258,7 @@ export const handleUpdate = async (props = {}) => {
 
 // DELETE COINS
 export const handleDelete = async (props = {}) => {
-    const resDel = await axiosUtils.coinDelete(`deleteCoin/${props.id}`, {
+    const resDel = await axiosUtils.coinDelete(`/deleteCoin/${props.id}`, {
         headers: {
             token: props.data.token,
         },
@@ -266,7 +266,7 @@ export const handleDelete = async (props = {}) => {
     switch (resDel.code) {
         case 0:
             const res = await axiosUtils.coinGet(
-                `getAllCoin?page=${props.page}&show=${props.show}`
+                `/getAllCoin?page=${props.page}&show=${props.show}`
             );
             dispatchDelete(
                 props.dispatch,
@@ -283,7 +283,7 @@ export const handleDelete = async (props = {}) => {
 };
 // ONCLICK EDIT COINS
 export const onClickEdit = async (props = {}) => {
-    const dataUser = await axiosUtils.adminGet('getAllUser');
+    const dataUser = await axiosUtils.adminGet('/getAllUser');
     const data =
         props?.item?.unshow?.length > 1
             ? props?.item?.unshow

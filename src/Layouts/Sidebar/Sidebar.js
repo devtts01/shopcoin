@@ -63,6 +63,10 @@ function Sidebar({ className }) {
                     ...state.set.datas,
                     dataBlacklistUser: [],
                 },
+                pagination: {
+                    page: 1,
+                    show: 10,
+                },
             })
         );
     };

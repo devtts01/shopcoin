@@ -90,7 +90,7 @@ function SettingCoin() {
                             <td>{item.name}</td>
                             <td>
                                 {moment(item.createdAt).format(
-                                    'DD/MM/YYYY HH:SS:SS'
+                                    'DD/MM/YYYY HH:mm:ss'
                                 )}
                             </td>
                             <td>

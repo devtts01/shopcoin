@@ -8,9 +8,9 @@ import {
 // GET DATA BUYS
 export const getSells = async (props = {}) => {
     const processSells = await axiosUtils.adminGet(
-        `getAllSell?page=${props.page}&show=${props.show}`
+        `/getAllSell?page=${props.page}&show=${props.show}`
     );
-    const processUser = await axiosUtils.adminGet('getAllUser');
+    const processUser = await axiosUtils.adminGet('/getAllUser');
     props.dispatch(
         props.actions.setData({
             ...props.state.set,
@@ -62,13 +62,13 @@ export const handleUpdateStatusFeeSell = async (props = {}) => {
               token: props.data?.token,
           };
     const resPut = await axiosUtils.adminPut(
-        `handleSellCoin/${props.id}`,
+        `/handleSellCoin/${props.id}`,
         object
     );
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllSell?page=${props.page}&show=${props.show}`
+                `/getAllSell?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -85,7 +85,7 @@ export const handleUpdateStatusFeeSell = async (props = {}) => {
 };
 // DELETE BUYS
 export const handleDelete = async (props = {}) => {
-    const resDel = await axiosUtils.adminDelete(`deleteSell/${props.id}`, {
+    const resDel = await axiosUtils.adminDelete(`/deleteSell/${props.id}`, {
         headers: {
             token: props.data?.token,
         },
@@ -93,7 +93,7 @@ export const handleDelete = async (props = {}) => {
     switch (resDel.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllSell?page=${props.page}&show=${props.show}`
+                `/getAllSell?page=${props.page}&show=${props.show}`
             );
             dispatchDelete(
                 props.dispatch,

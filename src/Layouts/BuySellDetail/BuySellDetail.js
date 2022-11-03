@@ -85,7 +85,9 @@ function BuySellDetail() {
                 {/* {pathname.includes('buy') && <ItemRender title='Code' />} */}
                 <ItemRender
                     title='Created'
-                    info={x && moment(x.createAt).format('DD/MM/YYYY HH:MM:SS')}
+                    info={
+                        x && moment(x.createdAt).format('DD/MM/YYYY HH:mm:ss')
+                    }
                 />
                 <ItemRender title='Symbol' info={x && x.symbol} />
                 <ItemRender title='Sent' info={x && x.amount} />

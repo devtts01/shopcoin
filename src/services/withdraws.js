@@ -8,9 +8,9 @@ import {
 // GET DATA WITHDRAWS
 export const getWithdraws = async (props = {}) => {
     const processWithdraws = await axiosUtils.adminGet(
-        `getAllWithdraw?page=${props.page}&show=${props.show}`
+        `/getAllWithdraw?page=${props.page}&show=${props.show}`
     );
-    const processUser = await axiosUtils.adminGet('getAllUser');
+    const processUser = await axiosUtils.adminGet('/getAllUser');
     props.dispatch(
         props.actions.setData({
             ...props.state.set,
@@ -51,14 +51,14 @@ export const searchWithdraw = (props = {}) => {
 };
 // HANDLE EDIT WITHDRAWS
 export const handleEdit = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`updateWithdraw/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/updateWithdraw/${props.id}`, {
         status: props.statusUpdate || props.statusCurrent,
         token: props.data?.token,
     });
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllWithdraw?page=${props.page}&show=${props.show}`
+                `/getAllWithdraw?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -75,13 +75,13 @@ export const handleEdit = async (props = {}) => {
 };
 // HANDLE DELETE WITHDRAWS
 export const handleDelete = async (props = {}) => {
-    const resDel = await axiosUtils.adminDelete(`deleteWithdraw/${props.id}`, {
+    const resDel = await axiosUtils.adminDelete(`/deleteWithdraw/${props.id}`, {
         headers: {
             token: props.data?.token,
         },
     });
     const res = await axiosUtils.adminGet(
-        `getAllWithdraw?page=${props.page}&show=${props.show}`
+        `/getAllWithdraw?page=${props.page}&show=${props.show}`
     );
     dispatchDelete(
         props.dispatch,

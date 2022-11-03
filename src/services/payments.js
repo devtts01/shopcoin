@@ -9,7 +9,7 @@ import {
 // GET DATA PAYMENT
 export const getPayments = async (props = {}) => {
     const processPayment = await axiosUtils.adminGet(
-        `getAllPayments?page=${props.page}&show=${props.show}`
+        `/getAllPayments?page=${props.page}&show=${props.show}`
     );
     props.dispatch(
         props.actions.setData({
@@ -68,7 +68,7 @@ export const searchPayment = (props = {}) => {
 };
 // CREATE PAYMENT
 export const handleCreate = async (props = {}) => {
-    const resPost = await axiosUtils.adminPost('payment', {
+    const resPost = await axiosUtils.adminPost('/payment', {
         methodName: props.bankName,
         accountName: props.accountName,
         accountNumber: props.accountNumber,
@@ -79,7 +79,7 @@ export const handleCreate = async (props = {}) => {
     switch (resPost.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllPayments?page=${props.page}&show=${props.show}`
+                `/getAllPayments?page=${props.page}&show=${props.show}`
             );
             dispatchCreate(
                 props.dispatch,
@@ -107,7 +107,7 @@ export const handleCreate = async (props = {}) => {
 };
 // UPDATE PAYMENT
 export const handleUpdate = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`updatePayment/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/updatePayment/${props.id}`, {
         methodName: props.bankName,
         accountName: props.accountName,
         accountNumber: props.accountNumber,
@@ -118,7 +118,7 @@ export const handleUpdate = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllPayments?page=${props.page}&show=${props.show}`
+                `/getAllPayments?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -136,7 +136,7 @@ export const handleUpdate = async (props = {}) => {
 
 // DELETE PAYMENT
 export const handleDelete = async (props = {}) => {
-    const resDel = await axiosUtils.adminDelete(`deletePayment/${props.id}`, {
+    const resDel = await axiosUtils.adminDelete(`/deletePayment/${props.id}`, {
         headers: {
             token: props.data.token,
         },
@@ -144,7 +144,7 @@ export const handleDelete = async (props = {}) => {
     switch (resDel.code) {
         case 0:
             const resPayment = await axiosUtils.adminGet(
-                `getAllPayments?page=${props.page}&show=${props.show}`
+                `/getAllPayments?page=${props.page}&show=${props.show}`
             );
             dispatchDelete(
                 props.dispatch,

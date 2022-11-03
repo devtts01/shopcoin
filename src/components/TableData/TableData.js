@@ -210,35 +210,40 @@ function TableData({ data = [], totalData, headers, search, children }) {
                     <Loading />
                 )}
             </table>
-            <div className={`${cx('pagination-countpage')}`}>
-                <div className={`${cx('notvalue')}`}></div>
-                <Stack spacing={2} className={`${cx('pagination-container')}`}>
-                    <Pagination
-                        onChange={handleChangePage}
-                        page={page}
-                        showFirstButton
-                        showLastButton
-                        count={parseInt(Math.ceil(totalData / show)) || 0}
-                        variant='outlined'
-                        shape='rounded'
-                    />
-                </Stack>
-                <div className={`${cx('countpage-container')}`}>
-                    <select
-                        className={`${cx('countpage-select')}`}
-                        value={show}
-                        onChange={handleChangeLimitPage}
+            {data.length > 0 && (
+                <div className={`${cx('pagination-countpage')}`}>
+                    <div className={`${cx('notvalue')}`}></div>
+                    <Stack
+                        spacing={2}
+                        className={`${cx('pagination-container')}`}
                     >
-                        <option value='10'>10</option>
-                        <option value='20'>20</option>
-                        <option value='30'>30</option>
-                        <option value='50'>50</option>
-                    </select>
-                    <span className={`${cx('countpage-text')}`}>
-                        items per page | {start} - {end} of {totalData}
-                    </span>
+                        <Pagination
+                            onChange={handleChangePage}
+                            page={page}
+                            showFirstButton
+                            showLastButton
+                            count={parseInt(Math.ceil(totalData / show)) || 0}
+                            variant='outlined'
+                            shape='rounded'
+                        />
+                    </Stack>
+                    <div className={`${cx('countpage-container')}`}>
+                        <select
+                            className={`${cx('countpage-select')}`}
+                            value={show}
+                            onChange={handleChangeLimitPage}
+                        >
+                            <option value='10'>10</option>
+                            <option value='20'>20</option>
+                            <option value='30'>30</option>
+                            <option value='50'>50</option>
+                        </select>
+                        <span className={`${cx('countpage-text')}`}>
+                            items per page | {start} - {end} of {totalData}
+                        </span>
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 }

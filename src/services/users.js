@@ -7,7 +7,7 @@ import {
 // GET DATA USERS
 export const getUsers = async (props = {}) => {
     const processUsers = await axiosUtils.adminGet(
-        `getAllUser?page=${props.page}&show=${props.show}`
+        `/getAllUser?page=${props.page}&show=${props.show}`
     );
     props.dispatch(
         props.actions.setData({
@@ -22,8 +22,8 @@ export const getUsers = async (props = {}) => {
 // GET USER BY ID
 export const getUserById = async (props = {}) => {
     if (props.idUser) {
-        const process = await axiosUtils.adminGet(`getUser/${props.idUser}`);
-        const processCoins = await axiosUtils.coinGet(`getAllCoin`);
+        const process = await axiosUtils.adminGet(`/getUser/${props.idUser}`);
+        const processCoins = await axiosUtils.coinGet(`/getAllCoin`);
         const { data } = process;
         props.dispatch(
             props.actions.setData({
@@ -81,13 +81,13 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
               token: props.data?.token,
           };
     const resPut = await axiosUtils.adminPut(
-        `updateRankUser/${props.id}`,
+        `/updateRankUser/${props.id}`,
         object
     );
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllUser?page=${props.page}&show=${props.show}`
+                `/getAllUser?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -119,13 +119,13 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
 export const changePassword = async (props = {}) => {};
 // DELETE USERS
 export const handleDelete = async (props = {}) => {
-    const resDel = await axiosUtils.adminDelete(`deleteUser/${props.id}`, {
+    const resDel = await axiosUtils.adminDelete(`/deleteUser/${props.id}`, {
         headers: {
             token: props.data?.token,
         },
     });
     const res = await axiosUtils.adminGet(
-        `getAllUser?page=${props.page}&show=${props.show}`
+        `/getAllUser?page=${props.page}&show=${props.show}`
     );
     dispatchDelete(
         props.dispatch,
@@ -153,14 +153,14 @@ export const changeCoinGifts = async (props = {}) => {
 };
 // UPDATE COIN
 export const updateCoinGift = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`changeCoin/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/changeCoin/${props.id}`, {
         coin: props.changeCoin,
         quantity: parseFloat(props.quantityCoin),
         token: props.data?.token,
     });
     switch (resPut.code) {
         case 0:
-            const process = await axiosUtils.adminGet(`getUser/${props.id}`);
+            const process = await axiosUtils.adminGet(`/getUser/${props.id}`);
             const { data } = process;
             props.dispatch(
                 props.actions.setData({
@@ -210,13 +210,13 @@ export const searchCoinGift = (props = {}) => {
 };
 // CHANG PASSWORD USER BY ID
 export const changePasswordUser = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`changePWDForUser/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/changePWDForUser/${props.id}`, {
         pwd: props.password,
         token: props.data?.token,
     });
     switch (resPut.code) {
         case 0:
-            const process = await axiosUtils.adminGet(`getUser/${props.id}`);
+            const process = await axiosUtils.adminGet(`/getUser/${props.id}`);
             const { data } = process;
             props.dispatch(
                 props.actions.setData({
@@ -248,12 +248,12 @@ export const changePasswordUser = async (props = {}) => {
 };
 // REFRESH PASSWORD USER
 export const refreshPasswordUser = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`refreshPWD/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/refreshPWD/${props.id}`, {
         token: props.data?.token,
     });
     switch (resPut.code) {
         case 0:
-            const process = await axiosUtils.adminGet(`getUser/${props.id}`);
+            const process = await axiosUtils.adminGet(`/getUser/${props.id}`);
             const { data } = process;
             props.dispatch(
                 props.actions.setData({
@@ -279,14 +279,14 @@ export const refreshPasswordUser = async (props = {}) => {
 };
 // BLOCK/UNBLOCK USER
 export const blockUser = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`blockUser/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/blockUser/${props.id}`, {
         blockUser: props.blockUser,
         token: props.data?.token,
     });
     console.log(resPut);
     switch (resPut.code) {
         case 0:
-            const process = await axiosUtils.adminGet(`getUser/${props.id}`);
+            const process = await axiosUtils.adminGet(`/getUser/${props.id}`);
             const { data } = process;
             props.dispatch(
                 props.actions.setData({
@@ -312,13 +312,13 @@ export const blockUser = async (props = {}) => {
 };
 // UNBLOCK USER
 export const unblockUser = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`unBlockUser/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/unBlockUser/${props.id}`, {
         blockUser: props.blockUser,
         token: props.data?.token,
     });
     switch (resPut.code) {
         case 0:
-            const process = await axiosUtils.adminGet(`getUser/${props.id}`);
+            const process = await axiosUtils.adminGet(`/getUser/${props.id}`);
             const { data } = process;
             props.dispatch(
                 props.actions.setData({

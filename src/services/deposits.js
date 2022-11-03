@@ -8,9 +8,9 @@ import {
 // GET DATA DEPOSITS
 export const getDeposits = async (props = {}) => {
     const processDeposits = await axiosUtils.adminGet(
-        `getAllDeposit?page=${props.page}&show=${props.show}`
+        `/getAllDeposit?page=${props.page}&show=${props.show}`
     );
-    const processUser = await axiosUtils.adminGet('getAllUser');
+    const processUser = await axiosUtils.adminGet('/getAllUser');
     props.dispatch(
         props.actions.setData({
             ...props.state.set,
@@ -25,11 +25,11 @@ export const getDeposits = async (props = {}) => {
 // GET DEPOSITS/WITHDRAWS BY ID
 export const getDepositsWithdrawById = async (props = {}) => {
     if (props.idDeposits || props.idWithdraw) {
-        const processUser = await axiosUtils.adminGet('getAllUser');
+        const processUser = await axiosUtils.adminGet('/getAllUser');
         const process = await axiosUtils.adminGet(
             props.idDeposits
-                ? `getDeposit/${props.idDeposits}`
-                : `getWithdraw/${props.idWithdraw}`
+                ? `/getDeposit/${props.idDeposits}`
+                : `/getWithdraw/${props.idWithdraw}`
         );
         const { data } = process;
         props.dispatch(
@@ -76,14 +76,14 @@ export const searchDeposits = (props = {}) => {
 };
 // HANDLE EDIT DEPOSITS
 export const handleEdit = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`updateDeposit/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/updateDeposit/${props.id}`, {
         status: props.statusUpdate || props.statusCurrent,
         token: props.data?.token,
     });
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `getAllDeposit?page=${props.page}&show=${props.show}`
+                `/getAllDeposit?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -100,13 +100,13 @@ export const handleEdit = async (props = {}) => {
 };
 // HANDLE DELETE DEPOSITS
 export const handleDelete = async (props = {}) => {
-    const resDel = await axiosUtils.adminDelete(`deleteDeposit/${props.id}`, {
+    const resDel = await axiosUtils.adminDelete(`/deleteDeposit/${props.id}`, {
         headers: {
             token: props.data?.token,
         },
     });
     const res = await axiosUtils.adminGet(
-        `getAllDeposit?page=${props.page}&show=${props.show}`
+        `/getAllDeposit?page=${props.page}&show=${props.show}`
     );
     dispatchDelete(
         props.dispatch,
