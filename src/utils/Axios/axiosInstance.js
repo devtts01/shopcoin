@@ -2,8 +2,8 @@ import axios from 'axios';
 
 // AUTHENTICATION
 export const authInstance = axios.create({
-    // baseURL: `${process.env.REACT_APP_URL_SERVER}/authen/`,
-    baseURL: 'http://localhost:8000/authen/',
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/authen/`,
+    // baseURL: 'http://localhost:8000/authen/',
     withCredentials: true,
 });
 export const authPost = async (path, options = {}) => {

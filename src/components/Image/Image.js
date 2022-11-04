@@ -11,7 +11,7 @@ function Image({ src, alt, className, errorImage }) {
         'https://via.placeholder.com/139x39/FFFF00/000000?text=Shopcoinusa.com';
     return (
         <img
-            crossorigin='anonymous'
+            crossOrigin='anonymous'
             className={classed}
             src={src}
             alt={alt}

@@ -28,6 +28,7 @@ import {
     searchUtils,
     alertUtils,
     refreshPage,
+    axiosUtils,
 } from '../../utils';
 import { actions } from '../../app/';
 import styles from './UserDetail.module.css';
@@ -52,10 +53,20 @@ function UserDetail() {
     const [feeValue, setFeeValue] = useState(
         edit?.itemData && edit.itemData.fee
     );
+    const [dataCoin, setDataCoin] = useState([]);
+    const getAllCoin = async () => {
+        const res = await axiosUtils.coinGet(
+            `/getAllCoin?page=${page}&show=${dataSettingCoin?.total || 10}`
+        );
+        setDataCoin(res.data);
+    };
     useEffect(() => {
         document.title = 'Detail | Shop Coin';
         getUserById({ idUser, dispatch, state, actions });
     }, []);
+    useEffect(() => {
+        getAllCoin();
+    }, [page, show]);
     const changeFee = (e) => {
         setFeeValue(e.target.value);
     };
@@ -75,6 +86,16 @@ function UserDetail() {
             actions.toggleModal({
                 ...state.toggle,
                 selectStatus: !selectStatus,
+            })
+        );
+        dispatch(
+            actions.setData({
+                ...state.set,
+                pagination: {
+                    ...state.set.pagination,
+                    page: 1,
+                    show: dataSettingCoin?.total,
+                },
             })
         );
     };
@@ -235,7 +256,7 @@ function UserDetail() {
         }
     };
     const DATA_COINS =
-        dataSettingCoin?.data?.map((coin) => {
+        dataCoin?.map((coin) => {
             return {
                 name: coin.symbol,
             };
@@ -454,6 +475,7 @@ function UserDetail() {
                     actionButtonText='Change'
                     closeModal={modalChangePwdFalse}
                     openModal={modalChangePwdTrue}
+                    classNameButton='vipbgc'
                     onClick={() => changePwd(idUser)}
                 >
                     <FormInput
