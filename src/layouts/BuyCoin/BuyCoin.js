@@ -14,7 +14,7 @@ import React, {useEffect, useState} from 'react';
 import socketIO from 'socket.io-client';
 import {URL_SERVER} from '@env';
 import {useAppContext} from '../../utils';
-import {formatUSDT} from '../../utils/format/Money';
+import {formatUSDT, precisionRound} from '../../utils/format/Money';
 import {getIdUserJWT} from '../../utils/getUser/Id';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {SVgetACoin, SVbuyCoin} from '../../services/coin';
@@ -42,7 +42,6 @@ export default function BuyCoin({navigation, route}) {
     amountCoin,
     data: {dataById},
   } = state;
-  console.log(dataById);
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -170,7 +169,11 @@ export default function BuyCoin({navigation, route}) {
             stylesGeneral.fwbold,
             stylesStatus.complete,
           ]}>
-          Amount USDT: {amountCoin * dataById?.price}
+          Amount USDT:{' '}
+          {formatUSDT(precisionRound(amountCoin * dataById?.price)).replace(
+            'USDT',
+            '',
+          )}
         </Text>
       </View>
       <TouchableOpacity

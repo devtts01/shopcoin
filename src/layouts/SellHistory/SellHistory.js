@@ -69,7 +69,11 @@ export default function SellHistory({navigation}) {
             renderItem={renderItem}
           />
         ) : (
-          <NodataText text="No History Sell Coin" />
+          <NodataText
+            text="No History Sell Coin"
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
         )}
       </View>
     </View>

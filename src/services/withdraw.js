@@ -92,6 +92,7 @@ export const SVcheckCode = async (props = {}) => {
     case 1:
     case 2:
       props.setLoading(true);
+      await userDelete(`/cancelWithdraw/${props.id}`);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Error!', resGet?.message, [

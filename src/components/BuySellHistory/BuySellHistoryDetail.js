@@ -27,7 +27,7 @@ export default function BuySellHistoryDetail({item, style}) {
             ? stylesStatus.vipbgc
             : textLower(item?.status) === 'completed' ||
               textLower(item?.status) === 'complete'
-            ? stylesStatus.probgc
+            ? stylesStatus.completebgc
             : textLower(item?.status) === 'canceled' ||
               textLower(item?.status) === 'cancel'
             ? stylesStatus.cancelbgc

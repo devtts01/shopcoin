@@ -37,8 +37,6 @@ export default function Routers() {
             />
           );
         },
-      })}
-      tabBarOptions={{
         tabBarActiveTintColor: '#007aff',
         tabBarLabelStyle: {
           fontSize: 14,
@@ -49,7 +47,7 @@ export default function Routers() {
           },
           null,
         ],
-      }}>
+      })}>
       {RouterObject.map(item => {
         return (
           <Tab.Screen

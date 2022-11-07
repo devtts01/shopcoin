@@ -66,7 +66,7 @@ const Withdraw = ({navigation}) => {
           {formatVND(item?.amountVnd)}
         </DataTable.Cell>
         <DataTable.Cell numeric style={[styles.title_table]}>
-          {dateFormat(item?.createAt, 'DD/MM/YYYY HH:mm')}
+          {dateFormat(item?.createAt, 'DD/MM/YYYY HH:mm:ss')}
         </DataTable.Cell>
         <DataTable.Cell numeric style={[styles.title_table]}>
           <Text
@@ -131,7 +131,11 @@ const Withdraw = ({navigation}) => {
           </View>
         </DataTable>
       ) : (
-        <NodataText text="No Data Withdraw" />
+        <NodataText
+          text="No Data Withdraw"
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
       )}
     </View>
   );

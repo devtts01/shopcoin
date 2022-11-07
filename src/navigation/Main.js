@@ -7,12 +7,7 @@ import React, {useEffect} from 'react';
 import {useAppContext} from '../utils';
 import MainObject, {routersMain} from '../routers/Main';
 import {setMessage} from '../app/payloads/message';
-import {setCurrentUser} from '../app/payloads/user';
-import {
-  getAsyncStore,
-  setAsyncStore,
-  updateAsyncStore,
-} from '../utils/localStore/localStore';
+import {getAsyncStore} from '../utils/localStore/localStore';
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {

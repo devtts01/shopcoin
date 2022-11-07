@@ -69,11 +69,15 @@ const History = ({navigation}) => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{flex: 1}}
             data={dataBuyHistory}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item}
             renderItem={renderItem}
           />
         ) : (
-          <NodataText text="No History Buy Coin" />
+          <NodataText
+            text="No History Buy Coin"
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
         )}
       </View>
     </View>

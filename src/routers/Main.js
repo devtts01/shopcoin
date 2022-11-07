@@ -16,7 +16,7 @@ import {
   SingleWithdraw,
   UploadDoument,
 } from '../layouts';
-import {Routers} from '../navigation';
+import Routers from '../navigation/Routers';
 
 export const routersMain = {
   Login: 'Login',

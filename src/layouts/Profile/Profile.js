@@ -86,7 +86,7 @@ const Profile = ({navigation}) => {
             currentUser?.rank?.toLowerCase() === 'vip'
               ? stylesStatus.vipbgc
               : currentUser?.rank?.toLowerCase() === 'pro'
-              ? stylesStatus.probgc
+              ? stylesStatus.completebgc
               : currentUser?.rank?.toLowerCase() === 'standard'
               ? stylesStatus.confirmbgc
               : stylesStatus.demobgc,

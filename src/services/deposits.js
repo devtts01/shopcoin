@@ -31,6 +31,7 @@ export const SVcreateDeposits = async (props = {}) => {
     amountVnd: props.amountVnd,
     token: props?.token,
   });
+  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
@@ -54,6 +55,19 @@ export const SVcreateDeposits = async (props = {}) => {
             bank: '',
           }),
         );
+      }, 5000);
+      break;
+    case 1:
+    case 2:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Error!', resPost?.message, [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ]);
       }, 5000);
       break;
     default:
@@ -88,6 +102,19 @@ export const SVupdateDeposits = async (props = {}) => {
                   data: resPut?.data,
                 },
               }),
+          },
+        ]);
+      }, 5000);
+      break;
+    case 1:
+    case 2:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Erroe!', resPut?.message, [
+          {
+            text: 'OK',
+            onPress: () => {},
           },
         ]);
       }, 5000);

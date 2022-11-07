@@ -129,7 +129,7 @@ export default function SellCoin({navigation, route}) {
           title="Average buy price"
           text={priceCoinSocket?.weightedAvgPrice}
         />
-        <RowDetail title="Coin price" text={priceCoinSocket?.lastPrice} />
+        <RowDetail title="Coin price" text={item?.coin?.price} />
         <View style={[styles.row_single]}>
           <FormInput
             label="Amount Sell"
@@ -169,10 +169,7 @@ export default function SellCoin({navigation, route}) {
                   stylesStatus.complete,
                 ]}>
                 Receive:{' '}
-                {formatUSDT(
-                  parseFloat(amountSell * priceCoinSocket?.lastPrice),
-                )}
-                T
+                {formatUSDT(parseFloat(amountSell * item?.coin?.price))}
               </Text>
             )}
         </View>

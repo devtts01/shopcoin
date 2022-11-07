@@ -11,7 +11,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {getAllDeposits} from '../../app/payloads/getAll';
-import {Header, RowDetail} from '../../components';
+import {Header, NodataText, RowDetail} from '../../components';
 import {SVgetDepositsByEmailUser} from '../../services/deposits';
 import {dateFormat} from '../../utils/format/Date';
 import {textLower} from '../../utils/format/textLowercase';
@@ -19,6 +19,7 @@ import {routersMain} from '../../routers/Main';
 import styles from './DepositsCss';
 import stylesStatus from '../../styles/Status';
 import stylesGeneral from '../../styles/General';
+import {ScrollView} from 'native-base';
 
 const Deposits = ({navigation}) => {
   const {state, dispatch} = useAppContext();
@@ -53,7 +54,7 @@ const Deposits = ({navigation}) => {
         <RowDetail
           noneBorderBottom
           title="Created At"
-          text={dateFormat(item?.createdAt, 'DD/MM/YYYY')}
+          text={dateFormat(item?.createdAt, 'DD/MM/YYYY HH:mm:ss')}
         />
         <RowDetail
           noneBorderBottom
@@ -111,16 +112,11 @@ const Deposits = ({navigation}) => {
             renderItem={renderItem}
           />
         ) : (
-          <View style={[stylesGeneral.flexCenter, stylesGeneral.mt10]}>
-            <Text
-              style={[
-                stylesGeneral.fz16,
-                stylesGeneral.fwbold,
-                stylesStatus.confirm,
-              ]}>
-              No Deposits
-            </Text>
-          </View>
+          <NodataText
+            text=" No Deposits"
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
         )}
       </View>
     </View>

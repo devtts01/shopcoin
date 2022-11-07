@@ -66,7 +66,7 @@ const MyCoin = ({navigation}) => {
           <View>
             <Text style={[styles.coinItem_Price_text]}>
               USDT: ~{' '}
-              {formatUSDT(item?.amount * item?.coin?.price).replace('USD', '')}
+              {formatUSDT(item?.amount * item?.coin?.price).replace('USDT', '')}
             </Text>
           </View>
         </View>
@@ -103,7 +103,11 @@ const MyCoin = ({navigation}) => {
             renderItem={renderItem}
           />
         ) : (
-          <NodataText text="No coin" />
+          <NodataText
+            text="No coin"
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
         )}
       </View>
     </View>

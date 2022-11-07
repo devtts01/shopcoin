@@ -53,6 +53,7 @@ export default function SingleWithdraw({navigation, route}) {
     SVcheckCode({
       code: codeVerify,
       token: dataAPI?.token,
+      id: data?._id,
       setLoading,
       navigation,
     });

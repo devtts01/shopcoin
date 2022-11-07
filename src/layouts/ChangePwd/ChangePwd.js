@@ -1,6 +1,12 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, Alert, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  Alert,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
+import React, {useCallback, useState} from 'react';
 import {FormInput, ModalLoading} from '../../components';
 import {useAppContext} from '../../utils';
 import requestRefreshToken from '../../utils/axios/refreshToken';
@@ -11,6 +17,7 @@ import {SVchangePassword} from '../../services/user';
 import styles from './ChangePwdCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {ScrollView} from 'native-base';
 
 export default function ChangePwd({navigation}) {
   const {state, dispatch} = useAppContext();
@@ -20,6 +27,14 @@ export default function ChangePwd({navigation}) {
     message: {error},
   } = state;
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   const handleChangeInput = (name, val) => {
     dispatch(
       setFormValue({
@@ -63,7 +78,12 @@ export default function ChangePwd({navigation}) {
     }
   };
   return (
-    <View style={[styles.container]}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      style={[styles.container]}>
       {error && (
         <View style={[stylesGeneral.mb10, stylesGeneral.flexCenter]}>
           <Text style={[stylesStatus.cancel, stylesGeneral.fz16]}>{error}</Text>
@@ -112,6 +132,6 @@ export default function ChangePwd({navigation}) {
         </Text>
       </TouchableOpacity>
       {loading && <ModalLoading />}
-    </View>
+    </ScrollView>
   );
 }

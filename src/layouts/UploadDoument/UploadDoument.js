@@ -8,12 +8,10 @@ import {
   Text,
   ScrollView,
   RefreshControl,
-  Image,
   TouchableOpacity,
   Platform,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useAppContext} from '../../utils';
 import requestRefreshToken from '../../utils/axios/refreshToken';
@@ -59,7 +57,7 @@ export default function UploadDoument({navigation}) {
   }, []);
   const options = {
     title: 'Select Image',
-    type: 'library',
+    type: 'library, photo, video, camera',
     options: {
       maxHeight: 200,
       maxWidth: 200,
@@ -74,6 +72,7 @@ export default function UploadDoument({navigation}) {
       },
     },
   };
+
   const handleDocumentSelectionFrontCCCD = async () => {
     const images = await launchImageLibrary(options);
     const formData = new FormData();
@@ -165,13 +164,18 @@ export default function UploadDoument({navigation}) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View style={[styles.content]}>
-        <Text style={[styles.title]}>Upload your image document</Text>
+        {/* <Text style={[styles.title, stylesGeneral.mb10]}>
+          Upload your image document
+        </Text> */}
         <View style={[styles.image_container]}>
+          <Text style={[stylesGeneral.fz16, stylesGeneral.fwbold]}>
+            1. Citizen Identification
+          </Text>
           <View style={[styles.image_container_item]}>
             <ImageItemUpload
               isStatus={isStatus}
               selectFile={handleDocumentSelectionFrontCCCD}
-              textUpload="Upload front CCCD image"
+              textUpload="Front citizen identification"
               text="Front CCCD image"
               fileResponse={fileResponseFrontCCCD}
               userById={userById}
@@ -180,18 +184,21 @@ export default function UploadDoument({navigation}) {
             <ImageItemUpload
               isStatus={isStatus}
               selectFile={handleDocumentSelectionBackCCCD}
-              textUpload="Upload back CCCD image"
+              textUpload="Back citizen identification"
               text="Back CCCD image"
               fileResponse={fileResponseBackCCCD}
               userById={userById}
               field="uploadCCCDBeside"
             />
           </View>
+          <Text style={[stylesGeneral.fz16, stylesGeneral.fwbold]}>
+            2. License
+          </Text>
           <View style={[styles.image_container_item]}>
             <ImageItemUpload
               isStatus={isStatus}
               selectFile={handleDocumentSelectionFrontLicense}
-              textUpload="Upload front license image"
+              textUpload="Front license"
               text="Front license image"
               fileResponse={fileResponseFrontLicense}
               userById={userById}
@@ -200,7 +207,7 @@ export default function UploadDoument({navigation}) {
             <ImageItemUpload
               isStatus={isStatus}
               selectFile={handleDocumentSelectionBackLicense}
-              textUpload="Upload back license image"
+              textUpload="Back license"
               text="Back license image"
               fileResponse={fileResponseBackLicense}
               userById={userById}
@@ -221,8 +228,8 @@ export default function UploadDoument({navigation}) {
                 userById?.uploadCCCDBeside ||
                 userById?.uploadLicenseFont ||
                 userById?.uploadLicenseBeside
-                ? 'Change your document'
-                : 'Upload your document'
+                ? 'Change document'
+                : 'Start upload'
               : 'Submit'}
           </Text>
         </TouchableOpacity>
