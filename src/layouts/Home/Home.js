@@ -103,7 +103,7 @@ const Home = ({navigation}) => {
             onScrollBeginDrag={() => (stopLoadingData = false)}
             contentContainerStyle={{flex: 1}}
             data={data}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item.symbol}
             renderItem={renderItem}
           />
         ) : (

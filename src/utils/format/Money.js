@@ -11,7 +11,7 @@ export const formatUSDT = usdt => {
       style: 'currency',
       currency: 'USD',
     }) + 'T'
-  );
+  ).replace(/\$/g, 'D');
 };
 export const precisionRound = number => {
   let precision = 5;
