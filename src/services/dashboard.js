@@ -17,7 +17,6 @@ export const SVtotal = async (props = {}) => {
         objectBody
     );
     const resPostBalance = await axiosUtils.adminPost('/totalBalance', {});
-    console.log(resPostDeposit);
     props.dispatch(
         props.actions.setData({
             totalDeposit: resPostDeposit.data,

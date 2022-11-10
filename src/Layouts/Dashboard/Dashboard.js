@@ -17,7 +17,7 @@ import {
 } from '../../utils';
 import { Link } from 'react-router-dom';
 import routers from '../../routers/routers';
-import { getCoins } from '../../services/coins';
+import { getCoinsUserBuy } from '../../services/coins';
 import { SVtotal } from '../../services/dashboard';
 import { TrStatus } from '../../components/TableData/TableData';
 
@@ -43,7 +43,7 @@ function Dashboard() {
         });
     }, []);
     useEffect(() => {
-        getCoins({
+        getCoinsUserBuy({
             page,
             show,
             dispatch,
@@ -56,7 +56,7 @@ function Dashboard() {
             actions,
         });
     }, [page, show]);
-    let data = dataDashboard?.data || [];
+    let data = dataDashboard?.data?.coins || [];
     if (dashboard) {
         data = data.filter((item) => {
             return searchUtils.searchInput(dashboard, item.symbol);
@@ -263,7 +263,7 @@ function Dashboard() {
                 />
                 <TableData
                     data={data}
-                    totalData={dataDashboard?.total}
+                    totalData={dataDashboard?.data?.totalCoin}
                     headers={DataDashboard().headers}
                     search=''
                     noActions

@@ -23,6 +23,21 @@ export const getCoins = async (props = {}) => {
         })
     );
 };
+// GET DATA COINS USER BUY
+export const getCoinsUserBuy = async (props = {}) => {
+    const processCoins = await axiosUtils.coinGet(
+        `/getAmountCoinUserBuy?page=${props.page}&show=${props.show}`
+    );
+    props.dispatch(
+        props.actions.setData({
+            ...props.state.set,
+            data: {
+                ...props.state.set.data,
+                dataDashboard: processCoins,
+            },
+        })
+    );
+};
 // GET COIN BY ID
 export const getCoinById = async (props = {}) => {
     if (props.idCoin) {
