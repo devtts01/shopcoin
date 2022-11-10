@@ -18,6 +18,7 @@ export const getCoins = async (props = {}) => {
             data: {
                 ...props.state.set.data,
                 dataSettingCoin: processCoins,
+                dataDashboard: processCoins,
             },
         })
     );

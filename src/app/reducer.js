@@ -40,6 +40,11 @@ const initialState = {
             page: 1,
             show: 10, //10,20,30,50
         },
+        totalDeposit: '',
+        totalWithdraw: '',
+        totalBalance: '',
+        totalCommission: '',
+        dataUserBalance: [],
         data: {
             dataPayment: [],
             dataSettingCoin: [],
@@ -48,9 +53,14 @@ const initialState = {
             dataBuy: [],
             dataSell: [],
             dataUser: [],
+            dataDashboard: [],
             dataBlacklistUser: [],
         },
         searchValues: {
+            dateFrom: '',
+            dateTo: '',
+            dashboard: '',
+            userBalance: '',
             payment: '',
             settingCoin: '',
             deposits: '',

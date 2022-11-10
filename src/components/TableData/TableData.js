@@ -67,7 +67,14 @@ export function TrObjectImage({ item }) {
     );
 }
 
-function TableData({ data = [], totalData, headers, search, children }) {
+function TableData({
+    data = [],
+    totalData,
+    headers,
+    search,
+    noActions,
+    children,
+}) {
     const { name, index, h1, h2, h3, h4, h5, h6 } = headers;
     const { state, dispatch } = useAppContext();
     const { show, page } = state.set.pagination;
@@ -124,10 +131,13 @@ function TableData({ data = [], totalData, headers, search, children }) {
                 case process.env.REACT_APP_WITHDRAW_NAME:
                 case process.env.REACT_APP_BUY_NAME:
                 case process.env.REACT_APP_SELL_NAME:
-                    sortASC('createAt' || 'createdAt');
+                    sortASC('createdAt' || 'createdAt');
                     break;
                 case process.env.REACT_APP_USER_NAME:
                     sortASC('payment.username');
+                    break;
+                case process.env.REACT_APP_DASHBOARD_NAME:
+                    sortASC('symbol');
                     break;
                 default:
                     sortASC('_id');
@@ -151,6 +161,9 @@ function TableData({ data = [], totalData, headers, search, children }) {
                 case process.env.REACT_APP_BUY_NAME:
                 case process.env.REACT_APP_SELL_NAME:
                     sortDESC('createAt');
+                    break;
+                case process.env.REACT_APP_DASHBOARD_NAME:
+                    sortDESC('symbol');
                     break;
                 default:
                     sortDESC('_id');
@@ -190,7 +203,7 @@ function TableData({ data = [], totalData, headers, search, children }) {
                         <Thead item={h4} />
                         <Thead item={h5} />
                         <Thead item={h6} />
-                        <th></th>
+                        {!noActions && <th></th>}
                     </tr>
                 </thead>
                 {data.length > 0 ? (

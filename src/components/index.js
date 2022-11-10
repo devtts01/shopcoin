@@ -2,6 +2,7 @@ export { default as Image } from './Image/Image';
 export { default as AccountMenu } from './AccountMenu/AccountMenu';
 export { default as Breadcrumb } from './Breadcrumb/Breadcrumb';
 export { default as Search } from './Search/Search';
+export { default as SearchDate } from './SearchDate/SearchDate';
 export { default as Button } from './Button/Button';
 export { default as FormInput } from './FormInput/FormInput';
 export { default as Form } from './Form/Form';
