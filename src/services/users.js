@@ -40,6 +40,17 @@ export const getUserById = async (props = {}) => {
         );
     }
 };
+// GET USER BY ROLE
+export const getUserByRole = async (props = {}) => {
+    const process = await axiosUtils.adminGet(
+        `/getBankInfoByRole/${props.role}`
+    );
+    props.dispatch(
+        props.actions.setData({
+            adminRole: process,
+        })
+    );
+};
 // SEARCH DATA USERS
 export const searchUsers = (props = {}) => {
     let dataUserFlag = props.dataUser;

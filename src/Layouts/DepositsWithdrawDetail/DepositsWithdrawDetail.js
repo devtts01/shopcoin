@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Button, Icons } from '../../components';
@@ -21,8 +21,10 @@ const cx = className.bind(styles);
 function DepositsWithdrawDetail() {
     const { idDeposits, idWithdraw } = useParams();
     const { state, dispatch } = useAppContext();
+    const location = useLocation();
     const {
         edit,
+        // adminRole,
         // data: { dataUser },
     } = state.set;
     useEffect(() => {
@@ -33,6 +35,7 @@ function DepositsWithdrawDetail() {
             dispatch,
             state,
             actions,
+            role: 'admin',
         });
     }, []);
     function ItemRender({ title, info }) {
@@ -105,7 +108,16 @@ function DepositsWithdrawDetail() {
                 <ItemRender title='Symbol' info={x && x.symbol} />
                 <ItemRender
                     title='Payment method'
-                    info={x && x.method.methodName}
+                    info={
+                        x &&
+                        (location.pathname.includes('withdraw')
+                            ? x.method.methodName +
+                              ' - ' +
+                              x.method.accountName +
+                              ' - ' +
+                              x.method.accountNumber
+                            : 'ACB - TRẦN VĂN ĐIỀU - 16744317')
+                    }
                 />
                 {idDeposits && <ItemRender title='Document' />}
             </div>

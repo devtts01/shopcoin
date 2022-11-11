@@ -100,7 +100,6 @@ function BuySellDetail() {
                     info={x && numberUtils.formatUSD(x?.amountUsd)}
                 />
                 <ItemRender title='Fee' info={x && x.fee} feeCustom />
-                <ItemRender title='Document' />
             </div>
         </>
     );

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import className from 'classnames/bind';
@@ -46,12 +46,19 @@ function Payment() {
         },
     } = state.set;
     const { modalPaymentEdit, modalDelete } = state.toggle;
+    const [modalRate, setModalRate] = useState(false);
+    const [rateUpdate, setRateUpdate] = useState({
+        rateDeposit: 0,
+        rateWithdraw: 0,
+    });
     // Ref Input
     const refAccountName = useRef();
     const refBankName = useRef();
     const refAccountNumber = useRef();
     const refRateDeposit = useRef();
     const refRateWidthdraw = useRef();
+    const refRateDepositUpdate = useRef();
+    const refRateWidthdrawUpdate = useRef();
     useEffect(() => {
         document.title = 'Payment | Shop Coin';
     }, []);
@@ -82,6 +89,14 @@ function Payment() {
             'modalPaymentEdit'
         );
     };
+    const modalRateTrue = (e) => {
+        e.stopPropagation();
+        setModalRate(true);
+    };
+    const modalRateFalse = (e) => {
+        e.stopPropagation();
+        setModalRate(false);
+    };
     const modalDeleteTrue = (e, id) => {
         return deleteUtils.deleteTrue(e, id, dispatch, state, actions);
     };
@@ -90,6 +105,10 @@ function Payment() {
     };
     const handleChange = (e) => {
         return formUtils.changeForm(e, dispatch, state, actions);
+    };
+    const handleChangeRate = (e) => {
+        const { name, value } = e.target;
+        setRateUpdate({ ...rateUpdate, [name]: value });
     };
     // Create + Update Payment
     const handleCreatePayment = async (data) => {
@@ -186,6 +205,16 @@ function Payment() {
             checkErrorPayment({ dispatch, state, actions, err });
         }
     };
+    const updateRate = async () => {
+        try {
+            await 1;
+            console.log(rateUpdate);
+            setRateUpdate({ rateDeposit: 0, rateWithdraw: 0 });
+            setModalRate(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -229,11 +258,14 @@ function Payment() {
                 valueSearch={payment}
                 nameSearch='payment'
                 textBtnNew='New Payment'
+                textBtnUpdateAllFields='Update Rate'
                 onCreate={modalPaymentTrue}
+                onUpdateRate={modalRateTrue}
                 dataFlag={dataUserFlag}
                 dataHeaders={DataPayments().headers}
                 totalData={dataPayment.total}
                 classNameButton='completebgc'
+                classNameButtonUpdateAllFields='vipbgc'
             >
                 <RenderBodyTable data={dataUserFlag} />
             </General>
@@ -320,6 +352,40 @@ function Payment() {
                     <p className='modal-delete-desc'>
                         Are you sure to delete this payment?
                     </p>
+                </Modal>
+            )}
+            {modalRate && (
+                <Modal
+                    titleHeader={'Update Rate Deposit & Widthdraw'}
+                    actionButtonText={'Update'}
+                    closeModal={modalRateFalse}
+                    openModal={modalRateTrue}
+                    classNameButton='vipbgc'
+                    errorMessage={error}
+                    onClick={updateRate}
+                >
+                    <FormInput
+                        label='Rate Deposit'
+                        type='text'
+                        placeholder='Enter rate deposit'
+                        name='rateDeposit'
+                        value={rateUpdate.rateDeposit}
+                        onChange={handleChangeRate}
+                        ref={refRateDepositUpdate}
+                        classNameField={`${cx('payment-form-field')}`}
+                        classNameInput={`${cx('payment-form-input')}`}
+                    />
+                    <FormInput
+                        label='Rate Withdraw'
+                        type='text'
+                        placeholder='Enter rate withdraw'
+                        name='rateWithdraw'
+                        value={rateUpdate.rateWithdraw}
+                        onChange={handleChangeRate}
+                        ref={refRateWidthdrawUpdate}
+                        classNameField={`${cx('payment-form-field')}`}
+                        classNameInput={`${cx('payment-form-input')}`}
+                    />
                 </Modal>
             )}
         </>

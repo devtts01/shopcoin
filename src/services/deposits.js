@@ -31,10 +31,15 @@ export const getDepositsWithdrawById = async (props = {}) => {
                 ? `/getDeposit/${props.idDeposits}`
                 : `/getWithdraw/${props.idWithdraw}`
         );
+        // get role user
+        const processRole = await axiosUtils.adminGet(
+            `/getBankInfoByRole/${props.role}`
+        );
         const { data } = process;
         props.dispatch(
             props.actions.setData({
                 ...props.state.set,
+                adminRole: processRole,
                 edit: {
                     ...props.state.set.edit,
                     itemData: data,

@@ -18,14 +18,17 @@ function General({
     valueSearch,
     nameSearch,
     onCreate,
+    onUpdateRate,
     linkCreate,
     textBtnNew,
+    textBtnUpdateAllFields,
     dataFlag,
     totalData,
     dataHeaders,
     children,
     className,
     classNameButton,
+    classNameButtonUpdateAllFields,
 }) {
     const { state, dispatch } = useAppContext();
     const { del, upd, cre, error } = state.set.message;
@@ -37,10 +40,10 @@ function General({
         return searchUtils.logicSearch(e, dispatch, state, actions);
     };
     const classed = cx('general-container', className);
-    const classedButton = cx(
+    const classedButton = cx('general-button', classNameButton);
+    const classedButtonAllFileds = cx(
         'general-button',
-        // linkCreate && 'link',
-        classNameButton
+        classNameButtonUpdateAllFields
     );
     return (
         <>
@@ -61,6 +64,23 @@ function General({
                         onChange={changeSearch}
                     />
                     <div className='flex-center'>
+                        {textBtnUpdateAllFields && (
+                            <Button
+                                className={classedButtonAllFileds}
+                                onClick={onUpdateRate}
+                            >
+                                <span
+                                    className={`${cx('general-button-icon')}`}
+                                >
+                                    <i className='fa-regular fa-pen-to-square'></i>
+                                </span>
+                                <span
+                                    className={`${cx('general-button-text')}`}
+                                >
+                                    {textBtnUpdateAllFields}
+                                </span>
+                            </Button>
+                        )}
                         {textBtnNew && (
                             <Button
                                 className={classedButton}
