@@ -27,25 +27,35 @@ import styles from './CreateDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateDeposits} from '../../services/deposits';
-import {SVgetRate} from '../../services/rate';
-import {getRate} from '../../app/payloads/getById';
+import {SVgetRateDepositWithdraw} from '../../services/rate';
+import {getRateDepositWithdraw, getUserById} from '../../app/payloads/getById';
+import {SVgetUserById} from '../../services/user';
 
 export default function CreateDeposits({navigation}) {
   const {state, dispatch} = useAppContext();
   const {
     currentUser,
-    rate,
+    userById,
+    rateDepositWithdraw,
     deposits: {amountUSDT, bank},
   } = state;
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
-    SVgetRate({
+    SVgetUserById({
+      id: currentUser?.id,
       dispatch,
-      getRate,
+      getUserById,
     });
   }, []);
+  useEffect(() => {
+    SVgetRateDepositWithdraw({
+      numberBank: userById?.payment?.bank?.account,
+      dispatch,
+      getRateDepositWithdraw,
+    });
+  }, [amountUSDT]);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -100,7 +110,7 @@ export default function CreateDeposits({navigation}) {
       }>
       <Text style={[styles.title]}>Create Deposits</Text>
       <FormInput
-        label="Amount USDT"
+        label="Amount USD"
         placeholder="0.00"
         keyboardType="number-pad"
         onChangeText={val => handleChange('amountUSDT', val)}
@@ -110,7 +120,7 @@ export default function CreateDeposits({navigation}) {
         onTouchStart={handleModalBank}
         value={bank}
       />
-      {amountUSDT * rate?.rate > 0 && (
+      {amountUSDT * rateDepositWithdraw?.rateDeposit > 0 && (
         <View style={[styles.deposits_VND]}>
           <Text
             style={[
@@ -118,7 +128,8 @@ export default function CreateDeposits({navigation}) {
               stylesGeneral.fwbold,
               stylesStatus.confirm,
             ]}>
-            Deposits (VND): {formatVND(amountUSDT * rate?.rate)}
+            Deposits (VND):{' '}
+            {formatVND(amountUSDT * rateDepositWithdraw?.rateDeposit)}
           </Text>
         </View>
       )}

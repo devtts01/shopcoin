@@ -83,7 +83,7 @@ export default function Header() {
               stylesStatus.completebgc,
               stylesGeneral.texttf_none,
             ]}>
-            Refresh USDT
+            Refresh USD
           </Text>
         </TouchableOpacity>
       </View>

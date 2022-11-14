@@ -125,7 +125,7 @@ export default function SingleWithdraw({navigation, route}) {
           title="Created At"
           text={dateFormat(data?.createdAt, 'DD/MM/YYYY')}
         />
-        <RowDetail title="Amount USDT" text={formatUSDT(data?.amount)} />
+        <RowDetail title="Amount USD" text={formatUSDT(data?.amount)} />
         <RowDetail title="Amount VND" text={formatVND(data?.amountVnd)} />
         <View style={[styles.info_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_item_text]}>Method</Text>

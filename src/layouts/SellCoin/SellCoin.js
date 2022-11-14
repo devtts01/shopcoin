@@ -122,7 +122,7 @@ export default function SellCoin({navigation, route}) {
       <View style={[styles.info_sellCoin]}>
         <RowDetail title="Quantity" text={item?.amount} />
         <RowDetail
-          title="USDT"
+          title="USD"
           text={`~ ${formatUSDT(item?.amount * item?.coin?.price)}`}
         />
         <RowDetail

@@ -1,14 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-import {
-  View,
-  Text,
-  ScrollView,
-  RefreshControl,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, ScrollView, RefreshControl, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {AlertDialog, Button, Center} from 'native-base';
 import {
   FormInput,
   ModalBank,

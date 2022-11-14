@@ -128,7 +128,7 @@ export default function SingleDeposits({navigation, route}) {
           title="Updated At"
           text={dateFormat(data?.updatedAt, 'DD/MM/YYYY')}
         />
-        <RowDetail title="Amount USDT" text={formatUSDT(data?.amount)} />
+        <RowDetail title="Amount USD" text={formatUSDT(data?.amount)} />
         <RowDetail title="Amount VND" text={formatVND(data?.amountVnd)} />
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Method</Text>

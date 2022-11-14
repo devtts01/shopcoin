@@ -65,8 +65,8 @@ const MyCoin = ({navigation}) => {
           </View>
           <View>
             <Text style={[styles.coinItem_Price_text]}>
-              USDT: ~{' '}
-              {formatUSDT(item?.amount * item?.coin?.price).replace('USDT', '')}
+              USD: ~{' '}
+              {formatUSDT(item?.amount * item?.coin?.price).replace('USD', '')}
             </Text>
           </View>
         </View>

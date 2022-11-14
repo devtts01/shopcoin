@@ -5,6 +5,7 @@ import {
   SET_USER_BY_ID_EMAIL,
   GET_BY_SYMBOL,
   SET_RATE_VALUE,
+  SET_RATE_DEPOSIT_WITHDRAW_VALUE,
 } from '../actions';
 
 export const getById = payload => {
@@ -34,6 +35,12 @@ export const getBySymbol = payload => {
 export const getRate = payload => {
   return {
     type: SET_RATE_VALUE,
+    payload,
+  };
+};
+export const getRateDepositWithdraw = payload => {
+  return {
+    type: SET_RATE_DEPOSIT_WITHDRAW_VALUE,
     payload,
   };
 };

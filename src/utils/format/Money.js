@@ -6,12 +6,12 @@ export const formatVND = money => {
   });
 };
 export const formatUSDT = usdt => {
-  return (
-    usdt?.toLocaleString('it-IT', {
+  return usdt
+    ?.toLocaleString('it-IT', {
       style: 'currency',
       currency: 'USD',
-    }) + 'T'
-  ).replace(/\$/g, 'D');
+    })
+    .replace(/\$/g, 'D');
 };
 export const precisionRound = number => {
   let precision = 5;

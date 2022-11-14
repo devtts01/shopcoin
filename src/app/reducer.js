@@ -13,6 +13,7 @@ import {
   SET_TOKEN_FORGOT_PASSWORD,
   SET_PRICE_COIN_SOCKET,
   SET_RATE_VALUE,
+  SET_RATE_DEPOSIT_WITHDRAW_VALUE,
   SET_AMOUNT_USDT,
   GET_ALL_COIN,
   GET_ALL_DEPOSITS,
@@ -38,6 +39,7 @@ const initialState = {
   tokenForgot: null,
   priceCoinSocket: null,
   rate: '',
+  rateDepositWithdraw: null,
   deposits: {
     amountUSDT: '',
     bank: '',
@@ -95,6 +97,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         rate: action.payload,
+      };
+    case SET_RATE_DEPOSIT_WITHDRAW_VALUE:
+      return {
+        ...state,
+        rateDepositWithdraw: action.payload,
       };
     case SET_FORM:
       return {

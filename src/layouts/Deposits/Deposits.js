@@ -19,7 +19,6 @@ import {routersMain} from '../../routers/Main';
 import styles from './DepositsCss';
 import stylesStatus from '../../styles/Status';
 import stylesGeneral from '../../styles/General';
-import {ScrollView} from 'native-base';
 
 const Deposits = ({navigation}) => {
   const {state, dispatch} = useAppContext();
@@ -78,7 +77,7 @@ const Deposits = ({navigation}) => {
           ]}
         />
         <RowDetail
-          title="Amount USDT"
+          title="Amount USD"
           text={formatUSDT(item?.amount)}
           noneBorderBottom
         />

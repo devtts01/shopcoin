@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
@@ -13,7 +15,7 @@ import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {setFormWithdraw} from '../../app/payloads/form';
-import {getUserById} from '../../app/payloads/getById';
+import {getUserById, getRateDepositWithdraw} from '../../app/payloads/getById';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {FormInput, ModalLoading} from '../../components';
 import {SVgetUserById} from '../../services/user';
@@ -24,6 +26,7 @@ import styles from './CreateWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateWithdraw} from '../../services/withdraw';
+import {SVgetRateDepositWithdraw} from '../../services/rate';
 
 export default function CreateWithdraw({navigation}) {
   const {state, dispatch} = useAppContext();
@@ -32,6 +35,7 @@ export default function CreateWithdraw({navigation}) {
     currentUser,
     withdraw: {amountUSDT},
     userById,
+    rateDepositWithdraw,
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
@@ -56,11 +60,16 @@ export default function CreateWithdraw({navigation}) {
     });
   }, [userById]);
   useEffect(() => {
-    if (parseFloat(amountUSDT) < 10) {
-      setError('Minimum withdrawal amount is 10 USDT');
-    } else if (parseFloat(amountUSDT) > 10 || amountUSDT === '') {
-      setError('');
-    }
+    // if (parseFloat(amountUSDT) < 10) {
+    //   setError('Minimum withdrawal amount is 10 USDT');
+    // } else if (parseFloat(amountUSDT) > 10 || amountUSDT === '') {
+    //   setError('');
+    // }
+    SVgetRateDepositWithdraw({
+      numberBank: userById?.payment?.bank?.account,
+      dispatch,
+      getRateDepositWithdraw,
+    });
   }, [amountUSDT]);
   const handleChange = (name, val) => {
     dispatch(
@@ -158,7 +167,7 @@ export default function CreateWithdraw({navigation}) {
               </View>
             </View>
             <FormInput
-              label="Amount USDT"
+              label="Amount USD"
               placeholder="0.00"
               keyboardType="number-pad"
               onChangeText={val => handleChange('amountUSDT', val)}
@@ -166,12 +175,14 @@ export default function CreateWithdraw({navigation}) {
               color={error ? 'red' : ''}
               name="exclamation-triangle"
             />
-            {error && (
+            {parseFloat(amountUSDT) < 10 && (
               <View style={[stylesGeneral.mb5]}>
-                <Text style={[stylesStatus.cancel]}>{error}</Text>
+                <Text style={[stylesStatus.cancel]}>
+                  Minimum withdrawal amount is 10 USD
+                </Text>
               </View>
             )}
-            {amountUSDT * 23000 > 0 && (
+            {amountUSDT * rateDepositWithdraw?.rateWithdraw > 0 && (
               <View style={[styles.info_detail, stylesGeneral.mb10]}>
                 <Text
                   style={[
@@ -180,7 +191,8 @@ export default function CreateWithdraw({navigation}) {
                     stylesStatus.complete,
                     stylesGeneral.fz16,
                   ]}>
-                  Receive (VND): {formatVND(amountUSDT * 23000)}
+                  Receive (VND):{' '}
+                  {formatVND(amountUSDT * rateDepositWithdraw?.rateWithdraw)}
                 </Text>
               </View>
             )}
@@ -190,7 +202,8 @@ export default function CreateWithdraw({navigation}) {
                 styles.btn,
                 stylesStatus.confirmbgcbold,
                 stylesGeneral.mt10,
-                (!amountUSDT || !!error) && stylesGeneral.op6,
+                (!amountUSDT || parseFloat(amountUSDT) < 10) &&
+                  stylesGeneral.op6,
               ]}
               disabled={!amountUSDT || !!error}
               onPress={handleSubmit}>

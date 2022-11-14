@@ -169,9 +169,9 @@ export default function BuyCoin({navigation, route}) {
             stylesGeneral.fwbold,
             stylesStatus.complete,
           ]}>
-          Amount USDT:{' '}
+          Amount USD:{' '}
           {formatUSDT(precisionRound(amountCoin * dataById?.price)).replace(
-            'USDT',
+            'USD',
             '',
           )}
         </Text>

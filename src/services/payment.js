@@ -30,13 +30,17 @@ export const addBankInfo = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Error!', resPut?.message, [
-          {
-            text: 'OK',
-            onPress: () =>
-              props.navigation.navigate(routersMain.ProfilePayment),
-          },
-        ]);
+        Alert.alert(
+          'Error!',
+          `${resPut?.message}. This account number already exists`,
+          [
+            {
+              text: 'OK',
+              onPress: () =>
+                props.navigation.navigate(routersMain.ProfilePayment),
+            },
+          ],
+        );
       }, 5000);
       break;
     default:
