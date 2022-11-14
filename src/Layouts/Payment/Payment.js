@@ -14,6 +14,7 @@ import {
     handleCreate,
     handleUpdate,
     handleDelete,
+    SVupdateRate,
 } from '../../services/payments';
 import {
     DataPayments,
@@ -48,8 +49,8 @@ function Payment() {
     const { modalPaymentEdit, modalDelete } = state.toggle;
     const [modalRate, setModalRate] = useState(false);
     const [rateUpdate, setRateUpdate] = useState({
-        rateDeposit: 0,
-        rateWithdraw: 0,
+        rateDeposit: null,
+        rateWithdraw: null,
     });
     // Ref Input
     const refAccountName = useRef();
@@ -208,8 +209,17 @@ function Payment() {
     const updateRate = async () => {
         try {
             await 1;
-            console.log(rateUpdate);
-            setRateUpdate({ rateDeposit: 0, rateWithdraw: 0 });
+            SVupdateRate({
+                rateDeposit: rateUpdate.rateDeposit,
+                rateWithdraw: rateUpdate.rateWithdraw,
+                page,
+                show,
+                state,
+                dispatch,
+                actions,
+            });
+            // console.log(rateUpdate);
+            setRateUpdate({ rateDeposit: null, rateWithdraw: null });
             setModalRate(false);
         } catch (err) {
             console.log(err);

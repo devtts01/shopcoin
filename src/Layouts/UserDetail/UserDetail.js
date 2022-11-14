@@ -18,6 +18,7 @@ import {
     refreshPasswordUser,
     blockUser,
     unblockUser,
+    // SVchangeUsdt,
 } from '../../services/users';
 import {
     useAppContext,
@@ -51,9 +52,9 @@ function UserDetail() {
         quantityCoin,
     } = state.set;
     const { modalDelete, selectStatus } = state.toggle;
-    const [modalChangeDeposit, setModalChangeDeposit] = useState(false);
-    const [coinDeposit, setCoinDeposit] = useState(null);
-    const [quantityCoinDeposit, setQuantityCoinDeposit] = useState(null);
+    // const [modalChangeDeposit, setModalChangeDeposit] = useState(false);
+    // const [coinDeposit, setCoinDeposit] = useState(null);
+    // const [quantityCoinDeposit, setQuantityCoinDeposit] = useState(null);
     const [feeValue, setFeeValue] = useState(
         edit?.itemData && edit.itemData.fee
     );
@@ -85,10 +86,10 @@ function UserDetail() {
     const handleChangeCoin = (coin) => {
         changeCoinGifts({ coin, selectStatus, dispatch, state, actions });
     };
-    const handleChangeCoinDeposit = (coin) => {
-        setCoinDeposit(coin);
-        setModalChangeDeposit(false);
-    };
+    // const handleChangeCoinDeposit = (coin) => {
+    //     setCoinDeposit(coin);
+    //     setModalChangeDeposit(false);
+    // };
     const toggleListCoin = () => {
         dispatch(
             actions.toggleModal({
@@ -107,25 +108,25 @@ function UserDetail() {
             })
         );
     };
-    const toggleListCoinDeposit = () => {
-        setModalChangeDeposit(!modalChangeDeposit);
-        dispatch(
-            actions.setData({
-                ...state.set,
-                pagination: {
-                    ...state.set.pagination,
-                    page: 1,
-                    show: dataSettingCoin?.total,
-                },
-            })
-        );
-    };
+    // const toggleListCoinDeposit = () => {
+    //     setModalChangeDeposit(!modalChangeDeposit);
+    //     dispatch(
+    //         actions.setData({
+    //             ...state.set,
+    //             pagination: {
+    //                 ...state.set.pagination,
+    //                 page: 1,
+    //                 show: dataSettingCoin?.total,
+    //             },
+    //         })
+    //     );
+    // };
     const changeInput = (e) => {
         return formUtils.changeForm(e, dispatch, state, actions);
     };
-    const changeInputDeposit = (e) => {
-        setQuantityCoinDeposit(e.target.value);
-    };
+    // const changeInputDeposit = (e) => {
+    //     setQuantityCoinDeposit(e.target.value);
+    // };
     const handleCloseAlert = () => {
         return alertUtils.closeAlert(dispatch, state, actions);
     };
@@ -279,17 +280,20 @@ function UserDetail() {
             checkErrorUsers(err, dispatch, state, actions);
         }
     };
-    const updateCoinDeposit = async (id) => {
-        try {
-            await 1;
-            console.log(quantityCoinDeposit, coinDeposit);
-            setQuantityCoinDeposit('');
-            setModalChangeDeposit(false);
-            setCoinDeposit('');
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    // const updateCoinDeposit = async (id) => {
+    //     try {
+    //         await 1;
+    //         SVchangeUsdt({
+    //             id: idUser,
+    //             USDT: quantityCoinDeposit,
+    //         });
+    //         setQuantityCoinDeposit('');
+    //         setModalChangeDeposit(false);
+    //         setCoinDeposit('');
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
     const DATA_COINS =
         dataCoin?.map((coin) => {
             return {
@@ -475,7 +479,7 @@ function UserDetail() {
                             </Button>
                         </div>
                     </div>
-                    <div className='w100'>
+                    {/* <div className='w100'>
                         <div className='detail-item flex-column'>
                             <label className='label mr-auto'>
                                 Change Deposit
@@ -546,7 +550,7 @@ function UserDetail() {
                                 Change
                             </Button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div>
                     <Button

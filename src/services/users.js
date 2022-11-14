@@ -353,3 +353,10 @@ export const unblockUser = async (props = {}) => {
         behavior: 'smooth',
     });
 };
+// CHANGE USDT
+export const SVchangeUsdt = async (props = {}) => {
+    const resPost = await axiosUtils.adminPost(`/addDeposit/${props.id}`, {
+        USDT: props.USDT,
+    });
+    console.log(resPost);
+};

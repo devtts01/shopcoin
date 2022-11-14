@@ -159,3 +159,28 @@ export const handleDelete = async (props = {}) => {
             break;
     }
 };
+
+// UPDATE ALL RATE
+export const SVupdateRate = async (props = {}) => {
+    const resPut = await axiosUtils.adminPut('/updateAllPayment', {
+        rateDeposit: props.rateDeposit,
+        rateWithdraw: props.rateWithdraw,
+    });
+    switch (resPut.code) {
+        case 0:
+            const res = await axiosUtils.adminGet(
+                `/getAllPayments?page=${props.page}&show=${props.show}`
+            );
+            dispatchEdit(
+                props.dispatch,
+                props.state,
+                props.actions,
+                res,
+                'dataPayment',
+                resPut.message
+            );
+            return props.data;
+        default:
+            break;
+    }
+};
