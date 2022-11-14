@@ -62,12 +62,18 @@ export const SVcreateDeposits = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Error!', resPost?.message, [
-          {
-            text: 'OK',
-            onPress: () => {},
-          },
-        ]);
+        Alert.alert(
+          'Error!',
+          'You have no payment yet. Please update your payment before making a deposit',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                props.navigation.navigate(routersMain.ProfilePayment);
+              },
+            },
+          ],
+        );
       }, 5000);
       break;
     default:
@@ -82,7 +88,6 @@ export const SVupdateDeposits = async (props = {}) => {
     {
       headers: {
         'Content-Type': 'multipart/form-data',
-        // Accept: 'application/json',
         token: props?.token,
       },
     },

@@ -84,3 +84,13 @@ export const coinDelete = async (path, options = {}, others = {}) => {
   const res = await coinInstance.delete(path, options, others);
   return res.data;
 };
+// RATE
+export const rateInstance = axios.create({
+  baseURL: `${URL_SERVER}rates/`,
+  // baseURL: 'http://localhost:8000/coins/',
+  withCredentials: true,
+});
+export const rateGet = async (path, options = {}) => {
+  const res = await rateInstance.get(path, options);
+  return res.data;
+};

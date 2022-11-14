@@ -9,10 +9,10 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
-  Platform,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {launchImageLibrary} from 'react-native-image-picker';
+// import {launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import {useAppContext} from '../../utils';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {setCurrentUser} from '../../app/payloads/user';
@@ -55,86 +55,64 @@ export default function UploadDoument({navigation}) {
       getUserById,
     });
   }, []);
-  const options = {
-    title: 'Select Image',
-    type: 'library, photo, video, camera',
-    options: {
-      maxHeight: 200,
-      maxWidth: 200,
-      selectionLimit: 1,
-      mediaType: 'photo',
-      includeBase64: false,
-      allowsEditing: true,
-      noData: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    },
-  };
-
   const handleDocumentSelectionFrontCCCD = async () => {
-    const images = await launchImageLibrary(options);
-    const formData = new FormData();
-    formData.append('cccdFont', {
-      uri:
-        Platform.OS === 'android'
-          ? images?.assets[0]?.uri
-          : images?.assets[0]?.uri.replace('file://', ''),
-      type: images?.assets[0]?.type,
-      name: images?.assets[0]?.fileName,
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then(image => {
+      const formData = new FormData();
+      formData.append('cccdFont', image);
+      setFileResponseFrontCCCD(image.path);
+      setDataImageForm([...dataImageForm, formData]);
     });
-    setFileResponseFrontCCCD(images.assets[0]);
-    setDataImageForm([...dataImageForm, formData]);
   };
   const handleDocumentSelectionBackCCCD = async () => {
-    const images = await launchImageLibrary(options);
-    const formData = new FormData();
-    formData.append('cccdBeside', {
-      uri:
-        Platform.OS === 'android'
-          ? images?.assets[0]?.uri
-          : images?.assets[0]?.uri.replace('file://', ''),
-      type: images?.assets[0]?.type,
-      name: images?.assets[0]?.fileName,
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then(image => {
+      const formData = new FormData();
+      formData.append('cccdBeside', image);
+      setFileResponseBackCCCD(image.path);
+      setDataImageForm([...dataImageForm, formData]);
     });
-    setFileResponseBackCCCD(images.assets[0]);
-    setDataImageForm([...dataImageForm, formData]);
   };
   const handleDocumentSelectionFrontLicense = async () => {
-    const images = await launchImageLibrary(options);
-    const formData = new FormData();
-    formData.append('licenseFont', {
-      uri:
-        Platform.OS === 'android'
-          ? images?.assets[0]?.uri
-          : images?.assets[0]?.uri.replace('file://', ''),
-      type: images?.assets[0]?.type,
-      name: images?.assets[0]?.fileName,
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then(image => {
+      const formData = new FormData();
+      formData.append('licenseFont', image);
+      setFileResponseFrontLicense(image.path);
+      setDataImageForm([...dataImageForm, formData]);
     });
-    setFileResponseFrontLicense(images.assets[0]);
-    setDataImageForm([...dataImageForm, formData]);
   };
   const handleDocumentSelectionBackLicense = async () => {
-    const images = await launchImageLibrary(options);
-    const formData = new FormData();
-    formData.append('licenseBeside', {
-      uri:
-        Platform.OS === 'android'
-          ? images?.assets[0]?.uri
-          : images?.assets[0]?.uri.replace('file://', ''),
-      type: images?.assets[0]?.type,
-      name: images?.assets[0]?.fileName,
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then(image => {
+      const formData = new FormData();
+      formData.append('licenseBeside', image);
+      setFileResponseBackLicense(image.path);
+      setDataImageForm([...dataImageForm, formData]);
     });
-    setFileResponseBackLicense(images.assets[0]);
-    setDataImageForm([...dataImageForm, formData]);
   };
   const handleChangeStatus = () => {
     setIsStatus(true);
   };
   const uploadImageAPI = (data, id) => {
     SVuploadDocument({
-      id: id,
+      id: currentUser?.id,
       imageForm: dataImageForm,
       token: data?.token,
       setLoading,
@@ -175,8 +153,8 @@ export default function UploadDoument({navigation}) {
             <ImageItemUpload
               isStatus={isStatus}
               selectFile={handleDocumentSelectionFrontCCCD}
-              textUpload="Front citizen identification"
-              text="Front CCCD image"
+              textUpload="Font citizen identification"
+              text="Font CCCD image"
               fileResponse={fileResponseFrontCCCD}
               userById={userById}
               field="uploadCCCDFont"
@@ -198,8 +176,8 @@ export default function UploadDoument({navigation}) {
             <ImageItemUpload
               isStatus={isStatus}
               selectFile={handleDocumentSelectionFrontLicense}
-              textUpload="Front license"
-              text="Front license image"
+              textUpload="Font license"
+              text="Font license image"
               fileResponse={fileResponseFrontLicense}
               userById={userById}
               field="uploadCCCDFont"

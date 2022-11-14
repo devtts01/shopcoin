@@ -103,35 +103,36 @@ export const SVuploadDocument = async (props = {}) => {
       token: props?.token,
     },
   });
-  switch (resPut.code) {
-    case 0:
-      props.setLoading(true);
-      setTimeout(() => {
-        props.setLoading(false);
-        Alert.alert('Success!', 'Upload document successfully!', [
-          {
-            text: 'OK',
-            onPress: () => props.navigation.navigate(routers.Profile),
-          },
-        ]);
-      }, 5000);
-      break;
-    case 1:
-    case 2:
-      props.setLoading(true);
-      setTimeout(() => {
-        props.setLoading(false);
-        Alert.alert('Error!', resPut?.message, [
-          {
-            text: 'OK',
-            onPress: () => props.navigation.navigate(routers.Profile),
-          },
-        ]);
-      }, 5000);
-      break;
-    default:
-      break;
-  }
+  console.log(resPut);
+  // switch (resPut.code) {
+  //   case 0:
+  //     props.setLoading(true);
+  //     setTimeout(() => {
+  //       props.setLoading(false);
+  //       Alert.alert('Success!', 'Upload document successfully!', [
+  //         {
+  //           text: 'OK',
+  //           onPress: () => props.navigation.navigate(routers.Profile),
+  //         },
+  //       ]);
+  //     }, 5000);
+  //     break;
+  //   case 1:
+  //   case 2:
+  //     props.setLoading(true);
+  //     setTimeout(() => {
+  //       props.setLoading(false);
+  //       Alert.alert('Error!', resPut?.message, [
+  //         {
+  //           text: 'OK',
+  //           onPress: () => props.navigation.navigate(routers.Profile),
+  //         },
+  //       ]);
+  //     }, 5000);
+  //     break;
+  //   default:
+  //     break;
+  // }
 };
 // RESET PASSWORD
 export const SVresetPassword = async (props = {}) => {

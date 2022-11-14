@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-import {getAsyncStore} from '../utils/localStore/localStore';
+// import {getAsyncStore} from '../utils/localStore/localStore';
 import {
   SET_CURRENT_USER,
   SET_FORM,
@@ -12,6 +12,7 @@ import {
   SET_FORM_PROFILE_PAYMENT_VALUE,
   SET_TOKEN_FORGOT_PASSWORD,
   SET_PRICE_COIN_SOCKET,
+  SET_RATE_VALUE,
   SET_AMOUNT_USDT,
   GET_ALL_COIN,
   GET_ALL_DEPOSITS,
@@ -36,6 +37,7 @@ const initialState = {
   codeVerify: '',
   tokenForgot: null,
   priceCoinSocket: null,
+  rate: '',
   deposits: {
     amountUSDT: '',
     bank: '',
@@ -88,6 +90,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    case SET_RATE_VALUE:
+      return {
+        ...state,
+        rate: action.payload,
       };
     case SET_FORM:
       return {

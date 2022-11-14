@@ -133,11 +133,9 @@ export default function SingleDeposits({navigation, route}) {
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Method</Text>
           <View style={[stylesGeneral.flexColumn, stylesGeneral.flexEnd]}>
-            <Text style={[styles.item_desc]}>{data?.method?.methodName}</Text>
-            <Text style={[styles.item_desc]}>{data?.method?.accountName}</Text>
-            <Text style={[styles.item_desc]}>
-              {data?.method?.accountNumber}
-            </Text>
+            <Text style={[styles.item_desc]}>ACB</Text>
+            <Text style={[styles.item_desc]}>TRẦN VĂN ĐIỀU</Text>
+            <Text style={[styles.item_desc]}>16744317</Text>
           </View>
         </View>
         <View>

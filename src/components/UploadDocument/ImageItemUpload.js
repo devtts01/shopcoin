@@ -1,12 +1,9 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 import {View, Text, Image} from 'react-native';
 import React from 'react';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {URL_SERVER} from '@env';
 import styles from './ImageItemUploadCss';
-import stylesStatus from '../../styles/Status';
 import stylesGeneral from '../../styles/General';
 
 export default function ImageItemUpload({
@@ -27,7 +24,8 @@ export default function ImageItemUpload({
             ? selectFile
             : () => {}
         }>
-        {!fileResponse?.uri && !userById[field] ? (
+        {/* fileResponse?.uri */}
+        {!fileResponse && !userById[field] ? (
           <>
             <Text style={[styles.typeUpload]}>{textUpload}</Text>
             <Image
@@ -42,7 +40,7 @@ export default function ImageItemUpload({
             source={{
               uri: `${
                 fileResponse !== null
-                  ? fileResponse?.uri
+                  ? fileResponse
                   : userById[field]
                   ? `${URL_SERVER}${userById[field]?.replace('uploads/', '')}`
                   : 'http://craftsnippets.com/articles_images/placeholder/placeholder.jpg'

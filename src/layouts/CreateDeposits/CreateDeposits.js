@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-import React, {useCallback, useState} from 'react';
+/* eslint-disable prettier/prettier */
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -25,16 +27,25 @@ import styles from './CreateDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateDeposits} from '../../services/deposits';
+import {SVgetRate} from '../../services/rate';
+import {getRate} from '../../app/payloads/getById';
 
 export default function CreateDeposits({navigation}) {
   const {state, dispatch} = useAppContext();
   const {
     currentUser,
+    rate,
     deposits: {amountUSDT, bank},
   } = state;
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  useEffect(() => {
+    SVgetRate({
+      dispatch,
+      getRate,
+    });
+  }, []);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -78,23 +89,7 @@ export default function CreateDeposits({navigation}) {
   const dataBank = [
     {
       id: 1,
-      name: 'Vietcombank',
-    },
-    {
-      id: 2,
-      name: 'Techcombank',
-    },
-    {
-      id: 3,
-      name: 'BIDV',
-    },
-    {
-      id: 4,
-      name: 'Vietinbank',
-    },
-    {
-      id: 5,
-      name: 'Agribank',
+      name: 'ACB',
     },
   ];
   return (
@@ -115,7 +110,7 @@ export default function CreateDeposits({navigation}) {
         onTouchStart={handleModalBank}
         value={bank}
       />
-      {amountUSDT * 23000 > 0 && (
+      {amountUSDT * rate?.rate > 0 && (
         <View style={[styles.deposits_VND]}>
           <Text
             style={[
@@ -123,7 +118,7 @@ export default function CreateDeposits({navigation}) {
               stylesGeneral.fwbold,
               stylesStatus.confirm,
             ]}>
-            Deposits (VND): {formatVND(amountUSDT * 23000)}
+            Deposits (VND): {formatVND(amountUSDT * rate?.rate)}
           </Text>
         </View>
       )}
