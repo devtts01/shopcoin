@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {Alert} from 'react-native';
-import {userPut} from '../utils/axios/axiosInstance';
+import {adminGet, userPut} from '../utils/axios/axiosInstance';
 import {routersMain} from '../routers/Main';
 
 // ADD BANK INFO
@@ -46,4 +46,14 @@ export const addBankInfo = async (props = {}) => {
     default:
       break;
   }
+};
+// GET ALL PAYMENT ADMIN
+export const SVgetAllPaymentAdmin = async (props = {}) => {
+  const resGet = await adminGet('/getAllPaymentAdmin', {});
+  props.dispatch(props.getAllPaymentAdmin(resGet.data));
+};
+// GET PAYMENT ADMIN BY ID
+export const SVgetPaymentAdminById = async (props = {}) => {
+  const resGet = await adminGet(`/getPayment/${props?.id}`);
+  props.dispatch(props.getPaymentAdminById(resGet.data));
 };

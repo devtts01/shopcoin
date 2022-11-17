@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginVertical: 2,
   },
+  lineHeight: {
+    lineHeight: 20,
+  },
 });
 
 export default styles;

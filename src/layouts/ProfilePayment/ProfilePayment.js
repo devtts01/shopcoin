@@ -27,7 +27,6 @@ export default function ProfilePayment({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const cancelRef = React.useRef(null);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -103,7 +102,7 @@ export default function ProfilePayment({navigation}) {
       <SelectAlert
         label="Choose bank"
         onTouchStart={handleModalBank}
-        value={bank}
+        value={bank?.name}
       />
       <FormInput
         label="Account name"

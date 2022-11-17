@@ -45,6 +45,7 @@ export const SVcreateDeposits = async (props = {}) => {
                 name: routersMain.SingleDeposits,
                 params: {
                   data: resPost?.data,
+                  bankAdmin: props?.bankAdmin,
                 },
               }),
           },
@@ -89,6 +90,7 @@ export const SVupdateDeposits = async (props = {}) => {
     `/additionImageDeposit/${props.id}`,
     {
       ...object,
+      bankAdmin: props?.bankAdmin,
     },
     {
       headers: {

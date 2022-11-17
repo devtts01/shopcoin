@@ -19,11 +19,13 @@ import {
   GET_ALL_DEPOSITS,
   GET_ALL_WITHDRAW,
   GET_ALL_MYCOIN,
+  GET_ALL_PAYMENT_ADMIN,
   SET_SEARCH_VALUE,
   SET_CODE_VALUE,
   GET_BY_ID,
   GET_BY_SYMBOL,
   GET_USER_BY_ID,
+  GET_PAYMENT_ADMIN_BY_ID,
   GET_HISTORY_BUY,
   GET_HISTORY_SELL,
   SET_USER_BY_ID_EMAIL,
@@ -40,6 +42,8 @@ const initialState = {
   priceCoinSocket: null,
   rate: '',
   rateDepositWithdraw: null,
+  dataPaymentAdmin: null,
+  paymentAdminById: null,
   deposits: {
     amountUSDT: '',
     bank: '',
@@ -127,6 +131,11 @@ const reducer = (state, action) => {
           dataCoins: action.payload,
         },
       };
+    case GET_ALL_PAYMENT_ADMIN:
+      return {
+        ...state,
+        dataPaymentAdmin: action.payload,
+      };
     case SET_SEARCH_VALUE:
       return {
         ...state,
@@ -193,6 +202,11 @@ const reducer = (state, action) => {
           ...state.data,
           dataById: action.payload,
         },
+      };
+    case GET_PAYMENT_ADMIN_BY_ID:
+      return {
+        ...state,
+        paymentAdminById: action.payload,
       };
     case GET_BY_SYMBOL:
       return {

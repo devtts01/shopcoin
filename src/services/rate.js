@@ -9,7 +9,6 @@ export const SVgetRate = async (props = {}) => {
 };
 // GET RATE DEPOSIT/WITHDRAW
 export const SVgetRateDepositWithdraw = async (props = {}) => {
-  console.log(props);
   const resGet = await userGet(`/getRate/${props.numberBank}`);
   props.dispatch(props.getRateDepositWithdraw(resGet.data));
 };

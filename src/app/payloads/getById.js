@@ -2,6 +2,7 @@
 import {
   GET_BY_ID,
   GET_USER_BY_ID,
+  GET_PAYMENT_ADMIN_BY_ID,
   SET_USER_BY_ID_EMAIL,
   GET_BY_SYMBOL,
   SET_RATE_VALUE,
@@ -41,6 +42,12 @@ export const getRate = payload => {
 export const getRateDepositWithdraw = payload => {
   return {
     type: SET_RATE_DEPOSIT_WITHDRAW_VALUE,
+    payload,
+  };
+};
+export const getPaymentAdminById = payload => {
+  return {
+    type: GET_PAYMENT_ADMIN_BY_ID,
     payload,
   };
 };
