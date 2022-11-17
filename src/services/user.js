@@ -133,12 +133,17 @@ export const SVuploadDocument = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Error!', resPut?.message, [
-          {
-            text: 'OK',
-            onPress: () => props.navigation.navigate(routersMain.UploadDoument),
-          },
-        ]);
+        Alert.alert(
+          'Error!',
+          resPut?.message + '. If you edit you have to re-upload four pictures',
+          [
+            {
+              text: 'OK',
+              onPress: () =>
+                props.navigation.navigate(routersMain.UploadDoument),
+            },
+          ],
+        );
       }, 5000);
       break;
     default:
@@ -169,16 +174,12 @@ export const SVresetPassword = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert(
-          'Error!',
-          resPut?.message + '. If you edit you have to re-upload four pictures',
-          [
-            {
-              text: 'OK',
-              onPress: () => props.navigation.navigate(routersMain.ResetPwd),
-            },
-          ],
-        );
+        Alert.alert('Error!', resPut?.message, [
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate(routersMain.ResetPwd),
+          },
+        ]);
       }, 5000);
       break;
     default:
