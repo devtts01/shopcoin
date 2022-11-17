@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Button, Icons } from '../../components';
@@ -116,10 +117,26 @@ function DepositsWithdrawDetail() {
                               x.method.accountName +
                               ' - ' +
                               x.method.accountNumber
-                            : 'ACB - TRẦN VĂN ĐIỀU - 16744317')
+                            : `${x?.bankAdmin?.methodName || '...'} - ${
+                                  x?.bankAdmin?.accountName || '...'
+                              } - ${x?.bankAdmin?.accountNumber || '...'}`)
                     }
                 />
-                {idDeposits && <ItemRender title='Document' />}
+                {idDeposits && (
+                    <ItemRender
+                        title='Document'
+                        info={
+                            x && (
+                                <a
+                                    href={`https://apishopcoin.4eve.site${x.statement}`}
+                                    target='_blank'
+                                >
+                                    {x.statement.replace('/images/', '')}
+                                </a>
+                            )
+                        }
+                    />
+                )}
             </div>
         </>
     );
