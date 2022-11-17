@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {launchImageLibrary} from 'react-native-image-picker';
+// import {launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import {useAppContext} from '../../utils';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
@@ -40,36 +41,21 @@ export default function SingleDeposits({navigation, route}) {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
-  const options = {
-    title: 'Select Image',
-    type: 'library',
-    options: {
-      maxHeight: 200,
-      maxWidth: 200,
-      selectionLimit: 1,
-      mediaType: 'photo',
-      includeBase64: false,
-      allowsEditing: true,
-      noData: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    },
-  };
   const handleDocumentSelection = async () => {
-    const images = await launchImageLibrary(options);
-    const formData = new FormData();
-    formData.append('image', {
-      uri:
-        Platform.OS === 'android'
-          ? images?.assets[0]?.uri
-          : images?.assets[0]?.uri.replace('file://', ''),
-      type: images?.assets[0]?.type,
-      name: images?.assets[0]?.fileName,
+    await ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      compressImageQuality: 0.7,
+      includeBase64: true,
+    }).then(image => {
+      const object = {
+        image: image.data,
+        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+      };
+      setFileResponse(`data:${image.mime};base64,${image.data}`);
+      setDataImageForm(object);
     });
-    setFileResponse(images.assets[0]);
-    setDataImageForm(formData);
   };
   const submitSingleDepositsAPI = (dataAPI, id) => {
     SVupdateDeposits({
@@ -162,7 +148,7 @@ export default function SingleDeposits({navigation, route}) {
           {fileResponse !== null && (
             <View style={[stylesGeneral.flexCenter]}>
               <Image
-                source={{uri: `${fileResponse.uri}`}}
+                source={{uri: `${fileResponse}`}}
                 style={[styles.image, stylesGeneral.mt10]}
                 resizeMode="contain"
               />

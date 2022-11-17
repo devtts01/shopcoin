@@ -97,42 +97,53 @@ export const SVforgotPwd = async (props = {}) => {
 };
 // UPLOAD DOCUMENT
 export const SVuploadDocument = async (props = {}) => {
-  const resPut = await userPut(`/uploadImage/${props.id}`, props?.imageForm, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      token: props?.token,
+  const object = {
+    imagePersonNationalityFont: props?.imageForm[0],
+    imagePersonNationalityBeside: props?.imageForm[1],
+    imageLicenseFont: props?.imageForm[2],
+    imageLicenseBeside: props?.imageForm[3],
+  };
+  const resPut = await userPut(
+    `/additionImages/${props.id}`,
+    {
+      ...object,
     },
-  });
-  console.log(resPut);
-  // switch (resPut.code) {
-  //   case 0:
-  //     props.setLoading(true);
-  //     setTimeout(() => {
-  //       props.setLoading(false);
-  //       Alert.alert('Success!', 'Upload document successfully!', [
-  //         {
-  //           text: 'OK',
-  //           onPress: () => props.navigation.navigate(routers.Profile),
-  //         },
-  //       ]);
-  //     }, 5000);
-  //     break;
-  //   case 1:
-  //   case 2:
-  //     props.setLoading(true);
-  //     setTimeout(() => {
-  //       props.setLoading(false);
-  //       Alert.alert('Error!', resPut?.message, [
-  //         {
-  //           text: 'OK',
-  //           onPress: () => props.navigation.navigate(routers.Profile),
-  //         },
-  //       ]);
-  //     }, 5000);
-  //     break;
-  //   default:
-  //     break;
-  // }
+    {
+      headers: {
+        // 'Content-Type': 'multipart/form-data',
+        token: props?.token,
+      },
+    },
+  );
+  switch (resPut.code) {
+    case 0:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Success!', 'Upload document successfully!', [
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate(routers.Profile),
+          },
+        ]);
+      }, 5000);
+      break;
+    case 1:
+    case 2:
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert('Error!', resPut?.message, [
+          {
+            text: 'OK',
+            onPress: () => props.navigation.navigate(routersMain.UploadDoument),
+          },
+        ]);
+      }, 5000);
+      break;
+    default:
+      break;
+  }
 };
 // RESET PASSWORD
 export const SVresetPassword = async (props = {}) => {
@@ -158,12 +169,16 @@ export const SVresetPassword = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Error!', resPut?.message, [
-          {
-            text: 'OK',
-            onPress: () => props.navigation.navigate(routersMain.ResetPwd),
-          },
-        ]);
+        Alert.alert(
+          'Error!',
+          resPut?.message + '. If you edit you have to re-upload four pictures',
+          [
+            {
+              text: 'OK',
+              onPress: () => props.navigation.navigate(routersMain.ResetPwd),
+            },
+          ],
+        );
       }, 5000);
       break;
     default:
