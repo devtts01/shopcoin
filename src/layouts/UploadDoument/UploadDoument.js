@@ -56,55 +56,75 @@ export default function UploadDoument({navigation}) {
     });
   }, []);
   const handleDocumentSelectionFrontCCCD = async () => {
-    ImagePicker.openPicker({
+    await ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true,
       compressImageQuality: 0.7,
+      includeBase64: true,
     }).then(image => {
-      const formData = new FormData();
-      formData.append('cccdFont', image);
-      setFileResponseFrontCCCD(image.path);
-      setDataImageForm([...dataImageForm, formData]);
+      const object = {
+        image: image.data,
+        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+      };
+      // const formData = new FormData();
+      // formData.append('cccdFont', object);
+      setFileResponseFrontCCCD(`data:${image.mime};base64,${image.data}`);
+      setDataImageForm([...dataImageForm, object]);
     });
   };
   const handleDocumentSelectionBackCCCD = async () => {
-    ImagePicker.openPicker({
+    await ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true,
       compressImageQuality: 0.7,
+      includeBase64: true,
     }).then(image => {
-      const formData = new FormData();
-      formData.append('cccdBeside', image);
-      setFileResponseBackCCCD(image.path);
-      setDataImageForm([...dataImageForm, formData]);
+      const object = {
+        image: image.data,
+        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+      };
+      // const formData = new FormData();
+      // formData.append('cccdBeside', object);
+      setFileResponseBackCCCD(`data:${image.mime};base64,${image.data}`);
+      setDataImageForm([...dataImageForm, object]);
     });
   };
   const handleDocumentSelectionFrontLicense = async () => {
-    ImagePicker.openPicker({
+    await ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true,
       compressImageQuality: 0.7,
+      includeBase64: true,
     }).then(image => {
-      const formData = new FormData();
-      formData.append('licenseFont', image);
-      setFileResponseFrontLicense(image.path);
-      setDataImageForm([...dataImageForm, formData]);
+      const object = {
+        image: image.data,
+        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+      };
+      // const formData = new FormData();
+      // formData.append('licenseFont', object);
+      setFileResponseFrontLicense(`data:${image.mime};base64,${image.data}`);
+      setDataImageForm([...dataImageForm, object]);
     });
   };
   const handleDocumentSelectionBackLicense = async () => {
-    ImagePicker.openPicker({
+    await ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true,
       compressImageQuality: 0.7,
+      includeBase64: true,
     }).then(image => {
-      const formData = new FormData();
-      formData.append('licenseBeside', image);
-      setFileResponseBackLicense(image.path);
-      setDataImageForm([...dataImageForm, formData]);
+      const object = {
+        image: image.data,
+        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+      };
+      // const formData = new FormData();
+      // formData.append('licenseBeside', object);
+      setFileResponseBackLicense(`data:${image.mime};base64,${image.data}`);
+      setDataImageForm([...dataImageForm, object]);
     });
   };
   const handleChangeStatus = () => {

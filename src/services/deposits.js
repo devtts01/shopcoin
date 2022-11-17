@@ -82,12 +82,17 @@ export const SVcreateDeposits = async (props = {}) => {
 };
 // UPDATE DEPOSITS
 export const SVupdateDeposits = async (props = {}) => {
+  const object = {
+    imageDeposit: props?.image,
+  };
   const resPut = await userPut(
-    `/updateImageDeposit/${props.id}`,
-    props?.image,
+    `/additionImageDeposit/${props.id}`,
+    {
+      ...object,
+    },
     {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        // 'Content-Type': 'multipart/form-data',
         token: props?.token,
       },
     },
