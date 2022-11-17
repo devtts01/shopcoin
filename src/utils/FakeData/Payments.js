@@ -21,6 +21,9 @@ const DataPayments = () => {
             h5: {
                 title: 'Rate Withdraw',
             },
+            h6: {
+                title: 'Type',
+            },
         },
     };
 };

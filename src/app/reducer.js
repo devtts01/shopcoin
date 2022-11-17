@@ -36,6 +36,7 @@ const initialState = {
             symbolCoin: '',
             indexCoin: '',
             logo: null,
+            typePayment: '',
         },
         pagination: {
             page: 1,

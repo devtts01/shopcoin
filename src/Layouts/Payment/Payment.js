@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import className from 'classnames/bind';
-import { Modal, FormInput, ActionsTable } from '../../components';
+import { Modal, FormInput, ActionsTable, SelectStatus } from '../../components';
 import { actions } from '../../app/';
 import { General } from '../';
 import {
@@ -15,6 +15,7 @@ import {
     handleUpdate,
     handleDelete,
     SVupdateRate,
+    handleUpdateType,
 } from '../../services/payments';
 import {
     DataPayments,
@@ -24,8 +25,10 @@ import {
     handleUtils,
     deleteUtils,
     formUtils,
+    localStoreUtils,
 } from '../../utils';
 import styles from './Payment.module.css';
+import { TrStatus } from '../../components/TableData/TableData';
 
 const cx = className.bind(styles);
 
@@ -34,6 +37,8 @@ function Payment() {
     const {
         edit,
         currentUser,
+        statusUpdate,
+        statusCurrent,
         message: { error },
         data: { dataPayment },
         searchValues: { payment },
@@ -46,7 +51,7 @@ function Payment() {
             rateWithdraw,
         },
     } = state.set;
-    const { modalPaymentEdit, modalDelete } = state.toggle;
+    const { modalPaymentEdit, modalDelete, modalStatus } = state.toggle;
     const [modalRate, setModalRate] = useState(false);
     const [rateUpdate, setRateUpdate] = useState({
         rateDeposit: null,
@@ -103,6 +108,16 @@ function Payment() {
     };
     const modalDeleteFalse = (e) => {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
+    };
+    const toggleEditTrue = async (e, status, id) => {
+        await localStoreUtils.setStore({
+            ...currentUser,
+            idUpdate: id,
+        });
+        deleteUtils.statusTrue(e, status, id, dispatch, state, actions);
+    };
+    const toggleEditFalse = (e) => {
+        return deleteUtils.statusFalse(e, dispatch, state, actions);
     };
     const handleChange = (e) => {
         return formUtils.changeForm(e, dispatch, state, actions);
@@ -181,6 +196,33 @@ function Payment() {
             checkErrorPayment({ dispatch, state, actions, err });
         }
     };
+    const handleUpdateTypePayment = async (data, id) => {
+        handleUpdateType({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            statusUpdate,
+            statusCurrent,
+            page,
+            show,
+        });
+    };
+    const updatedTypePayment = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                handleUpdateTypePayment,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+        } catch (err) {
+            checkErrorPayment({ dispatch, state, actions, err });
+        }
+    };
     const handleDeletePayment = async (data, id) => {
         await handleDelete({
             data,
@@ -246,6 +288,15 @@ function Payment() {
                             <td>{item.rateDeposit || 0}</td>
                             <td>{item.rateWithdraw || 0}</td>
                             <td>
+                                <TrStatus
+                                    item={item.type}
+                                    onClick={(e) =>
+                                        toggleEditTrue(e, item.type, item._id)
+                                    }
+                                />
+                            </td>
+
+                            <td>
                                 <ActionsTable
                                     edit
                                     onClickDel={(e) =>
@@ -279,6 +330,23 @@ function Payment() {
             >
                 <RenderBodyTable data={dataUserFlag} />
             </General>
+            {modalStatus && (
+                <Modal
+                    titleHeader='Change Type Payment'
+                    actionButtonText='Submit'
+                    openModal={toggleEditTrue}
+                    closeModal={toggleEditFalse}
+                    classNameButton='vipbgc'
+                    onClick={() =>
+                        updatedTypePayment(currentUser?.idUpdate || edit.id)
+                    }
+                >
+                    <p className='modal-delete-desc'>
+                        Are you sure change type payment?
+                    </p>
+                    <SelectStatus typePayment />
+                </Modal>
+            )}
             {modalPaymentEdit && (
                 <Modal
                     titleHeader={edit.itemData ? 'Edit Payment' : 'New Payment'}
@@ -293,6 +361,17 @@ function Payment() {
                             : createPayment
                     }
                 >
+                    {/* <FormInput
+                        label='Type payment'
+                        type='text'
+                        placeholder='Enter type payment'
+                        name='typePayment'
+                        value={typePayment}
+                        ref={refTypePayment}
+                        onChange={handleChange}
+                        classNameField={`${cx('payment-form-field')}`}
+                        classNameInput={`${cx('payment-form-input')}`}
+                    /> */}
                     <FormInput
                         label='Account Name'
                         type='text'

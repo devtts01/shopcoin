@@ -21,6 +21,7 @@ export const modalTrue = (e, item, dispatch, state, actions, nameModal) => {
                     accountNumber: item?.accountNumber,
                     rateDeposit: item?.rateDeposit,
                     rateWithdraw: item?.rateWithdraw,
+                    typePayment: item?.type,
                 },
             })
         );

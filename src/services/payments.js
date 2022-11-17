@@ -133,6 +133,30 @@ export const handleUpdate = async (props = {}) => {
             break;
     }
 };
+// UPDATE TYPE PAYMENT
+export const handleUpdateType = async (props = {}) => {
+    const resPut = await axiosUtils.adminPut(`/updatePayment/${props.id}`, {
+        type: props.statusUpdate || props.statusCurrent,
+        token: props.data?.token,
+    });
+    switch (resPut.code) {
+        case 0:
+            const res = await axiosUtils.adminGet(
+                `/getAllPayments?page=${props.page}&show=${props.show}`
+            );
+            dispatchEdit(
+                props.dispatch,
+                props.state,
+                props.actions,
+                res,
+                'dataPayment',
+                resPut.message
+            );
+            return props.data;
+        default:
+            break;
+    }
+};
 
 // DELETE PAYMENT
 export const handleDelete = async (props = {}) => {

@@ -17,13 +17,15 @@
 
 .complete,
 .completed,
-.pro {
+.pro,
+.user {
     color: var(--table-status-complete-color);
 }
 
 .onhold,
 .refunded,
-.vip {
+.vip,
+.admin {
     color: var(--table-status-onhold-color);
 }
 
@@ -56,7 +58,9 @@
 .completedbgc:hover,
 .completedbgc a:hover,
 .probgc,
-.probgc:hover {
+.probgc:hover,
+.userbgc,
+.userbgc:hover {
     color: var(--table-status-complete-color);
     background-color: var(--table-status-complete-bgc);
 }
@@ -66,7 +70,9 @@
 .vipbgc,
 .vipbgc:hover,
 .refundedbgc,
-.refundedbgc:hover {
+.refundedbgc:hover,
+.adminbgc,
+.adminbgc:hover {
     color: var(--table-status-onhold-color);
     background-color: var(--table-status-onhold-bgc);
 }
