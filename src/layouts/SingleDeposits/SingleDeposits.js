@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image,
   RefreshControl,
-  Platform,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -29,7 +28,7 @@ import {textLower} from '../../utils/format/textLowercase';
 export default function SingleDeposits({navigation, route}) {
   const {state, dispatch} = useAppContext();
   const {currentUser} = state;
-  const {data} = route.params;
+  const {data, bankAdmin} = route.params;
   const [fileResponse, setFileResponse] = useState(null);
   const [dataImageForm, setDataImageForm] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -62,6 +61,7 @@ export default function SingleDeposits({navigation, route}) {
       token: dataAPI?.token,
       id: data?._id,
       image: dataImageForm,
+      bankAdmin: bankAdmin,
       setLoading,
       navigation,
     });
@@ -119,9 +119,9 @@ export default function SingleDeposits({navigation, route}) {
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title]}>Method</Text>
           <View style={[stylesGeneral.flexColumn, stylesGeneral.flexEnd]}>
-            <Text style={[styles.item_desc]}>ACB</Text>
-            <Text style={[styles.item_desc]}>TRẦN VĂN ĐIỀU</Text>
-            <Text style={[styles.item_desc]}>16744317</Text>
+            <Text style={[styles.item_desc]}>{bankAdmin?.methodName}</Text>
+            <Text style={[styles.item_desc]}>{bankAdmin?.accountName}</Text>
+            <Text style={[styles.item_desc]}>{bankAdmin?.accountNumber}</Text>
           </View>
         </View>
         <View>

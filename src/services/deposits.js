@@ -31,7 +31,6 @@ export const SVcreateDeposits = async (props = {}) => {
     amountVnd: props.amountVnd,
     token: props?.token,
   });
-  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
@@ -45,6 +44,7 @@ export const SVcreateDeposits = async (props = {}) => {
                 name: routersMain.SingleDeposits,
                 params: {
                   data: resPost?.data,
+                  bankAdmin: props?.bankAdmin,
                 },
               }),
           },
@@ -89,6 +89,7 @@ export const SVupdateDeposits = async (props = {}) => {
     `/additionImageDeposit/${props.id}`,
     {
       ...object,
+      bankAdmin: props?.bankAdmin,
     },
     {
       headers: {

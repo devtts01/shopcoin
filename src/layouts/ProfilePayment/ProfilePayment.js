@@ -1,11 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-import {
-  Text,
-  ScrollView,
-  RefreshControl,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, ScrollView, RefreshControl, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {
   FormInput,
@@ -107,7 +102,7 @@ export default function ProfilePayment({navigation}) {
       <SelectAlert
         label="Choose bank"
         onTouchStart={handleModalBank}
-        value={bank}
+        value={bank?.name}
       />
       <FormInput
         label="Account name"

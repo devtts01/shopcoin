@@ -27,16 +27,20 @@ import styles from './CreateDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateDeposits} from '../../services/deposits';
-import {SVgetRateDepositWithdraw} from '../../services/rate';
-import {getRateDepositWithdraw, getUserById} from '../../app/payloads/getById';
+import {getUserById, getPaymentAdminById} from '../../app/payloads/getById';
 import {SVgetUserById} from '../../services/user';
+import {
+  SVgetAllPaymentAdmin,
+  SVgetPaymentAdminById,
+} from '../../services/payment';
+import {getAllPaymentAdmin} from '../../app/payloads/getAll';
 
 export default function CreateDeposits({navigation}) {
   const {state, dispatch} = useAppContext();
   const {
     currentUser,
-    userById,
-    rateDepositWithdraw,
+    dataPaymentAdmin,
+    paymentAdminById,
     deposits: {amountUSDT, bank},
   } = state;
   const [modalVisible, setModalVisible] = useState(false);
@@ -48,14 +52,20 @@ export default function CreateDeposits({navigation}) {
       dispatch,
       getUserById,
     });
+    SVgetAllPaymentAdmin({
+      dispatch,
+      getAllPaymentAdmin,
+    });
   }, []);
   useEffect(() => {
-    SVgetRateDepositWithdraw({
-      numberBank: userById?.payment?.bank?.account,
-      dispatch,
-      getRateDepositWithdraw,
-    });
-  }, [amountUSDT]);
+    if (bank) {
+      SVgetPaymentAdminById({
+        id: bank?.id,
+        dispatch,
+        getPaymentAdminById,
+      });
+    }
+  }, [bank]);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -70,12 +80,23 @@ export default function CreateDeposits({navigation}) {
     dispatch(setFormDeposits({[name]: val}));
     setModalVisible(false);
   };
+  const dataBank = dataPaymentAdmin?.reduce((acc, item) => {
+    acc.push({
+      id: item?._id,
+      name: item?.methodName,
+      user: item?.accountName,
+      accountNumber: item?.accountNumber,
+    });
+    return acc;
+  }, []);
+  const rateDeposit = paymentAdminById ? paymentAdminById?.rateDeposit : 0;
   const createDepositsAPI = data => {
     SVcreateDeposits({
       amount: amountUSDT,
       email: currentUser.email,
-      amountVnd: parseFloat(amountUSDT * 23000),
+      amountVnd: parseFloat(amountUSDT * rateDeposit),
       token: data?.token,
+      bankAdmin: paymentAdminById,
       setLoading,
       dispatch,
       navigation,
@@ -96,12 +117,6 @@ export default function CreateDeposits({navigation}) {
       console.log(err);
     }
   };
-  const dataBank = [
-    {
-      id: 1,
-      name: 'ACB',
-    },
-  ];
   return (
     <ScrollView
       style={[styles.container]}
@@ -118,9 +133,9 @@ export default function CreateDeposits({navigation}) {
       <SelectAlert
         label="Choose Payment Method"
         onTouchStart={handleModalBank}
-        value={bank}
+        value={bank?.name}
       />
-      {amountUSDT * rateDepositWithdraw?.rateDeposit > 0 && (
+      {amountUSDT * rateDeposit > 0 && (
         <View style={[styles.deposits_VND]}>
           <Text
             style={[
@@ -128,8 +143,7 @@ export default function CreateDeposits({navigation}) {
               stylesGeneral.fwbold,
               stylesStatus.confirm,
             ]}>
-            Deposits (VND):{' '}
-            {formatVND(amountUSDT * rateDepositWithdraw?.rateDeposit)}
+            Deposits (VND): {formatVND(amountUSDT * rateDeposit)}
           </Text>
         </View>
       )}
@@ -148,7 +162,7 @@ export default function CreateDeposits({navigation}) {
         modalVisible={modalVisible}
         handleModalBank={handleModalBank}
         handleChange={handleChange}
-        dataBank={dataBank}
+        dataBank={dataBank ? dataBank : []}
       />
       {loading && <ModalLoading />}
     </ScrollView>
