@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Button, Icons } from '../../components';
