@@ -141,7 +141,7 @@ function Deposits() {
                         received: {
                             icon: <Icons.ReceivedIcon />,
                             title: 'Received',
-                            number: numberUtils.formatUSD(item?.amountUsd),
+                            number: numberUtils.formatUSD(item?.amount),
                         },
                     };
                     const username = dataUser.dataUser.find(

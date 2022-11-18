@@ -81,7 +81,7 @@ export const searchDeposits = (props = {}) => {
 };
 // HANDLE EDIT DEPOSITS
 export const handleEdit = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`/updateDeposit/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/handleDeposit/${props.id}`, {
         status: props.statusUpdate || props.statusCurrent,
         token: props.data?.token,
     });

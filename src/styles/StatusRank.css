@@ -17,15 +17,13 @@
 
 .complete,
 .completed,
-.pro,
-.user {
+.pro {
     color: var(--table-status-complete-color);
 }
 
 .onhold,
 .refunded,
-.vip,
-.admin {
+.vip {
     color: var(--table-status-onhold-color);
 }
 

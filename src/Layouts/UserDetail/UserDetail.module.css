@@ -98,3 +98,25 @@
 .coins-item:hover {
     background-color: #eee;
 }
+
+.document-user-item {
+    --cols: 2;
+    --spacing: 8px;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.document-user-item-image {
+    width: 50%;
+    margin: var(--spacing);
+    object-fit: fill;
+    border-radius: 8px;
+}
+
+.document-user-title {
+    color: #424242;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+}

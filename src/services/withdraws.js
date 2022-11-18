@@ -51,7 +51,7 @@ export const searchWithdraw = (props = {}) => {
 };
 // HANDLE EDIT WITHDRAWS
 export const handleEdit = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`/updateWithdraw/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/handleWithdraw/${props.id}`, {
         status: props.statusUpdate || props.statusCurrent,
         token: props.data?.token,
     });

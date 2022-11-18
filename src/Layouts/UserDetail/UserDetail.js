@@ -4,7 +4,14 @@ import className from 'classnames/bind';
 import { useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import moment from 'moment';
-import { FormInput, Button, Icons, Modal, Search } from '../../components';
+import {
+    FormInput,
+    Button,
+    Icons,
+    Modal,
+    Search,
+    Image,
+} from '../../components';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import {
@@ -52,9 +59,6 @@ function UserDetail() {
         quantityCoin,
     } = state.set;
     const { modalDelete, selectStatus } = state.toggle;
-    // const [modalChangeDeposit, setModalChangeDeposit] = useState(false);
-    // const [coinDeposit, setCoinDeposit] = useState(null);
-    // const [quantityCoinDeposit, setQuantityCoinDeposit] = useState(null);
     const [feeValue, setFeeValue] = useState(
         edit?.itemData && edit.itemData.fee
     );
@@ -86,10 +90,6 @@ function UserDetail() {
     const handleChangeCoin = (coin) => {
         changeCoinGifts({ coin, selectStatus, dispatch, state, actions });
     };
-    // const handleChangeCoinDeposit = (coin) => {
-    //     setCoinDeposit(coin);
-    //     setModalChangeDeposit(false);
-    // };
     const toggleListCoin = () => {
         dispatch(
             actions.toggleModal({
@@ -108,25 +108,9 @@ function UserDetail() {
             })
         );
     };
-    // const toggleListCoinDeposit = () => {
-    //     setModalChangeDeposit(!modalChangeDeposit);
-    //     dispatch(
-    //         actions.setData({
-    //             ...state.set,
-    //             pagination: {
-    //                 ...state.set.pagination,
-    //                 page: 1,
-    //                 show: dataSettingCoin?.total,
-    //             },
-    //         })
-    //     );
-    // };
     const changeInput = (e) => {
         return formUtils.changeForm(e, dispatch, state, actions);
     };
-    // const changeInputDeposit = (e) => {
-    //     setQuantityCoinDeposit(e.target.value);
-    // };
     const handleCloseAlert = () => {
         return alertUtils.closeAlert(dispatch, state, actions);
     };
@@ -280,20 +264,6 @@ function UserDetail() {
             checkErrorUsers(err, dispatch, state, actions);
         }
     };
-    // const updateCoinDeposit = async (id) => {
-    //     try {
-    //         await 1;
-    //         SVchangeUsdt({
-    //             id: idUser,
-    //             USDT: quantityCoinDeposit,
-    //         });
-    //         setQuantityCoinDeposit('');
-    //         setModalChangeDeposit(false);
-    //         setCoinDeposit('');
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
     const DATA_COINS =
         dataCoin?.map((coin) => {
             return {
@@ -309,14 +279,60 @@ function UserDetail() {
         coin,
         dataCoins: uniqueDataCoins,
     });
-    function ItemRender({ title, info, feeCustom }) {
+    function ItemRender({
+        title,
+        info,
+        feeCustom,
+        bankInfo,
+        methodBank,
+        nameAccount,
+        numberAccount,
+    }) {
         return (
             <div className='detail-item'>
-                <div className='detail-title'>{title}</div>
+                <div className='detail-title' style={{ minWidth: '120px' }}>
+                    {title}
+                </div>
                 <div className={`${cx('detail-status')}`}>
-                    <span className='info'>
-                        {info || info === 0 ? info : <Skeleton width={30} />}
-                    </span>
+                    {bankInfo ? (
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'flex-end',
+                            }}
+                        >
+                            <span className='info'>
+                                {methodBank ? (
+                                    methodBank
+                                ) : (
+                                    <Skeleton width={30} />
+                                )}
+                            </span>
+                            <span className='info'>
+                                {nameAccount ? (
+                                    nameAccount
+                                ) : (
+                                    <Skeleton width={30} />
+                                )}
+                            </span>
+                            <span className='info'>
+                                {numberAccount ? (
+                                    numberAccount
+                                ) : (
+                                    <Skeleton width={30} />
+                                )}
+                            </span>
+                        </div>
+                    ) : (
+                        <span className='info'>
+                            {info || info === 0 ? (
+                                info
+                            ) : (
+                                <Skeleton width={30} />
+                            )}
+                        </span>
+                    )}
                 </div>
             </div>
         );
@@ -363,9 +379,13 @@ function UserDetail() {
                     <ItemRender title='Email' info={x && x.payment.email} />
                     <ItemRender title='Rule' info={x && x.payment.rule} />
                     <ItemRender
+                        bankInfo
                         title='Bank Name'
-                        info={x && x.payment.bank.bankName}
+                        methodBank={x && x.payment.bank.bankName}
+                        nameAccount={x && x.payment.bank.name}
+                        numberAccount={x && x.payment.bank.account}
                     />
+                    {console.log(x)}
                     <ItemRender feeCustom title='Fee' info={x && x.fee} />
                     <ItemRender
                         feeCustom
@@ -479,78 +499,54 @@ function UserDetail() {
                             </Button>
                         </div>
                     </div>
-                    {/* <div className='w100'>
-                        <div className='detail-item flex-column'>
-                            <label className='label mr-auto'>
-                                Change Deposit
-                            </label>
-                            <div className={`${cx('detail-coins-list')}`}>
-                                <div
-                                    className={`${cx('coins-list-container')}`}
-                                >
-                                    <div
-                                        onClick={toggleListCoinDeposit}
-                                        className='w100 flex-space-between'
-                                    >
-                                        <div className={`${cx('coins-value')}`}>
-                                            {coinDeposit}
-                                        </div>
-                                        <Icons.SelectOptionArrowIcon />
-                                    </div>
-                                    {modalChangeDeposit && (
-                                        <div className={`${cx('coins-list')}`}>
-                                            <div
-                                                className={`${cx(
-                                                    'coins-search'
-                                                )}`}
-                                            >
-                                                <Search
-                                                    name='coin'
-                                                    className={`${cx(
-                                                        'search-custom'
-                                                    )} w100 border0`}
-                                                    onChange={searchCoin}
-                                                />
-                                            </div>
-                                            {DataCoinFlag.map((item, index) => (
-                                                <div
-                                                    className={`${cx(
-                                                        'coins-item'
-                                                    )}`}
-                                                    key={index}
-                                                    onClick={() =>
-                                                        handleChangeCoinDeposit(
-                                                            item.name
-                                                        )
-                                                    }
-                                                >
-                                                    {item.name}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                                <FormInput
-                                    type='text'
-                                    name='quantityCoinDeposit'
-                                    placeholder='Quantity'
-                                    classNameInput={`${cx('fee-input')} mt0`}
-                                    classNameField={`${cx('fee-field')}`}
-                                    value={quantityCoinDeposit}
-                                    onChange={changeInputDeposit}
+                    <div className={`${cx('document-user-container')} w100`}>
+                        <div className={`${cx('document-user-title')}`}>
+                            1. Citizen Identification
+                        </div>
+                        {x?.uploadCCCDFont && x?.uploadCCCDBeside ? (
+                            <div className={`${cx('document-user-item')}`}>
+                                <Image
+                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.uploadCCCDFont}`}
+                                    alt=''
+                                    className={`${cx(
+                                        'document-user-item-image'
+                                    )}`}
+                                />
+                                <Image
+                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.uploadCCCDBeside}`}
+                                    alt=''
+                                    className={`${cx(
+                                        'document-user-item-image'
+                                    )}`}
                                 />
                             </div>
+                        ) : (
+                            <Skeleton width='100%' height='200px' />
+                        )}
+                        <div className={`${cx('document-user-title')}`}>
+                            2. License
                         </div>
-                        <div className='detail-item justify-flex-end'>
-                            <Button
-                                onClick={() => updateCoinDeposit(idUser)}
-                                className='vipbgc'
-                                disabled={!coinDeposit || !quantityCoinDeposit}
-                            >
-                                Change
-                            </Button>
-                        </div>
-                    </div> */}
+                        {x?.uploadLicenseFont && x?.uploadLicenseBeside ? (
+                            <div className={`${cx('document-user-item')}`}>
+                                <Image
+                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.uploadLicenseFont}`}
+                                    alt=''
+                                    className={`${cx(
+                                        'document-user-item-image'
+                                    )}`}
+                                />
+                                <Image
+                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.uploadLicenseBeside}`}
+                                    alt=''
+                                    className={`${cx(
+                                        'document-user-item-image'
+                                    )}`}
+                                />
+                            </div>
+                        ) : (
+                            <Skeleton width='100%' height='200px' />
+                        )}
+                    </div>
                 </div>
                 <div>
                     <Button
