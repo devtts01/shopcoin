@@ -183,7 +183,11 @@ function DepositsWithdrawDetail() {
                                         href={`${process.env.REACT_APP_URL_SERVER}/${x.statement}`}
                                         target='_blank'
                                     >
-                                        {x.statement.replace('/images/', '')}
+                                        {x.statement ? (
+                                            x.statement.replace('/images/', '')
+                                        ) : (
+                                            <Skeleton width='30px' />
+                                        )}
                                     </a>
                                 )
                             }
@@ -196,11 +200,15 @@ function DepositsWithdrawDetail() {
                             <div className={`${cx('document-review-title')}`}>
                                 Document Review
                             </div>
-                            <Image
-                                src={`${process.env.REACT_APP_URL_SERVER}/${x?.statement}`}
-                                alt={x.statement.replace('/images/', '')}
-                                className={`${cx('document-review-image')}`}
-                            />
+                            {x?.statement ? (
+                                <Image
+                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.statement}`}
+                                    alt={x.statement.replace('/images/', '')}
+                                    className={`${cx('document-review-image')}`}
+                                />
+                            ) : (
+                                <Skeleton width='100%' height='200px' />
+                            )}
                         </div>
                     </div>
                 )}
