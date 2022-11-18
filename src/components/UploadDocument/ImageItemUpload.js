@@ -15,6 +15,7 @@ export default function ImageItemUpload({
   textUpload,
   text,
 }) {
+  console.log(userById);
   return (
     <View style={[styles.image_item]}>
       <View

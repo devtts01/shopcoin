@@ -67,9 +67,8 @@ const History = ({navigation}) => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{flex: 1}}
             data={dataBuyHistory}
-            keyExtractor={(item, index) => item}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
           />
         ) : (

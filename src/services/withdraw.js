@@ -30,6 +30,7 @@ export const SVcreateWithdraw = async (props = {}) => {
     user: props?.email,
     token: props?.token,
   });
+  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
@@ -54,7 +55,7 @@ export const SVcreateWithdraw = async (props = {}) => {
       props.setLoading(true);
       setTimeout(() => {
         props.setLoading(false);
-        Alert.alert('Error!', 'Payment no field rateWithdarw. Result is NaN', [
+        Alert.alert('Error!', 'Payment no field rateWithdraw. Result is NaN', [
           {
             text: 'OK',
             onPress: () =>
@@ -84,7 +85,11 @@ export const SVcheckCode = async (props = {}) => {
         Alert.alert('Success!', resGet?.message, [
           {
             text: 'OK',
-            onPress: () => props.navigation.navigate(routers.Withdraw),
+            onPress: async () => {
+              const res = await userGet(`/getAllWithdraw/${props?.email}`);
+              props.dispatch(props.getAllWithdraws(res?.data));
+              props.navigation.navigate(routers.Withdraw);
+            },
           },
         ]);
       }, 5000);

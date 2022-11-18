@@ -119,7 +119,7 @@ const Profile = ({navigation}) => {
         <RowDetail title="Live chat" nameIcon="chevron-right" />
       </View>
       <View style={[styles.list_actions, stylesGeneral.mt10]}>
-        <TouchableOpacity activeOpacity={0.6} style={[styles.actions_item]}>
+        {/* <TouchableOpacity activeOpacity={0.6} style={[styles.actions_item]}>
           <FontAwesome5 name="cog" size={20} />
           <Text
             style={[
@@ -129,7 +129,7 @@ const Profile = ({navigation}) => {
             ]}>
             Setting
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={handleLogout}
           activeOpacity={0.6}

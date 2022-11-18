@@ -29,9 +29,9 @@ export const SVcreateDeposits = async (props = {}) => {
     amount: props?.amount,
     user: props?.email,
     amountVnd: props.amountVnd,
+    bankAdmin: props?.bankAdmin,
     token: props?.token,
   });
-  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
@@ -107,13 +107,16 @@ export const SVupdateDeposits = async (props = {}) => {
         Alert.alert('Success!', resPut?.message, [
           {
             text: 'OK',
-            onPress: () =>
+            onPress: async () => {
               props.navigation.navigate({
                 name: routers.Deposits,
                 params: {
                   data: resPut?.data,
                 },
-              }),
+              });
+              const resGet = await userGet(`/getAllDeposits/${props?.email}`);
+              props.dispatch(props.getAllDeposits(resGet?.data));
+            },
           },
         ]);
       }, 5000);

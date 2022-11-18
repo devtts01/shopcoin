@@ -34,7 +34,10 @@ const Deposits = ({navigation}) => {
       getAllDeposits,
     });
   }, []);
-  const data = dataDeposits || [];
+  const data =
+    dataDeposits.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+    ) || [];
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -105,7 +108,6 @@ const Deposits = ({navigation}) => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             onEndReachedThreshold={0.5}
-            contentContainerStyle={{flex: 1}}
             data={data}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}

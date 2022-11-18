@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   listCoin: {
     // flex: 1,
-    marginBottom: 145,
+    // marginBottom: 145,
   },
 });
 

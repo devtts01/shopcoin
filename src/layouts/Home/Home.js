@@ -7,7 +7,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
-import {View, RefreshControl, FlatList} from 'react-native';
+import {
+  View,
+  RefreshControl,
+  FlatList,
+  SafeAreaView,
+  Platform,
+} from 'react-native';
 import {useAppContext} from '../../utils';
 import {getAllCoins} from '../../app/payloads/getAll';
 import {setSearchValue} from '../../app/payloads/search';
@@ -90,7 +96,10 @@ const Home = ({navigation}) => {
           onChange={handleChangeSearch}
         />
       </View>
-      <View style={[styles.listCoin]}>
+      <View
+        style={
+          ([styles.listCoin], {marginBottom: Platform.OS === 'ios' ? 130 : 145})
+        }>
         {data.length > 0 ? (
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -101,9 +110,9 @@ const Home = ({navigation}) => {
             onScroll={handleEndReached}
             onEndReachedThreshold={0.5}
             onScrollBeginDrag={() => (stopLoadingData = false)}
-            contentContainerStyle={{flex: 1}}
+            // contentContainerStyle={{flex: 1}}
             data={data}
-            keyExtractor={(item, index) => item.symbol}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
           />
         ) : (

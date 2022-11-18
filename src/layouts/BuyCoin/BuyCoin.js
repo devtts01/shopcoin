@@ -135,7 +135,7 @@ export default function BuyCoin({navigation, route}) {
               stylesGeneral.fz16,
               stylesGeneral.fw500,
             ]}>
-            = {priceCoinSocket?.lastPrice}
+            = {priceCoinSocket?.indexPrice}
           </Text>
         ) : (
           <Skeleton />

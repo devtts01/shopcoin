@@ -69,7 +69,7 @@ export default function Header() {
             stylesGeneral.mb10,
           ]}>
           ={' '}
-          {userById?.Wallet?.balance
+          {userById?.Wallet?.balance || userById?.Wallet?.balance === 0
             ? formatUSDT(userById?.Wallet?.balance)
             : 'Loading...'}
         </Text>

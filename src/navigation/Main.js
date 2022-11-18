@@ -52,10 +52,10 @@ export default function Main() {
         screenOptions={{
           headerShown: false,
         }}>
-        {MainObject.map(item => {
+        {MainObject.map((item, index) => {
           return (
             <Stack.Screen
-              key={item.name}
+              key={index}
               name={item.name}
               component={item.component}
               options={

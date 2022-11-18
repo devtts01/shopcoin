@@ -60,11 +60,6 @@ export default function CreateWithdraw({navigation}) {
     });
   }, [userById]);
   useEffect(() => {
-    // if (parseFloat(amountUSDT) < 10) {
-    //   setError('Minimum withdrawal amount is 10 USDT');
-    // } else if (parseFloat(amountUSDT) > 10 || amountUSDT === '') {
-    //   setError('');
-    // }
     SVgetRateDepositWithdraw({
       numberBank: userById?.payment?.bank?.account,
       dispatch,

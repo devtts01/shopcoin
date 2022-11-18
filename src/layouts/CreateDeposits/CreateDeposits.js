@@ -135,7 +135,7 @@ export default function CreateDeposits({navigation}) {
         onTouchStart={handleModalBank}
         value={bank?.name}
       />
-      {amountUSDT * rateDeposit > 0 && (
+      {amountUSDT && bank && amountUSDT * rateDeposit > 0 && (
         <View style={[styles.deposits_VND]}>
           <Text
             style={[

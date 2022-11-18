@@ -10,6 +10,7 @@ import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
 import {setCodeValue} from '../../app/payloads/form';
+import {getAllWithdraws} from '../../app/payloads/getAll';
 import {FormInput, ModalLoading, RowDetail} from '../../components';
 import styles from './SingleWithdrawCss';
 import stylesGeneral from '../../styles/General';
@@ -54,6 +55,9 @@ export default function SingleWithdraw({navigation, route}) {
       code: codeVerify,
       token: dataAPI?.token,
       id: data?._id,
+      email: currentUser.email,
+      dispatch,
+      getAllWithdraws,
       setLoading,
       navigation,
     });

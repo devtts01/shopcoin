@@ -48,9 +48,10 @@ export default function Routers() {
           null,
         ],
       })}>
-      {RouterObject.map(item => {
+      {RouterObject.map((item, index) => {
         return (
           <Tab.Screen
+            key={index}
             name={item.name}
             component={item.component}
             options={headerStyle}

@@ -43,7 +43,10 @@ const Withdraw = ({navigation}) => {
       getAllWithdraws,
     });
   }, []);
-  const data = dataWithdraws || [];
+  const data =
+    dataWithdraws.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+    ) || [];
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -123,7 +126,6 @@ const Withdraw = ({navigation}) => {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              contentContainerStyle={{flex: 1}}
               data={data}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItem}
