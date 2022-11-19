@@ -1,5 +1,6 @@
 import jwt_decode from 'jwt-decode';
 import { localStoreUtils, axiosUtils } from '../../utils';
+import routers from '../../routers/routers';
 
 const requestRefreshToken = async (
     currentUser,
@@ -16,7 +17,11 @@ const requestRefreshToken = async (
             const date = new Date();
             if (decodedToken.exp < date.getTime() / 1000) {
                 const res = await axiosUtils.refreshToken('refreshToken');
-                if (res.code === 0) {
+                if (res === 'No jwt') {
+                    alert('Refresh token đã hết hạn, vui lòng đăng nhập lại');
+                    await localStoreUtils.setStore(null);
+                    window.location.href = routers.login;
+                } else if (res.code === 0) {
                     const refreshUser = {
                         ...currentUser,
                         token: res.newtoken.toString(),
@@ -41,6 +46,9 @@ const requestRefreshToken = async (
                             },
                         })
                     );
+                    alert('Refresh token đã hết hạn, vui lòng đăng nhập lại');
+                    await localStoreUtils.setStore(null);
+                    window.location.href = routers.login;
                 }
             } else {
                 handleFunc(currentUser, id ? id : '');
