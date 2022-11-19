@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderWidth: 0,
     marginLeft: 10,
+    minHeight: 40,
   },
 });
 export default styles;

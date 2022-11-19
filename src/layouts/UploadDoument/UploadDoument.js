@@ -65,7 +65,9 @@ export default function UploadDoument({navigation}) {
     }).then(image => {
       const object = {
         image: image.data,
-        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+        fileName: image.modificationDate
+          ? image.modificationDate + '.' + image.mime.split('/')[1]
+          : image.filename,
       };
       // const formData = new FormData();
       // formData.append('cccdFont', object);
@@ -83,7 +85,9 @@ export default function UploadDoument({navigation}) {
     }).then(image => {
       const object = {
         image: image.data,
-        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+        fileName: image.modificationDate
+          ? image.modificationDate + '.' + image.mime.split('/')[1]
+          : image.filename,
       };
       // const formData = new FormData();
       // formData.append('cccdBeside', object);
@@ -101,7 +105,9 @@ export default function UploadDoument({navigation}) {
     }).then(image => {
       const object = {
         image: image.data,
-        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+        fileName: image.modificationDate
+          ? image.modificationDate + '.' + image.mime.split('/')[1]
+          : image.filename,
       };
       // const formData = new FormData();
       // formData.append('licenseFont', object);
@@ -119,7 +125,9 @@ export default function UploadDoument({navigation}) {
     }).then(image => {
       const object = {
         image: image.data,
-        fileName: image.modificationDate + '.' + image.mime.split('/')[1],
+        fileName: image.modificationDate
+          ? image.modificationDate + '.' + image.mime.split('/')[1]
+          : image.filename,
       };
       // const formData = new FormData();
       // formData.append('licenseBeside', object);
@@ -200,7 +208,7 @@ export default function UploadDoument({navigation}) {
               text="Font license image"
               fileResponse={fileResponseFrontLicense}
               userById={userById}
-              field="uploadCCCDFont"
+              field="uploadLicenseFont"
             />
             <ImageItemUpload
               isStatus={isStatus}

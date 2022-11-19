@@ -14,6 +14,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useAppContext} from '../../utils';
 import {setCurrentUser} from '../../app/payloads/user';
+import {getAllDeposits} from '../../app/payloads/getAll';
 import {setMessage} from '../../app/payloads/message';
 import {formatVND, formatUSDT} from '../../utils/format/Money';
 import requestRefreshToken from '../../utils/axios/refreshToken';
@@ -62,6 +63,9 @@ export default function SingleDeposits({navigation, route}) {
       id: data?._id,
       image: dataImageForm,
       bankAdmin: bankAdmin,
+      email: currentUser.email,
+      dispatch,
+      getAllDeposits,
       setLoading,
       navigation,
     });
@@ -145,10 +149,14 @@ export default function SingleDeposits({navigation, route}) {
               </Text>
             </View>
           </TouchableOpacity>
-          {fileResponse !== null && (
+          {(fileResponse !== null || data?.statement) && (
             <View style={[stylesGeneral.flexCenter]}>
               <Image
-                source={{uri: `${fileResponse}`}}
+                source={{
+                  uri: fileResponse
+                    ? `${fileResponse}`
+                    : `https://apishopcoin.4eve.site${data?.statement}`,
+                }}
                 style={[styles.image, stylesGeneral.mt10]}
                 resizeMode="contain"
               />
@@ -161,7 +169,7 @@ export default function SingleDeposits({navigation, route}) {
           disabled={!fileResponse}
           style={[
             styles.btn,
-            !fileResponse && stylesGeneral.op6,
+            !fileResponse && !data?.statement && stylesGeneral.op6,
             stylesStatus.confirmbgcbold,
             stylesGeneral.mt10,
           ]}>

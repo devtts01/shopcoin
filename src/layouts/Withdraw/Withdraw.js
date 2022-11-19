@@ -123,7 +123,7 @@ const Withdraw = ({navigation}) => {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              contentContainerStyle={{flex: 1}}
+              // contentContainerStyle={{flex: 1}}
               data={data}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItem}

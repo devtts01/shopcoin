@@ -28,10 +28,18 @@ export default function ModalBank({
                 {dataBank.map((item, index) => (
                   <TouchableOpacity
                     key={index}
-                    onPress={() => handleChange('bank', item.name)}
+                    onPress={() =>
+                      handleChange('bank', {
+                        name: item.name,
+                        id: item?.id || null,
+                      })
+                    }
                     activeOpacity={0.7}
                     style={[styles.bankItem]}>
-                    <Text style={[stylesGeneral.fwbold]}>{item.name}</Text>
+                    <Text style={[stylesGeneral.fwbold, styles.lineHeight]}>
+                      {item.name} {item.user ? ' - ' + item.user + ' - ' : ''}{' '}
+                      {item.accountNumber && item.accountNumber}
+                    </Text>
                   </TouchableOpacity>
                 ))}
               </ScrollView>
