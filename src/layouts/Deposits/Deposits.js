@@ -6,7 +6,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
-import {View, Text, RefreshControl, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  RefreshControl,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import {useCallback, useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND} from '../../utils/format/Money';
@@ -52,7 +58,18 @@ const Deposits = ({navigation}) => {
   }, []);
   const renderItem = ({item}) => {
     return (
-      <View style={[styles.item]}>
+      <TouchableOpacity
+        activeOpacity={0.6}
+        style={[styles.item]}
+        onPress={() =>
+          navigation.navigate({
+            name: routersMain.SingleDeposits,
+            params: {
+              data: item,
+              bankAdmin: item?.bankAdmin,
+            },
+          })
+        }>
         <RowDetail
           noneBorderBottom
           title="Created At"
@@ -89,7 +106,7 @@ const Deposits = ({navigation}) => {
           text={formatVND(item?.amountVnd)}
           noneBorderBottom
         />
-      </View>
+      </TouchableOpacity>
     );
   };
   return (

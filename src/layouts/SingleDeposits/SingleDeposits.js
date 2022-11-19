@@ -149,10 +149,14 @@ export default function SingleDeposits({navigation, route}) {
               </Text>
             </View>
           </TouchableOpacity>
-          {fileResponse !== null && (
+          {(fileResponse !== null || data?.statement) && (
             <View style={[stylesGeneral.flexCenter]}>
               <Image
-                source={{uri: `${fileResponse}`}}
+                source={{
+                  uri: fileResponse
+                    ? `${fileResponse}`
+                    : `https://apishopcoin.4eve.site${data?.statement}`,
+                }}
                 style={[styles.image, stylesGeneral.mt10]}
                 resizeMode="contain"
               />
@@ -165,7 +169,7 @@ export default function SingleDeposits({navigation, route}) {
           disabled={!fileResponse}
           style={[
             styles.btn,
-            !fileResponse && stylesGeneral.op6,
+            !fileResponse && !data?.statement && stylesGeneral.op6,
             stylesStatus.confirmbgcbold,
             stylesGeneral.mt10,
           ]}>
