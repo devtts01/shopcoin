@@ -1,0 +1,79 @@
+.general-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.general-button {
+    text-transform: capitalize;
+}
+
+.general-button-text {
+    padding-left: 6.31px;
+    padding-right: 6.9px;
+    font-size: 14px;
+}
+
+.search {
+    width: 100%;
+}
+
+.search-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.chart-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.chart-item-container {
+    --cols: 4;
+    --spacing: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.item {
+    width: calc(100% / var(--cols) - var(--spacing));
+    margin: var(--spacing);
+    padding: 12px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--table-status-onhold-color);
+    background-color: var(--table-status-onhold-bgc);
+    text-align: center;
+    font-size: 18px;
+}
+
+.item .title {
+    font-weight: bold;
+}
+
+.title-link {
+    color: inherit;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.title-link:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+.general-table-container {
+    margin-top: 20px;
+}
+
+.search-coin {
+    margin-bottom: 8px;
+}
+
+.title-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}

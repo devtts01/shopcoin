@@ -1,0 +1,122 @@
+.buySellDetail-container {
+    --cols: 2;
+    --spacing: 8px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 32px;
+    width: calc((100% / var(--cols)) - (var(--spacing) * 2));
+    margin: var(--spacing);
+}
+
+.btn {
+    margin-bottom: 5px;
+    margin-left: 8px;
+}
+
+.detail-title {
+    color: #424242;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.fee-field {
+    margin-left: 8px !important;
+}
+
+/* COINS LIST */
+.detail-coins-list {
+    display: flex;
+    width: 100%;
+}
+
+.coins-list-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.coins-value {
+    padding: 2px 10px;
+    border-radius: 24px;
+}
+
+.coins-list {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 200%;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+    animation: fadeIn .5s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.coins-list::-webkit-scrollbar {
+    display: none;
+}
+
+.coins-item {
+    padding: 8px 10px;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.search-custom {
+    border: none;
+    caret-color: var(--color-primary);
+}
+
+.coins-item:hover {
+    background-color: #eee;
+}
+
+.document-user-item {
+    --cols: 2;
+    --spacing: 8px;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.document-user-item-image {
+    width: 50%;
+    margin: var(--spacing);
+    object-fit: fill;
+    border-radius: 8px;
+}
+
+.document-user-title {
+    color: #424242;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+}

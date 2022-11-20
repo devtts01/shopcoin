@@ -1,0 +1,79 @@
+.field-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.relative-input {
+    width: 100%;
+    position: relative;
+}
+
+.input {
+    align-items: center;
+    background: var(--color-white);
+    border: 1.5px solid var(--search-border-color);
+    outline: none;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    height: 48px;
+    width: 100%;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    padding: 0 16px;
+    font-size: 16px;
+}
+
+.input.show-pwd {
+    padding-right: 32px;
+}
+
+.input:not(:placeholder-shown) {
+    font-weight: 600;
+}
+
+.input:hover {
+    box-shadow: 0 0 0 1px var(--boxShadow-input-color);
+}
+
+.input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem var(--boxShadow-input-color);
+}
+
+.input:focus::-webkit-input-placeholder {
+    color: var(--color-black);
+}
+
+.input:focus::-moz-placeholder {
+    color: var(--color-black);
+}
+
+.input:focus::-ms-input-placeholder {
+    color: var(--color-black);
+}
+
+.icon-eye {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-40%);
+    cursor: pointer;
+}
+
+.read-only {
+    background: #edededbd;
+    border: 1.5px solid #ccc;
+    cursor: default;
+}
+
+.read-only:hover,
+.read-only:focus {
+    box-shadow: none;
+    border: 1.5px solid #ccc;
+}
+
+.read-only:focus::-webkit-input-placeholder {
+    color: #757575;
+}

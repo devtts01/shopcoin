@@ -1,0 +1,16 @@
+.breadcrumb-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: var(--breadcrumb-link-color);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    text-transform: capitalize;
+}
+
+.breadcrumb-link:hover {
+    text-decoration: none;
+    color: var(--breadcrumb-link-color);
+}

@@ -1,0 +1,135 @@
+.table {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.table .thead {
+    background-color: var(--table-thead-bgc);
+    border-top: 2px solid var(--table-border-color);
+    border-bottom: 2px solid var(--table-border-color);
+}
+
+.table .thead tr th {
+    padding: 16px 40px 16px 14px;
+    color: var(--table-tbody-item-color);
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: 18px;
+    border-right: 0.7px solid var(--table-border-color);
+}
+
+.table .thead tr th:last-child {
+    border-right: 0;
+}
+
+.pagination-countpage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notvalue,
+.countpage-container {
+    flex: 1;
+}
+
+.pagination-container {
+    flex: 2 !important;
+    align-items: center !important;
+}
+
+.countpage-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.countpage-text {
+    margin-left: 8px;
+    font-size: 13px;
+    color: var(--table-countpage-text-color);
+}
+
+
+.icon-sort i {
+    font-size: 8px;
+    color: var(--table-border-color);
+}
+
+.hovered:hover {
+    background-color: #ecedf0;
+    cursor: pointer;
+}
+
+.send-container,
+.received-container {
+    display: flex;
+    align-items: center;
+}
+
+.send-icon {
+    color: var(--table-send-icon-color);
+    margin-bottom: auto;
+}
+
+.received-icon {
+    color: var(--table-received-icon-color);
+    margin-bottom: auto;
+}
+
+.send-text,
+.received-text {
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.text,
+.number {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.number {
+    font-weight: 400;
+}
+
+.name {
+    color: #212121;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+}
+
+.email {
+    color: #9e9e9e;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+.link-user {
+    padding: 8px 12px;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.link-user:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.link-user-icon {
+    color: var(--color-primary);
+}
+
+.image {
+    width: 23px;
+    height: 30px;
+}

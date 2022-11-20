@@ -1,0 +1,30 @@
+.button {
+    background: var(--color-primary);
+    border-radius: 8px;
+    height: 46px;
+    justify-content: center;
+    min-width: 138px;
+    padding: 12px 24px;
+    border: none !important;
+    outline: none !important;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.button+.button {
+    margin-left: 16px;
+}
+
+.button.disabled {
+    pointer-events: none;
+    user-select: none;
+    cursor: default !important;
+    opacity: 0.5 !important;
+}
+
+.button:hover {
+    background: var(--primary-hover);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
