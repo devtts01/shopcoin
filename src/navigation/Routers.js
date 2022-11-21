@@ -33,7 +33,7 @@ export default function Routers() {
             <FontAwesome5
               name={iconName}
               size={focused ? 25 : 20}
-              color={focused ? '#007aff' : 'black'}
+              color={color}
             />
           );
         },
