@@ -40,6 +40,7 @@ export default function Routers() {
         tabBarActiveTintColor: '#007aff',
         tabBarLabelStyle: {
           fontSize: 14,
+          fontWeight: 'bold',
         },
         tabBarStyle: [
           {

@@ -16,7 +16,7 @@ export default function CoinDetail({item, navigation}) {
           <ImageCp uri={item?.logo} />
         </View>
         <View style={[styles.coinItem_Info, stylesGeneral.ml12]}>
-          <Text style={[styles.coinItem_Info_name]}>
+          <Text style={[styles.coinItem_Info_name, stylesGeneral.text_black]}>
             {removeUSDT(item?.symbol)}
           </Text>
           <Text style={[styles.coinItem_Info_quantity]}>

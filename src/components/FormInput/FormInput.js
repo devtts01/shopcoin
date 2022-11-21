@@ -6,6 +6,7 @@ import {forwardRef, useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './FormInputCss';
+import stylesGeneral from '../../styles/General';
 
 const FormInput = (
   {
@@ -31,7 +32,7 @@ const FormInput = (
   };
   return (
     <View style={[styles.input_item]}>
-      <Text style={[styles.label]}>{label}</Text>
+      <Text style={[styles.label, stylesGeneral.text_black]}>{label}</Text>
       <View style={[styles.input_relative]}>
         {nameSymbol && (
           <View style={[styles.icon_symbol]}>

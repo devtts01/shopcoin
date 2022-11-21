@@ -95,8 +95,8 @@ export default function ProfilePayment({navigation}) {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <Text style={[styles.title]}>Payment</Text>
-      <Text style={[styles.desc]}>
+      <Text style={[styles.title, stylesGeneral.text_black]}>Payment</Text>
+      <Text style={[styles.desc, stylesGeneral.text_black]}>
         Support the following pyayment methods to load or withdraw funds.
       </Text>
       <SelectAlert

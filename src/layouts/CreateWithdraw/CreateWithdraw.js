@@ -58,13 +58,8 @@ export default function CreateWithdraw({navigation}) {
       dispatch,
       getUserById,
     });
-  }, [userById]);
+  }, []);
   useEffect(() => {
-    // if (parseFloat(amountUSDT) < 10) {
-    //   setError('Minimum withdrawal amount is 10 USDT');
-    // } else if (parseFloat(amountUSDT) > 10 || amountUSDT === '') {
-    //   setError('');
-    // }
     SVgetRateDepositWithdraw({
       numberBank: userById?.payment?.bank?.account,
       dispatch,
@@ -103,6 +98,7 @@ export default function CreateWithdraw({navigation}) {
       console.log(err);
     }
   };
+  console.log(userById);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -114,7 +110,9 @@ export default function CreateWithdraw({navigation}) {
         !userById?.payment?.bank?.bankName ||
         !userById?.payment?.bank?.account ? (
           <>
-            <Text>You must create your bank account first.</Text>
+            <Text style={[stylesGeneral.text_black]}>
+              You must create your bank account first.
+            </Text>
             <View
               style={[
                 styles.btn,
@@ -125,7 +123,29 @@ export default function CreateWithdraw({navigation}) {
                 navigation.navigate(routersMain.ProfilePayment)
               }>
               <Text style={[styles.btn_text, stylesStatus.white]}>
-                Click here
+                Add bank info
+              </Text>
+            </View>
+          </>
+        ) : !userById?.uploadCCCDFont ||
+          !userById?.uploadCCCDBeside ||
+          !userById?.uploadLicenseFont ||
+          !userById?.uploadLicenseBeside ? (
+          <>
+            <Text style={[stylesGeneral.text_black]}>
+              You must upload documents on the first withdraw.
+            </Text>
+            <View
+              style={[
+                styles.btn,
+                stylesStatus.confirmbgcbold,
+                stylesGeneral.mt10,
+              ]}
+              onTouchStart={() =>
+                navigation.navigate(routersMain.UploadDoument)
+              }>
+              <Text style={[styles.btn_text, stylesStatus.white]}>
+                Upload documents
               </Text>
             </View>
           </>
@@ -143,10 +163,11 @@ export default function CreateWithdraw({navigation}) {
                     styles.info_item_text,
                     stylesGeneral.fwbold,
                     stylesGeneral.fz16,
+                    stylesGeneral.text_black,
                   ]}>
                   Your Wallet
                 </Text>
-                <Text style={[styles.info_item_text]}>
+                <Text style={[styles.info_item_text, stylesGeneral.text_black]}>
                   {formatUSDT(userById?.Wallet?.balance)}
                 </Text>
               </View>
@@ -156,10 +177,11 @@ export default function CreateWithdraw({navigation}) {
                     styles.info_item_text,
                     stylesGeneral.fwbold,
                     stylesGeneral.fz16,
+                    stylesGeneral.text_black,
                   ]}>
                   Your bank account
                 </Text>
-                <Text style={[styles.info_item_text]}>
+                <Text style={[styles.info_item_text, stylesGeneral.text_black]}>
                   {userById?.payment?.bank?.bankName || 'No'} -{' '}
                   {userById?.payment?.username || 'No'} -{' '}
                   {userById?.payment?.bank?.account || 'No'}

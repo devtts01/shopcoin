@@ -66,10 +66,13 @@ const Profile = ({navigation}) => {
             stylesGeneral.mt10,
             stylesGeneral.mb5,
             stylesGeneral.fz16,
+            stylesGeneral.text_black,
           ]}>
           {currentUser?.username}
         </Text>
-        <Text style={[styles.email_user]}>{currentUser?.email}</Text>
+        <Text style={[styles.email_user, stylesGeneral.text_black]}>
+          {currentUser?.email}
+        </Text>
       </View>
       <View style={[styles.info_detail_container]}>
         <RowDetail title="Username" text={currentUser?.username} />
@@ -119,7 +122,7 @@ const Profile = ({navigation}) => {
         <RowDetail title="Live chat" nameIcon="chevron-right" />
       </View>
       <View style={[styles.list_actions, stylesGeneral.mt10]}>
-        <TouchableOpacity activeOpacity={0.6} style={[styles.actions_item]}>
+        {/* <TouchableOpacity activeOpacity={0.6} style={[styles.actions_item]}>
           <FontAwesome5 name="cog" size={20} />
           <Text
             style={[
@@ -129,7 +132,7 @@ const Profile = ({navigation}) => {
             ]}>
             Setting
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={handleLogout}
           activeOpacity={0.6}
