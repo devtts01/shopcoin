@@ -7,13 +7,13 @@ import RouterObject, {routers} from '../routers/Routers';
 const Tab = createBottomTabNavigator();
 const headerStyle = {
   headerStyle: {
-    shadowColor: 'rgba(0,0,0,0.7)',
+    shadowColor: 'rgba(0,0,0,0.2)',
     shadowOffset: {
-      width: 5,
-      height: 5,
+      width: 3,
+      height: 1,
     },
-    shadowOpacity: 0.9,
-    shadowRadius: 10,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
 };
 
