@@ -107,16 +107,24 @@ const Withdraw = ({navigation}) => {
       {data.length > 0 ? (
         <DataTable style={{flex: 1, marginBottom: 40}}>
           <DataTable.Header>
-            <DataTable.Title style={[styles.title_table]} numeric>
+            <DataTable.Title
+              style={[styles.title_table, stylesGeneral.text_black]}
+              numeric>
               Send
             </DataTable.Title>
-            <DataTable.Title style={[styles.title_table]} numeric>
+            <DataTable.Title
+              style={[styles.title_table, stylesGeneral.text_black]}
+              numeric>
               Receied
             </DataTable.Title>
-            <DataTable.Title style={[styles.title_table]} numeric>
+            <DataTable.Title
+              style={[styles.title_table, stylesGeneral.text_black]}
+              numeric>
               Date
             </DataTable.Title>
-            <DataTable.Title style={[styles.title_table]} numeric>
+            <DataTable.Title
+              style={[styles.title_table, stylesGeneral.text_black]}
+              numeric>
               Status
             </DataTable.Title>
           </DataTable.Header>
