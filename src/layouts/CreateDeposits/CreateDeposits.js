@@ -123,7 +123,9 @@ export default function CreateDeposits({navigation}) {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <Text style={[styles.title]}>Create Deposits</Text>
+      <Text style={[styles.title, stylesGeneral.text_black]}>
+        Create Deposits
+      </Text>
       <FormInput
         label="Amount USD"
         placeholder="0.00"

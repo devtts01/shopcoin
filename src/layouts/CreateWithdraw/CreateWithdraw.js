@@ -58,7 +58,7 @@ export default function CreateWithdraw({navigation}) {
       dispatch,
       getUserById,
     });
-  }, [userById]);
+  }, []);
   useEffect(() => {
     SVgetRateDepositWithdraw({
       numberBank: userById?.payment?.bank?.account,
@@ -110,7 +110,9 @@ export default function CreateWithdraw({navigation}) {
         !userById?.payment?.bank?.bankName ||
         !userById?.payment?.bank?.account ? (
           <>
-            <Text>You must create your bank account first.</Text>
+            <Text style={[stylesGeneral.text_black]}>
+              You must create your bank account first.
+            </Text>
             <View
               style={[
                 styles.btn,
@@ -130,7 +132,9 @@ export default function CreateWithdraw({navigation}) {
           !userById?.uploadLicenseFont ||
           !userById?.uploadLicenseBeside ? (
           <>
-            <Text>You must upload documents on the first withdraw.</Text>
+            <Text style={[stylesGeneral.text_black]}>
+              You must upload documents on the first withdraw.
+            </Text>
             <View
               style={[
                 styles.btn,
@@ -159,10 +163,11 @@ export default function CreateWithdraw({navigation}) {
                     styles.info_item_text,
                     stylesGeneral.fwbold,
                     stylesGeneral.fz16,
+                    stylesGeneral.text_black,
                   ]}>
                   Your Wallet
                 </Text>
-                <Text style={[styles.info_item_text]}>
+                <Text style={[styles.info_item_text, stylesGeneral.text_black]}>
                   {formatUSDT(userById?.Wallet?.balance)}
                 </Text>
               </View>
@@ -172,10 +177,11 @@ export default function CreateWithdraw({navigation}) {
                     styles.info_item_text,
                     stylesGeneral.fwbold,
                     stylesGeneral.fz16,
+                    stylesGeneral.text_black,
                   ]}>
                   Your bank account
                 </Text>
-                <Text style={[styles.info_item_text]}>
+                <Text style={[styles.info_item_text, stylesGeneral.text_black]}>
                   {userById?.payment?.bank?.bankName || 'No'} -{' '}
                   {userById?.payment?.username || 'No'} -{' '}
                   {userById?.payment?.bank?.account || 'No'}
