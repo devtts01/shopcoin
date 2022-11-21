@@ -104,7 +104,9 @@ export default function SingleWithdraw({navigation, route}) {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <Text style={[styles.title]}>Detail</Text>
+      <Text style={[styles.title, stylesGeneral.text_black]}>
+        Withdraw Detail
+      </Text>
       <View style={[styles.info_withdraw, stylesGeneral.mb10]}>
         <RowDetail
           title="Status"
@@ -132,15 +134,17 @@ export default function SingleWithdraw({navigation, route}) {
         <RowDetail title="Amount USD" text={formatUSDT(data?.amount)} />
         <RowDetail title="Amount VND" text={formatVND(data?.amountVnd)} />
         <View style={[styles.info_item, stylesGeneral.flexRow]}>
-          <Text style={[styles.info_item_text]}>Method</Text>
+          <Text style={[styles.info_item_text, stylesGeneral.text_black]}>
+            Method
+          </Text>
           <View style={[stylesGeneral.flexEnd]}>
-            <Text style={[styles.info_item_desc]}>
+            <Text style={[styles.info_item_desc, stylesGeneral.text_black]}>
               {data?.method?.methodName}
             </Text>
-            <Text style={[styles.info_item_desc]}>
+            <Text style={[styles.info_item_desc, stylesGeneral.text_black]}>
               {data?.method?.accountName}
             </Text>
-            <Text style={[styles.info_item_desc]}>
+            <Text style={[styles.info_item_desc, stylesGeneral.text_black]}>
               {data?.method?.accountNumber}
             </Text>
           </View>

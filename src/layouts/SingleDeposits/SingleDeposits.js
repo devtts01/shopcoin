@@ -92,7 +92,9 @@ export default function SingleDeposits({navigation, route}) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View style={[styles.container]}>
-        <Text style={[styles.title]}>Deposits Detail</Text>
+        <Text style={[styles.title, stylesGeneral.text_black]}>
+          Deposits Detail
+        </Text>
         <RowDetail title="Code" text={data?.code} />
         <RowDetail
           title="Status"
@@ -121,11 +123,19 @@ export default function SingleDeposits({navigation, route}) {
         <RowDetail title="Amount USD" text={formatUSDT(data?.amount)} />
         <RowDetail title="Amount VND" text={formatVND(data?.amountVnd)} />
         <View style={[styles.item, stylesGeneral.flexRow]}>
-          <Text style={[styles.item_title]}>Method</Text>
+          <Text style={[styles.item_title, stylesGeneral.text_black]}>
+            Method
+          </Text>
           <View style={[stylesGeneral.flexColumn, stylesGeneral.flexEnd]}>
-            <Text style={[styles.item_desc]}>{bankAdmin?.methodName}</Text>
-            <Text style={[styles.item_desc]}>{bankAdmin?.accountName}</Text>
-            <Text style={[styles.item_desc]}>{bankAdmin?.accountNumber}</Text>
+            <Text style={[styles.item_desc, stylesGeneral.text_black]}>
+              {bankAdmin?.methodName}
+            </Text>
+            <Text style={[styles.item_desc, stylesGeneral.text_black]}>
+              {bankAdmin?.accountName}
+            </Text>
+            <Text style={[styles.item_desc, stylesGeneral.text_black]}>
+              {bankAdmin?.accountNumber}
+            </Text>
           </View>
         </View>
         <View>

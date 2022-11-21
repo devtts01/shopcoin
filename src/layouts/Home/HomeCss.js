@@ -10,10 +10,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
   },
-  listCoin: {
-    // flex: 1,
-    // marginBottom: 145,
-  },
 });
 
 export default styles;

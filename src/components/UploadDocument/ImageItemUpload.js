@@ -15,7 +15,6 @@ export default function ImageItemUpload({
   textUpload,
   text,
 }) {
-  console.log(userById);
   return (
     <View style={[styles.image_item]}>
       <View
@@ -28,7 +27,9 @@ export default function ImageItemUpload({
         {/* fileResponse?.uri */}
         {!fileResponse && !userById[field] ? (
           <>
-            <Text style={[styles.typeUpload]}>{textUpload}</Text>
+            <Text style={[styles.typeUpload, stylesGeneral.text_black]}>
+              {textUpload}
+            </Text>
             <Image
               style={[styles.imageUploadIcons]}
               resizeMethod="resize"

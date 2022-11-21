@@ -33,13 +33,14 @@ export default function Routers() {
             <FontAwesome5
               name={iconName}
               size={focused ? 25 : 20}
-              color={color}
+              color={focused ? '#007aff' : 'black'}
             />
           );
         },
         tabBarActiveTintColor: '#007aff',
         tabBarLabelStyle: {
           fontSize: 14,
+          fontWeight: 'bold',
         },
         tabBarStyle: [
           {

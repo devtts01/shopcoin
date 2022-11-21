@@ -41,7 +41,9 @@ const Login = ({navigation}) => {
       refPwd={refPwd}
       onPress={handleLogin}>
       <View style={[styles.desc, stylesGeneral.flexRow]}>
-        <Text style={[styles.desc_text]}>You don't have an acount?</Text>
+        <Text style={[styles.desc_text, stylesGeneral.text_black]}>
+          You don't have an acount?
+        </Text>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => navigation.navigate(routersMain.Register)}>

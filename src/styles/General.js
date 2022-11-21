@@ -17,6 +17,9 @@ const stylesGeneral = StyleSheet.create({
   texttf_none: {
     textTransform: 'none',
   },
+  text_black: {
+    color: 'black',
+  },
   flexCenterJustify: {
     justifyContent: 'center',
   },

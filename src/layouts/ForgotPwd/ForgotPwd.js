@@ -44,7 +44,9 @@ const ForgotPwd = ({navigation}) => {
         bolEmail
         onPress={handleSubmit}>
         <View style={[styles.desc, stylesGeneral.flexRow]}>
-          <Text style={[styles.desc_text]}>You have an acount?</Text>
+          <Text style={[styles.desc_text, stylesGeneral.text_black]}>
+            You have an acount?
+          </Text>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => navigation.navigate(routersMain.Login)}>
@@ -59,7 +61,9 @@ const ForgotPwd = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={[styles.desc, stylesGeneral.flexRow, stylesGeneral.mt10]}>
-          <Text style={[styles.desc_text]}>You don't have an acount?</Text>
+          <Text style={[styles.desc_text, stylesGeneral.text_black]}>
+            You don't have an acount?
+          </Text>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => navigation.navigate(routersMain.Register)}>

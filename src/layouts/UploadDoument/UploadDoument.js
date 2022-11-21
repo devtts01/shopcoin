@@ -174,7 +174,12 @@ export default function UploadDoument({navigation}) {
           Upload your image document
         </Text> */}
         <View style={[styles.image_container]}>
-          <Text style={[stylesGeneral.fz16, stylesGeneral.fwbold]}>
+          <Text
+            style={[
+              stylesGeneral.fz16,
+              stylesGeneral.fwbold,
+              stylesGeneral.text_black,
+            ]}>
             1. Citizen Identification
           </Text>
           <View style={[styles.image_container_item]}>
@@ -197,7 +202,12 @@ export default function UploadDoument({navigation}) {
               field="uploadCCCDBeside"
             />
           </View>
-          <Text style={[stylesGeneral.fz16, stylesGeneral.fwbold]}>
+          <Text
+            style={[
+              stylesGeneral.fz16,
+              stylesGeneral.fwbold,
+              stylesGeneral.text_black,
+            ]}>
             2. License
           </Text>
           <View style={[styles.image_container_item]}>

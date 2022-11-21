@@ -98,6 +98,7 @@ export default function CreateWithdraw({navigation}) {
       console.log(err);
     }
   };
+  console.log(userById);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -120,7 +121,27 @@ export default function CreateWithdraw({navigation}) {
                 navigation.navigate(routersMain.ProfilePayment)
               }>
               <Text style={[styles.btn_text, stylesStatus.white]}>
-                Click here
+                Add bank info
+              </Text>
+            </View>
+          </>
+        ) : !userById?.uploadCCCDFont ||
+          !userById?.uploadCCCDBeside ||
+          !userById?.uploadLicenseFont ||
+          !userById?.uploadLicenseBeside ? (
+          <>
+            <Text>You must upload documents on the first withdraw.</Text>
+            <View
+              style={[
+                styles.btn,
+                stylesStatus.confirmbgcbold,
+                stylesGeneral.mt10,
+              ]}
+              onTouchStart={() =>
+                navigation.navigate(routersMain.UploadDoument)
+              }>
+              <Text style={[styles.btn_text, stylesStatus.white]}>
+                Upload documents
               </Text>
             </View>
           </>

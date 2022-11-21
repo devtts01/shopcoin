@@ -38,7 +38,9 @@ const Register = ({navigation}) => {
       bolPwd
       onPress={handleRegister}>
       <View style={[styles.desc, stylesGeneral.flexRow]}>
-        <Text style={[styles.desc_text]}>You have an acount?</Text>
+        <Text style={[styles.desc_text, stylesGeneral.text_black]}>
+          You have an acount?
+        </Text>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => navigation.navigate(routersMain.Login)}>

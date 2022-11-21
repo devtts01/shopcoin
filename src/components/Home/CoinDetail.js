@@ -16,7 +16,7 @@ export default function CoinDetail({item, navigation}) {
           <ImageCp uri={item?.logo} />
         </View>
         <View style={[styles.coinItem_Info, stylesGeneral.ml12]}>
-          <Text style={[styles.coinItem_Info_name]}>
+          <Text style={[styles.coinItem_Info_name, stylesGeneral.text_black]}>
             {removeUSDT(item?.symbol)}
           </Text>
           <Text style={[styles.coinItem_Info_quantity]}>
@@ -26,7 +26,14 @@ export default function CoinDetail({item, navigation}) {
       </View>
       <View style={[styles.coinItem_Price]}>
         <View style={[styles.coinItem_Price_text, stylesGeneral.flexCenter]}>
-          <Text style={[stylesGeneral.mw50, stylesGeneral.fwbold]}>High: </Text>
+          <Text
+            style={[
+              stylesGeneral.mw50,
+              stylesGeneral.fwbold,
+              stylesGeneral.text_black,
+            ]}>
+            High:{' '}
+          </Text>
           {item?.high ? (
             <Text style={[stylesGeneral.fwbold, stylesStatus.complete]}>
               {item?.high}
@@ -36,7 +43,14 @@ export default function CoinDetail({item, navigation}) {
           )}
         </View>
         <View style={[styles.coinItem_Price_text, stylesGeneral.flexCenter]}>
-          <Text style={[stylesGeneral.mw50, stylesGeneral.fwbold]}>Low: </Text>
+          <Text
+            style={[
+              stylesGeneral.mw50,
+              stylesGeneral.fwbold,
+              stylesGeneral.text_black,
+            ]}>
+            Low:{' '}
+          </Text>
           {item?.low ? (
             <Text style={[stylesGeneral.fwbold, stylesStatus.cancel]}>
               {item?.low}

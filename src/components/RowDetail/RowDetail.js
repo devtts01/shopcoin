@@ -24,8 +24,19 @@ export default function RowDetail({
       onTouchStart={
         redirectName ? () => navigation.navigate(redirectName) : () => {}
       }>
-      <Text style={[styles.info_detail_title]}>{title}</Text>
-      {text && <Text style={[styles.info_detail_desc, styleDesc]}>{text}</Text>}
+      <Text style={[styles.info_detail_title, stylesGeneral.text_black]}>
+        {title}
+      </Text>
+      {text && (
+        <Text
+          style={[
+            styles.info_detail_desc,
+            stylesGeneral.text_black,
+            styleDesc,
+          ]}>
+          {text}
+        </Text>
+      )}
       {nameIcon && <FontAwesome5 name={nameIcon} size={12} />}
     </View>
   );

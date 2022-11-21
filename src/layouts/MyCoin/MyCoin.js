@@ -52,19 +52,21 @@ const MyCoin = ({navigation}) => {
             <ImageCp uri={item?.coin?.logo} />
           </View>
           <View style={[styles.coinItem_Info, stylesGeneral.ml12]}>
-            <Text style={[styles.coinItem_Info_name]}>
+            <Text style={[styles.coinItem_Info_name, stylesGeneral.text_black]}>
               {item?.coin?.symbol?.replace('USDT', '')}
             </Text>
           </View>
         </View>
         <View style={[styles.coinItem_Price]}>
           <View>
-            <Text style={[styles.coinItem_Price_text]}>
+            <Text
+              style={[styles.coinItem_Price_text, stylesGeneral.text_black]}>
               Qty: {item?.amount}
             </Text>
           </View>
           <View>
-            <Text style={[styles.coinItem_Price_text]}>
+            <Text
+              style={[styles.coinItem_Price_text, stylesGeneral.text_black]}>
               USD: ~{' '}
               {formatUSDT(item?.amount * item?.coin?.price).replace('USD', '')}
             </Text>

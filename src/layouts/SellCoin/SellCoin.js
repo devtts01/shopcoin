@@ -111,10 +111,11 @@ export default function SellCoin({navigation, route}) {
         ]}>
         <ImageCp uri={item?.logo} />
         <View style={[styles.nameCoin, stylesGeneral.ml12]}>
-          <Text style={[styles.name]}>
+          <Text style={[styles.name, stylesGeneral.text_black]}>
             {item?.coin?.symbol?.replace('USDT', '')}
           </Text>
-          <Text style={[styles.desc, stylesGeneral.fz16]}>
+          <Text
+            style={[styles.desc, stylesGeneral.fz16, stylesGeneral.text_black]}>
             {dataBySymbol?.fullName}
           </Text>
         </View>
@@ -154,7 +155,7 @@ export default function SellCoin({navigation, route}) {
           />
           {amountSell && (
             <View style={[stylesGeneral.mb5]}>
-              <Text>Suggest amount</Text>
+              <Text style={[stylesGeneral.text_black]}>Suggest amount</Text>
               <Text style={[stylesStatus.cancel]}>Min: ...</Text>
               <Text style={[stylesStatus.cancel]}>Max: {item?.amount}</Text>
             </View>

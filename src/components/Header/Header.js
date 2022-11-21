@@ -40,6 +40,7 @@ export default function Header() {
             stylesGeneral.fwbold,
             stylesGeneral.fz16,
             stylesGeneral.mr10,
+            stylesGeneral.text_black,
           ]}>
           Welcome: {currentUser?.username}
         </Text>
@@ -67,6 +68,7 @@ export default function Header() {
             stylesGeneral.fz16,
             stylesGeneral.mr10,
             stylesGeneral.mb10,
+            stylesGeneral.text_black,
           ]}>
           ={' '}
           {userById?.Wallet?.balance || userById?.Wallet?.balance === 0

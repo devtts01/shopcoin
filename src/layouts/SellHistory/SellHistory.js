@@ -48,12 +48,16 @@ export default function SellHistory({navigation}) {
         <View
           style={[styles.btn]}
           onTouchStart={() => navigation.navigate(routers.History)}>
-          <Text style={[styles.btn_text]}>Buy History</Text>
+          <Text style={[styles.btn_text, stylesGeneral.text_black]}>
+            Buy History
+          </Text>
         </View>
         <View
           style={[styles.btn]}
           onTouchStart={() => navigation.navigate(routersMain.SellHistory)}>
-          <Text style={[styles.btn_text]}>Sell History</Text>
+          <Text style={[styles.btn_text, stylesGeneral.text_black]}>
+            Sell History
+          </Text>
         </View>
       </View>
       <View style={[styles.listItem]}>

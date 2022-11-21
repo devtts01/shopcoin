@@ -2,6 +2,7 @@
 import {Text, ScrollView, RefreshControl} from 'react-native';
 import React from 'react';
 import styles from './ContactCss';
+import stylesGeneral from '../../styles/General';
 
 export default function Contact() {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -19,7 +20,7 @@ export default function Contact() {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <Text style={[styles.text]}>
+      <Text style={[styles.text, stylesGeneral.text_black]}>
         If you have any questions about trading with ShopCoinUSA, do not
         hesitate to contact our support team by:{' '}
         <Text style={[styles.email]}>spshopcoinusa@gmail.com</Text>

@@ -66,10 +66,13 @@ const Profile = ({navigation}) => {
             stylesGeneral.mt10,
             stylesGeneral.mb5,
             stylesGeneral.fz16,
+            stylesGeneral.text_black,
           ]}>
           {currentUser?.username}
         </Text>
-        <Text style={[styles.email_user]}>{currentUser?.email}</Text>
+        <Text style={[styles.email_user, stylesGeneral.text_black]}>
+          {currentUser?.email}
+        </Text>
       </View>
       <View style={[styles.info_detail_container]}>
         <RowDetail title="Username" text={currentUser?.username} />

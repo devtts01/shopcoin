@@ -5,12 +5,14 @@ import {routersMain} from '../routers/Main';
 
 // ADD BANK INFO
 export const addBankInfo = async (props = {}) => {
+  console.log(props);
   const resPut = await userPut(`/additionBankInfo/${props.id}`, {
     bankName: props?.bank,
     nameAccount: props?.accountName,
     accountNumber: props?.accountNumber,
     token: props?.token,
   });
+  console.log(resPut);
   switch (resPut.code) {
     case 0:
       props.setLoading(true);

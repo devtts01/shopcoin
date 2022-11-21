@@ -123,8 +123,12 @@ export default function BuyCoin({navigation, route}) {
         ]}>
         <ImageCp uri={dataById?.logo} />
         <View style={[styles.nameCoin, stylesGeneral.ml12]}>
-          <Text style={[styles.name]}>{removeUSDT(dataById?.symbol)}</Text>
-          <Text style={[styles.desc]}>{dataById?.fullName}</Text>
+          <Text style={[styles.name, stylesGeneral.text_black]}>
+            {removeUSDT(dataById?.symbol)}
+          </Text>
+          <Text style={[styles.desc, stylesGeneral.text_black]}>
+            {dataById?.fullName}
+          </Text>
         </View>
       </View>
       <View style={[styles.exchange]}>
@@ -141,7 +145,13 @@ export default function BuyCoin({navigation, route}) {
           <Skeleton />
         )}
       </View>
-      <Text style={[stylesGeneral.fz16, stylesGeneral.mb10, stylesGeneral.fwb]}>
+      <Text
+        style={[
+          stylesGeneral.fz16,
+          stylesGeneral.mb10,
+          stylesGeneral.fwb,
+          stylesGeneral.text_black,
+        ]}>
         Your Walet: {formatUSDT(userById?.Wallet?.balance)}
       </Text>
       <FormInput
@@ -155,7 +165,7 @@ export default function BuyCoin({navigation, route}) {
       />
       {amountCoin && (
         <View style={[stylesGeneral.mb5]}>
-          <Text>Suggest amount</Text>
+          <Text style={[stylesGeneral.text_black]}>Suggest amount</Text>
           <Text style={[stylesStatus.cancel]}>Min: ...</Text>
           <Text style={[stylesStatus.cancel]}>
             Max: {parseFloat(userById?.Wallet?.balance / amountCoin)}
