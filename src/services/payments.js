@@ -136,7 +136,9 @@ export const handleUpdate = async (props = {}) => {
 // UPDATE TYPE PAYMENT
 export const handleUpdateType = async (props = {}) => {
     const resPut = await axiosUtils.adminPut(`/updatePayment/${props.id}`, {
-        type: props.statusUpdate || props.statusCurrent,
+        type:
+            props.statusUpdate.toLowerCase() ||
+            props.statusCurrent.toLowerCase(),
         token: props.data?.token,
     });
     switch (resPut.code) {
