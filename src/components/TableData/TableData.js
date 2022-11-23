@@ -103,13 +103,21 @@ function TableData({
         );
     };
     const sortASC = (field) => {
-        data.sort((a, b) => {
-            return a[field] > b[field] ? 1 : -1;
+        return data.sort((a, b) => {
+            if (field !== 'createdAt') {
+                return a[field] > b[field] ? 1 : -1;
+            } else {
+                return new Date(a[field]) - new Date(b[field]);
+            }
         });
     };
     const sortDESC = (field) => {
-        data.sort((a, b) => {
-            return a[field] < b[field] ? 1 : -1;
+        return data.sort((a, b) => {
+            if (field !== 'createdAt') {
+                return a[field] < b[field] ? 1 : -1;
+            } else {
+                return new Date(b[field]) - new Date(a[field]);
+            }
         });
     };
     const handleSort = () => {
@@ -121,17 +129,9 @@ function TableData({
                 })
             );
             switch (name) {
-                case process.env.REACT_APP_PAYMENT_NAME:
-                    sortASC('methodName');
-                    break;
-                case process.env.REACT_APP_SETTING_NAME:
-                    sortASC('name');
-                    break;
                 case process.env.REACT_APP_DEPOSITS_NAME:
                 case process.env.REACT_APP_WITHDRAW_NAME:
-                case process.env.REACT_APP_BUY_NAME:
-                case process.env.REACT_APP_SELL_NAME:
-                    sortASC('createdAt' || 'createdAt');
+                    sortASC('createdAt');
                     break;
                 case process.env.REACT_APP_USER_NAME:
                     sortASC('payment.username');
@@ -150,17 +150,12 @@ function TableData({
                 })
             );
             switch (name) {
-                case process.env.REACT_APP_PAYMENT_NAME:
-                    sortDESC('methodName');
-                    break;
-                case process.env.REACT_APP_SETTING_NAME:
-                    sortDESC('name');
-                    break;
                 case process.env.REACT_APP_DEPOSITS_NAME:
                 case process.env.REACT_APP_WITHDRAW_NAME:
-                case process.env.REACT_APP_BUY_NAME:
-                case process.env.REACT_APP_SELL_NAME:
-                    sortDESC('createAt');
+                    sortDESC('createdAt');
+                    break;
+                case process.env.REACT_APP_USER_NAME:
+                    sortDESC('payment.username');
                     break;
                 case process.env.REACT_APP_DASHBOARD_NAME:
                     sortDESC('symbol');

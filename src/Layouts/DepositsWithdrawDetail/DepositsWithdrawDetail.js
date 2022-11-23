@@ -23,11 +23,7 @@ function DepositsWithdrawDetail() {
     const { idDeposits, idWithdraw } = useParams();
     const { state, dispatch } = useAppContext();
     const location = useLocation();
-    const {
-        edit,
-        // adminRole,
-        // data: { dataUser },
-    } = state.set;
+    const { edit } = state.set;
     useEffect(() => {
         document.title = 'Detail | Shop Coin Transactions';
         getDepositsWithdrawById({
@@ -36,7 +32,6 @@ function DepositsWithdrawDetail() {
             dispatch,
             state,
             actions,
-            role: 'admin',
         });
     }, []);
     function ItemRender({
@@ -133,6 +128,7 @@ function DepositsWithdrawDetail() {
                             )}
                         </div>
                     </div>
+                    {console.log(x)}
                     <ItemRender
                         title='Username'
                         info={x && x.method.accountName}
@@ -148,7 +144,7 @@ function DepositsWithdrawDetail() {
                     />
                     <ItemRender
                         title='Amount USDT'
-                        info={x && numberUtils.formatUSD(x.amount)}
+                        info={x && numberUtils.formatUSD(x.amountUsd)}
                     />
                     <ItemRender
                         title='Amount VND'
@@ -180,7 +176,7 @@ function DepositsWithdrawDetail() {
                             info={
                                 x && (
                                     <a
-                                        href={`${process.env.REACT_APP_URL_SERVER}/${x.statement}`}
+                                        href={`${process.env.REACT_APP_URL_SERVER}${x.statement}`}
                                         target='_blank'
                                     >
                                         {x.statement ? (

@@ -1,31 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import moment from 'moment';
-import {
-    FormInput,
-    Button,
-    Icons,
-    Modal,
-    Search,
-    Image,
-} from '../../components';
+import { FormInput, Button, Icons, Modal, Image } from '../../components';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import {
-    handleUpdateRankFeeUser,
     checkErrorUsers,
     getUserById,
-    changeCoinGifts,
-    searchCoinGift,
-    updateCoinGift,
     changePasswordUser,
     refreshPasswordUser,
-    blockUser,
-    unblockUser,
-    // SVchangeUsdt,
+    blockAndUnblockUser,
+    updateUSDGift,
 } from '../../services/users';
 import {
     useAppContext,
@@ -33,10 +21,8 @@ import {
     textUtils,
     deleteUtils,
     formUtils,
-    searchUtils,
     alertUtils,
     refreshPage,
-    axiosUtils,
     numberUtils,
 } from '../../utils';
 import { actions } from '../../app/';
@@ -50,34 +36,18 @@ function UserDetail() {
     const {
         edit,
         currentUser,
-        pagination: { page, show },
         form: { password },
-        searchValues: { coin },
         message: { upd, error },
-        data: { dataSettingCoin },
-        changeCoin,
         quantityCoin,
     } = state.set;
-    const { modalDelete, selectStatus } = state.toggle;
-    const [feeValue, setFeeValue] = useState(
-        edit?.itemData && edit.itemData.fee
-    );
-    const [dataCoin, setDataCoin] = useState([]);
-    const getAllCoin = async () => {
-        const res = await axiosUtils.coinGet(
-            `/getAllCoin?page=${page}&show=${dataSettingCoin?.total || 10}`
-        );
-        setDataCoin(res.data);
-    };
+    const { modalDelete } = state.toggle;
+    const x = edit?.itemData && edit?.itemData;
     useEffect(() => {
         document.title = 'Detail | Shop Coin Transactions';
         getUserById({ idUser, dispatch, state, actions });
     }, []);
-    useEffect(() => {
-        getAllCoin();
-    }, [page, show]);
-    const changeFee = (e) => {
-        setFeeValue(e.target.value);
+    const changeInput = (e) => {
+        return formUtils.changeForm(e, dispatch, state, actions);
     };
     const changeQuantity = (e) => {
         dispatch(
@@ -87,93 +57,14 @@ function UserDetail() {
             })
         );
     };
-    const handleChangeCoin = (coin) => {
-        changeCoinGifts({ coin, selectStatus, dispatch, state, actions });
-    };
-    const toggleListCoin = () => {
-        dispatch(
-            actions.toggleModal({
-                ...state.toggle,
-                selectStatus: !selectStatus,
-            })
-        );
-        dispatch(
-            actions.setData({
-                ...state.set,
-                pagination: {
-                    ...state.set.pagination,
-                    page: 1,
-                    show: dataSettingCoin?.total,
-                },
-            })
-        );
-    };
-    const changeInput = (e) => {
-        return formUtils.changeForm(e, dispatch, state, actions);
-    };
     const handleCloseAlert = () => {
         return alertUtils.closeAlert(dispatch, state, actions);
-    };
-    const searchCoin = (e) => {
-        return searchUtils.logicSearch(e, dispatch, state, actions);
     };
     const modalChangePwdTrue = (e, id) => {
         return deleteUtils.deleteTrue(e, id, dispatch, state, actions);
     };
     const modalChangePwdFalse = (e) => {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
-    };
-    const handleUpdateFee = async (data, id) => {
-        await handleUpdateRankFeeUser({
-            data,
-            id,
-            dispatch,
-            state,
-            actions,
-            page,
-            show,
-            fee: parseFloat(feeValue),
-        });
-    };
-    const updateFee = async (id) => {
-        try {
-            requestRefreshToken(
-                currentUser,
-                handleUpdateFee,
-                state,
-                dispatch,
-                actions,
-                id
-            );
-            setFeeValue('');
-        } catch (err) {
-            checkErrorUsers(err, dispatch, state, actions);
-        }
-    };
-    const handleUpdateCoin = async (data, id) => {
-        updateCoinGift({
-            data,
-            id,
-            changeCoin,
-            quantityCoin,
-            dispatch,
-            state,
-            actions,
-        });
-    };
-    const updateCoin = async (id) => {
-        try {
-            requestRefreshToken(
-                currentUser,
-                handleUpdateCoin,
-                state,
-                dispatch,
-                actions,
-                id
-            );
-        } catch (err) {
-            checkErrorUsers(err, dispatch, state, actions);
-        }
     };
     const handleChangePwd = async (data, id) => {
         changePasswordUser({
@@ -216,17 +107,41 @@ function UserDetail() {
             checkErrorUsers(err, dispatch, state, actions);
         }
     };
+    const handleUpdateUSD = async (data, id) => {
+        updateUSDGift({
+            data,
+            id,
+            usd: parseFloat(quantityCoin),
+            dispatch,
+            state,
+            actions,
+        });
+    };
+    const updateUSD = async (id) => {
+        try {
+            requestRefreshToken(
+                currentUser,
+                handleUpdateUSD,
+                state,
+                dispatch,
+                actions,
+                id
+            );
+        } catch (err) {
+            checkErrorUsers(err, dispatch, state, actions);
+        }
+    };
     const handleBlockUser = async (data, id) => {
-        blockUser({
+        blockAndUnblockUser({
             data,
             id,
             dispatch,
             state,
             actions,
-            blockUser: true,
+            blockUser: x?.blockUser ? false : true,
         });
     };
-    const onBlockUser = async (id) => {
+    const onBlockAndUnblockUser = async (id) => {
         try {
             requestRefreshToken(
                 currentUser,
@@ -240,45 +155,6 @@ function UserDetail() {
             checkErrorUsers(err, dispatch, state, actions);
         }
     };
-    const handleUnBlockUser = async (data, id) => {
-        unblockUser({
-            data,
-            id,
-            dispatch,
-            state,
-            actions,
-            blockUser: false,
-        });
-    };
-    const onUnblockUser = async (id) => {
-        try {
-            requestRefreshToken(
-                currentUser,
-                handleUnBlockUser,
-                state,
-                dispatch,
-                actions,
-                id
-            );
-        } catch (err) {
-            checkErrorUsers(err, dispatch, state, actions);
-        }
-    };
-    const DATA_COINS =
-        dataCoin?.map((coin) => {
-            return {
-                name: coin.symbol,
-            };
-        }) || [];
-    DATA_COINS.push({ name: 'USDT' });
-    // loại bỏ các object trùng nhau trong DATA_COINS
-    const uniqueDataCoins = DATA_COINS.filter(
-        (v, i, a) => a.findIndex((t) => t.name === v.name) === i
-    );
-    let DataCoinFlag = searchCoinGift({
-        coin,
-        dataCoins: uniqueDataCoins,
-    });
     function ItemRender({
         title,
         info,
@@ -337,7 +213,6 @@ function UserDetail() {
             </div>
         );
     }
-    const x = edit?.itemData && edit?.itemData;
 
     return (
         <>
@@ -385,8 +260,6 @@ function UserDetail() {
                         nameAccount={x && x.payment.bank.name}
                         numberAccount={x && x.payment.bank.account}
                     />
-                    {console.log(x)}
-                    <ItemRender feeCustom title='Fee' info={x && x.fee} />
                     <ItemRender
                         feeCustom
                         title='Deposits'
@@ -411,79 +284,17 @@ function UserDetail() {
                     />
                 </div>
                 <div className={`${cx('detail-container')}`}>
-                    <div className='detail-item align-flex-end'>
-                        <FormInput
-                            type='text'
-                            name='fee'
-                            placeholder='Fee'
-                            classNameInput={`${cx('fee-input')}`}
-                            label='Change Fee'
-                            value={feeValue}
-                            onChange={changeFee}
-                        />
-                        <Button
-                            onClick={() => updateFee(idUser)}
-                            className={`${cx('btn')} vipbgc`}
-                            disabled={!feeValue}
-                        >
-                            Update
-                        </Button>
-                    </div>
                     <div className='w100'>
-                        <div className='detail-item flex-column'>
-                            <label className='label mr-auto'>Change Coin</label>
-                            <div className={`${cx('detail-coins-list')}`}>
-                                <div
-                                    className={`${cx('coins-list-container')}`}
-                                >
-                                    <div
-                                        onClick={toggleListCoin}
-                                        className='w100 flex-space-between'
-                                    >
-                                        <div className={`${cx('coins-value')}`}>
-                                            {changeCoin}
-                                        </div>
-                                        <Icons.SelectOptionArrowIcon />
-                                    </div>
-                                    {selectStatus && (
-                                        <div className={`${cx('coins-list')}`}>
-                                            <div
-                                                className={`${cx(
-                                                    'coins-search'
-                                                )}`}
-                                            >
-                                                <Search
-                                                    name='coin'
-                                                    className={`${cx(
-                                                        'search-custom'
-                                                    )} w100 border0`}
-                                                    onChange={searchCoin}
-                                                />
-                                            </div>
-                                            {DataCoinFlag.map((item, index) => (
-                                                <div
-                                                    className={`${cx(
-                                                        'coins-item'
-                                                    )}`}
-                                                    key={index}
-                                                    onClick={() =>
-                                                        handleChangeCoin(
-                                                            item.name
-                                                        )
-                                                    }
-                                                >
-                                                    {item.name}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
+                        <div className='detail-item flex-column p0'>
+                            <label className='label mr-auto'>Give USD</label>
+                            <div className={`${cx('detail-coins-list')} w100`}>
                                 <FormInput
                                     type='text'
                                     name='quantityCoin'
                                     placeholder='Quantity'
-                                    classNameInput={`${cx('fee-input')} mt0`}
-                                    classNameField={`${cx('fee-field')}`}
+                                    classNameInput={`${cx(
+                                        'fee-input'
+                                    )} w100 mt0`}
                                     value={quantityCoin}
                                     onChange={changeQuantity}
                                 />
@@ -491,9 +302,9 @@ function UserDetail() {
                         </div>
                         <div className='detail-item justify-flex-end'>
                             <Button
-                                onClick={() => updateCoin(idUser)}
+                                onClick={() => updateUSD(idUser)}
                                 className='vipbgc'
-                                disabled={!coin && !quantityCoin}
+                                disabled={!quantityCoin}
                             >
                                 Change
                             </Button>
@@ -562,11 +373,9 @@ function UserDetail() {
                     </Button>
                     <Button
                         className='cancelbgc'
-                        onClick={
-                            x?.blockUser
-                                ? () => onUnblockUser(idUser)
-                                : () => onBlockUser(idUser)
-                        }
+                        onClick={() => {
+                            onBlockAndUnblockUser(idUser);
+                        }}
                     >
                         <div className='flex-center'>
                             {!x?.blockUser ? (

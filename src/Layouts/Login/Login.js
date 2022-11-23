@@ -28,11 +28,11 @@ function Login() {
             switch (res.code) {
                 case 0:
                     await localStoreUtils.setStore({
-                        username: res.userInfo.payment.username,
-                        email: res.userInfo.payment.email,
-                        createdAt: res.createAt,
-                        token: res.token,
-                        id: res.userInfo._id,
+                        username: res.data.user.payment.username,
+                        email: res.data.user.payment.email,
+                        createdAt: res.data.createAt,
+                        token: res.data.token,
+                        id: res.data.user._id,
                     });
                     dispatch(
                         actions.setData({

@@ -100,6 +100,10 @@ button {
     margin-left: 8px;
 }
 
+.p0 {
+    padding: 0 !important;
+}
+
 .fwb {
     font-weight: bold;
 }
@@ -183,6 +187,40 @@ button {
     background-size: 100% 100%;
     padding: 12px;
     display: none;
+}
+
+.scroll-to-top-container {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 15px;
+    border: 1px solid var(--color-white);
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    bottom: 20px;
+    right: 20px;
+    color: var(--color-white);
+    z-index: 999;
+    cursor: pointer;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.scroll-to-top-container i {
+    font-size: 14px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
 }
 
 /* TABLET AND MOBILE */

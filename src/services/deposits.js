@@ -25,21 +25,16 @@ export const getDeposits = async (props = {}) => {
 // GET DEPOSITS/WITHDRAWS BY ID
 export const getDepositsWithdrawById = async (props = {}) => {
     if (props.idDeposits || props.idWithdraw) {
-        const processUser = await axiosUtils.adminGet('/getAllUser');
+        const processUser = await axiosUtils.adminGet('/getAllUsers');
         const process = await axiosUtils.adminGet(
             props.idDeposits
                 ? `/getDeposit/${props.idDeposits}`
                 : `/getWithdraw/${props.idWithdraw}`
         );
-        // get role user
-        const processRole = await axiosUtils.adminGet(
-            `/getBankInfoByRole/${props.role}`
-        );
         const { data } = process;
         props.dispatch(
             props.actions.setData({
                 ...props.state.set,
-                adminRole: processRole,
                 edit: {
                     ...props.state.set.edit,
                     itemData: data,
@@ -52,6 +47,7 @@ export const getDepositsWithdrawById = async (props = {}) => {
         );
     }
 };
+
 // CHECK ERROR ACTIONS
 export const checkErrorDeposits = (props = {}) => {
     return props.dispatch(
@@ -81,7 +77,7 @@ export const searchDeposits = (props = {}) => {
 };
 // HANDLE EDIT DEPOSITS
 export const handleEdit = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`/handleDeposit/${props.id}`, {
+    const resPut = await axiosUtils.adminPut(`/handleBuyUSD/${props.id}`, {
         status: props.statusUpdate || props.statusCurrent,
         token: props.data?.token,
     });

@@ -139,7 +139,7 @@ function Withdraw() {
                             number: numberUtils.formatVND(item?.amountVnd),
                         },
                     };
-                    const username = dataUser.dataUser.find(
+                    const username = dataUser?.data?.find(
                         (x) => x?.payment.email === item.user
                     )?.payment.username;
                     const infoUser = {

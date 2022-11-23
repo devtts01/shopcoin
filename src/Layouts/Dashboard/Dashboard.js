@@ -6,7 +6,6 @@ import { actions } from '../../app/';
 import styles from './Dashboard.module.css';
 import { Button, Icons, Search, SearchDate, TableData } from '../../components';
 import {
-    DataDashboard,
     DataUserBalance,
     dateUtils,
     handleUtils,
@@ -29,9 +28,9 @@ function Dashboard() {
         totalDeposit,
         totalWithdraw,
         totalBalance,
+        // totalCommission,
         dataUserBalance,
-        data: { dataDashboard },
-        searchValues: { dateFrom, dateTo, dashboard, userBalance },
+        searchValues: { dateFrom, dateTo, userBalance },
         pagination: { page, show },
     } = state.set;
     useEffect(() => {
@@ -56,12 +55,6 @@ function Dashboard() {
             actions,
         });
     }, [page, show]);
-    let data = dataDashboard?.data?.coins || [];
-    if (dashboard) {
-        data = data.filter((item) => {
-            return searchUtils.searchInput(dashboard, item.symbol);
-        });
-    }
     let dataUser = dataUserBalance?.users || [];
     if (userBalance) {
         dataUser = dataUser.filter((item) => {
@@ -116,23 +109,6 @@ function Dashboard() {
             </div>
         );
     };
-    function RenderBodyTable({ data }) {
-        return (
-            <>
-                {data.map((item, index) => {
-                    return (
-                        <tr key={index} style={{ fontSize: '14px' }}>
-                            <td className='upc'>
-                                {handleUtils.indexTable(page, show, index)}
-                            </td>
-                            <td>{item.symbol}</td>
-                            <td style={{ textAlign: 'left' }}>{item.total}</td>
-                        </tr>
-                    );
-                })}
-            </>
-        );
-    }
     function RenderBodyTableUser({ data }) {
         return (
             <>
@@ -150,7 +126,13 @@ function Dashboard() {
                                 {numberUtils.formatUSD(item.Wallet.balance)}
                             </td>
                             <td style={{ textAlign: 'left' }}>
-                                {item.payment.rule}
+                                <span
+                                    className={`${
+                                        item.payment.rule + 'bgc'
+                                    } status`}
+                                >
+                                    {item.payment.rule}
+                                </span>
                             </td>
                             <td style={{ textAlign: 'left' }}>
                                 <TrStatus
@@ -252,24 +234,6 @@ function Dashboard() {
                         value={numberUtils.formatUSD(100000)}
                     />
                 </div>
-            </div>
-            <div className={`${cx('general-table-container')}`}>
-                <div className={`${cx('title-header')}`}>Danh sách Symbol</div>
-                <Search
-                    name='dashboard'
-                    value={dashboard}
-                    onChange={changeSearch}
-                    className={`${cx('search-coin')}`}
-                />
-                <TableData
-                    data={data}
-                    totalData={dataDashboard?.data?.totalCoin}
-                    headers={DataDashboard().headers}
-                    search=''
-                    noActions
-                >
-                    <RenderBodyTable data={data} />
-                </TableData>
             </div>
             <div className={`${cx('general-table-container')}`}>
                 <div className={`${cx('title-header')}`}>

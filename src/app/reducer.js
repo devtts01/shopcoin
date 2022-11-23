@@ -6,7 +6,6 @@ const userStore = localStoreUtils.getStore();
 const initialState = {
     set: {
         currentUser: userStore,
-        adminRole: null,
         accountMenu: null,
         statusCurrent: '',
         statusUpdate: '',
@@ -35,12 +34,10 @@ const initialState = {
             dataDeposits: [],
             dataWithdraw: [],
             dataUser: [],
-            dataDashboard: [],
         },
         searchValues: {
             dateFrom: '',
             dateTo: '',
-            dashboard: '',
             userBalance: '',
             deposits: '',
             withdraw: '',

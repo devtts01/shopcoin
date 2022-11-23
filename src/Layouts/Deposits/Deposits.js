@@ -141,10 +141,10 @@ function Deposits() {
                         received: {
                             icon: <Icons.ReceivedIcon />,
                             title: 'Received',
-                            number: numberUtils.formatUSD(item?.amount),
+                            number: numberUtils.formatUSD(item?.amountUsd),
                         },
                     };
-                    const username = dataUser.dataUser.find(
+                    const username = dataUser?.data?.find(
                         (x) => x?.payment.email === item.user
                     )?.payment.username;
                     const infoUser = {

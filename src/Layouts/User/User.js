@@ -48,7 +48,7 @@ function User() {
         getUsers({ page, show, dispatch, state, actions });
     }, [page, show]);
     //Search Data Users
-    let dataUserFlag = searchUsers({ dataUser: dataUser.dataUser, user });
+    let dataUserFlag = searchUsers({ dataUser: dataUser.data, user });
     const toggleEditTrue = async (e, status, id) => {
         await localStoreUtils.setStore({
             ...currentUser,
@@ -139,7 +139,17 @@ function User() {
                                 <Skeleton width={30} />
                             )}
                         </td>
-                        <td>{item.payment.rule || <Skeleton width={50} />}</td>
+                        <td>
+                            {(
+                                <span
+                                    className={`${
+                                        item.payment.rule + 'bgc'
+                                    } status`}
+                                >
+                                    {item.payment.rule}
+                                </span>
+                            ) || <Skeleton width={50} />}
+                        </td>
                         <td>
                             <TrStatus
                                 item={
