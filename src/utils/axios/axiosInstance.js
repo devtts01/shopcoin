@@ -4,9 +4,7 @@ import {URL_SERVER} from '@env';
 
 // AUTHENTICATION
 export const authInstance = axios.create({
-  baseURL: `${URL_SERVER}authen/`,
-  // baseURL: 'https://apishopcoin.4eve.site/authen/',
-  // baseURL: 'http://localhost:8000/authen/',
+  baseURL: `${URL_SERVER}authentication/`,
   withCredentials: true,
 });
 export const authPost = async (path, options = {}) => {

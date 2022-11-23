@@ -12,12 +12,12 @@ export const userLogin = async (props = {}) => {
   switch (resPost.code) {
     case 0:
       await setAsyncStore({
-        token: resPost?.token,
-        username: resPost?.userInfo?.payment?.username,
-        email: resPost?.userInfo?.payment?.email,
-        rule: resPost?.userInfo?.payment.rule,
-        rank: resPost?.userInfo?.rank,
-        id: resPost?.userInfo?._id,
+        token: resPost?.data?.token,
+        username: resPost?.data?.user?.payment?.username,
+        email: resPost?.data?.user?.payment?.email,
+        rule: resPost?.data?.user?.payment.rule,
+        rank: resPost?.data?.user?.rank,
+        id: resPost?.data?.user?._id,
       });
       props.dispatch(
         props.setFormValue({

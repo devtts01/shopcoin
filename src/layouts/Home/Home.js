@@ -29,61 +29,61 @@ const Home = ({navigation}) => {
   useEffect(() => {
     getAsyncStore(dispatch);
   }, []);
-  useEffect(() => {
-    SVgetAllCoins({
-      page,
-      show: dataCoins?.total,
-      dispatch,
-      getAllCoins,
-    });
-  }, [page, show]);
-  let data = dataCoins?.data || [];
-  if (search) {
-    data = data.filter(item => {
-      return item?.symbol?.toLowerCase().includes(search?.toLowerCase());
-    });
-  }
-  let stopLoadingData = true;
-  const wait = timeout => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    SVgetAllCoins({
-      page,
-      show: dataCoins?.total,
-      dispatch,
-      getAllCoins,
-    });
-    wait(2000).then(() => {
-      setRefreshing(false);
-    });
-  }, []);
-  const handleEndReached = async () => {
-    setLoading(true);
-    if (!stopLoadingData) {
-      await 1;
-      setShow(dataCoins?.total);
-      SVgetAllCoins({
-        page,
-        show: dataCoins?.total,
-        dispatch,
-        getAllCoins,
-      });
-      stopLoadingData = true;
-    }
-    setLoading(false);
-  };
-  const renderItem = ({item}) => {
-    return <CoinDetail item={item} navigation={navigation} />;
-  };
-  const handleChangeSearch = (name, val) => {
-    dispatch(setSearchValue(val));
-  };
+  // useEffect(() => {
+  //   SVgetAllCoins({
+  //     page,
+  //     show: dataCoins?.total,
+  //     dispatch,
+  //     getAllCoins,
+  //   });
+  // }, [page, show]);
+  // let data = dataCoins?.data || [];
+  // if (search) {
+  //   data = data.filter(item => {
+  //     return item?.symbol?.toLowerCase().includes(search?.toLowerCase());
+  //   });
+  // }
+  // let stopLoadingData = true;
+  // const wait = timeout => {
+  //   return new Promise(resolve => setTimeout(resolve, timeout));
+  // };
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   SVgetAllCoins({
+  //     page,
+  //     show: dataCoins?.total,
+  //     dispatch,
+  //     getAllCoins,
+  //   });
+  //   wait(2000).then(() => {
+  //     setRefreshing(false);
+  //   });
+  // }, []);
+  // const handleEndReached = async () => {
+  //   setLoading(true);
+  //   if (!stopLoadingData) {
+  //     await 1;
+  //     setShow(dataCoins?.total);
+  //     SVgetAllCoins({
+  //       page,
+  //       show: dataCoins?.total,
+  //       dispatch,
+  //       getAllCoins,
+  //     });
+  //     stopLoadingData = true;
+  //   }
+  //   setLoading(false);
+  // };
+  // const renderItem = ({item}) => {
+  //   return <CoinDetail item={item} navigation={navigation} />;
+  // };
+  // const handleChangeSearch = (name, val) => {
+  //   dispatch(setSearchValue(val));
+  // };
   return (
     <View style={[styles.container]}>
       <Header />
-      <View>
+      {/* <View>
         <Search
           name="search"
           // value={search}
@@ -112,7 +112,7 @@ const Home = ({navigation}) => {
         ) : (
           <NodataText text="No data" />
         )}
-      </View>
+      </View> */}
     </View>
   );
 };

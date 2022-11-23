@@ -17,6 +17,7 @@ import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {setFormProfilePayment} from '../../app/payloads/form';
 import {addBankInfo} from '../../services/payment';
+import dataBank from '../../utils/dataBank/';
 
 export default function ProfilePayment({navigation}) {
   const {state, dispatch} = useAppContext();
@@ -44,7 +45,7 @@ export default function ProfilePayment({navigation}) {
   const addBankInfoAPI = data => {
     addBankInfo({
       id: currentUser?.id,
-      bank,
+      bank: bank?.name,
       accountName,
       accountNumber,
       token: data?.token,
@@ -66,28 +67,6 @@ export default function ProfilePayment({navigation}) {
       console.log(err);
     }
   };
-  const dataBank = [
-    {
-      id: 1,
-      name: 'Vietcombank',
-    },
-    {
-      id: 2,
-      name: 'Techcombank',
-    },
-    {
-      id: 3,
-      name: 'BIDV',
-    },
-    {
-      id: 4,
-      name: 'Vietinbank',
-    },
-    {
-      id: 5,
-      name: 'Agribank',
-    },
-  ];
   return (
     <ScrollView
       style={[styles.container]}

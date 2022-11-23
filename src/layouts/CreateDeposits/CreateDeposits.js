@@ -18,7 +18,7 @@ import {
   SelectAlert,
 } from '../../components';
 import {useAppContext} from '../../utils';
-import {formatVND} from '../../utils/format/Money';
+import {formatVND, precisionRound} from '../../utils/format/Money';
 import {setFormDeposits} from '../../app/payloads/form';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
@@ -27,18 +27,24 @@ import styles from './CreateDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateDeposits} from '../../services/deposits';
-import {getUserById, getPaymentAdminById} from '../../app/payloads/getById';
+import {
+  getUserById,
+  getPaymentAdminById,
+  getRate,
+} from '../../app/payloads/getById';
 import {SVgetUserById} from '../../services/user';
 import {
   SVgetAllPaymentAdmin,
   SVgetPaymentAdminById,
 } from '../../services/payment';
 import {getAllPaymentAdmin} from '../../app/payloads/getAll';
+import {SVgetRate} from '../../services/rate';
 
 export default function CreateDeposits({navigation}) {
   const {state, dispatch} = useAppContext();
   const {
     currentUser,
+    rate,
     dataPaymentAdmin,
     paymentAdminById,
     deposits: {amountUSDT, bank},
@@ -55,6 +61,10 @@ export default function CreateDeposits({navigation}) {
     SVgetAllPaymentAdmin({
       dispatch,
       getAllPaymentAdmin,
+    });
+    SVgetRate({
+      dispatch,
+      getRate,
     });
   }, []);
   useEffect(() => {
@@ -89,14 +99,13 @@ export default function CreateDeposits({navigation}) {
     });
     return acc;
   }, []);
-  const rateDeposit = paymentAdminById ? paymentAdminById?.rateDeposit : 0;
   const createDepositsAPI = data => {
     SVcreateDeposits({
       amount: amountUSDT,
-      email: currentUser.email,
-      amountVnd: parseFloat(amountUSDT * rateDeposit),
+      id: currentUser.id,
+      amountVnd: precisionRound(parseFloat(amountUSDT * rate?.transfer)),
       token: data?.token,
-      bankAdmin: paymentAdminById,
+      bankAdmin: paymentAdminById[0],
       setLoading,
       dispatch,
       navigation,
@@ -137,7 +146,7 @@ export default function CreateDeposits({navigation}) {
         onTouchStart={handleModalBank}
         value={bank?.name}
       />
-      {amountUSDT && bank && amountUSDT * rateDeposit > 0 && (
+      {amountUSDT && bank && amountUSDT * rate?.transfer > 0 && (
         <View style={[styles.deposits_VND]}>
           <Text
             style={[
@@ -145,7 +154,7 @@ export default function CreateDeposits({navigation}) {
               stylesGeneral.fwbold,
               stylesStatus.confirm,
             ]}>
-            Deposits (VND): {formatVND(amountUSDT * rateDeposit)}
+            Deposits (VND): {formatVND(amountUSDT * rate?.transfer)}
           </Text>
         </View>
       )}

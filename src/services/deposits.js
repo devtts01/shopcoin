@@ -19,19 +19,20 @@ export const SVgetAllDeposits = async (props = {}) => {
 
 // GET DEPOSITS BY EMAIL/ID USER
 export const SVgetDepositsByEmailUser = async (props = {}) => {
-  const resGet = await userGet(`/getAllDeposits/${props?.email}`);
+  const resGet = await userGet(`/getPaymentByEmail/${props?.email}`);
   props.dispatch(props.getAllDeposits(resGet?.data));
 };
 
 // CREATE DEPOSITS
 export const SVcreateDeposits = async (props = {}) => {
-  const resPost = await userPost('/deposit', {
-    amount: props?.amount,
-    user: props?.email,
+  const resPost = await userPost(`/BuyUSD/${props?.id}`, {
+    amountUSD: props?.amount,
+    user: props?.id,
     amountVnd: props.amountVnd,
     bankAdmin: props?.bankAdmin,
     token: props?.token,
   });
+  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
@@ -114,7 +115,9 @@ export const SVupdateDeposits = async (props = {}) => {
                   data: resPut?.data,
                 },
               });
-              const resGet = await userGet(`/getAllDeposits/${props?.email}`);
+              const resGet = await userGet(
+                `/getPaymentByEmail/${props?.email}`,
+              );
               props.dispatch(props.getAllDeposits(resGet?.data));
             },
           },

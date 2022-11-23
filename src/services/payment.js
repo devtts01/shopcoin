@@ -49,7 +49,7 @@ export const addBankInfo = async (props = {}) => {
 };
 // GET ALL PAYMENT ADMIN
 export const SVgetAllPaymentAdmin = async (props = {}) => {
-  const resGet = await adminGet('/getAllPaymentAdmin', {});
+  const resGet = await adminGet('/getPaymentAdmin', {});
   props.dispatch(props.getAllPaymentAdmin(resGet.data));
 };
 // GET PAYMENT ADMIN BY ID

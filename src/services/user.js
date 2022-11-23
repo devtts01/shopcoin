@@ -23,6 +23,7 @@ export const SVchangePassword = async (props = {}) => {
     newPWD: props.newPWD,
     token: props.token,
   });
+  console.log(resPut);
   switch (resPut.code) {
     case 0:
       props.setLoading(true);
@@ -47,7 +48,7 @@ export const SVchangePassword = async (props = {}) => {
       break;
     case 1:
     case 2:
-      props.dispatch(props.setMessage({error: resPut.message}));
+      props.dispatch(props.setMessage({error: 'Old password is incorrect'}));
       break;
     default:
       break;

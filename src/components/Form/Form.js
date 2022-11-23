@@ -68,7 +68,9 @@ const Form = ({
               resizeMode="contain"
             />
           </View>
-          <Text style={[styles.title_form]}>{titleForm}</Text>
+          <Text style={[styles.title_form, stylesGeneral.text_black]}>
+            {titleForm}
+          </Text>
           {(error || success) && (
             <View style={[styles.error_container, stylesGeneral.flexCenter]}>
               <Text

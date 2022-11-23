@@ -25,6 +25,7 @@ import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVupdateDeposits} from '../../services/deposits';
 import {textLower} from '../../utils/format/textLowercase';
+import {URL_SERVER} from '@env';
 
 export default function SingleDeposits({navigation, route}) {
   const {state, dispatch} = useAppContext();
@@ -120,7 +121,7 @@ export default function SingleDeposits({navigation, route}) {
           title="Updated At"
           text={dateFormat(data?.updatedAt, 'DD/MM/YYYY')}
         />
-        <RowDetail title="Amount USD" text={formatUSDT(data?.amount)} />
+        <RowDetail title="Amount USD" text={formatUSDT(data?.amountUsd)} />
         <RowDetail title="Amount VND" text={formatVND(data?.amountVnd)} />
         <View style={[styles.item, stylesGeneral.flexRow]}>
           <Text style={[styles.item_title, stylesGeneral.text_black]}>
@@ -165,7 +166,7 @@ export default function SingleDeposits({navigation, route}) {
                 source={{
                   uri: fileResponse
                     ? `${fileResponse}`
-                    : `https://apishopcoin.4eve.site${data?.statement}`,
+                    : `${URL_SERVER}${data?.statement}`,
                 }}
                 style={[styles.image, stylesGeneral.mt10]}
                 resizeMode="contain"

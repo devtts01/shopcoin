@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
-import {formatUSDT, formatVND} from '../../utils/format/Money';
+import {formatUSDT, formatVND, precisionRound} from '../../utils/format/Money';
 import {setFormWithdraw} from '../../app/payloads/form';
-import {getUserById, getRateDepositWithdraw} from '../../app/payloads/getById';
+import {getUserById, getRate} from '../../app/payloads/getById';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {FormInput, ModalLoading} from '../../components';
 import {SVgetUserById} from '../../services/user';
@@ -26,13 +26,14 @@ import styles from './CreateWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateWithdraw} from '../../services/withdraw';
-import {SVgetRateDepositWithdraw} from '../../services/rate';
+import {SVgetRate} from '../../services/rate';
 
 export default function CreateWithdraw({navigation}) {
   const {state, dispatch} = useAppContext();
   const [error, setError] = useState('');
   const {
     currentUser,
+    rate,
     withdraw: {amountUSDT},
     userById,
     rateDepositWithdraw,
@@ -58,14 +59,11 @@ export default function CreateWithdraw({navigation}) {
       dispatch,
       getUserById,
     });
-  }, []);
-  useEffect(() => {
-    SVgetRateDepositWithdraw({
-      numberBank: userById?.payment?.bank?.account,
+    SVgetRate({
       dispatch,
-      getRateDepositWithdraw,
+      getRate,
     });
-  }, [amountUSDT]);
+  }, []);
   const handleChange = (name, val) => {
     dispatch(
       setFormWithdraw({
@@ -75,8 +73,9 @@ export default function CreateWithdraw({navigation}) {
   };
   const createWithdrawAPI = data => {
     SVcreateWithdraw({
-      amount: amountUSDT,
-      email: currentUser?.email,
+      amountUSD: parseFloat(amountUSDT),
+      amountVnd: precisionRound(amountUSDT * rate?.sell),
+      id: currentUser?.id,
       setLoading,
       dispatch,
       navigation,
@@ -98,7 +97,6 @@ export default function CreateWithdraw({navigation}) {
       console.log(err);
     }
   };
-  console.log(userById);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -204,7 +202,7 @@ export default function CreateWithdraw({navigation}) {
                 </Text>
               </View>
             )}
-            {amountUSDT * rateDepositWithdraw?.rateWithdraw > 0 && (
+            {amountUSDT * rate?.sell > 0 && (
               <View style={[styles.info_detail, stylesGeneral.mb10]}>
                 <Text
                   style={[
@@ -213,8 +211,7 @@ export default function CreateWithdraw({navigation}) {
                     stylesStatus.complete,
                     stylesGeneral.fz16,
                   ]}>
-                  Receive (VND):{' '}
-                  {formatVND(amountUSDT * rateDepositWithdraw?.rateWithdraw)}
+                  Receive (VND): {formatVND(amountUSDT * rate?.sell)}
                 </Text>
               </View>
             )}

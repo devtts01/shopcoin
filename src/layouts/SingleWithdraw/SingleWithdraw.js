@@ -24,6 +24,7 @@ import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {textLower} from '../../utils/format/textLowercase';
+import {getAllWithdraws} from '../../app/payloads/getAll';
 
 export default function SingleWithdraw({navigation, route}) {
   const {data} = route.params;
@@ -53,6 +54,9 @@ export default function SingleWithdraw({navigation, route}) {
     SVcheckCode({
       code: codeVerify,
       token: dataAPI?.token,
+      email: currentUser?.email,
+      dispatch,
+      getAllWithdraws,
       id: data?._id,
       setLoading,
       navigation,
@@ -127,7 +131,7 @@ export default function SingleWithdraw({navigation, route}) {
           title="Created At"
           text={dateFormat(data?.createdAt, 'DD/MM/YYYY')}
         />
-        <RowDetail title="Amount USDT" text={formatUSDT(data?.amount)} />
+        <RowDetail title="Amount USDT" text={formatUSDT(data?.amountUsd)} />
         <RowDetail title="Amount VND" text={formatVND(data?.amountVnd)} />
         <View style={[styles.info_item, stylesGeneral.flexRow]}>
           <Text style={[styles.info_item_text, stylesGeneral.text_black]}>

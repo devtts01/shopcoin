@@ -30,7 +30,6 @@ export default function Header() {
       getUserById,
     });
   };
-
   return (
     <View style={[styles.container]}>
       <View style={[stylesGeneral.flexRow, stylesGeneral.flexCenter]}>
@@ -71,7 +70,7 @@ export default function Header() {
             stylesGeneral.text_black,
           ]}>
           ={' '}
-          {userById?.Wallet?.balance
+          {userById?.Wallet?.balance || userById?.Wallet?.balance === 0
             ? formatUSDT(userById?.Wallet?.balance)
             : 'Loading...'}
         </Text>

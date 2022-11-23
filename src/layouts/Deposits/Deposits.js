@@ -98,7 +98,7 @@ const Deposits = ({navigation}) => {
         />
         <RowDetail
           title="Amount USD"
-          text={formatUSDT(item?.amount)}
+          text={formatUSDT(item?.amountUsd)}
           noneBorderBottom
         />
         <RowDetail
