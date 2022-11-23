@@ -109,7 +109,7 @@ export default function SellCoin({navigation, route}) {
           stylesGeneral.flexRow,
           stylesGeneral.flexCenter,
         ]}>
-        <ImageCp uri={item?.logo} />
+        <ImageCp uri={item?.coin?.logo} />
         <View style={[styles.nameCoin, stylesGeneral.ml12]}>
           <Text style={[styles.name, stylesGeneral.text_black]}>
             {item?.coin?.symbol?.replace('USDT', '')}
