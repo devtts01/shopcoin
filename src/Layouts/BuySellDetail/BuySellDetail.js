@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import moment from 'moment';
 import { Button, Icons } from '../../components';
@@ -20,7 +20,7 @@ const cx = className.bind(styles);
 
 function BuySellDetail() {
     const { idBuy, idSell } = useParams();
-    // const { pathname } = useLocation();
+    const { pathname } = useLocation();
     const { state, dispatch } = useAppContext();
     const {
         edit,
@@ -36,7 +36,7 @@ function BuySellDetail() {
                 <div className='detail-title'>{title}</div>
                 <div className={`${cx('detail-status')}`}>
                     <span className='info'>
-                        {info ? info : <Skeleton width={30} />}
+                        {info || info === 0 ? info : <Skeleton width={30} />}
                     </span>
                 </div>
             </div>
@@ -80,9 +80,7 @@ function BuySellDetail() {
                         )}
                     </div>
                 </div>
-                {/* <ItemRender title='Username' info={x && ''} /> */}
                 <ItemRender title='Email' info={x && x.buyer.gmailUSer} />
-                {/* {pathname.includes('buy') && <ItemRender title='Code' />} */}
                 <ItemRender
                     title='Created'
                     info={
@@ -90,14 +88,25 @@ function BuySellDetail() {
                     }
                 />
                 <ItemRender title='Symbol' info={x && x.symbol} />
-                <ItemRender title='Sent' info={x && x.amount} />
+                <ItemRender
+                    title='Sent'
+                    info={
+                        x && pathname.includes('sell')
+                            ? x.amount
+                            : numberUtils.formatUSD(x.amountUsd)
+                    }
+                />
                 <ItemRender
                     title='Buy price'
                     info={x && numberUtils.formatUSD(x.price)}
                 />
                 <ItemRender
                     title='Received'
-                    info={x && numberUtils.formatUSD(x?.amountUsd)}
+                    info={
+                        x && pathname.includes('buy')
+                            ? x.amount
+                            : numberUtils.formatUSD(x.amountUsd)
+                    }
                 />
                 <ItemRender title='Fee' info={x && x.fee} feeCustom />
             </div>

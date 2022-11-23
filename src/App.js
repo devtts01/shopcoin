@@ -12,6 +12,7 @@ function App() {
     const { state, dispatch } = useAppContext();
     const { currentUser } = state.set;
     const { del, cre, upd, error, success } = state.set.message;
+    const [scrollToTop, setScrollToTop] = React.useState(false);
     const Routers = currentUser ? privateRouter : publicRouter;
     const history = useNavigate();
     const handleCloseAlert = () => {
@@ -22,8 +23,16 @@ function App() {
             handleCloseAlert();
         }, 5000);
     }
-
     useEffect(() => {
+        const handleScrollToTop = () => {
+            const heightY = window.scrollY;
+            if (heightY > 100) {
+                setScrollToTop(true);
+            } else {
+                setScrollToTop(false);
+            }
+        };
+        window.addEventListener('scroll', handleScrollToTop);
         if (currentUser) {
             dispatch(
                 actions.setData({
@@ -60,6 +69,16 @@ function App() {
                         );
                     })}
                 </Routes>
+                {scrollToTop && (
+                    <div
+                        className='scroll-to-top-container'
+                        onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                    >
+                        <i className='fa-solid fa-arrow-up'></i>
+                    </div>
+                )}
             </div>
             <div
                 className='noSupport'

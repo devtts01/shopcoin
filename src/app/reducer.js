@@ -6,7 +6,6 @@ const userStore = localStoreUtils.getStore();
 const initialState = {
     set: {
         currentUser: userStore,
-        adminRole: null,
         accountMenu: null,
         statusCurrent: '',
         statusUpdate: '',

@@ -29,6 +29,7 @@ function Dashboard() {
         totalDeposit,
         totalWithdraw,
         totalBalance,
+        totalCommission,
         dataUserBalance,
         data: { dataDashboard },
         searchValues: { dateFrom, dateTo, dashboard, userBalance },
@@ -249,7 +250,7 @@ function Dashboard() {
                     />
                     <ChartItem
                         title='Commission'
-                        value={numberUtils.formatUSD(100000)}
+                        value={numberUtils.formatUSD(totalCommission)}
                     />
                 </div>
             </div>
