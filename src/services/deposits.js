@@ -32,7 +32,6 @@ export const SVcreateDeposits = async (props = {}) => {
     bankAdmin: props?.bankAdmin,
     token: props?.token,
   });
-  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);

@@ -64,7 +64,7 @@ export default function SingleDeposits({navigation, route}) {
       id: data?._id,
       image: dataImageForm,
       bankAdmin: bankAdmin,
-      email: currentUser.email,
+      email: currentUser?.email,
       dispatch,
       getAllDeposits,
       setLoading,
