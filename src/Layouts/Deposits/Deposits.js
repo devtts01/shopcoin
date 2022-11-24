@@ -45,7 +45,7 @@ function Deposits() {
 
     const { modalStatus, modalDelete } = state.toggle;
     useEffect(() => {
-        document.title = 'Deposits | Shop Coin';
+        document.title = `Deposits | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getDeposits({ page, show, dispatch, state, actions });

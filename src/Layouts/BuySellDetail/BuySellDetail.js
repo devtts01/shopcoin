@@ -27,7 +27,7 @@ function BuySellDetail() {
         // data: { dataUser },
     } = state.set;
     useEffect(() => {
-        document.title = 'Detail | Shop Coin';
+        document.title = `Detail | ${process.env.REACT_APP_TITLE_WEB}`;
         getBuySellById({ idBuy, idSell, dispatch, state, actions });
     }, []);
     function ItemRender({ title, info, feeCustom }) {

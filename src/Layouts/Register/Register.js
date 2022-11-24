@@ -15,7 +15,7 @@ function Register() {
     const [isProcess, setIsProcess] = useState(false);
     const history = useNavigate();
     useEffect(() => {
-        document.title = 'Register | Shop Coin';
+        document.title = `Register | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -72,7 +72,9 @@ function Register() {
             );
         }
     };
-
+    const onEnter = (e) => {
+        handleRegister(e);
+    };
     return (
         <Form
             titleForm='Register account'
@@ -84,6 +86,7 @@ function Register() {
             registerForm
             className={cx('form-page-login')}
             isProcess={isProcess}
+            onEnter={onEnter}
         />
     );
 }

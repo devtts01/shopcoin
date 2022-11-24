@@ -122,12 +122,28 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
                 })
             );
             return props.data;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }
 };
-// CHANGE PASSWORD USER BY ID
-export const changePassword = async (props = {}) => {};
 // DELETE USERS
 export const handleDelete = async (props = {}) => {
     const resDel = await axiosUtils.adminDelete(`/deleteUser/${props.id}`, {
@@ -249,6 +265,24 @@ export const changePasswordUser = async (props = {}) => {
                 })
             );
             break;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }
@@ -280,6 +314,24 @@ export const refreshPasswordUser = async (props = {}) => {
                 })
             );
             break;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }
@@ -294,7 +346,6 @@ export const blockUser = async (props = {}) => {
         blockUser: props.blockUser,
         token: props.data?.token,
     });
-    console.log(resPut);
     switch (resPut.code) {
         case 0:
             const process = await axiosUtils.adminGet(`/getUser/${props.id}`);
@@ -310,6 +361,24 @@ export const blockUser = async (props = {}) => {
                         ...props.state.set.message,
                         upd: resPut.message,
                     },
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
                 })
             );
             break;
@@ -342,6 +411,24 @@ export const unblockUser = async (props = {}) => {
                         ...props.state.set.message,
                         upd: resPut.message,
                     },
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
                 })
             );
             break;

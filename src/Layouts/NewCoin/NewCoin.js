@@ -68,9 +68,9 @@ function NewCoin() {
     const refLogo = useRef();
     const history = useNavigate();
     useEffect(() => {
-        document.title = `${
-            edit.itemData ? 'Update Coin' : 'Create Coin'
-        } | Shop Coin`;
+        document.title = `${edit.itemData ? 'Update Coin' : 'Create Coin'} | ${
+            process.env.REACT_APP_TITLE_WEB
+        }`;
     });
     useEffect(() => {
         getUsers({ dispatch, state, actions, page, show });

@@ -36,7 +36,7 @@ function SettingCoin() {
     } = state.set;
     const { modalDelete } = state.toggle;
     useEffect(() => {
-        document.title = 'Coins | Shop Coin';
+        document.title = `Coins | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getCoins({ dispatch, state, actions, page, show });

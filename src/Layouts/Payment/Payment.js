@@ -66,7 +66,7 @@ function Payment() {
     const refRateDepositUpdate = useRef();
     const refRateWidthdrawUpdate = useRef();
     useEffect(() => {
-        document.title = 'Payment | Shop Coin';
+        document.title = `Payment | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getPayments({ dispatch, state, actions, page, show });

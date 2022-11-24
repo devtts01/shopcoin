@@ -70,7 +70,7 @@ function UserDetail() {
         setDataCoin(res.data);
     };
     useEffect(() => {
-        document.title = 'Detail | Shop Coin';
+        document.title = `Detail | ${process.env.REACT_APP_TITLE_WEB}`;
         getUserById({ idUser, dispatch, state, actions });
     }, []);
     useEffect(() => {

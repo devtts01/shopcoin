@@ -25,7 +25,7 @@ function DepositsWithdrawDetail() {
     const location = useLocation();
     const { edit } = state.set;
     useEffect(() => {
-        document.title = 'Detail | Shop Coin';
+        document.title = `Detail | ${process.env.REACT_APP_TITLE_WEB}`;
         getDepositsWithdrawById({
             idDeposits,
             idWithdraw,

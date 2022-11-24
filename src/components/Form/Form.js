@@ -15,6 +15,7 @@ function Form({
     titleForm,
     textBtn,
     onClick,
+    onEnter,
     disabled,
     bolUsername,
     bolEmail,
@@ -69,6 +70,7 @@ function Form({
                             value={username}
                             name='username'
                             onChange={handleChange}
+                            onEnter={onEnter}
                         />
                     )}
                     {bolEmail && (
@@ -80,6 +82,7 @@ function Form({
                             value={email}
                             name='email'
                             onChange={handleChange}
+                            onEnter={onEnter}
                         />
                     )}
                     {bolPassword && (
@@ -92,6 +95,7 @@ function Form({
                             name='password'
                             onChange={handleChange}
                             showPwd
+                            onEnter={onEnter}
                         />
                     )}
                     {children}

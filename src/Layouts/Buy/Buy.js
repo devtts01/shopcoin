@@ -47,7 +47,7 @@ function Buy() {
     const { modalStatus, modalDelete } = state.toggle;
 
     useEffect(() => {
-        document.title = 'Buy | Shop Coin';
+        document.title = `Buy | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getBuys({ page, show, dispatch, state, actions });

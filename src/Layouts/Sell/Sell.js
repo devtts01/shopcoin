@@ -49,7 +49,7 @@ function Sell() {
     } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
     useEffect(() => {
-        document.title = 'Sell | Shop Coin';
+        document.title = `Sell | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getSells({ page, show, dispatch, state, actions });

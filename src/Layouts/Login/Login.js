@@ -15,7 +15,7 @@ function Login() {
     const [isProcess, setIsProcess] = useState(false);
     const history = useNavigate();
     useEffect(() => {
-        document.title = 'Login | Shop Coin';
+        document.title = `Login | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -78,6 +78,9 @@ function Login() {
             );
         }
     };
+    const onEnter = (e) => {
+        handleLogin(e);
+    };
     return (
         <Form
             titleForm='Log in your account'
@@ -88,6 +91,7 @@ function Login() {
             loginForm
             className={cx('form-page-login')}
             isProcess={isProcess}
+            onEnter={onEnter}
         >
             <Link
                 to={routers.forgotPwd}

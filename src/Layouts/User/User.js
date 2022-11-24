@@ -42,7 +42,7 @@ function User() {
     } = state.set;
     const { modalDelete, modalStatus } = state.toggle;
     useEffect(() => {
-        document.title = 'User | Shop Coin';
+        document.title = `User | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getUsers({ page, show, dispatch, state, actions });

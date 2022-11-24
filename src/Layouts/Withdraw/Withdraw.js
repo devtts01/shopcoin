@@ -44,7 +44,7 @@ function Withdraw() {
     } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
     useEffect(() => {
-        document.title = 'Withdraw | Shop Coin';
+        document.title = `Withdraw | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getWithdraws({ page, show, dispatch, state, actions });

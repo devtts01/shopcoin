@@ -7,7 +7,7 @@ const cx = className.bind(styles);
 
 function ForgotPwd() {
     useEffect(() => {
-        document.title = 'Forgot Password | Shop Coin';
+        document.title = `Forgot Password | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     const handleForgot = async (e) => {
         e.preventDefault();
@@ -16,6 +16,9 @@ function ForgotPwd() {
         } catch (error) {
             console.log(error);
         }
+    };
+    const onEnter = (e) => {
+        handleForgot(e);
     };
 
     return (
@@ -26,6 +29,7 @@ function ForgotPwd() {
             bolEmail
             forgotPwdForm
             className={cx('form-page-login')}
+            onEnter={onEnter}
         />
     );
 }

@@ -36,7 +36,7 @@ function Dashboard() {
         pagination: { page, show },
     } = state.set;
     useEffect(() => {
-        document.title = 'Dashboard | Shop Coin';
+        document.title = `Dashboard | ${process.env.REACT_APP_TITLE_WEB}`;
         SVtotal({
             state,
             dispatch,

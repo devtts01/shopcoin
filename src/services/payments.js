@@ -91,6 +91,7 @@ export const handleCreate = async (props = {}) => {
             );
             return props.data;
         case 1:
+        case 2:
             props.dispatch(
                 props.actions.setData({
                     ...props.state.set,
@@ -98,6 +99,12 @@ export const handleCreate = async (props = {}) => {
                         ...props.state.set.message,
                         error: resPost.message,
                     },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
                 })
             );
             break;
@@ -129,6 +136,24 @@ export const handleUpdate = async (props = {}) => {
                 resPut.message
             );
             return props.data;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }
@@ -155,6 +180,24 @@ export const handleUpdateType = async (props = {}) => {
                 resPut.message
             );
             return props.data;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }
@@ -181,6 +224,24 @@ export const handleDelete = async (props = {}) => {
                 resDel.message
             );
             return props.data;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resDel.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }
@@ -206,6 +267,24 @@ export const SVupdateRate = async (props = {}) => {
                 resPut.message
             );
             return props.data;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }
