@@ -44,13 +44,13 @@ function Withdraw() {
     } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
     useEffect(() => {
-        document.title = 'Withdraw | Shop Coin Transactions';
+        document.title = `Withdraw | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getWithdraws({ page, show, dispatch, state, actions });
     }, [page, show]);
     let dataWithdrawFlag = searchWithdraw({
-        dataWithdraw: dataWithdraw.data,
+        dataWithdraw: dataWithdraw?.data?.withdraws,
         withdraw,
     });
     // Modal
@@ -139,7 +139,7 @@ function Withdraw() {
                             number: numberUtils.formatVND(item?.amountVnd),
                         },
                     };
-                    const username = dataUser?.data?.find(
+                    const username = dataUser?.data?.users?.find(
                         (x) => x?.payment.email === item.user
                     )?.payment.username;
                     const infoUser = {
@@ -192,7 +192,7 @@ function Withdraw() {
                 nameSearch='withdraw'
                 dataFlag={dataWithdrawFlag}
                 dataHeaders={DataWithdraws(Icons).headers}
-                totalData={dataWithdraw.total}
+                totalData={dataWithdraw?.data?.total}
             >
                 <RenderBodyTable data={dataWithdrawFlag} />
             </General>

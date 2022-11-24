@@ -8,24 +8,71 @@ export const SVtotal = async (props = {}) => {
                   to: props.toDate,
               }
             : {};
-    const resPostDeposit = await axiosUtils.adminGet(
+    const resPostDeposit = await axiosUtils.adminPost(
         '/totalDeposit',
         objectBody
     );
-    const resPostWithdraw = await axiosUtils.adminGet(
+    const resPostWithdraw = await axiosUtils.adminPost(
         '/totalWithdraw',
         objectBody
     );
-    const resPostBalance = await axiosUtils.adminGet('/totalBalance', {});
-    console.log(resPostBalance);
-    // const resPostCommission = await axiosUtils.adminGet('/Commission', {});
+    const resPostBalance = await axiosUtils.adminPost('/totalBalance', {});
+    const resGetCommission = await axiosUtils.adminGet('/getCommission', {});
     props.dispatch(
         props.actions.setData({
-            totalDeposit: resPostDeposit.data,
-            totalWithdraw: resPostWithdraw.data,
-            totalBalance: resPostBalance.data.total,
-            // totalCommission: resPostCommission.data.commission,
-            dataUserBalance: resPostBalance.data,
+            totalDeposit: resPostDeposit?.data,
+            totalWithdraw: resPostWithdraw?.data,
+            totalBalance: resPostBalance?.data?.total,
+            totalCommission: resGetCommission?.data?.commission,
+            dataUserBalance: resPostBalance?.data,
         })
     );
+};
+// UPDATE ALL RATE
+export const SVupdateRate = async (props = {}) => {
+    const resPut = await axiosUtils.adminPut('/updateRateBuySell', {
+        percent: props.rate,
+        token: props?.token,
+    });
+    switch (resPut.code) {
+        case 0:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        upd: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    alertModal: true,
+                    modalDelete: false,
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    alertModal: true,
+                    modalDelete: false,
+                })
+            );
+            break;
+        default:
+            break;
+    }
 };

@@ -13,7 +13,7 @@ function Header() {
         <div className={`${cx('header-container')}`}>
             <Link to={routers.home}>
                 <Image
-                    src='/images/header-logo.png'
+                    src='/images/header-logo01.png'
                     alt='header_logo'
                     className={`${cx('header-logo')}`}
                 />

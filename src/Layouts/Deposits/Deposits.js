@@ -45,14 +45,14 @@ function Deposits() {
 
     const { modalStatus, modalDelete } = state.toggle;
     useEffect(() => {
-        document.title = 'Deposits | Shop Coin Transactions';
+        document.title = `Deposits | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getDeposits({ page, show, dispatch, state, actions });
     }, [page, show]);
     let dataDepositsFlag = searchDeposits({
         deposits,
-        dataDeposits: dataDeposits.data,
+        dataDeposits: dataDeposits?.data?.deposits,
     });
     // Modal
     const toggleEditTrue = async (e, status, id) => {
@@ -144,7 +144,7 @@ function Deposits() {
                             number: numberUtils.formatUSD(item?.amountUsd),
                         },
                     };
-                    const username = dataUser?.data?.find(
+                    const username = dataUser?.data?.users?.find(
                         (x) => x?.payment.email === item.user
                     )?.payment.username;
                     const infoUser = {
@@ -197,7 +197,7 @@ function Deposits() {
                 nameSearch='deposits'
                 dataFlag={dataDepositsFlag}
                 dataHeaders={DataDeposits(Icons).headers}
-                totalData={dataDeposits.total}
+                totalData={dataDeposits?.data?.total}
             >
                 <RenderBodyTable data={dataDepositsFlag} />
             </General>

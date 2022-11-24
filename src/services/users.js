@@ -75,17 +75,6 @@ export const checkErrorUsers = (props = {}) => {
 };
 // EDIT RANK USER
 export const handleUpdateRankFeeUser = async (props = {}) => {
-    // const object = props.fee
-    //     ? {
-    //           fee: props.fee,
-    //           token: props.data?.token,
-    //       }
-    //     : {
-    //           rank:
-    //               props.statusUpdate.toUpperCase() ||
-    //               props.statusCurrent.toUpperCase(),
-    //           token: props.data?.token,
-    //       };
     const resPut = await axiosUtils.adminPut(`/updateRankUser/${props.id}`, {
         rank:
             props.statusUpdate.toUpperCase() ||
@@ -95,7 +84,7 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `/getAllUser?page=${props.page}&show=${props.show}`
+                `/getAllUsers?page=${props.page}&show=${props.show}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -119,11 +108,28 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
                 })
             );
             return props.data;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }
 };
-
 // DELETE USERS
 export const handleDelete = async (props = {}) => {
     const resDel = await axiosUtils.adminDelete(`/deleteUser/${props.id}`, {
@@ -145,8 +151,8 @@ export const handleDelete = async (props = {}) => {
 };
 // CHANG PASSWORD USER BY ID
 export const changePasswordUser = async (props = {}) => {
-    const resPut = await axiosUtils.adminPut(`/changePWDForUser/${props.id}`, {
-        pwd: props.password,
+    const resPut = await axiosUtils.adminPut(`/changePWD/${props.id}`, {
+        newPWD: props.password,
         token: props.data?.token,
     });
     switch (resPut.code) {
@@ -163,6 +169,24 @@ export const changePasswordUser = async (props = {}) => {
                     message: {
                         ...props.state.set.message,
                         upd: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
                     },
                 })
             );
@@ -204,6 +228,18 @@ export const refreshPasswordUser = async (props = {}) => {
                 })
             );
             break;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            break;
         default:
             break;
     }
@@ -232,6 +268,18 @@ export const blockAndUnblockUser = async (props = {}) => {
                     message: {
                         ...props.state.set.message,
                         upd: resPut.message,
+                    },
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
                     },
                 })
             );

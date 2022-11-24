@@ -9,7 +9,7 @@
 }
 
 .search-container:hover {
-    box-shadow: 0 0 0 1.3px rgba(255, 193, 0, 0.25);
+    box-shadow: 0 0 0 1.3px var(--boxShadow-input-color);
 }
 
 .search-icon {

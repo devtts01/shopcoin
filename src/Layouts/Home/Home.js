@@ -8,7 +8,7 @@ const cx = className.bind(styles);
 
 function Home() {
     useEffect(() => {
-        document.title = 'Home | Shop Coin Transactions';
+        document.title = `Home | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     return (
         <div className={`${cx('home-container')}`}>

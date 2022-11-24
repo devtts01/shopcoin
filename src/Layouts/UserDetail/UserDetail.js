@@ -43,7 +43,7 @@ function UserDetail() {
     const { modalDelete } = state.toggle;
     const x = edit?.itemData && edit?.itemData;
     useEffect(() => {
-        document.title = 'Detail | Shop Coin Transactions';
+        document.title = `Detail | ${process.env.REACT_APP_TITLE_WEB}`;
         getUserById({ idUser, dispatch, state, actions });
     }, []);
     const changeInput = (e) => {

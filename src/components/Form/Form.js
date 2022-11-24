@@ -15,6 +15,7 @@ function Form({
     titleForm,
     textBtn,
     onClick,
+    onEnter,
     disabled,
     bolUsername,
     bolEmail,
@@ -40,13 +41,13 @@ function Form({
         <div
             className={classed}
             style={{
-                backgroundImage: 'url(/images/bg-login.png)',
+                backgroundImage: 'url(/images/bg-login01.png)',
             }}
         >
             <div className={`${cx('form-container-main')}`}>
                 <div className={`${cx('form-login')}`}>
                     <Image
-                        src='/images/header-logo.png'
+                        src='/images/header-logo01.png'
                         alt='login-logo'
                         className={`${cx('form-logo')}`}
                     />
@@ -69,6 +70,7 @@ function Form({
                             value={username}
                             name='username'
                             onChange={handleChange}
+                            onEnter={onEnter}
                         />
                     )}
                     {bolEmail && (
@@ -80,6 +82,7 @@ function Form({
                             value={email}
                             name='email'
                             onChange={handleChange}
+                            onEnter={onEnter}
                         />
                     )}
                     {bolPassword && (
@@ -92,6 +95,7 @@ function Form({
                             name='password'
                             onChange={handleChange}
                             showPwd
+                            onEnter={onEnter}
                         />
                     )}
                     {children}

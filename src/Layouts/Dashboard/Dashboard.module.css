@@ -1,8 +1,8 @@
-.general-top {
+/* .general-top {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-}
+} */
 
 .general-button {
     text-transform: capitalize;
@@ -42,8 +42,8 @@
     margin: var(--spacing);
     padding: 12px 8px;
     border-radius: 12px;
-    border: 1px solid var(--table-status-onhold-color);
-    background-color: var(--table-status-onhold-bgc);
+    border: 1px solid var(--color-primary);
+    background-color: var(--table-status-complete-bgc);
     text-align: center;
     font-size: 18px;
 }

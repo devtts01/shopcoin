@@ -42,13 +42,13 @@ function User() {
     } = state.set;
     const { modalDelete, modalStatus } = state.toggle;
     useEffect(() => {
-        document.title = 'User | Shop Coin Transactions';
+        document.title = `User | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     useEffect(() => {
         getUsers({ page, show, dispatch, state, actions });
     }, [page, show]);
     //Search Data Users
-    let dataUserFlag = searchUsers({ dataUser: dataUser.data, user });
+    let dataUserFlag = searchUsers({ dataUser: dataUser?.data?.users, user });
     const toggleEditTrue = async (e, status, id) => {
         await localStoreUtils.setStore({
             ...currentUser,
@@ -182,7 +182,7 @@ function User() {
                 nameSearch='user'
                 dataFlag={dataUserFlag}
                 dataHeaders={headers}
-                totalData={dataUser.total}
+                totalData={dataUser?.data?.total}
             >
                 <RenderBodyTable data={dataUserFlag} />
             </General>

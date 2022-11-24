@@ -10,7 +10,7 @@ export const getDeposits = async (props = {}) => {
     const processDeposits = await axiosUtils.adminGet(
         `/getAllDeposit?page=${props.page}&show=${props.show}`
     );
-    const processUser = await axiosUtils.adminGet('/getAllUser');
+    const processUser = await axiosUtils.adminGet('/getAllUsers');
     props.dispatch(
         props.actions.setData({
             ...props.state.set,
@@ -47,7 +47,6 @@ export const getDepositsWithdrawById = async (props = {}) => {
         );
     }
 };
-
 // CHECK ERROR ACTIONS
 export const checkErrorDeposits = (props = {}) => {
     return props.dispatch(
@@ -95,6 +94,24 @@ export const handleEdit = async (props = {}) => {
                 resPut.message
             );
             return props.data;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }

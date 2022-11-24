@@ -10,7 +10,7 @@ export const getWithdraws = async (props = {}) => {
     const processWithdraws = await axiosUtils.adminGet(
         `/getAllWithdraw?page=${props.page}&show=${props.show}`
     );
-    const processUser = await axiosUtils.adminGet('/getAllUser');
+    const processUser = await axiosUtils.adminGet('/getAllUsers');
     props.dispatch(
         props.actions.setData({
             ...props.state.set,
@@ -69,6 +69,24 @@ export const handleEdit = async (props = {}) => {
                 resPut.message
             );
             return props.data;
+        case 1:
+        case 2:
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    message: {
+                        ...props.state.set.message,
+                        error: resPut.message,
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                })
+            );
+            break;
         default:
             break;
     }

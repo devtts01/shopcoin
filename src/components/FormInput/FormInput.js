@@ -19,6 +19,7 @@ const FormInput = forwardRef(
             onChange,
             name,
             readOnly,
+            onEnter,
         },
         ref
     ) => {
@@ -46,6 +47,11 @@ const FormInput = forwardRef(
                         onChange={onChange}
                         name={name}
                         readOnly={readOnly}
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                onEnter(e);
+                            }
+                        }}
                     />
                     {showPwd && (
                         <span
