@@ -9,6 +9,8 @@ export {default as UploadDoument} from './UploadDoument/UploadDoument';
 export {default as CreateWithdraw} from './CreateWithdraw/CreateWithdraw';
 export {default as ProfilePayment} from './ProfilePayment/ProfilePayment';
 export {default as SingleWithdraw} from './SingleWithdraw/SingleWithdraw';
+export {default as History} from './BuyHistory/BuyHistory';
+export {default as SellHistory} from './SellHistory/SellHistory';
 export {default as ChangePwd} from './ChangePwd/ChangePwd';
 export {default as Contact} from './Contact/Contact';
 export {default as ResetPwd} from './ResetPwd/ResetPwd';

@@ -15,7 +15,7 @@ import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
 import {formatUSDT, formatVND, precisionRound} from '../../utils/format/Money';
 import {setFormWithdraw} from '../../app/payloads/form';
-import {getUserById, getRate} from '../../app/payloads/getById';
+import {getUserById, getRateWithdraw} from '../../app/payloads/getById';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {FormInput, ModalLoading} from '../../components';
 import {SVgetUserById} from '../../services/user';
@@ -26,14 +26,14 @@ import styles from './CreateWithdrawCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateWithdraw} from '../../services/withdraw';
-import {SVgetRate} from '../../services/rate';
+import {SVgetRateWithdraw} from '../../services/rate';
 
 export default function CreateWithdraw({navigation}) {
   const {state, dispatch} = useAppContext();
   const [error, setError] = useState('');
   const {
     currentUser,
-    rate,
+    rateWithdraw,
     withdraw: {amountUSDT},
     userById,
     rateDepositWithdraw,
@@ -45,6 +45,15 @@ export default function CreateWithdraw({navigation}) {
   };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    SVgetUserById({
+      id: currentUser?.id,
+      dispatch,
+      getUserById,
+    });
+    SVgetRateWithdraw({
+      dispatch,
+      getRateWithdraw,
+    });
     dispatch(
       setFormWithdraw({
         ...state.withdraw,
@@ -59,9 +68,9 @@ export default function CreateWithdraw({navigation}) {
       dispatch,
       getUserById,
     });
-    SVgetRate({
+    SVgetRateWithdraw({
       dispatch,
-      getRate,
+      getRateWithdraw,
     });
   }, []);
   const handleChange = (name, val) => {
@@ -74,7 +83,7 @@ export default function CreateWithdraw({navigation}) {
   const createWithdrawAPI = data => {
     SVcreateWithdraw({
       amountUSD: parseFloat(amountUSDT),
-      amountVnd: precisionRound(amountUSDT * rate?.sell),
+      amountVnd: precisionRound(amountUSDT * rateWithdraw),
       id: currentUser?.id,
       setLoading,
       dispatch,
@@ -103,6 +112,19 @@ export default function CreateWithdraw({navigation}) {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
+      <View style={[styles.header_container]}>
+        <Text style={[styles.title, stylesGeneral.text_black]}>
+          Create Withdraw
+        </Text>
+        <Text
+          style={[
+            stylesGeneral.fz16,
+            stylesStatus.cancel,
+            stylesGeneral.fwbold,
+          ]}>
+          Rate (VCB): {formatVND(rateWithdraw)}
+        </Text>
+      </View>
       <View style={[styles.container]}>
         {!userById?.payment?.username ||
         !userById?.payment?.bank?.bankName ||
@@ -202,7 +224,7 @@ export default function CreateWithdraw({navigation}) {
                 </Text>
               </View>
             )}
-            {amountUSDT * rate?.sell > 0 && (
+            {amountUSDT * rateWithdraw > 0 && (
               <View style={[styles.info_detail, stylesGeneral.mb10]}>
                 <Text
                   style={[
@@ -211,7 +233,7 @@ export default function CreateWithdraw({navigation}) {
                     stylesStatus.complete,
                     stylesGeneral.fz16,
                   ]}>
-                  Receive (VND): {formatVND(amountUSDT * rate?.sell)}
+                  Receive (VND): {formatVND(amountUSDT * rateWithdraw)}
                 </Text>
               </View>
             )}

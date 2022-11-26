@@ -6,9 +6,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 12,
   },
+  header_container: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
   title: {
     fontSize: 22,
-    marginBottom: 24,
     fontWeight: 'bold',
   },
   btn_submit: {

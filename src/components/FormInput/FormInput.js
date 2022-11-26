@@ -53,7 +53,7 @@ const FormInput = (
           onChangeText={onChangeText}
           onChange={onChange}
           value={value}
-          cursorColor="#ffab00"
+          cursorColor="#4CAF50"
         />
         {(icon || color) && (
           <View style={[styles.icon]}>

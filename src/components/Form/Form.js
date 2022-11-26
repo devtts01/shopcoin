@@ -19,8 +19,8 @@ import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 
 const Form = ({
-  uriBgc = require('../../assets/images/bg-login.png'),
-  uriLogo = require('../../assets/images/header-logo.png'),
+  uriBgc = require('../../assets/images/bg-login01.png'),
+  uriLogo = require('../../assets/images/header-logo01.png'),
   titleForm,
   textBtn,
   bolUsername,

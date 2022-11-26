@@ -14,6 +14,8 @@ import {
   SET_PRICE_COIN_SOCKET,
   SET_RATE_VALUE,
   SET_RATE_DEPOSIT_WITHDRAW_VALUE,
+  SET_RATE_DEPOSIT_VALUE,
+  SET_RATE_WITHDRAW_VALUE,
   SET_AMOUNT_USDT,
   GET_ALL_COIN,
   GET_ALL_PAYMENT_ADMIN,
@@ -25,6 +27,8 @@ import {
   GET_PAYMENT_ADMIN_BY_ID,
   GET_BY_SYMBOL,
   GET_USER_BY_ID,
+  GET_HISTORY_BUY,
+  GET_HISTORY_SELL,
   SET_USER_BY_ID_EMAIL,
 } from './actions';
 
@@ -38,6 +42,8 @@ const initialState = {
   tokenForgot: null,
   priceCoinSocket: null,
   rate: '',
+  rateDeposit: '',
+  rateWithdraw: '',
   rateDepositWithdraw: null,
   dataPaymentAdmin: null,
   paymentAdminById: null,
@@ -80,6 +86,7 @@ const initialState = {
     dataById: null,
     dataBySymbol: null,
   },
+  history: {dataBuyHistory: [], dataSellHistory: []},
 };
 
 const reducer = (state, action) => {
@@ -98,6 +105,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         rateDepositWithdraw: action.payload,
+      };
+    case SET_RATE_DEPOSIT_VALUE:
+      return {
+        ...state,
+        rateDeposit: action.payload,
+      };
+    case SET_RATE_WITHDRAW_VALUE:
+      return {
+        ...state,
+        rateWithdraw: action.payload,
       };
     case SET_FORM:
       return {
@@ -235,6 +252,22 @@ const reducer = (state, action) => {
         data: {
           ...state.data,
           dataWithdraws: action.payload,
+        },
+      };
+    case GET_HISTORY_BUY:
+      return {
+        ...state,
+        history: {
+          ...state.history,
+          dataBuyHistory: action.payload,
+        },
+      };
+    case GET_HISTORY_SELL:
+      return {
+        ...state,
+        history: {
+          ...state.history,
+          dataSellHistory: action.payload,
         },
       };
     default:

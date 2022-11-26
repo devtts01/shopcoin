@@ -1,119 +1,127 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-import React, {useEffect, useState} from 'react';
-import {View, RefreshControl, FlatList, Platform} from 'react-native';
+import React, {useEffect} from 'react';
+import {RefreshControl, Text, TouchableOpacity, View} from 'react-native';
 import {useAppContext} from '../../utils';
-import {getAllCoins} from '../../app/payloads/getAll';
-import {setSearchValue} from '../../app/payloads/search';
-import {Search, Header, CoinDetail, NodataText} from '../../components';
-import {SVgetAllCoins} from '../../services/coin';
+import {DataTable} from 'react-native-paper';
+import {Header} from '../../components';
+import {
+  getRate,
+  getRateDeposit,
+  getRateWithdraw,
+} from '../../app/payloads/getById';
 import styles from './HomeCss';
 import {getAsyncStore} from '../../utils/localStore/localStore';
+import {
+  SVgetRate,
+  SVgetRateDeposit,
+  SVgetRateWithdraw,
+} from '../../services/rate';
+import stylesGeneral from '../../styles/General';
+import {formatVND} from '../../utils/format/Money';
+import {routersMain} from '../../routers/Main';
+import {ScrollView} from 'native-base';
 
 const Home = ({navigation}) => {
   const {state, dispatch} = useAppContext();
-  const {
-    search,
-    data: {dataCoins},
-  } = state;
+  const {rateDeposit, rateWithdraw} = state;
   const [refreshing, setRefreshing] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [page, setPage] = useState(1);
-  const [show, setShow] = useState(dataCoins?.total || 10);
   useEffect(() => {
     getAsyncStore(dispatch);
+    SVgetRateDeposit({
+      dispatch,
+      getRateDeposit,
+    });
+    SVgetRateWithdraw({
+      dispatch,
+      getRateWithdraw,
+    });
   }, []);
-  // useEffect(() => {
-  //   SVgetAllCoins({
-  //     page,
-  //     show: dataCoins?.total,
-  //     dispatch,
-  //     getAllCoins,
-  //   });
-  // }, [page, show]);
-  // let data = dataCoins?.data || [];
-  // if (search) {
-  //   data = data.filter(item => {
-  //     return item?.symbol?.toLowerCase().includes(search?.toLowerCase());
-  //   });
-  // }
-  // let stopLoadingData = true;
-  // const wait = timeout => {
-  //   return new Promise(resolve => setTimeout(resolve, timeout));
-  // };
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   SVgetAllCoins({
-  //     page,
-  //     show: dataCoins?.total,
-  //     dispatch,
-  //     getAllCoins,
-  //   });
-  //   wait(2000).then(() => {
-  //     setRefreshing(false);
-  //   });
-  // }, []);
-  // const handleEndReached = async () => {
-  //   setLoading(true);
-  //   if (!stopLoadingData) {
-  //     await 1;
-  //     setShow(dataCoins?.total);
-  //     SVgetAllCoins({
-  //       page,
-  //       show: dataCoins?.total,
-  //       dispatch,
-  //       getAllCoins,
-  //     });
-  //     stopLoadingData = true;
-  //   }
-  //   setLoading(false);
-  // };
-  // const renderItem = ({item}) => {
-  //   return <CoinDetail item={item} navigation={navigation} />;
-  // };
-  // const handleChangeSearch = (name, val) => {
-  //   dispatch(setSearchValue(val));
-  // };
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getAsyncStore(dispatch);
+    SVgetRateDeposit({
+      dispatch,
+      getRateDeposit,
+    });
+    SVgetRateWithdraw({
+      dispatch,
+      getRateWithdraw,
+    });
+    wait(2000).then(() => {
+      setRefreshing(false);
+    });
+  }, []);
   return (
-    <View style={[styles.container]}>
+    <ScrollView
+      style={[styles.container]}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <Header />
-      {/* <View>
-        <Search
-          name="search"
-          // value={search}
-          onChange={handleChangeSearch}
-        />
+      <View style={[styles.tables]}>
+        <DataTable>
+          <DataTable.Header>
+            <DataTable.Title style={[stylesGeneral.text_black]}>
+              Actions
+            </DataTable.Title>
+            <DataTable.Title numeric style={[stylesGeneral.text_black]}>
+              Rate (VCB)
+            </DataTable.Title>
+            <DataTable.Title numeric></DataTable.Title>
+          </DataTable.Header>
+
+          <DataTable.Row>
+            <DataTable.Cell style={[stylesGeneral.text_black]}>
+              Deposit
+            </DataTable.Cell>
+            <DataTable.Cell numeric style={[stylesGeneral.text_black]}>
+              {formatVND(rateDeposit)}
+            </DataTable.Cell>
+            <DataTable.Cell numeric>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(routersMain.CreateDeposits);
+                }}
+                activeOpacity={0.6}
+                style={[styles.btn_container, styles.btn_buy]}>
+                <Text style={[styles.btn_text]}>Buy</Text>
+              </TouchableOpacity>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row>
+            <DataTable.Cell style={[stylesGeneral.text_black]}>
+              Withdraw
+            </DataTable.Cell>
+            <DataTable.Cell numeric style={[stylesGeneral.text_black]}>
+              {formatVND(rateWithdraw)}
+            </DataTable.Cell>
+            <DataTable.Cell numeric>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(routersMain.CreateWithdraw);
+                }}
+                activeOpacity={0.6}
+                style={[styles.btn_container, styles.btn_sell]}>
+                <Text style={[styles.btn_text]}>Sell</Text>
+              </TouchableOpacity>
+            </DataTable.Cell>
+          </DataTable.Row>
+        </DataTable>
       </View>
-      <View
-        style={
-          ([styles.listCoin], {marginBottom: Platform.OS === 'ios' ? 130 : 145})
-        }>
-        {data.length > 0 ? (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            onEndReached={handleEndReached}
-            onScroll={handleEndReached}
-            onEndReachedThreshold={0.5}
-            onScrollBeginDrag={() => (stopLoadingData = false)}
-            // contentContainerStyle={{flex: 1}}
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItem}
-          />
-        ) : (
-          <NodataText text="No data" />
-        )}
-      </View> */}
-    </View>
+    </ScrollView>
   );
 };
 

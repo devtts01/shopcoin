@@ -143,7 +143,7 @@ export default function SingleDeposits({navigation, route}) {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={handleDocumentSelection}>
-            <View style={[styles.btn, stylesStatus.vipbgcbold]}>
+            <View style={[styles.btn, stylesStatus.primarybgcbold]}>
               <FontAwesome5
                 name="file-image"
                 size={25}

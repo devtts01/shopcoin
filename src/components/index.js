@@ -9,6 +9,7 @@ export {default as ModalLoading} from './ModalLoading/ModalLoading';
 export {default as CoinDetail} from './Home/CoinDetail';
 export {default as Skeleton} from './Skeleton/Skeleton';
 export {default as NodataText} from './NodataText/NodataText';
+export {default as BuySellHistoryDetail} from './BuySellHistory/BuySellHistoryDetail';
 export {default as ModalBank} from './ModalBank/ModalBank';
 export {default as RowDetail} from './RowDetail/RowDetail';
 export {default as ImageItemUpload} from './UploadDocument/ImageItemUpload';

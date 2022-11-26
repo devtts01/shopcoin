@@ -27,7 +27,7 @@ const stylesStatus = StyleSheet.create({
     color: '#d50000',
   },
   primary: {
-    color: '#ffc000',
+    color: '#4CAF50',
   },
   white: {
     color: 'white',
@@ -74,7 +74,7 @@ const stylesStatus = StyleSheet.create({
   },
   primarybgcbold: {
     color: '#fff',
-    backgroundColor: '#ffc000',
+    backgroundColor: '#4CAF50',
   },
 });
 

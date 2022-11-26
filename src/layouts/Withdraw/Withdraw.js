@@ -95,7 +95,7 @@ const Withdraw = ({navigation}) => {
       <View style={[styles.content]}>
         <Header />
         <TouchableOpacity
-          style={[styles.container_btn, stylesStatus.vipbgcbold]}
+          style={[styles.container_btn, stylesStatus.primarybgcbold]}
           onPress={() => navigation.navigate(routersMain.CreateWithdraw)}>
           <Text style={[styles.btn, stylesStatus.white]}>Create</Text>
         </TouchableOpacity>

@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import {Deposits, Home, Profile, Withdraw} from '../layouts';
+import {Home, History, Profile} from '../layouts';
 
 export const routers = {
   Home: 'Home',
+  History: 'History',
   Profile: 'Profile',
-  Deposits: 'Deposits',
-  Withdraw: 'Withdraw',
+  // Deposits: 'Deposits',
+  // Withdraw: 'Withdraw',
 };
 
 const RouterObject = [
@@ -17,16 +18,9 @@ const RouterObject = [
     size: null,
   },
   {
-    name: routers.Deposits,
-    component: Deposits,
-    icon: 'wallet',
-    color: null,
-    size: null,
-  },
-  {
-    name: routers.Withdraw,
-    component: Withdraw,
-    icon: 'money-check-alt',
+    name: routers.History,
+    component: History,
+    icon: 'history',
     color: null,
     size: null,
   },

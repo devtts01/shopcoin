@@ -113,7 +113,7 @@ const Deposits = ({navigation}) => {
     <View style={[styles.container]}>
       <Header />
       <View
-        style={[styles.container_btn, stylesStatus.vipbgcbold]}
+        style={[styles.container_btn, stylesStatus.primarybgcbold]}
         onTouchStart={() => navigation.navigate(routersMain.CreateDeposits)}>
         <Text style={[styles.btn, stylesStatus.white]}>Create</Text>
       </View>

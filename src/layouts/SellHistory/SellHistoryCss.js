@@ -6,48 +6,46 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 12,
     paddingVertical: 12,
+  },
+  btn_container: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  header_container: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    justifyContent: 'space-between',
     flexDirection: 'row',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
   },
   btn: {
-    width: '100%',
     paddingHorizontal: 12,
     paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-    borderRadius: 8,
+    borderRadius: 12,
+    backgroundColor: '#ededed',
+    marginHorizontal: 8,
   },
   btn_text: {
     fontWeight: 'bold',
-    fontSize: 17,
   },
-  info_withdraw_container: {
-    width: '100%',
-  },
-  info_detail: {
-    width: '100%',
-  },
-  info_detail_border: {
-    borderColor: '#ccc',
+  item: {
+    borderColor: '#d50000',
     borderWidth: 1,
-    borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 12,
+    borderRadius: 8,
+    marginVertical: 12,
   },
-  info_item: {
+  row: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  row_title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  row_desc: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  listItem: {
+    // flex: 1,
+    marginBottom: 50,
   },
 });
 

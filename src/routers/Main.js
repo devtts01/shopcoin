@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import {
-  BuyCoin,
   Contact,
   ChangePwd,
   CreateDeposits,
@@ -9,12 +8,12 @@ import {
   Login,
   ProfilePayment,
   Register,
-  SellCoin,
-  SellHistory,
   ResetPwd,
   SingleDeposits,
   SingleWithdraw,
   UploadDoument,
+  History,
+  SellHistory,
 } from '../layouts';
 import Routers from '../navigation/Routers';
 
@@ -31,6 +30,8 @@ export const routersMain = {
   Contact: 'Contact',
   ResetPwd: 'Reset Password',
   ChangePwd: 'Change Password',
+  BuyHistory: 'Deposits History',
+  SellHistory: 'Withdraw History',
   MainPage: 'MainPage',
 };
 const MainObject = [
@@ -92,6 +93,16 @@ const MainObject = [
   {
     name: routersMain.ChangePwd,
     component: ChangePwd,
+    options: 'custom',
+  },
+  {
+    name: routersMain.BuyHistory,
+    component: History,
+    options: 'custom',
+  },
+  {
+    name: routersMain.SellHistory,
+    component: SellHistory,
     options: 'custom',
   },
   {
