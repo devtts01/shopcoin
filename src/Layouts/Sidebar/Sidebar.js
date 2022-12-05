@@ -21,6 +21,11 @@ const LIST_SIDEBAR = [
         icon: <Icons.PaymentIcon className={`${cx('custom-icon')}`} />,
     },
     {
+        name: 'Rate',
+        path: routers.rate,
+        icon: <Icons.RateIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
         name: 'Settings Coin',
         path: routers.settingCoin,
         icon: <Icons.SettingIcon className={`${cx('custom-icon')}`} />,

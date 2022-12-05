@@ -48,6 +48,7 @@ const initialState = {
         dataUserBalance: [],
         data: {
             dataPayment: [],
+            dataRate: [],
             dataSettingCoin: [],
             dataDeposits: [],
             dataWithdraw: [],
@@ -63,6 +64,7 @@ const initialState = {
             dashboard: '',
             userBalance: '',
             payment: '',
+            rate: '',
             settingCoin: '',
             deposits: '',
             withdraw: '',

@@ -15,6 +15,7 @@ function ActionsTable({
     linkView,
     edit,
     view,
+    noDel,
     children,
 }) {
     return (
@@ -56,14 +57,16 @@ function ActionsTable({
                     ''
                 )}
             </div>
-            <div
-                className={`${cx('actions-item-container')}`}
-                onClick={onClickDel}
-            >
-                <div className={`${cx('actions-item')} cancelbgc`}>
-                    <Icons.DeleteIcon />
+            {!noDel && (
+                <div
+                    className={`${cx('actions-item-container')}`}
+                    onClick={onClickDel}
+                >
+                    <div className={`${cx('actions-item')} cancelbgc`}>
+                        <Icons.DeleteIcon />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

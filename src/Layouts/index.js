@@ -8,6 +8,7 @@ export { default as Sidebar } from './Sidebar/Sidebar';
 export { default as DefaultLayout } from './DefaultLayout/DefaultLayout';
 export { default as Dashboard } from './Dashboard/Dashboard';
 export { default as Payment } from './Payment/Payment';
+export { default as Rate } from './Rate/Rate';
 export { default as SettingCoin } from './SettingCoin/SettingCoin';
 export { default as Deposits } from './Deposits/Deposits';
 export { default as DepositsWithdrawDetail } from './DepositsWithdrawDetail/DepositsWithdrawDetail';

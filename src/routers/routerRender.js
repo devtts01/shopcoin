@@ -3,6 +3,7 @@ import {
     Dashboard,
     Home,
     Payment,
+    Rate,
     SettingCoin,
     Deposits,
     Withdraw,
@@ -28,6 +29,7 @@ export const privateRouter = [
     { path: routers.home, component: Home },
     { path: routers.dashboard, component: Dashboard },
     { path: routers.payment, component: Payment },
+    { path: routers.rate, component: Rate },
     { path: routers.settingCoin, component: SettingCoin },
     { path: routers.deposits, component: Deposits },
     {

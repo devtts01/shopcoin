@@ -15,13 +15,13 @@ const DataPayments = () => {
             h3: {
                 title: 'Account Number',
             },
+            // h4: {
+            //     title: 'Rate Deposit',
+            // },
+            // h5: {
+            //     title: 'Rate Withdraw',
+            // },
             h4: {
-                title: 'Rate Deposit',
-            },
-            h5: {
-                title: 'Rate Withdraw',
-            },
-            h6: {
                 title: 'Type',
             },
         },

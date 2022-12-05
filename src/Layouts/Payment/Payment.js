@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import className from 'classnames/bind';
@@ -14,7 +14,6 @@ import {
     handleCreate,
     handleUpdate,
     handleDelete,
-    SVupdateRate,
     handleUpdateType,
 } from '../../services/payments';
 import {
@@ -52,19 +51,10 @@ function Payment() {
         },
     } = state.set;
     const { modalPaymentEdit, modalDelete, modalStatus } = state.toggle;
-    const [modalRate, setModalRate] = useState(false);
-    const [rateUpdate, setRateUpdate] = useState({
-        rateDeposit: null,
-        rateWithdraw: null,
-    });
     // Ref Input
     const refAccountName = useRef();
     const refBankName = useRef();
     const refAccountNumber = useRef();
-    const refRateDeposit = useRef();
-    const refRateWidthdraw = useRef();
-    const refRateDepositUpdate = useRef();
-    const refRateWidthdrawUpdate = useRef();
     useEffect(() => {
         document.title = `Payment | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
@@ -95,14 +85,6 @@ function Payment() {
             'modalPaymentEdit'
         );
     };
-    const modalRateTrue = (e) => {
-        e.stopPropagation();
-        setModalRate(true);
-    };
-    const modalRateFalse = (e) => {
-        e.stopPropagation();
-        setModalRate(false);
-    };
     const modalDeleteTrue = (e, id) => {
         return deleteUtils.deleteTrue(e, id, dispatch, state, actions);
     };
@@ -121,10 +103,6 @@ function Payment() {
     };
     const handleChange = (e) => {
         return formUtils.changeForm(e, dispatch, state, actions);
-    };
-    const handleChangeRate = (e) => {
-        const { name, value } = e.target;
-        setRateUpdate({ ...rateUpdate, [name]: value });
     };
     // Create + Update Payment
     const handleCreatePayment = async (data) => {
@@ -248,25 +226,6 @@ function Payment() {
             checkErrorPayment({ dispatch, state, actions, err });
         }
     };
-    const updateRate = async () => {
-        try {
-            await 1;
-            SVupdateRate({
-                rateDeposit: rateUpdate.rateDeposit,
-                rateWithdraw: rateUpdate.rateWithdraw,
-                page,
-                show,
-                state,
-                dispatch,
-                actions,
-            });
-            // console.log(rateUpdate);
-            setRateUpdate({ rateDeposit: null, rateWithdraw: null });
-            setModalRate(false);
-        } catch (err) {
-            console.log(err);
-        }
-    };
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -285,8 +244,6 @@ function Payment() {
                             <td>
                                 {item.accountNumber || <Skeleton width={50} />}
                             </td>
-                            <td>{item.rateDeposit || 0}</td>
-                            <td>{item.rateWithdraw || 0}</td>
                             <td>
                                 <TrStatus
                                     item={item.type}
@@ -319,9 +276,7 @@ function Payment() {
                 valueSearch={payment}
                 nameSearch='payment'
                 textBtnNew='New Payment'
-                textBtnUpdateAllFields='Update Rate'
                 onCreate={modalPaymentTrue}
-                onUpdateRate={modalRateTrue}
                 dataFlag={dataUserFlag}
                 dataHeaders={DataPayments().headers}
                 totalData={dataPayment.total}
@@ -361,17 +316,6 @@ function Payment() {
                             : createPayment
                     }
                 >
-                    {/* <FormInput
-                        label='Type payment'
-                        type='text'
-                        placeholder='Enter type payment'
-                        name='typePayment'
-                        value={typePayment}
-                        ref={refTypePayment}
-                        onChange={handleChange}
-                        classNameField={`${cx('payment-form-field')}`}
-                        classNameInput={`${cx('payment-form-input')}`}
-                    /> */}
                     <FormInput
                         label='Account Name'
                         type='text'
@@ -405,28 +349,6 @@ function Payment() {
                         classNameField={`${cx('payment-form-field')}`}
                         classNameInput={`${cx('payment-form-input')}`}
                     />
-                    <FormInput
-                        label='Rate Deposit'
-                        type='text'
-                        placeholder='Enter rate deposit'
-                        name='rateDeposit'
-                        value={rateDeposit}
-                        ref={refRateDeposit}
-                        onChange={handleChange}
-                        classNameField={`${cx('payment-form-field')}`}
-                        classNameInput={`${cx('payment-form-input')}`}
-                    />
-                    <FormInput
-                        label='Rate widthdraw'
-                        type='text'
-                        placeholder='Enter rate widthdraw'
-                        name='rateWithdraw'
-                        value={rateWithdraw}
-                        ref={refRateWidthdraw}
-                        onChange={handleChange}
-                        classNameField={`${cx('payment-form-field')}`}
-                        classNameInput={`${cx('payment-form-input')}`}
-                    />
                 </Modal>
             )}
             {modalDelete && (
@@ -441,40 +363,6 @@ function Payment() {
                     <p className='modal-delete-desc'>
                         Are you sure to delete this payment?
                     </p>
-                </Modal>
-            )}
-            {modalRate && (
-                <Modal
-                    titleHeader={'Update Rate Deposit & Widthdraw'}
-                    actionButtonText={'Update'}
-                    closeModal={modalRateFalse}
-                    openModal={modalRateTrue}
-                    classNameButton='vipbgc'
-                    errorMessage={error}
-                    onClick={updateRate}
-                >
-                    <FormInput
-                        label='Rate Deposit'
-                        type='text'
-                        placeholder='Enter rate deposit'
-                        name='rateDeposit'
-                        value={rateUpdate.rateDeposit}
-                        onChange={handleChangeRate}
-                        ref={refRateDepositUpdate}
-                        classNameField={`${cx('payment-form-field')}`}
-                        classNameInput={`${cx('payment-form-input')}`}
-                    />
-                    <FormInput
-                        label='Rate Withdraw'
-                        type='text'
-                        placeholder='Enter rate withdraw'
-                        name='rateWithdraw'
-                        value={rateUpdate.rateWithdraw}
-                        onChange={handleChangeRate}
-                        ref={refRateWidthdrawUpdate}
-                        classNameField={`${cx('payment-form-field')}`}
-                        classNameInput={`${cx('payment-form-input')}`}
-                    />
                 </Modal>
             )}
         </>

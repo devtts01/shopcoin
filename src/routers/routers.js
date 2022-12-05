@@ -5,6 +5,7 @@ const routers = {
     forgotPwd: '/forgot-password',
     dashboard: '/dashboard',
     payment: '/payment',
+    rate: '/rate',
     settingCoin: '/setting-coin',
     newcoin: 'add-new-coin',
     editCoin: 'edit-coin',

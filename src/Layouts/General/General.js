@@ -17,6 +17,7 @@ const cx = className.bind(styles);
 function General({
     valueSearch,
     nameSearch,
+    noSearch,
     onCreate,
     onUpdateRate,
     linkCreate,
@@ -58,11 +59,13 @@ function General({
                     </Alert>
                 )}
                 <div className={`${cx('general-top')}`}>
-                    <Search
-                        name={nameSearch}
-                        value={valueSearch}
-                        onChange={changeSearch}
-                    />
+                    {!noSearch && (
+                        <Search
+                            name={nameSearch}
+                            value={valueSearch}
+                            onChange={changeSearch}
+                        />
+                    )}
                     <div className='flex-center'>
                         {textBtnUpdateAllFields && (
                             <Button
@@ -119,7 +122,7 @@ function General({
                         data={dataFlag}
                         totalData={totalData}
                         headers={dataHeaders}
-                        search={valueSearch}
+                        search={valueSearch ? valueSearch : ''}
                     >
                         {children}
                     </TableData>

@@ -5,6 +5,7 @@ export { default as dispatchCreate } from './Dispatch/dispatchCreate';
 export { default as dispatchEdit } from './Dispatch/dispatchEdit';
 export { default as dispatchDelete } from './Dispatch/dispatchDelete';
 export { default as DataPayments } from './FakeData/Payments';
+export { default as DataRates } from './FakeData/Rate';
 export { default as DataCoins } from './FakeData/Coins';
 export { default as DataDeposits } from './FakeData/Deposits';
 export { default as DataWithdraws } from './FakeData/Withdraws';
