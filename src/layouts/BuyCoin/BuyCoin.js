@@ -108,6 +108,7 @@ export default function BuyCoin({navigation, route}) {
       setMessage,
     );
   };
+  // console.log(priceCoinSocket);
   return (
     <ScrollView
       style={[styles.container]}

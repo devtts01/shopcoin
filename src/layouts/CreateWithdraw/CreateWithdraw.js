@@ -61,7 +61,7 @@ export default function CreateWithdraw({navigation}) {
   }, []);
   useEffect(() => {
     SVgetRateDepositWithdraw({
-      numberBank: userById?.payment?.bank?.account,
+      // numberBank: userById?.payment?.bank?.account,
       dispatch,
       getRateDepositWithdraw,
     });

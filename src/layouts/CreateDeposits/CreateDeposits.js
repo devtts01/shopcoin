@@ -27,13 +27,18 @@ import styles from './CreateDepositsCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateDeposits} from '../../services/deposits';
-import {getUserById, getPaymentAdminById} from '../../app/payloads/getById';
+import {
+  getUserById,
+  getPaymentAdminById,
+  getRateDepositWithdraw,
+} from '../../app/payloads/getById';
 import {SVgetUserById} from '../../services/user';
 import {
   SVgetAllPaymentAdmin,
   SVgetPaymentAdminById,
 } from '../../services/payment';
 import {getAllPaymentAdmin} from '../../app/payloads/getAll';
+import {SVgetRateDepositWithdraw} from '../../services/rate';
 
 export default function CreateDeposits({navigation}) {
   const {state, dispatch} = useAppContext();
@@ -41,6 +46,7 @@ export default function CreateDeposits({navigation}) {
     currentUser,
     dataPaymentAdmin,
     paymentAdminById,
+    rateDepositWithdraw,
     deposits: {amountUSDT, bank},
   } = state;
   const [modalVisible, setModalVisible] = useState(false);
@@ -55,6 +61,11 @@ export default function CreateDeposits({navigation}) {
     SVgetAllPaymentAdmin({
       dispatch,
       getAllPaymentAdmin,
+    });
+    SVgetRateDepositWithdraw({
+      // numberBank: userById?.payment?.bank?.account,
+      dispatch,
+      getRateDepositWithdraw,
     });
   }, []);
   useEffect(() => {
@@ -89,12 +100,12 @@ export default function CreateDeposits({navigation}) {
     });
     return acc;
   }, []);
-  const rateDeposit = paymentAdminById ? paymentAdminById?.rateDeposit : 0;
+  // const rateDeposit = paymentAdminById ? paymentAdminById?.rateDeposit : 0;
   const createDepositsAPI = data => {
     SVcreateDeposits({
       amount: amountUSDT,
       email: currentUser.email,
-      amountVnd: parseFloat(amountUSDT * rateDeposit),
+      amountVnd: parseFloat(amountUSDT * rateDepositWithdraw?.rateDeposit),
       token: data?.token,
       bankAdmin: paymentAdminById,
       setLoading,
@@ -137,7 +148,7 @@ export default function CreateDeposits({navigation}) {
         onTouchStart={handleModalBank}
         value={bank?.name}
       />
-      {amountUSDT && bank && amountUSDT * rateDeposit > 0 && (
+      {amountUSDT && bank && amountUSDT * rateDepositWithdraw?.rateDeposit > 0 && (
         <View style={[styles.deposits_VND]}>
           <Text
             style={[
@@ -145,7 +156,8 @@ export default function CreateDeposits({navigation}) {
               stylesGeneral.fwbold,
               stylesStatus.confirm,
             ]}>
-            Deposits (VND): {formatVND(amountUSDT * rateDeposit)}
+            Deposits (VND):{' '}
+            {formatVND(amountUSDT * rateDepositWithdraw?.rateDeposit)}
           </Text>
         </View>
       )}
