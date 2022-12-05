@@ -180,11 +180,13 @@ export default function BuyCoin({navigation, route}) {
         <View style={[stylesGeneral.mb5]}>
           <Text style={[stylesGeneral.text_black]}>Suggest amount</Text>
           <Text style={[stylesStatus.cancel]}>
-            Min: {parseFloat(10 / priceCoinSocket?.price)}
+            Min: {precisionRound(parseFloat(10 / priceCoinSocket?.price))}
           </Text>
           <Text style={[stylesStatus.cancel]}>
             Max:{' '}
-            {parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price)}
+            {precisionRound(
+              parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price),
+            )}
           </Text>
         </View>
       )}

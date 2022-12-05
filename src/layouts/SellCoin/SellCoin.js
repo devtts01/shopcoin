@@ -11,7 +11,7 @@ import {
 import React, {useEffect, useState} from 'react';
 // import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {useAppContext} from '../../utils';
-import {formatUSDT} from '../../utils/format/Money';
+import {formatUSDT, precisionRound} from '../../utils/format/Money';
 import {getBySymbol, getById} from '../../app/payloads/getById';
 import {setAmountSell} from '../../app/payloads/form';
 import {setCurrentUser} from '../../app/payloads/user';
@@ -157,7 +157,9 @@ export default function SellCoin({navigation, route}) {
             <View style={[stylesGeneral.mb5]}>
               <Text style={[stylesGeneral.text_black]}>Suggest amount</Text>
               <Text style={[stylesStatus.cancel]}>Min: 0.01</Text>
-              <Text style={[stylesStatus.cancel]}>Max: {item?.amount}</Text>
+              <Text style={[stylesStatus.cancel]}>
+                Max: {precisionRound(item?.amount)}
+              </Text>
             </View>
           )}
           {parseFloat(amountSell * priceCoinSocket?.lastPrice) >= 0 &&
