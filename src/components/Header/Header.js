@@ -11,7 +11,7 @@ import stylesStatus from '../../styles/Status';
 import {SVgetUserById} from '../../services/user';
 import {formatUSDT} from '../../utils/format/Money';
 
-export default function Header() {
+export default function Header({refreshData = () => {}}) {
   const {state, dispatch} = useAppContext();
   const {currentUser, userById} = state;
   useEffect(() => {
@@ -24,6 +24,7 @@ export default function Header() {
     }
   }, []);
   const handleRefreshUSDT = () => {
+    refreshData();
     SVgetUserById({
       id: currentUser?.id,
       dispatch,
@@ -85,7 +86,7 @@ export default function Header() {
               stylesStatus.completebgc,
               stylesGeneral.texttf_none,
             ]}>
-            Refresh USD
+            Refresh
           </Text>
         </TouchableOpacity>
       </View>

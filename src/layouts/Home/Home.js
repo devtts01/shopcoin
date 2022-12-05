@@ -36,6 +36,14 @@ const Home = ({navigation}) => {
       getAllCoins,
     });
   }, [page, show]);
+  const refreshData = () => {
+    SVgetAllCoins({
+      page,
+      show: dataCoins?.total,
+      dispatch,
+      getAllCoins,
+    });
+  };
   let data = dataCoins?.data || [];
   if (search) {
     data = data.filter(item => {
@@ -81,7 +89,7 @@ const Home = ({navigation}) => {
   };
   return (
     <View style={[styles.container]}>
-      <Header />
+      <Header refreshData={refreshData} />
       <View>
         <Search
           name="search"

@@ -49,8 +49,8 @@ export const userLogin = async (props = {}) => {
 };
 // USER LOGOUT
 export const userLogout = async (props = {}) => {
+  await removeAsyncStore();
   await authPost('logout');
-  removeAsyncStore();
 };
 // USER REGISTER
 export const userRegister = async (props = {}) => {

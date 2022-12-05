@@ -43,6 +43,13 @@ const Withdraw = ({navigation}) => {
       getAllWithdraws,
     });
   }, []);
+  const refreshData = () => {
+    SVgetWithdrawByEmailUser({
+      email: currentUser?.email,
+      dispatch,
+      getAllWithdraws,
+    });
+  };
   const data =
     dataWithdraws.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
@@ -63,13 +70,19 @@ const Withdraw = ({navigation}) => {
     return (
       <DataTable.Row>
         <DataTable.Cell numeric style={[styles.title_table]}>
-          {formatUSDT(item?.amountUsd)}
+          <Text style={[stylesGeneral.text_black]}>
+            {formatUSDT(item?.amountUsd)}
+          </Text>
         </DataTable.Cell>
         <DataTable.Cell numeric style={[styles.title_table]}>
-          {formatVND(item?.amountVnd)}
+          <Text style={[stylesGeneral.text_black]}>
+            {formatVND(item?.amountVnd)}
+          </Text>
         </DataTable.Cell>
         <DataTable.Cell numeric style={[styles.title_table]}>
-          {dateFormat(item?.createAt, 'DD/MM/YYYY HH:mm:ss')}
+          <Text style={[stylesGeneral.text_black]}>
+            {dateFormat(item?.createAt, 'DD/MM/YYYY HH:mm:ss')}
+          </Text>
         </DataTable.Cell>
         <DataTable.Cell numeric style={[styles.title_table]}>
           <Text
@@ -96,7 +109,7 @@ const Withdraw = ({navigation}) => {
   return (
     <View style={[styles.container]}>
       <View style={[styles.content]}>
-        <Header />
+        <Header refreshData={refreshData} />
         <TouchableOpacity
           style={[styles.container_btn, stylesStatus.vipbgcbold]}
           onPress={() => navigation.navigate(routersMain.CreateWithdraw)}>
@@ -107,25 +120,17 @@ const Withdraw = ({navigation}) => {
       {data.length > 0 ? (
         <DataTable style={{flex: 1, marginBottom: 40}}>
           <DataTable.Header>
-            <DataTable.Title
-              style={[styles.title_table, stylesGeneral.text_black]}
-              numeric>
-              Send
+            <DataTable.Title style={[styles.title_table]} numeric>
+              <Text style={[styles.title_table]}>Send</Text>
             </DataTable.Title>
-            <DataTable.Title
-              style={[styles.title_table, stylesGeneral.text_black]}
-              numeric>
-              Receied
+            <DataTable.Title style={[styles.title_table]} numeric>
+              <Text style={[styles.title_table]}>Receied</Text>
             </DataTable.Title>
-            <DataTable.Title
-              style={[styles.title_table, stylesGeneral.text_black]}
-              numeric>
-              Date
+            <DataTable.Title style={[styles.title_table]} numeric>
+              <Text style={[styles.title_table]}>Date</Text>
             </DataTable.Title>
-            <DataTable.Title
-              style={[styles.title_table, stylesGeneral.text_black]}
-              numeric>
-              Status
+            <DataTable.Title style={[styles.title_table]} numeric>
+              <Text style={[styles.title_table]}>Status</Text>
             </DataTable.Title>
           </DataTable.Header>
           <View style={[styles.listWithdraw]}>

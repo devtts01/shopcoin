@@ -31,6 +31,13 @@ const MyCoin = ({navigation}) => {
       getAllMyCoin,
     });
   }, []);
+  const refreshData = () => {
+    SVgetAllMyCoin({
+      id: currentUser?.id,
+      dispatch,
+      getAllMyCoin,
+    });
+  };
   const data = dataMyCoin || [];
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -91,7 +98,7 @@ const MyCoin = ({navigation}) => {
   };
   return (
     <View style={[styles.container]}>
-      <Header />
+      <Header refreshData={refreshData} />
       <View style={[styles.listCoin]}>
         {data?.length > 0 ? (
           <FlatList

@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
   },
   title_table: {
     justifyContent: 'center',
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: '#000',
   },
   listWithdraw: {
     // flex: 1,

@@ -98,7 +98,6 @@ export default function CreateWithdraw({navigation}) {
       console.log(err);
     }
   };
-  console.log(userById);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}

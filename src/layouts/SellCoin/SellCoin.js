@@ -156,7 +156,7 @@ export default function SellCoin({navigation, route}) {
           {amountSell && (
             <View style={[stylesGeneral.mb5]}>
               <Text style={[stylesGeneral.text_black]}>Suggest amount</Text>
-              <Text style={[stylesStatus.cancel]}>Min: ...</Text>
+              <Text style={[stylesStatus.cancel]}>Min: 0.01</Text>
               <Text style={[stylesStatus.cancel]}>Max: {item?.amount}</Text>
             </View>
           )}
@@ -180,7 +180,7 @@ export default function SellCoin({navigation, route}) {
           activeOpacity={0.6}
           disabled={
             !amountSell ||
-            parseFloat(amountSell) <= 0 ||
+            parseFloat(amountSell) <= 0.01 ||
             parseFloat(amountSell) > item?.amount
           }
           style={[

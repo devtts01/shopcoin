@@ -139,7 +139,7 @@ export default function BuyCoin({navigation, route}) {
               stylesGeneral.fz16,
               stylesGeneral.fw500,
             ]}>
-            = {priceCoinSocket?.indexPrice}
+            = {priceCoinSocket?.price}
           </Text>
         ) : (
           <Skeleton />
@@ -159,16 +159,31 @@ export default function BuyCoin({navigation, route}) {
         placeholder="Enter mount coin"
         keyboardType="number-pad"
         onChangeText={val => handleChange('amountCoin', val)}
-        icon={amountCoin}
-        color={amountCoin ? 'red' : ''}
+        icon={
+          amountCoin &&
+          (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
+            amountCoin >
+              parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price))
+        }
+        color={
+          amountCoin &&
+          (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
+            amountCoin >
+              parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price))
+            ? 'red'
+            : ''
+        }
         name="exclamation-triangle"
       />
       {amountCoin && (
         <View style={[stylesGeneral.mb5]}>
           <Text style={[stylesGeneral.text_black]}>Suggest amount</Text>
-          <Text style={[stylesStatus.cancel]}>Min: ...</Text>
           <Text style={[stylesStatus.cancel]}>
-            Max: {parseFloat(userById?.Wallet?.balance / amountCoin)}
+            Min: {parseFloat(10 / priceCoinSocket?.price)}
+          </Text>
+          <Text style={[stylesStatus.cancel]}>
+            Max:{' '}
+            {parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price)}
           </Text>
         </View>
       )}
@@ -190,7 +205,14 @@ export default function BuyCoin({navigation, route}) {
         activeOpacity={0.8}
         style={[
           styles.btn,
-          !amountCoin && stylesGeneral.op6,
+          !amountCoin ||
+            (amountCoin &&
+              (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
+                amountCoin >
+                  parseFloat(
+                    userById?.Wallet?.balance / priceCoinSocket?.price,
+                  )) &&
+              stylesGeneral.op6),
           stylesStatus.confirmbgcbold,
         ]}
         onPress={handleSubmit}

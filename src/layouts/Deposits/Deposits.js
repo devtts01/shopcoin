@@ -39,6 +39,13 @@ const Deposits = ({navigation}) => {
       getAllDeposits,
     });
   }, []);
+  const refreshData = () => {
+    SVgetDepositsByEmailUser({
+      email: currentUser?.email,
+      dispatch,
+      getAllDeposits,
+    });
+  };
   const data =
     dataDeposits.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
@@ -110,7 +117,7 @@ const Deposits = ({navigation}) => {
   };
   return (
     <View style={[styles.container]}>
-      <Header />
+      <Header refreshData={refreshData} />
       <View
         style={[styles.container_btn, stylesStatus.vipbgcbold]}
         onTouchStart={() => navigation.navigate(routersMain.CreateDeposits)}>

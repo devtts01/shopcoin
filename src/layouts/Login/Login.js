@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
-import {useRef} from 'react';
+import {useRef, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useAppContext} from '../../utils';
 import {setFormValue} from '../../app/payloads/form';
