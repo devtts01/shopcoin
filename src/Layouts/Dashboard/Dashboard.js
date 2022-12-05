@@ -264,7 +264,7 @@ function Dashboard() {
                 />
                 <TableData
                     data={data}
-                    totalData={dataDashboard?.data?.totalCoin}
+                    totalData={dataDashboard?.data?.total}
                     headers={DataDashboard().headers}
                     search=''
                     noActions
