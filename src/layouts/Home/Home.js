@@ -45,6 +45,17 @@ const Home = ({navigation}) => {
       getRateWithdraw,
     });
   }, []);
+  const refreshData = () => {
+    getAsyncStore(dispatch);
+    SVgetRateDeposit({
+      dispatch,
+      getRateDeposit,
+    });
+    SVgetRateWithdraw({
+      dispatch,
+      getRateWithdraw,
+    });
+  };
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -70,25 +81,30 @@ const Home = ({navigation}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <Header />
+      <Header refreshData={refreshData} />
       <View style={[styles.tables]}>
         <DataTable>
           <DataTable.Header>
-            <DataTable.Title style={[stylesGeneral.text_black]}>
-              Actions
+            <DataTable.Title>
+              <Text style={[stylesGeneral.text_black, stylesGeneral.fwbold]}>
+                Actions
+              </Text>
             </DataTable.Title>
-            <DataTable.Title numeric style={[stylesGeneral.text_black]}>
-              Rate (VCB)
+            <DataTable.Title numeric>
+              <Text style={[stylesGeneral.text_black, stylesGeneral.fwbold]}>
+                Rate (VCB)
+              </Text>
             </DataTable.Title>
             <DataTable.Title numeric></DataTable.Title>
           </DataTable.Header>
-
           <DataTable.Row>
-            <DataTable.Cell style={[stylesGeneral.text_black]}>
-              Deposit
+            <DataTable.Cell>
+              <Text style={[stylesGeneral.text_black]}>Deposit</Text>
             </DataTable.Cell>
-            <DataTable.Cell numeric style={[stylesGeneral.text_black]}>
-              {formatVND(rateDeposit)}
+            <DataTable.Cell numeric>
+              <Text style={[stylesGeneral.text_black]}>
+                {formatVND(rateDeposit)}
+              </Text>
             </DataTable.Cell>
             <DataTable.Cell numeric>
               <TouchableOpacity
@@ -102,11 +118,13 @@ const Home = ({navigation}) => {
             </DataTable.Cell>
           </DataTable.Row>
           <DataTable.Row>
-            <DataTable.Cell style={[stylesGeneral.text_black]}>
-              Withdraw
+            <DataTable.Cell>
+              <Text style={[stylesGeneral.text_black]}>Withdraw</Text>
             </DataTable.Cell>
-            <DataTable.Cell numeric style={[stylesGeneral.text_black]}>
-              {formatVND(rateWithdraw)}
+            <DataTable.Cell numeric>
+              <Text style={[stylesGeneral.text_black]}>
+                {formatVND(rateWithdraw)}
+              </Text>
             </DataTable.Cell>
             <DataTable.Cell numeric>
               <TouchableOpacity

@@ -44,8 +44,8 @@ const Profile = ({navigation}) => {
     });
     wait(2000).then(() => setRefreshing(false));
   }, []);
-  const handleLogout = () => {
-    userLogout({});
+  const handleLogout = async () => {
+    await userLogout({});
     navigation.navigate(routersMain.Login);
   };
   return (
