@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
-import { alertUtils, useAppContext } from './utils';
+import { useAppContext } from './utils';
 import { DefaultLayout } from './Layouts';
 import { actions } from './app/';
 import routers from './routers/routers';
@@ -11,18 +11,18 @@ import { privateRouter, publicRouter } from './routers/routerRender';
 function App() {
     const { state, dispatch } = useAppContext();
     const { currentUser } = state.set;
-    const { del, cre, upd, error, success } = state.set.message;
+    // const { del, cre, upd, error, success } = state.set.message;
     const [scrollToTop, setScrollToTop] = React.useState(false);
     const Routers = currentUser ? privateRouter : publicRouter;
     const history = useNavigate();
-    const handleCloseAlert = () => {
-        return alertUtils.closeAlert(dispatch, state, actions);
-    };
-    if (error || del || cre || upd || success) {
-        setTimeout(() => {
-            handleCloseAlert();
-        }, 5000);
-    }
+    // const handleCloseAlert = () => {
+    //     return alertUtils.closeAlert(dispatch, state, actions);
+    // };
+    // if (error || del || cre || upd || success) {
+    //     setTimeout(() => {
+    //         handleCloseAlert();
+    //     }, 5000);
+    // }
     useEffect(() => {
         const handleScrollToTop = () => {
             const heightY = window.scrollY;
