@@ -113,7 +113,8 @@ export default function SingleWithdraw({navigation, route}) {
           text={data?.status}
           styleDesc={[
             stylesStatus.status,
-            textLower(data?.status) === 'onhold'
+            textLower(data?.status) === 'onhold' ||
+            textLower(data?.status) === 'on hold'
               ? stylesStatus.vipbgc
               : textLower(data?.status) === 'completed' ||
                 textLower(data?.status) === 'complete'

@@ -109,6 +109,19 @@ export default function BuyCoin({navigation, route}) {
     );
   };
   // console.log(priceCoinSocket);
+  const yourWallet = formatUSDT(userById?.Wallet?.balance);
+  const isDisabled =
+    amountCoin &&
+    (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
+      amountCoin >
+        parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price));
+  const suggestMin = precisionRound(parseFloat(10 / priceCoinSocket?.price));
+  const suggestMax = precisionRound(
+    parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price),
+  );
+  const amountUsd = formatUSDT(
+    precisionRound(amountCoin * dataById?.price),
+  ).replace('USD', '');
   return (
     <ScrollView
       style={[styles.container]}
@@ -153,41 +166,22 @@ export default function BuyCoin({navigation, route}) {
           stylesGeneral.fwb,
           stylesGeneral.text_black,
         ]}>
-        Your Walet: {formatUSDT(userById?.Wallet?.balance)}
+        Your Walet: {yourWallet}
       </Text>
       <FormInput
         label="Amount Coin"
         placeholder="Enter mount coin"
         keyboardType="number-pad"
         onChangeText={val => handleChange('amountCoin', val)}
-        icon={
-          amountCoin &&
-          (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
-            amountCoin >
-              parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price))
-        }
-        color={
-          amountCoin &&
-          (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
-            amountCoin >
-              parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price))
-            ? 'red'
-            : ''
-        }
+        icon={isDisabled}
+        color={isDisabled ? 'red' : ''}
         name="exclamation-triangle"
       />
       {amountCoin && (
         <View style={[stylesGeneral.mb5]}>
           <Text style={[stylesGeneral.text_black]}>Suggest amount</Text>
-          <Text style={[stylesStatus.cancel]}>
-            Min: {precisionRound(parseFloat(10 / priceCoinSocket?.price))}
-          </Text>
-          <Text style={[stylesStatus.cancel]}>
-            Max:{' '}
-            {precisionRound(
-              parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price),
-            )}
-          </Text>
+          <Text style={[stylesStatus.cancel]}>Min: {suggestMin}</Text>
+          <Text style={[stylesStatus.cancel]}>Max: {suggestMax}</Text>
         </View>
       )}
       <View style={[styles.amountUsdt, stylesStatus.completebgc]}>
@@ -197,29 +191,18 @@ export default function BuyCoin({navigation, route}) {
             stylesGeneral.fwbold,
             stylesStatus.complete,
           ]}>
-          Amount USD:{' '}
-          {formatUSDT(precisionRound(amountCoin * dataById?.price)).replace(
-            'USD',
-            '',
-          )}
+          Amount USD: {amountUsd}
         </Text>
       </View>
       <TouchableOpacity
         activeOpacity={0.8}
         style={[
           styles.btn,
-          !amountCoin ||
-            (amountCoin &&
-              (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
-                amountCoin >
-                  parseFloat(
-                    userById?.Wallet?.balance / priceCoinSocket?.price,
-                  )) &&
-              stylesGeneral.op6),
+          (!amountCoin || isDisabled) && stylesGeneral.op6,
           stylesStatus.confirmbgcbold,
         ]}
         onPress={handleSubmit}
-        disabled={!amountCoin}>
+        disabled={!amountCoin || isDisabled}>
         <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
       </TouchableOpacity>
       {loading && <ModalLoading />}

@@ -96,6 +96,9 @@ export default function SellCoin({navigation, route}) {
       console.log(err);
     }
   };
+  const isDisabled =
+    parseFloat(amountSell) < 0.01 || parseFloat(amountSell) > item?.amount;
+  const suggestMax = precisionRound(item?.amount);
   return (
     <ScrollView
       style={[styles.container]}
@@ -128,7 +131,7 @@ export default function SellCoin({navigation, route}) {
         />
         <RowDetail
           title="Average buy price"
-          text={priceCoinSocket?.weightedAvgPrice}
+          text={priceCoinSocket?.weightedAvgPrice || 'unknown'}
         />
         <RowDetail title="Coin price" text={item?.coin?.price} />
         <View style={[styles.row_single]}>
@@ -139,58 +142,37 @@ export default function SellCoin({navigation, route}) {
               handleChangeInput('amountSell', val.replace(',', '.'))
             }
             keyboardType="number-pad"
-            icon={
-              amountSell &&
-              (parseFloat(amountSell) <= 0 ||
-                parseFloat(amountSell) > item?.amount)
-            }
-            color={
-              amountSell &&
-              (parseFloat(amountSell) <= 0 ||
-                parseFloat(amountSell) > item?.amount)
-                ? 'red'
-                : ''
-            }
+            icon={isDisabled}
+            color={isDisabled ? 'red' : ''}
             name="exclamation-triangle"
           />
           {amountSell && (
             <View style={[stylesGeneral.mb5]}>
               <Text style={[stylesGeneral.text_black]}>Suggest amount</Text>
               <Text style={[stylesStatus.cancel]}>Min: 0.01</Text>
-              <Text style={[stylesStatus.cancel]}>
-                Max: {precisionRound(item?.amount)}
-              </Text>
+              <Text style={[stylesStatus.cancel]}>Max: {suggestMax}</Text>
             </View>
           )}
-          {parseFloat(amountSell * priceCoinSocket?.lastPrice) >= 0 &&
-            amountSell && (
-              <Text
-                style={[
-                  stylesGeneral.mb10,
-                  stylesGeneral.fz16,
-                  stylesGeneral.fwbold,
-                  stylesStatus.complete,
-                ]}>
-                Receive:{' '}
-                {formatUSDT(parseFloat(amountSell * item?.coin?.price))}
-              </Text>
-            )}
+          {parseFloat(amountSell * item?.coin?.price) >= 0 && amountSell && (
+            <Text
+              style={[
+                stylesGeneral.mb10,
+                stylesGeneral.fz16,
+                stylesGeneral.fwbold,
+                stylesStatus.complete,
+              ]}>
+              Receive: {formatUSDT(parseFloat(amountSell * item?.coin?.price))}
+            </Text>
+          )}
         </View>
       </View>
       <View style={[styles.btn_container]}>
         <TouchableOpacity
           activeOpacity={0.6}
-          disabled={
-            !amountSell ||
-            parseFloat(amountSell) <= 0.01 ||
-            parseFloat(amountSell) > item?.amount
-          }
+          disabled={!amountSell || isDisabled}
           style={[
             styles.btn,
-            (!amountSell ||
-              parseFloat(amountSell) <= 0 ||
-              parseFloat(amountSell) > item?.amount) &&
-              stylesGeneral.op6,
+            (!amountSell || isDisabled) && stylesGeneral.op6,
             stylesStatus.confirmbgcbold,
             stylesGeneral.mr10,
           ]}

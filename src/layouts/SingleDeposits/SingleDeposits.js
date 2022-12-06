@@ -101,13 +101,17 @@ export default function SingleDeposits({navigation, route}) {
           text={data?.status?.toLowerCase()}
           styleDesc={[
             stylesStatus.status,
-            textLower(data?.status) === 'on hold'
+            textLower(data?.status) === 'on hold' ||
+            textLower(data?.status) === 'onhold'
               ? stylesStatus.vipbgc
-              : textLower(data?.status) === 'confirm'
+              : textLower(data?.status) === 'confirm' ||
+                textLower(data?.status) === 'confirmed'
               ? stylesStatus.confirmbgc
-              : textLower(data?.status) === 'complete'
+              : textLower(data?.status) === 'complete' ||
+                textLower(data?.status) === 'completed'
               ? stylesStatus.completebgc
-              : textLower(data?.status) === 'cancel'
+              : textLower(data?.status) === 'cancel' ||
+                textLower(data?.status) === 'canceled'
               ? stylesStatus.cancelbgc
               : stylesStatus.demobgc,
           ]}
