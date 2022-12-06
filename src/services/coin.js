@@ -34,7 +34,6 @@ export const SVgetCoinBySymbol = async (props = {}) => {
 };
 // BUY COIN
 export const SVbuyCoin = async (props = {}) => {
-  console.log(props);
   const resPost = await userPost('/BuyCoin', {
     gmailUser: props?.gmailUser,
     amount: props?.amount,
