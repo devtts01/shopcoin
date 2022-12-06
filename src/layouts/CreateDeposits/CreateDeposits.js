@@ -140,7 +140,7 @@ export default function CreateDeposits({navigation}) {
       <FormInput
         label="Amount USD"
         placeholder="0.00"
-        keyboardType="number-pad"
+        // keyboardType="number-pad"
         onChangeText={val => handleChange('amountUSDT', val)}
       />
       <SelectAlert
@@ -162,11 +162,12 @@ export default function CreateDeposits({navigation}) {
         </View>
       )}
       <TouchableOpacity
-        disabled={!amountUSDT || !bank}
+        disabled={!amountUSDT || !bank || (amountUSDT && !Number(amountUSDT))}
         activeOpacity={0.6}
         style={[
           styles.btn_submit,
-          (!amountUSDT || !bank) && stylesGeneral.op6,
+          (!amountUSDT || !bank || (amountUSDT && !Number(amountUSDT))) &&
+            stylesGeneral.op6,
           stylesStatus.confirmbgcbold,
         ]}
         onPress={handleSubmit}>

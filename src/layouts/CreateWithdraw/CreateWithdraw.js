@@ -190,16 +190,19 @@ export default function CreateWithdraw({navigation}) {
             <FormInput
               label="Amount USD"
               placeholder="0.00"
-              keyboardType="number-pad"
+              // keyboardType="number-pad"
               onChangeText={val => handleChange('amountUSDT', val)}
               icon={error}
               color={error ? 'red' : ''}
               name="exclamation-triangle"
             />
-            {parseFloat(amountUSDT) < 10 && (
+            {(parseFloat(amountUSDT) < 10 ||
+              (amountUSDT && !Number(amountUSDT))) && (
               <View style={[stylesGeneral.mb5]}>
                 <Text style={[stylesStatus.cancel]}>
-                  Minimum withdrawal amount is 10 USD
+                  {amountUSDT && !Number(amountUSDT)
+                    ? 'Amount must be a number'
+                    : 'Minimum withdrawal amount is 10 USD'}
                 </Text>
               </View>
             )}
@@ -223,10 +226,14 @@ export default function CreateWithdraw({navigation}) {
                 styles.btn,
                 stylesStatus.confirmbgcbold,
                 stylesGeneral.mt10,
-                (!amountUSDT || parseFloat(amountUSDT) < 10) &&
+                (!amountUSDT ||
+                  parseFloat(amountUSDT) < 10 ||
+                  (amountUSDT && !Number(amountUSDT))) &&
                   stylesGeneral.op6,
               ]}
-              disabled={!amountUSDT || !!error}
+              disabled={
+                !amountUSDT || !!error || (amountUSDT && !Number(amountUSDT))
+              }
               onPress={handleSubmit}>
               <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
             </TouchableOpacity>

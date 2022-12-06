@@ -114,7 +114,8 @@ export default function BuyCoin({navigation, route}) {
     amountCoin &&
     (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
       amountCoin >
-        parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price));
+        parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price) ||
+      (amountCoin && !Number(amountCoin)));
   const suggestMin = precisionRound(parseFloat(10 / priceCoinSocket?.price));
   const suggestMax = precisionRound(
     parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price),
@@ -171,7 +172,7 @@ export default function BuyCoin({navigation, route}) {
       <FormInput
         label="Amount Coin"
         placeholder="Enter mount coin"
-        keyboardType="number-pad"
+        // keyboardType="number-pad"
         onChangeText={val => handleChange('amountCoin', val)}
         icon={isDisabled}
         color={isDisabled ? 'red' : ''}

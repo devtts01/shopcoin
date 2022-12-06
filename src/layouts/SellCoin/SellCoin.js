@@ -97,7 +97,9 @@ export default function SellCoin({navigation, route}) {
     }
   };
   const isDisabled =
-    parseFloat(amountSell) < 0.01 || parseFloat(amountSell) > item?.amount;
+    parseFloat(amountSell) < 0.01 ||
+    parseFloat(amountSell) > item?.amount ||
+    (amountSell && !Number(amountSell));
   const suggestMax = precisionRound(item?.amount);
   return (
     <ScrollView
@@ -141,7 +143,7 @@ export default function SellCoin({navigation, route}) {
             onChangeText={val =>
               handleChangeInput('amountSell', val.replace(',', '.'))
             }
-            keyboardType="number-pad"
+            // keyboardType="number-pad"
             icon={isDisabled}
             color={isDisabled ? 'red' : ''}
             name="exclamation-triangle"
