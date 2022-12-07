@@ -25,7 +25,7 @@ const dispatchCreate = (dispatch, state, actions, data, nameData, message) => {
             },
             edit: { ...state.set.edit, id: '', itemData: null, data: null },
             message: {
-                ...state.set.message,
+                // ...state.set.message,
                 cre: message ? message : 'Created Success',
                 error: '',
                 del: '',

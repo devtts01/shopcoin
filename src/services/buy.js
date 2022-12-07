@@ -51,7 +51,7 @@ export const checkErrorBuys = (props = {}) => {
         props.actions.setData({
             ...props.state.set,
             message: {
-                ...props.state.set.message,
+                // ...props.state.set.message,
                 error: props.err?.response?.data,
             },
         })
@@ -108,7 +108,7 @@ export const handleUpdateStatusFeeBuy = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -117,6 +117,8 @@ export const handleUpdateStatusFeeBuy = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -151,7 +153,7 @@ export const handleDelete = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resDel.message,
                     },
                 })
@@ -160,6 +162,8 @@ export const handleDelete = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;

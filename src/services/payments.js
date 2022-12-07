@@ -41,7 +41,7 @@ export const checkErrorPayment = (props = {}) => {
         props.actions.setData({
             ...props.state.set,
             message: {
-                ...props.state.set.message,
+                // ...props.state.set.message,
                 error: props.err?.response?.data,
             },
         })
@@ -96,7 +96,7 @@ export const handleCreate = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPost.message,
                     },
                 })
@@ -105,6 +105,8 @@ export const handleCreate = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -142,7 +144,7 @@ export const handleUpdate = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -151,6 +153,8 @@ export const handleUpdate = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -186,7 +190,7 @@ export const handleUpdateType = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -195,6 +199,8 @@ export const handleUpdateType = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -230,7 +236,7 @@ export const handleDelete = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resDel.message,
                     },
                 })
@@ -239,6 +245,8 @@ export const handleDelete = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;

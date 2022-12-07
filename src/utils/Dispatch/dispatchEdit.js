@@ -6,7 +6,7 @@ const dispatchEdit = (dispatch, state, actions, data, nameData, message) => {
             statusCurrent: '',
             fee: '',
             message: {
-                ...state.set.message,
+                // ...state.set.message,
                 upd: message ? message : 'Updated Success',
                 error: '',
                 cre: '',

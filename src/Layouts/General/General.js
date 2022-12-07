@@ -51,7 +51,7 @@ function General({
             <div className={classed}>
                 {(del || upd || cre || error) && alertModal && (
                     <Alert
-                        severity='success'
+                        severity={error ? 'error' : 'success'}
                         className='mb8'
                         onClose={closeAlert}
                     >

@@ -72,7 +72,7 @@ export const checkErrorUsers = (props = {}) => {
         props.actions.setData({
             ...props.state.set,
             message: {
-                ...props.state.set.message,
+                // ...props.state.set.message,
                 error: props.err?.response?.data,
             },
         })
@@ -116,7 +116,7 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
                         dataUser: res,
                     },
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
                 })
@@ -128,7 +128,7 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -137,6 +137,8 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -199,9 +201,17 @@ export const updateCoinGift = async (props = {}) => {
                     changeCoin: '',
                     quantityCoin: '',
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -211,9 +221,17 @@ export const updateCoinGift = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -253,7 +271,7 @@ export const changePasswordUser = async (props = {}) => {
                         itemData: data,
                     },
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
                 })
@@ -262,6 +280,8 @@ export const changePasswordUser = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -271,7 +291,7 @@ export const changePasswordUser = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -280,6 +300,8 @@ export const changePasswordUser = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -308,9 +330,17 @@ export const refreshPasswordUser = async (props = {}) => {
                         itemData: data,
                     },
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -320,7 +350,7 @@ export const refreshPasswordUser = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -329,6 +359,8 @@ export const refreshPasswordUser = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -358,9 +390,17 @@ export const blockUser = async (props = {}) => {
                         itemData: data,
                     },
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -370,7 +410,7 @@ export const blockUser = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -379,6 +419,8 @@ export const blockUser = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -408,9 +450,17 @@ export const unblockUser = async (props = {}) => {
                         itemData: data,
                     },
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    ...props.state.toggle,
+                    modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -420,7 +470,7 @@ export const unblockUser = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -429,6 +479,8 @@ export const unblockUser = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
