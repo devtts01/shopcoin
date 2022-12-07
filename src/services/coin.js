@@ -50,7 +50,10 @@ export const SVbuyCoin = async (props = {}) => {
         props.setLoading(false);
         Alert.alert(
           'Success!',
-          `${props.symbol.replace('USDT', '')} has been bought!`,
+          `${props.symbol.replace(
+            'USDT',
+            '',
+          )} has been bought! Please wait for admin to approve.`,
           [
             {
               text: 'Continue',
@@ -66,9 +69,20 @@ export const SVbuyCoin = async (props = {}) => {
       break;
     case 1:
     case 2:
-    case 3:
-      props.setLoading(false);
-      Alert.alert('Error', resPost.message);
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert(
+          'Error!',
+          `An error occurred, please try again. ${resPost.message}`,
+          [
+            {
+              text: 'OK',
+              onPress: () => props.navigation.navigate(routers.Home),
+            },
+          ],
+        );
+      }, 5000);
       break;
     default:
       break;
@@ -92,7 +106,10 @@ export const SVsellCoin = async (props = {}) => {
         props.setLoading(false);
         Alert.alert(
           'Success!',
-          `${props.symbol.replace('USDT', '')} has been sold!`,
+          `${props.symbol.replace(
+            'USDT',
+            '',
+          )} has been sold! Please wait for admin to approve.`,
           [
             {
               text: 'Continue',
@@ -106,9 +123,22 @@ export const SVsellCoin = async (props = {}) => {
         );
       }, 5000);
       break;
+    case 1:
     case 2:
-      props.setLoading(false);
-      Alert.alert('Error', resPost.message);
+      props.setLoading(true);
+      setTimeout(() => {
+        props.setLoading(false);
+        Alert.alert(
+          'Error!',
+          `An error occurred, please try again. ${resPost.message}`,
+          [
+            {
+              text: 'OK',
+              onPress: () => props.navigation.navigate(routers.MyCoin),
+            },
+          ],
+        );
+      }, 5000);
       break;
     default:
       break;
