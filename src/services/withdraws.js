@@ -28,7 +28,7 @@ export const checkErrorWithdraw = (props = {}) => {
         props.actions.setData({
             ...props.state.set,
             message: {
-                ...props.state.set.message,
+                // ...props.state.set.message,
                 error: props.err?.response?.data,
             },
         })
@@ -75,7 +75,7 @@ export const handleEdit = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -84,6 +84,8 @@ export const handleEdit = async (props = {}) => {
                 props.actions.toggleModal({
                     ...props.state.toggle,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;

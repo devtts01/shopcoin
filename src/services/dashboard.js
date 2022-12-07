@@ -40,7 +40,7 @@ export const SVupdateRate = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
                 })
@@ -48,8 +48,9 @@ export const SVupdateRate = async (props = {}) => {
             props.dispatch(
                 props.actions.toggleModal({
                     ...props.state.toggle,
-                    alertModal: true,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
@@ -59,7 +60,7 @@ export const SVupdateRate = async (props = {}) => {
                 props.actions.setData({
                     ...props.state.set,
                     message: {
-                        ...props.state.set.message,
+                        // ...props.state.set.message,
                         error: resPut.message,
                     },
                 })
@@ -67,8 +68,9 @@ export const SVupdateRate = async (props = {}) => {
             props.dispatch(
                 props.actions.toggleModal({
                     ...props.state.toggle,
-                    alertModal: true,
                     modalDelete: false,
+                    modalStatus: false,
+                    alertModal: true,
                 })
             );
             break;
