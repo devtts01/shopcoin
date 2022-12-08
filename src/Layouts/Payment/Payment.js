@@ -200,14 +200,19 @@ function Payment() {
     };
     const updatedTypePayment = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleUpdateTypePayment,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUpdateTypePayment,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             checkErrorPayment({ dispatch, state, actions, err });
         }
