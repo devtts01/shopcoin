@@ -3,6 +3,7 @@ import {
     searchUtils,
     dispatchDelete,
     dispatchEdit,
+    validates,
 } from '../utils';
 // GET DATA USERS
 export const getUsers = async (props = {}) => {
@@ -67,7 +68,6 @@ export const checkErrorUsers = (props = {}) => {
         props.actions.setData({
             ...props.state.set,
             message: {
-                // ...props.state.set.message,
                 error: props.err?.response?.data,
             },
         })
@@ -102,7 +102,6 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
                         dataUser: res,
                     },
                     message: {
-                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
                 })
@@ -110,23 +109,7 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
             return props.data;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;
@@ -169,7 +152,6 @@ export const changePasswordUser = async (props = {}) => {
                         itemData: data,
                     },
                     message: {
-                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
                 })
@@ -185,23 +167,7 @@ export const changePasswordUser = async (props = {}) => {
             break;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;
@@ -228,7 +194,6 @@ export const refreshPasswordUser = async (props = {}) => {
                         itemData: data,
                     },
                     message: {
-                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
                 })
@@ -244,23 +209,7 @@ export const refreshPasswordUser = async (props = {}) => {
             break;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;
@@ -288,7 +237,6 @@ export const blockAndUnblockUser = async (props = {}) => {
                         itemData: data,
                     },
                     message: {
-                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
                 })
@@ -304,23 +252,7 @@ export const blockAndUnblockUser = async (props = {}) => {
             break;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;
@@ -357,7 +289,6 @@ export const updateUSDGift = async (props = {}) => {
                     changeCoin: '',
                     quantityCoin: '',
                     message: {
-                        // ...props.state.set.message,
                         upd: resPut.message,
                     },
                 })
@@ -373,23 +304,7 @@ export const updateUSDGift = async (props = {}) => {
             break;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;

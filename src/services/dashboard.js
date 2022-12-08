@@ -1,4 +1,4 @@
-import { axiosUtils } from '../utils';
+import { axiosUtils, validates } from '../utils';
 
 export const SVtotal = async (props = {}) => {
     const objectBody =
@@ -36,43 +36,11 @@ export const SVupdateRate = async (props = {}) => {
     });
     switch (resPut.code) {
         case 0:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        upd: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase0(resPut, 'upd', props);
             break;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;
