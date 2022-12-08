@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import moment from 'moment';
 import {
@@ -43,6 +43,7 @@ function Withdraw() {
         pagination: { page, show },
     } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
+    const [isProcess, setIsProcess] = useState(false);
     useEffect(() => {
         document.title = `Withdraw | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
@@ -103,14 +104,19 @@ function Withdraw() {
     };
     const editStatus = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleEditStatus,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleEditStatus,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             checkErrorWithdraw({});
         }
@@ -204,6 +210,7 @@ function Withdraw() {
                     closeModal={toggleEditFalse}
                     classNameButton='vipbgc'
                     onClick={() => editStatus(currentUser?.idUpdate || edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change status this{' '}
@@ -225,6 +232,7 @@ function Withdraw() {
                     closeModal={modalDeleteFalse}
                     classNameButton='cancelbgc'
                     onClick={() => deleteWithdraw(edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure to delete this withdraw?

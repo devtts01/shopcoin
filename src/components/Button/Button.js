@@ -39,7 +39,7 @@ function Button({
             ) : (
                 <i
                     className='bx bx-loader bx-spin bx-rotate-90'
-                    style={{ color: '#fff' }}
+                    style={{ color: '#000' }}
                 ></i>
             )}
         </Cp>

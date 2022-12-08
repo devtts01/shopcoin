@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import moment from 'moment';
 import {
@@ -44,6 +44,7 @@ function Deposits() {
     } = state.set;
 
     const { modalStatus, modalDelete } = state.toggle;
+    const [isProcess, setIsProcess] = useState(false);
     useEffect(() => {
         document.title = `Deposits | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
@@ -104,14 +105,19 @@ function Deposits() {
     };
     const editStatus = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleEditStatus,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleEditStatus,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             checkErrorDeposits({ err, dispatch, state, actions });
         }
@@ -209,6 +215,7 @@ function Deposits() {
                     closeModal={toggleEditFalse}
                     classNameButton='vipbgc'
                     onClick={() => editStatus(currentUser?.idUpdate || edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change status this{' '}
@@ -230,6 +237,7 @@ function Deposits() {
                     closeModal={modalDeleteFalse}
                     classNameButton='cancelbgc'
                     onClick={() => deleteDeposits(edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure to delete this deposits?

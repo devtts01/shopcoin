@@ -18,6 +18,7 @@ function Modal({
     classNameButton,
     errorMessage,
     onClick,
+    isProcess,
 }) {
     const { state, dispatch } = useAppContext();
     const classed = cx('modal-button-me', classNameButton);
@@ -59,7 +60,12 @@ function Modal({
                     >
                         Cancel
                     </Button>
-                    <Button className={classed} onClick={onClick}>
+                    <Button
+                        className={classed}
+                        onClick={onClick}
+                        isProcess={isProcess}
+                        disabled={isProcess}
+                    >
                         {actionButtonText}
                     </Button>
                 </div>

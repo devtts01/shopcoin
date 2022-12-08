@@ -46,6 +46,7 @@ function Dashboard() {
     } = state.set;
     const { alertModal } = state.toggle;
     const [modalRate, setModalRate] = useState(false);
+    const [isProcess, setIsProcess] = useState(false);
     const [rateUpdate, setRateUpdate] = useState(null);
     const refRateUpdate = useRef();
     useEffect(() => {
@@ -106,12 +107,16 @@ function Dashboard() {
     const handleSend = async () => {
         try {
             await 1;
-            SVtotal({
-                dispatch,
-                actions,
-                fromDate: dateFrom || new Date().toISOString(),
-                toDate: dateTo || new Date().toISOString(),
-            });
+            setIsProcess(true);
+            setTimeout(() => {
+                SVtotal({
+                    dispatch,
+                    actions,
+                    fromDate: dateFrom || new Date().toISOString(),
+                    toDate: dateTo || new Date().toISOString(),
+                });
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             console.log(err);
         }
@@ -128,15 +133,19 @@ function Dashboard() {
     const updateRate = async () => {
         try {
             await 1;
-            requestRefreshToken(
-                currentUser,
-                handleUpdateRate,
-                state,
-                dispatch,
-                actions
-            );
-            setRateUpdate(null);
-            setModalRate(false);
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUpdateRate,
+                    state,
+                    dispatch,
+                    actions
+                );
+                setRateUpdate(null);
+                setModalRate(false);
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             console.log(err);
         }
@@ -239,6 +248,8 @@ function Dashboard() {
                     <Button
                         className={`${cx('general-button')} completebgc`}
                         onClick={handleSend}
+                        isProcess={isProcess}
+                        disabled={isProcess}
                     >
                         <span className={`${cx('general-button-icon')}`}>
                             <i className='fa-regular fa-paper-plane'></i>
@@ -338,6 +349,7 @@ function Dashboard() {
                                   refRateUpdate.current.focus();
                               }
                     }
+                    isProcess={isProcess}
                 >
                     <FormInput
                         label='Rate'

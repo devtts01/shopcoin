@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import { useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
@@ -41,6 +41,10 @@ function UserDetail() {
         quantityCoin,
     } = state.set;
     const { modalDelete } = state.toggle;
+    const [isProcessUpdateUsd, setIsProcessUpdateUsd] = useState(false);
+    const [isProcessChangePwd, setIsProcessChangePwd] = useState(false);
+    const [isProcessBlockUser, setIsProcessBlockUser] = useState(false);
+    const [isProcessRefreshPwd, setIsProcessRefreshPwd] = useState(false);
     const x = edit?.itemData && edit?.itemData;
     useEffect(() => {
         document.title = `Detail | ${process.env.REACT_APP_TITLE_WEB}`;
@@ -78,14 +82,19 @@ function UserDetail() {
     };
     const changePwd = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleChangePwd,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessChangePwd(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleChangePwd,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessChangePwd(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -95,14 +104,19 @@ function UserDetail() {
     };
     const refreshPwd = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleRefreshPwd,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessRefreshPwd(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleRefreshPwd,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessRefreshPwd(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -119,14 +133,19 @@ function UserDetail() {
     };
     const updateUSD = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleUpdateUSD,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessUpdateUsd(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUpdateUSD,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessUpdateUsd(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -143,14 +162,19 @@ function UserDetail() {
     };
     const onBlockAndUnblockUser = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleBlockUser,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessBlockUser(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleBlockUser,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessBlockUser(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -304,7 +328,8 @@ function UserDetail() {
                             <Button
                                 onClick={() => updateUSD(idUser)}
                                 className='vipbgc'
-                                disabled={!quantityCoin}
+                                disabled={!quantityCoin || isProcessUpdateUsd}
+                                isProcess={isProcessUpdateUsd}
                             >
                                 Change
                             </Button>
@@ -376,6 +401,8 @@ function UserDetail() {
                         onClick={() => {
                             onBlockAndUnblockUser(idUser);
                         }}
+                        isProcess={isProcessBlockUser}
+                        disabled={isProcessBlockUser}
                     >
                         <div className='flex-center'>
                             {!x?.blockUser ? (
@@ -391,6 +418,8 @@ function UserDetail() {
                     <Button
                         className='confirmbgc'
                         onClick={() => refreshPwd(idUser)}
+                        isProcess={isProcessRefreshPwd}
+                        disabled={isProcessRefreshPwd}
                     >
                         <div className='flex-center'>
                             <Icons.RefreshPageIcon />{' '}
@@ -416,6 +445,7 @@ function UserDetail() {
                     openModal={modalChangePwdTrue}
                     classNameButton='vipbgc'
                     onClick={() => changePwd(idUser)}
+                    isProcess={isProcessChangePwd}
                 >
                     <FormInput
                         type='password'

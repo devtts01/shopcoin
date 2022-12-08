@@ -34,4 +34,8 @@ export const validateCase1_2 = (res, props) => {
             alertModal: true,
         })
     );
+    window.screenTop({
+        top: 0,
+        behavior: 'smooth',
+    });
 };
