@@ -14,6 +14,9 @@ const stylesStatus = StyleSheet.create({
   confirm: {
     color: '#007aff',
   },
+  pending: {
+    color: '#007aff',
+  },
   demo: {
     color: '#007aff',
   },
@@ -37,6 +40,14 @@ const stylesStatus = StyleSheet.create({
     backgroundColor: '#e6f5ff',
   },
   confirmbgcbold: {
+    color: '#fff',
+    backgroundColor: '#007aff',
+  },
+  pendingbgc: {
+    color: '#007aff',
+    backgroundColor: '#e6f5ff',
+  },
+  pendingbgcbold: {
     color: '#fff',
     backgroundColor: '#007aff',
   },
