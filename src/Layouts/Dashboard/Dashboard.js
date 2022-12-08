@@ -35,6 +35,7 @@ function Dashboard() {
         searchValues: { dateFrom, dateTo, dashboard, userBalance },
         pagination: { page, show },
     } = state.set;
+    const [isProcess, setIsProcess] = React.useState(false);
     useEffect(() => {
         document.title = `Dashboard | ${process.env.REACT_APP_TITLE_WEB}`;
         SVtotal({
@@ -92,13 +93,17 @@ function Dashboard() {
     const handleSend = async () => {
         try {
             await 1;
-            SVtotal({
-                state,
-                dispatch,
-                actions,
-                fromDate: dateFrom || new Date().toISOString(),
-                toDate: dateTo || new Date().toISOString(),
-            });
+            setIsProcess(true);
+            setTimeout(() => {
+                SVtotal({
+                    state,
+                    dispatch,
+                    actions,
+                    fromDate: dateFrom || new Date().toISOString(),
+                    toDate: dateTo || new Date().toISOString(),
+                });
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             console.log(err);
         }
@@ -203,6 +208,8 @@ function Dashboard() {
                     <Button
                         className={`${cx('general-button')} completebgc`}
                         onClick={handleSend}
+                        isProcess={isProcess}
+                        disabled={isProcess}
                     >
                         <span className={`${cx('general-button-icon')}`}>
                             <i className='fa-regular fa-paper-plane'></i>

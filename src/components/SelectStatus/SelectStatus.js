@@ -62,6 +62,7 @@ function SelectStatus({ status, rank, typePayment }) {
         { name: 'Completed' },
         { name: 'Canceled' },
         { name: 'On hold' },
+        { name: 'Pending' },
     ];
     const RANK_LIST = [
         { name: 'Vip' },

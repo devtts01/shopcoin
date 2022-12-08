@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -41,6 +41,7 @@ function User() {
         searchValues: { user },
     } = state.set;
     const { modalDelete, modalStatus } = state.toggle;
+    const [isProcess, setIsProcess] = useState(false);
     useEffect(() => {
         document.title = `User | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
@@ -110,14 +111,19 @@ function User() {
     };
     const editStatus = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleEditRank,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleEditRank,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers({ err, dispatch, state, actions });
         }
@@ -184,6 +190,7 @@ function User() {
                     closeModal={toggleEditFalse}
                     classNameButton='vipbgc'
                     onClick={() => editStatus(currentUser?.idUpdate || edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change rank this user?
@@ -199,6 +206,7 @@ function User() {
                     closeModal={modalDeleteFalse}
                     classNameButton='cancelbgc'
                     onClick={() => deleteUser(edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure to delete this user?

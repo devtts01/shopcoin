@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import className from 'classnames/bind';
@@ -51,6 +51,7 @@ function Payment() {
         },
     } = state.set;
     const { modalPaymentEdit, modalDelete, modalStatus } = state.toggle;
+    const [isProcess, setIsProcess] = useState(false);
     // Ref Input
     const refAccountName = useRef();
     const refBankName = useRef();
@@ -132,13 +133,18 @@ function Payment() {
             });
             if (isCheck) {
                 e.preventDefault();
-                requestRefreshToken(
-                    currentUser,
-                    handleCreatePayment,
-                    state,
-                    dispatch,
-                    actions
-                );
+                await 1;
+                setIsProcess(true);
+                setTimeout(() => {
+                    requestRefreshToken(
+                        currentUser,
+                        handleCreatePayment,
+                        state,
+                        dispatch,
+                        actions
+                    );
+                    setIsProcess(false);
+                }, 1000);
             }
         } catch (err) {
             checkErrorPayment({ dispatch, state, actions, err });
@@ -162,14 +168,19 @@ function Payment() {
     };
     const updatePayment = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleUpdatePayment,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUpdatePayment,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             checkErrorPayment({ dispatch, state, actions, err });
         }
@@ -201,8 +212,8 @@ function Payment() {
             checkErrorPayment({ dispatch, state, actions, err });
         }
     };
-    const handleDeletePayment = async (data, id) => {
-        await handleDelete({
+    const handleDeletePayment = (data, id) => {
+        handleDelete({
             data,
             id,
             dispatch,
@@ -295,6 +306,7 @@ function Payment() {
                     onClick={() =>
                         updatedTypePayment(currentUser?.idUpdate || edit.id)
                     }
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change type payment?
@@ -315,6 +327,7 @@ function Payment() {
                             ? () => updatePayment(edit.itemData._id)
                             : createPayment
                     }
+                    isProcess={isProcess}
                 >
                     <FormInput
                         label='Account Name'
@@ -359,6 +372,7 @@ function Payment() {
                     closeModal={modalDeleteFalse}
                     classNameButton='cancelbgc'
                     onClick={() => deletePayment(edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure to delete this payment?

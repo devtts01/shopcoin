@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 // import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -45,6 +45,7 @@ function Buy() {
         searchValues: { buy },
     } = state.set;
     const { modalStatus, modalDelete } = state.toggle;
+    const [isProcess, setIsProcess] = useState(false);
 
     useEffect(() => {
         document.title = `Buy | ${process.env.REACT_APP_TITLE_WEB}`;
@@ -86,27 +87,32 @@ function Buy() {
     };
     const editStatusBuy = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleEdit,
-                state,
-                dispatch,
-                actions,
-                id
-            );
-            dispatch(
-                actions.toggleModal({
-                    ...state.toggle,
-                    modalStatus: false,
-                })
-            );
-            dispatch(
-                actions.setData({
-                    ...state.set,
-                    statusUpdate: '',
-                    statusCurrent: '',
-                })
-            );
+            await 1;
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleEdit,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                dispatch(
+                    actions.toggleModal({
+                        ...state.toggle,
+                        modalStatus: false,
+                    })
+                );
+                dispatch(
+                    actions.setData({
+                        ...state.set,
+                        statusUpdate: '',
+                        statusCurrent: '',
+                    })
+                );
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             checkErrorBuys({ err, dispatch, state, actions });
         }
@@ -237,6 +243,7 @@ function Buy() {
                     onClick={() =>
                         editStatusBuy(currentUser?.idUpdate || edit?.id)
                     }
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure change status this{' '}
@@ -256,6 +263,7 @@ function Buy() {
                     closeModal={modalDeleteFalse}
                     classNameButton='cancelbgc'
                     onClick={() => deleteBuy(edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure to delete this coin?

@@ -29,6 +29,7 @@ function Rate() {
         pagination: { page, show },
     } = state.set;
     const [modalRate, setModalRate] = useState(false);
+    const [isProcess, setIsProcess] = useState(false);
     const [rateUpdate, setRateUpdate] = useState({
         rateDeposit: null,
         rateWithdraw: null,
@@ -70,15 +71,19 @@ function Rate() {
     const updateRate = async () => {
         try {
             await 1;
-            requestRefreshToken(
-                currentUser,
-                handleUpdateRate,
-                state,
-                dispatch,
-                actions
-            );
-            setRateUpdate({ rateDeposit: null, rateWithdraw: null });
-            setModalRate(false);
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUpdateRate,
+                    state,
+                    dispatch,
+                    actions
+                );
+                setRateUpdate({ rateDeposit: null, rateWithdraw: null });
+                setModalRate(false);
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             console.log(err);
         }
@@ -141,6 +146,7 @@ function Rate() {
                     classNameButton='vipbgc'
                     errorMessage={error}
                     onClick={updateRate}
+                    isProcess={isProcess}
                 >
                     <FormInput
                         label='Rate Deposit'

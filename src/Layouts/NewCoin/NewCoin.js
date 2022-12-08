@@ -59,6 +59,7 @@ function NewCoin() {
         form: { nameCoin, symbolCoin, indexCoin, fullName, logo },
     } = state.set;
     const { hideAllUser, modalDelete } = state.toggle;
+    const [isProcess, setIsProcess] = useState(false);
     const [dataUserFake, setDataUserFake] = useState([...dataBlacklistUser]);
     const refCheckbox = useRef();
     const refNameCoin = useRef();
@@ -203,25 +204,29 @@ function NewCoin() {
             });
             if (isCheck) {
                 e.preventDefault();
-                requestRefreshToken(
-                    currentUser,
-                    handleAddCoin,
-                    state,
-                    dispatch,
-                    actions
-                );
-                dispatch(
-                    actions.setData({
-                        ...state.set,
-                        message: {
-                            ...state.set.message,
-                            cre: 'Created Success',
-                            error: '',
-                            del: '',
-                            upd: '',
-                        },
-                    })
-                );
+                setIsProcess(true);
+                setTimeout(() => {
+                    requestRefreshToken(
+                        currentUser,
+                        handleAddCoin,
+                        state,
+                        dispatch,
+                        actions
+                    );
+                    dispatch(
+                        actions.setData({
+                            ...state.set,
+                            message: {
+                                ...state.set.message,
+                                cre: 'Created Success',
+                                error: '',
+                                del: '',
+                                upd: '',
+                            },
+                        })
+                    );
+                    setIsProcess(false);
+                }, 1000);
             }
         } catch (err) {
             checkErrorCoins({ dispatch, state, actions, err });
@@ -249,26 +254,31 @@ function NewCoin() {
     const updateCoin = async (e, id) => {
         try {
             e.preventDefault();
-            requestRefreshToken(
-                currentUser,
-                handleUpdateCoin,
-                state,
-                dispatch,
-                actions,
-                id
-            );
-            dispatch(
-                actions.setData({
-                    ...state.set,
-                    message: {
-                        ...state.set.message,
-                        upd: 'Updated Success',
-                        del: '',
-                        error: '',
-                        cre: '',
-                    },
-                })
-            );
+            await 1;
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUpdateCoin,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                dispatch(
+                    actions.setData({
+                        ...state.set,
+                        message: {
+                            ...state.set.message,
+                            upd: 'Updated Success',
+                            del: '',
+                            error: '',
+                            cre: '',
+                        },
+                    })
+                );
+                setIsProcess(false);
+            }, 1000);
         } catch (err) {
             checkErrorCoins({ dispatch, state, actions, err });
         }
@@ -497,6 +507,8 @@ function NewCoin() {
                                 ? (e) => updateCoin(e, idCoin)
                                 : addNewCoin
                         }
+                        isProcess={isProcess}
+                        disabled={isProcess}
                     >
                         {edit?.itemData ? 'Update' : 'Add'}
                     </Button>
@@ -510,6 +522,7 @@ function NewCoin() {
                     closeModal={toggleDeleteFalse}
                     classNameButton='delete-button'
                     onClick={() => handleDeleteBlacklistUser(edit.id)}
+                    isProcess={isProcess}
                 >
                     <p className='modal-delete-desc'>
                         Are you sure to delete this user blacklist?

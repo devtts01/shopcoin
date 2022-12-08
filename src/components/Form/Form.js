@@ -101,7 +101,7 @@ function Form({
                     {children}
                     <Button
                         isProcess={isProcess}
-                        disabled={disabled}
+                        disabled={isProcess || disabled}
                         className={`${cx('form-btn')}`}
                         onClick={onClick}
                     >

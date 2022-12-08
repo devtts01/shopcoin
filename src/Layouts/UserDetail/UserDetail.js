@@ -59,6 +59,11 @@ function UserDetail() {
         quantityCoin,
     } = state.set;
     const { modalDelete, selectStatus } = state.toggle;
+    const [isProcessFee, setIsProcessFee] = useState(false);
+    const [isProcessCoin, setIsProcessCoin] = useState(false);
+    const [isProcessChangePwd, setIsProcessChangePwd] = useState(false);
+    const [isProcessBlockUser, setIsProcessBlockUser] = useState(false);
+    const [isProcessRefreshPwd, setIsProcessRefreshPwd] = useState(false);
     const [feeValue, setFeeValue] = useState(
         edit?.itemData && edit.itemData.fee
     );
@@ -137,15 +142,20 @@ function UserDetail() {
     };
     const updateFee = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleUpdateFee,
-                state,
-                dispatch,
-                actions,
-                id
-            );
-            setFeeValue('');
+            await 1;
+            setIsProcessFee(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUpdateFee,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setFeeValue('');
+                setIsProcessFee(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -163,14 +173,19 @@ function UserDetail() {
     };
     const updateCoin = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleUpdateCoin,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessCoin(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUpdateCoin,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessCoin(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -187,14 +202,19 @@ function UserDetail() {
     };
     const changePwd = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleChangePwd,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessChangePwd(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleChangePwd,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessChangePwd(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -204,14 +224,19 @@ function UserDetail() {
     };
     const refreshPwd = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleRefreshPwd,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessRefreshPwd(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleRefreshPwd,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessRefreshPwd(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -228,14 +253,19 @@ function UserDetail() {
     };
     const onBlockUser = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleBlockUser,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessBlockUser(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleBlockUser,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessBlockUser(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -252,14 +282,19 @@ function UserDetail() {
     };
     const onUnblockUser = async (id) => {
         try {
-            requestRefreshToken(
-                currentUser,
-                handleUnBlockUser,
-                state,
-                dispatch,
-                actions,
-                id
-            );
+            await 1;
+            setIsProcessBlockUser(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleUnBlockUser,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcessBlockUser(false);
+            }, 1000);
         } catch (err) {
             checkErrorUsers(err, dispatch, state, actions);
         }
@@ -424,7 +459,8 @@ function UserDetail() {
                         <Button
                             onClick={() => updateFee(idUser)}
                             className={`${cx('btn')} vipbgc`}
-                            disabled={!feeValue}
+                            disabled={!feeValue || isProcessFee}
+                            isProcess={isProcessFee}
                         >
                             Update
                         </Button>
@@ -493,7 +529,10 @@ function UserDetail() {
                             <Button
                                 onClick={() => updateCoin(idUser)}
                                 className='vipbgc'
-                                disabled={!coin && !quantityCoin}
+                                disabled={
+                                    (!coin && !quantityCoin) || isProcessCoin
+                                }
+                                isProcess={isProcessCoin}
                             >
                                 Change
                             </Button>
@@ -567,6 +606,8 @@ function UserDetail() {
                                 ? () => onUnblockUser(idUser)
                                 : () => onBlockUser(idUser)
                         }
+                        isProcess={isProcessBlockUser}
+                        disabled={isProcessBlockUser}
                     >
                         <div className='flex-center'>
                             {!x?.blockUser ? (
@@ -582,6 +623,8 @@ function UserDetail() {
                     <Button
                         className='confirmbgc'
                         onClick={() => refreshPwd(idUser)}
+                        isProcess={isProcessRefreshPwd}
+                        disabled={isProcessRefreshPwd}
                     >
                         <div className='flex-center'>
                             <Icons.RefreshPageIcon />{' '}
@@ -607,6 +650,7 @@ function UserDetail() {
                     openModal={modalChangePwdTrue}
                     classNameButton='vipbgc'
                     onClick={() => changePwd(idUser)}
+                    isProcess={isProcessChangePwd}
                 >
                     <FormInput
                         type='password'
