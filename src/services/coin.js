@@ -65,7 +65,7 @@ export const SVbuyCoin = async (props = {}) => {
             },
           ],
         );
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -82,7 +82,7 @@ export const SVbuyCoin = async (props = {}) => {
             },
           ],
         );
-      }, 5000);
+      }, 3000);
       break;
     default:
       break;
@@ -121,7 +121,7 @@ export const SVsellCoin = async (props = {}) => {
             },
           ],
         );
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -138,7 +138,7 @@ export const SVsellCoin = async (props = {}) => {
             },
           ],
         );
-      }, 5000);
+      }, 3000);
       break;
     default:
       break;

@@ -48,7 +48,7 @@ export const SVcreateWithdraw = async (props = {}) => {
               }),
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -62,7 +62,7 @@ export const SVcreateWithdraw = async (props = {}) => {
               props.navigation.navigate(routersMain.CreateWithdraw),
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     default:
       break;
@@ -92,7 +92,7 @@ export const SVcheckCode = async (props = {}) => {
             },
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -107,7 +107,7 @@ export const SVcheckCode = async (props = {}) => {
               props.navigation.navigate(routersMain.CreateWithdraw),
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     default:
       break;
@@ -123,7 +123,7 @@ export const SVdeleteWithdraw = async (props = {}) => {
       setTimeout(() => {
         props.setLoading(false);
         props.navigation.navigate(routers.Withdraw);
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -136,7 +136,7 @@ export const SVdeleteWithdraw = async (props = {}) => {
             onPress: () => {},
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     default:
       break;
@@ -163,7 +163,7 @@ export const SVresendCode = async (props = {}) => {
             },
           ],
         );
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -176,7 +176,7 @@ export const SVresendCode = async (props = {}) => {
             onPress: () => {},
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
   }
 };

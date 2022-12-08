@@ -25,7 +25,7 @@ export const addBankInfo = async (props = {}) => {
               props.navigation.navigate(routersMain.CreateWithdraw),
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -43,7 +43,7 @@ export const addBankInfo = async (props = {}) => {
             },
           ],
         );
-      }, 5000);
+      }, 3000);
       break;
     default:
       break;
