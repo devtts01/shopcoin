@@ -197,11 +197,18 @@ function DepositsWithdrawDetail() {
                                 Document Review
                             </div>
                             {x?.statement ? (
-                                <Image
-                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.statement}`}
-                                    alt={x.statement.replace('/images/', '')}
-                                    className={`${cx('document-review-image')}`}
-                                />
+                                <div className={`${cx('document-container')}`}>
+                                    <Image
+                                        src={`${process.env.REACT_APP_URL_SERVER}/${x?.statement}`}
+                                        alt={x.statement.replace(
+                                            '/images/',
+                                            ''
+                                        )}
+                                        className={`${cx(
+                                            'document-review-image'
+                                        )}`}
+                                    />
+                                </div>
                             ) : (
                                 <Skeleton width='100%' height='200px' />
                             )}
