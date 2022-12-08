@@ -38,6 +38,8 @@
     height: 100%;
     /* width: 280px;
     height: 550px; */
-    object-fit: fill;
+    object-fit: contain;
     border-radius: 8px;
+    image-rendering: auto;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
 }

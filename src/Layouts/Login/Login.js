@@ -48,7 +48,7 @@ function Login() {
                             },
                         })
                     );
-                    history('/');
+                    history(routers.dashboard);
                     break;
                 case 1:
                 case 2:
