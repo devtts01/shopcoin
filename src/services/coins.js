@@ -5,6 +5,7 @@ import {
     dispatchEdit,
     dispatchDelete,
     searchUtils,
+    validates,
 } from '../utils';
 import routers from '../routers/routers';
 // GET DATA COINS
@@ -99,7 +100,6 @@ export const checkFormCoins = (props = {}) => {
             props.actions.setData({
                 ...props.state.set,
                 message: {
-                    // ...props.state.set.message,
                     error: `Please upload logo`,
                 },
             })
@@ -120,7 +120,6 @@ export const checkErrorCoins = (props = {}) => {
         props.actions.setData({
             ...props.state.set,
             message: {
-                // ...props.state.set.message,
                 error: props.err?.response?.data,
             },
         })
@@ -206,23 +205,7 @@ export const handleCreate = async (props = {}) => {
             return props.data;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPost.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPost, props);
             break;
         default:
             break;
@@ -278,23 +261,7 @@ export const handleUpdate = async (props = {}) => {
             return props.data;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;
@@ -324,23 +291,7 @@ export const handleDelete = async (props = {}) => {
             return props.data;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resDel.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resDel, props);
             break;
         default:
             break;

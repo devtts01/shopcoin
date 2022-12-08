@@ -1,4 +1,4 @@
-import { axiosUtils, dispatchEdit } from '../utils';
+import { axiosUtils, dispatchEdit, validates } from '../utils';
 
 // GET DATA RATE
 export const getRates = async (props = {}) => {
@@ -34,23 +34,7 @@ export const SVupdateRate = async (props = {}) => {
             return props.data;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;

@@ -28,3 +28,4 @@ export * as textUtils from './format/LetterFirstUpc';
 export * as dateUtils from './format/DateVN';
 export * as handleUtils from './HandleGeneral';
 export * as refreshPage from './RefreshPage';
+export * as validates from './Validate';

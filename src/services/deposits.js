@@ -3,6 +3,7 @@ import {
     searchUtils,
     dispatchEdit,
     dispatchDelete,
+    validates,
 } from '../utils';
 
 // GET DATA DEPOSITS
@@ -53,7 +54,6 @@ export const checkErrorDeposits = (props = {}) => {
         props.actions.setData({
             ...props.state.set,
             message: {
-                // ...props.state.set.message,
                 error: props.err?.response?.data,
             },
         })
@@ -96,23 +96,7 @@ export const handleEdit = async (props = {}) => {
             return props.data;
         case 1:
         case 2:
-            props.dispatch(
-                props.actions.setData({
-                    ...props.state.set,
-                    message: {
-                        // ...props.state.set.message,
-                        error: resPut.message,
-                    },
-                })
-            );
-            props.dispatch(
-                props.actions.toggleModal({
-                    ...props.state.toggle,
-                    modalDelete: false,
-                    modalStatus: false,
-                    alertModal: true,
-                })
-            );
+            validates.validateCase1_2(resPut, props);
             break;
         default:
             break;
