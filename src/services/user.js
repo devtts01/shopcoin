@@ -35,7 +35,7 @@ export const SVchangePassword = async (props = {}) => {
             onPress: () => props.navigation.navigate(routersMain.Login),
           },
         ]);
-      }, 5000);
+      }, 3000);
       props.dispatch(
         props.setFormValue({
           password: '',
@@ -127,7 +127,7 @@ export const SVuploadDocument = async (props = {}) => {
             onPress: () => props.navigation.navigate(routers.Profile),
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -145,7 +145,7 @@ export const SVuploadDocument = async (props = {}) => {
             },
           ],
         );
-      }, 5000);
+      }, 3000);
       break;
     default:
       break;
@@ -168,7 +168,7 @@ export const SVresetPassword = async (props = {}) => {
             onPress: () => props.navigation.navigate(routersMain.Login),
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     case 1:
     case 2:
@@ -181,7 +181,7 @@ export const SVresetPassword = async (props = {}) => {
             onPress: () => props.navigation.navigate(routersMain.ResetPwd),
           },
         ]);
-      }, 5000);
+      }, 3000);
       break;
     default:
       break;
