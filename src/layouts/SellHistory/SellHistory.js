@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
 import {View, Text, RefreshControl, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils/';

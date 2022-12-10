@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 // import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
@@ -36,6 +36,7 @@ export default function SellCoin({navigation, route}) {
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   const handleChangeInput = (name, val) => {
     dispatch(setAmountSell(val));
   };
@@ -79,10 +80,12 @@ export default function SellCoin({navigation, route}) {
       token: data?.token,
       setLoading,
       navigation,
+      setIsProcess,
     });
   };
   const handleSubmit = async () => {
     try {
+      setIsProcess(true);
       requestRefreshToken(
         currentUser,
         sellCoinAPI,
@@ -171,15 +174,17 @@ export default function SellCoin({navigation, route}) {
       <View style={[styles.btn_container]}>
         <TouchableOpacity
           activeOpacity={0.6}
-          disabled={!amountSell || isDisabled}
+          disabled={!amountSell || isDisabled || isProcess}
           style={[
             styles.btn,
-            (!amountSell || isDisabled) && stylesGeneral.op6,
+            (!amountSell || isDisabled || isProcess) && stylesGeneral.op6,
             stylesStatus.confirmbgcbold,
             stylesGeneral.mr10,
           ]}
           onPress={handleSubmit}>
-          <Text style={[styles.btn_text, stylesStatus.white]}>Sell Coin</Text>
+          <Text style={[styles.btn_text, stylesStatus.white]}>
+            {isProcess ? <ActivityIndicator color="white" /> : 'Sell Coin'}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSubmit}

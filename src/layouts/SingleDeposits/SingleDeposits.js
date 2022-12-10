@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
@@ -7,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -33,6 +33,7 @@ export default function SingleDeposits({navigation, route}) {
   const [fileResponse, setFileResponse] = useState(null);
   const [dataImageForm, setDataImageForm] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -68,10 +69,12 @@ export default function SingleDeposits({navigation, route}) {
       getAllDeposits,
       setLoading,
       navigation,
+      setIsProcess,
     });
   };
   const handleSubmit = id => {
     try {
+      setIsProcess(true);
       requestRefreshToken(
         currentUser,
         submitSingleDepositsAPI,
@@ -180,16 +183,17 @@ export default function SingleDeposits({navigation, route}) {
         <TouchableOpacity
           onPress={() => handleSubmit(data?._id)}
           activeOpacity={0.6}
-          disabled={!fileResponse}
+          disabled={!fileResponse || isProcess}
           style={[
             styles.btn,
-            !fileResponse && !data?.statement && stylesGeneral.op6,
+            ((!fileResponse && !data?.statement) || isProcess) &&
+              stylesGeneral.op6,
             stylesStatus.confirmbgcbold,
             stylesGeneral.mt10,
           ]}>
           <Text
             style={[styles.btn_text, stylesStatus.white, stylesGeneral.fwbold]}>
-            Submit
+            {isProcess ? <ActivityIndicator color="white" /> : 'Submit'}
           </Text>
         </TouchableOpacity>
         {loading && <ModalLoading />}

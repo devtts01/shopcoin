@@ -1,14 +1,12 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import socketIO from 'socket.io-client';
@@ -44,6 +42,7 @@ export default function BuyCoin({navigation, route}) {
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   useEffect(() => {
     SVgetACoin({
       id,
@@ -96,9 +95,11 @@ export default function BuyCoin({navigation, route}) {
       token: data?.token,
       setLoading,
       navigation,
+      setIsProcess,
     });
   };
   const handleSubmit = () => {
+    setIsProcess(true);
     requestRefreshToken(
       currentUser,
       handleBuyAPI,
@@ -199,12 +200,14 @@ export default function BuyCoin({navigation, route}) {
         activeOpacity={0.6}
         style={[
           styles.btn,
-          (!amountCoin || isDisabled) && stylesGeneral.op6,
+          (!amountCoin || isDisabled || isProcess) && stylesGeneral.op6,
           stylesStatus.confirmbgcbold,
         ]}
         onPress={handleSubmit}
-        disabled={!amountCoin || isDisabled}>
-        <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
+        disabled={!amountCoin || isDisabled || isProcess}>
+        <Text style={[styles.btn_text, stylesStatus.white]}>
+          {isProcess ? <ActivityIndicator color="white" /> : 'Submit'}
+        </Text>
       </TouchableOpacity>
       {loading && <ModalLoading />}
     </ScrollView>

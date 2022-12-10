@@ -35,6 +35,7 @@ export const SVcreateDeposits = async (props = {}) => {
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Deposits request was successfully!', [
@@ -61,6 +62,7 @@ export const SVcreateDeposits = async (props = {}) => {
     case 1:
     case 2:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert(
@@ -102,6 +104,7 @@ export const SVupdateDeposits = async (props = {}) => {
   switch (resPut.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', resPut?.message, [
@@ -124,6 +127,7 @@ export const SVupdateDeposits = async (props = {}) => {
     case 1:
     case 2:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Erroe!', resPut?.message, [

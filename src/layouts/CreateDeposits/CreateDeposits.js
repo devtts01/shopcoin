@@ -1,8 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
@@ -10,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import {
   FormInput,
@@ -51,6 +49,7 @@ export default function CreateDeposits({navigation}) {
   } = state;
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     SVgetUserById({
@@ -112,10 +111,12 @@ export default function CreateDeposits({navigation}) {
       dispatch,
       navigation,
       setFormDeposits,
+      setIsProcess,
     });
   };
   const handleSubmit = async () => {
     try {
+      setIsProcess(true);
       requestRefreshToken(
         currentUser,
         createDepositsAPI,
@@ -162,16 +163,26 @@ export default function CreateDeposits({navigation}) {
         </View>
       )}
       <TouchableOpacity
-        disabled={!amountUSDT || !bank || (amountUSDT && !Number(amountUSDT))}
+        disabled={
+          !amountUSDT ||
+          isProcess ||
+          !bank ||
+          (amountUSDT && !Number(amountUSDT))
+        }
         activeOpacity={0.6}
         style={[
           styles.btn_submit,
-          (!amountUSDT || !bank || (amountUSDT && !Number(amountUSDT))) &&
+          (!amountUSDT ||
+            isProcess ||
+            !bank ||
+            (amountUSDT && !Number(amountUSDT))) &&
             stylesGeneral.op6,
           stylesStatus.confirmbgcbold,
         ]}
         onPress={handleSubmit}>
-        <Text style={[stylesStatus.white, stylesGeneral.fwbold]}>Submit</Text>
+        <Text style={[stylesStatus.white, stylesGeneral.fwbold]}>
+          {isProcess ? <ActivityIndicator color="white" /> : 'Submit'}
+        </Text>
       </TouchableOpacity>
       <ModalBank
         modalVisible={modalVisible}

@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 import {View, Text, Image} from 'react-native';
 import React from 'react';
 import {URL_SERVER} from '@env';

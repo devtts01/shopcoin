@@ -1,9 +1,6 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable prettier/prettier */
-import {useRef, useEffect} from 'react';
+import {useRef, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useAppContext} from '../../utils';
 import {setFormValue} from '../../app/payloads/form';
@@ -20,9 +17,11 @@ const Login = ({navigation}) => {
   const {
     form: {email, password},
   } = state;
+  const [isProcess, setIsProcess] = useState(false);
   const refEmail = useRef();
   const refPwd = useRef();
   const handleLogin = async () => {
+    setIsProcess(true);
     await userLogin({
       email,
       password,
@@ -30,6 +29,7 @@ const Login = ({navigation}) => {
       state,
       setFormValue,
       setMessage,
+      setIsProcess,
       redirect: () => navigation.navigate(routersMain.MainPage),
     });
   };
@@ -41,6 +41,7 @@ const Login = ({navigation}) => {
       bolPwd
       refEmail={refEmail}
       refPwd={refPwd}
+      isProcess={isProcess}
       onPress={handleLogin}>
       <View style={[styles.desc, stylesGeneral.flexRow]}>
         <Text style={[styles.desc_text, stylesGeneral.text_black]}>

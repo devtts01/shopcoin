@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 import {forwardRef, useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';

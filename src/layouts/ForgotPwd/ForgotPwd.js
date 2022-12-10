@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable prettier/prettier */
 import {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useAppContext} from '../../utils';
@@ -20,9 +19,11 @@ const ForgotPwd = ({navigation}) => {
     form: {email},
   } = state;
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   const handleSubmit = async () => {
     try {
       await 1;
+      setIsProcess(true);
       SVforgotPwd({
         email,
         dispatch,
@@ -31,6 +32,7 @@ const ForgotPwd = ({navigation}) => {
         getTokenForgotPwd,
         setLoading,
         navigation,
+        setIsProcess,
       });
     } catch (err) {
       console.log(err);
@@ -42,6 +44,7 @@ const ForgotPwd = ({navigation}) => {
         titleForm="Forgot Password"
         textBtn="Send email"
         bolEmail
+        isProcess={isProcess}
         onPress={handleSubmit}>
         <View style={[styles.desc, stylesGeneral.flexRow]}>
           <Text style={[styles.desc_text, stylesGeneral.text_black]}>

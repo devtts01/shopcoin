@@ -1,14 +1,12 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 // import {launchImageLibrary} from 'react-native-image-picker';
@@ -36,6 +34,7 @@ export default function UploadDoument({navigation}) {
     useState(null);
   const [fileResponseBackLicense, setFileResponseBackLicense] = useState(null);
   const [dataImageForm, setDataImageForm] = useState([]);
+  const [isProcess, setIsProcess] = useState(false);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -145,10 +144,12 @@ export default function UploadDoument({navigation}) {
       token: data?.token,
       setLoading,
       navigation,
+      setIsProcess,
     });
   };
   const handleSubmit = id => {
     try {
+      setIsProcess(true);
       requestRefreshToken(
         currentUser,
         uploadImageAPI,
@@ -233,20 +234,31 @@ export default function UploadDoument({navigation}) {
         </View>
         <TouchableOpacity
           activeOpacity={0.6}
-          style={[styles.btn, stylesStatus.confirmbgcbold]}
+          disabled={isProcess}
+          style={[
+            styles.btn,
+            stylesStatus.confirmbgcbold,
+            isProcess && stylesGeneral.op6,
+          ]}
           onPress={
             !isStatus ? handleChangeStatus : () => handleSubmit(currentUser?.id)
           }>
           <Text
             style={[styles.btn_text, stylesStatus.white, stylesGeneral.fz16]}>
-            {!isStatus
-              ? userById?.uploadCCCDFont ||
-                userById?.uploadCCCDBeside ||
-                userById?.uploadLicenseFont ||
-                userById?.uploadLicenseBeside
-                ? 'Change document'
-                : 'Start upload'
-              : 'Submit'}
+            {!isStatus ? (
+              userById?.uploadCCCDFont ||
+              userById?.uploadCCCDBeside ||
+              userById?.uploadLicenseFont ||
+              userById?.uploadLicenseBeside ? (
+                'Change document'
+              ) : (
+                'Start upload'
+              )
+            ) : isProcess ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              'Submit'
+            )}
           </Text>
         </TouchableOpacity>
       </View>

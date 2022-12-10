@@ -1,6 +1,11 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-import {Text, ScrollView, RefreshControl, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  ScrollView,
+  RefreshControl,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
 import {
   FormInput,
@@ -28,6 +33,7 @@ export default function ProfilePayment({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -51,10 +57,13 @@ export default function ProfilePayment({navigation}) {
       token: data?.token,
       setLoading,
       navigation,
+      setIsProcess,
     });
   };
   const handleSubmit = async () => {
     try {
+      await 1;
+      setIsProcess(true);
       requestRefreshToken(
         currentUser,
         addBankInfoAPI,
@@ -97,12 +106,15 @@ export default function ProfilePayment({navigation}) {
       <TouchableOpacity
         style={[
           styles.btn,
-          (!bank || !accountName || !accountNumber) && stylesGeneral.op6,
+          (!bank || !accountName || !accountNumber || isProcess) &&
+            stylesGeneral.op6,
           stylesStatus.confirmbgcbold,
         ]}
         onPress={handleSubmit}
-        disabled={!bank || !accountName || !accountNumber}>
-        <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
+        disabled={!bank || !accountName || !accountNumber || isProcess}>
+        <Text style={[styles.btn_text, stylesStatus.white]}>
+          {isProcess ? <ActivityIndicator color="white" /> : 'Submit'}
+        </Text>
       </TouchableOpacity>
       <ModalBank
         modalVisible={modalVisible}

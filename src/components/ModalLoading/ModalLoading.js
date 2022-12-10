@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 import {View, Text, Modal} from 'react-native';
 import React from 'react';
 import ProgressBar from 'react-native-animated-progress';

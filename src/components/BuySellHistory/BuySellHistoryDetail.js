@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import {dateFormat} from '../../utils/format/Date';
 import stylesStatus from '../../styles/Status';

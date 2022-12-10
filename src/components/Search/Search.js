@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable prettier/prettier */
 import {View, TextInput} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './SearchCss';

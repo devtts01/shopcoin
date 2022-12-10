@@ -5,6 +5,7 @@ import {
   Alert,
   TouchableOpacity,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {FormInput, ModalLoading} from '../../components';
@@ -27,6 +28,7 @@ export default function ChangePwd({navigation}) {
     message: {error},
   } = state;
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -54,6 +56,7 @@ export default function ChangePwd({navigation}) {
       dispatch,
       setMessage,
       setFormValue,
+      setIsProcess,
     });
   };
   const handleSubmit = async () => {
@@ -64,6 +67,7 @@ export default function ChangePwd({navigation}) {
         Alert.alert('Error', 'Password not match');
       } else {
         await 1;
+        setIsProcess(true);
         requestRefreshToken(
           currentUser,
           changePwdAPI,
@@ -119,16 +123,17 @@ export default function ChangePwd({navigation}) {
       <TouchableOpacity
         activeOpacity={0.6}
         onPress={handleSubmit}
-        disabled={!password || !oldPwd || !confirmPwd}
+        disabled={!password || !oldPwd || !confirmPwd || isProcess}
         style={[
           styles.btn,
-          (!password || !oldPwd || !confirmPwd) && stylesGeneral.op6,
+          (!password || !oldPwd || !confirmPwd || isProcess) &&
+            stylesGeneral.op6,
           stylesGeneral.flexCenter,
           stylesGeneral.mt10,
           stylesStatus.confirmbgcbold,
         ]}>
         <Text style={[stylesStatus.white, stylesGeneral.fwbold]}>
-          Change Password
+          {isProcess ? <ActivityIndicator color="white" /> : 'Change Password'}
         </Text>
       </TouchableOpacity>
       {loading && <ModalLoading />}
