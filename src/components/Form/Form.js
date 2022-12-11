@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
@@ -10,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {FormInput} from '../../components';
 import {useAppContext} from '../../utils';
@@ -33,6 +32,7 @@ const Form = ({
   refOtp,
   children,
   onPress,
+  isProcess,
 }) => {
   const {state, dispatch} = useAppContext();
   const {
@@ -127,15 +127,16 @@ const Form = ({
           )}
           <TouchableOpacity
             activeOpacity={0.6}
-            style={[styles.input_item]}
-            onPress={onPress}>
+            style={[styles.input_item, isProcess && stylesGeneral.op6]}
+            onPress={onPress}
+            disabled={isProcess}>
             <Text
               style={[
                 styles.input_btn,
                 stylesStatus.confirmbgcbold,
                 stylesGeneral.fz16,
               ]}>
-              {textBtn}
+              {isProcess ? <ActivityIndicator color="white" /> : textBtn}
             </Text>
           </TouchableOpacity>
           {children}

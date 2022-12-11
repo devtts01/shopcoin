@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable prettier/prettier */
 import {View, Text, TouchableOpacity} from 'react-native';
 import {userRegister} from '../../services/userAuthen';
 import {setFormValue} from '../../app/payloads/form';
@@ -11,13 +10,16 @@ import {routersMain} from '../../routers/Main';
 import styles from './RegisterCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
+import {useState} from 'react';
 
 const Register = ({navigation}) => {
   const {state, dispatch} = useAppContext();
   const {
     form: {username, email, password},
   } = state;
+  const [isProcess, setIsProcess] = useState(false);
   const handleRegister = () => {
+    setIsProcess(true);
     userRegister({
       username,
       email,
@@ -27,6 +29,7 @@ const Register = ({navigation}) => {
       navigation,
       setMessage,
       setFormValue,
+      setIsProcess,
     });
   };
   return (
@@ -36,6 +39,7 @@ const Register = ({navigation}) => {
       bolUsername
       bolEmail
       bolPwd
+      isProcess={isProcess}
       onPress={handleRegister}>
       <View style={[styles.desc, stylesGeneral.flexRow]}>
         <Text style={[styles.desc_text]}>You have an acount?</Text>

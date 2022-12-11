@@ -1,15 +1,11 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable prettier/prettier */
 import {useCallback, useEffect, useState} from 'react';
 import {Text, RefreshControl, View, FlatList} from 'react-native';
 import {useAppContext} from '../../utils/';
-import {SVgetBuyHistory} from '../../services/bills';
-import {getHistoryBuy} from '../../app/payloads/history';
+import {SVgetBuyHistory, SVgetSellHistory} from '../../services/bills';
+import {getHistoryBuy, getHistorySell} from '../../app/payloads/history';
 import {routersMain} from '../../routers/Main';
 import {routers} from '../../routers/Routers';
 import styles from './BuyHistoryCss';
@@ -50,14 +46,28 @@ const History = ({navigation}) => {
       <View style={[styles.btn_container, stylesGeneral.mb10]}>
         <View
           style={[styles.btn]}
-          onTouchStart={() => navigation.navigate(routers.History)}>
+          onTouchStart={() => {
+            SVgetBuyHistory({
+              id: currentUser?.email,
+              dispatch,
+              getHistoryBuy,
+            });
+            navigation.navigate(routers.History);
+          }}>
           <Text style={[styles.btn_text, stylesGeneral.text_black]}>
             Deposits History
           </Text>
         </View>
         <View
           style={[styles.btn]}
-          onTouchStart={() => navigation.navigate(routersMain.SellHistory)}>
+          onTouchStart={() => {
+            SVgetSellHistory({
+              id: currentUser?.email,
+              dispatch,
+              getHistorySell,
+            });
+            navigation.navigate(routersMain.SellHistory);
+          }}>
           <Text style={[styles.btn_text, stylesGeneral.text_black]}>
             Withdraws History
           </Text>

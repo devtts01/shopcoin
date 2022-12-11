@@ -14,6 +14,7 @@ export const addBankInfo = async (props = {}) => {
   switch (resPut.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Your payment has been updated!', [
@@ -28,6 +29,7 @@ export const addBankInfo = async (props = {}) => {
     case 1:
     case 2:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert(

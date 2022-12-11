@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
 import {View, Text, RefreshControl, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils/';
-import {SVgetSellHistory} from '../../services/bills';
-import {getHistorySell} from '../../app/payloads/history';
+import {SVgetBuyHistory, SVgetSellHistory} from '../../services/bills';
+import {getHistorySell, getHistoryBuy} from '../../app/payloads/history';
 import {BuySellHistoryDetail, NodataText} from '../../components';
 import {routersMain} from '../../routers/Main';
 import {routers} from '../../routers/Routers';
@@ -47,14 +46,28 @@ export default function SellHistory({navigation}) {
       <View style={[styles.btn_container, stylesGeneral.mb10]}>
         <View
           style={[styles.btn]}
-          onTouchStart={() => navigation.navigate(routers.History)}>
+          onTouchStart={() => {
+            SVgetBuyHistory({
+              id: currentUser?.email,
+              dispatch,
+              getHistoryBuy,
+            });
+            navigation.navigate(routers.History);
+          }}>
           <Text style={[styles.btn_text, stylesGeneral.text_black]}>
             Deposits History
           </Text>
         </View>
         <View
           style={[styles.btn]}
-          onTouchStart={() => navigation.navigate(routersMain.SellHistory)}>
+          onTouchStart={() => {
+            SVgetSellHistory({
+              id: currentUser?.email,
+              dispatch,
+              getHistorySell,
+            });
+            navigation.navigate(routersMain.SellHistory);
+          }}>
           <Text style={[styles.btn_text, stylesGeneral.text_black]}>
             Withdraws History
           </Text>

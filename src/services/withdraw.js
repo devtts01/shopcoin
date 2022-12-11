@@ -31,10 +31,10 @@ export const SVcreateWithdraw = async (props = {}) => {
     user: props?.id,
     token: props?.token,
   });
-  console.log(resPost);
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Withdraw request was successfully!', [
@@ -54,6 +54,7 @@ export const SVcreateWithdraw = async (props = {}) => {
     case 1:
     case 2:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Error!', resPost?.message, [
@@ -81,12 +82,13 @@ export const SVcheckCode = async (props = {}) => {
   switch (resGet.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', resGet?.message, [
           {
             text: 'OK',
-            onPress: () => props.navigation.navigate(routers.Withdraw),
+            onPress: () => props.navigation.navigate(routers.Home),
           },
         ]);
       }, 3000);
@@ -98,6 +100,7 @@ export const SVcheckCode = async (props = {}) => {
     case 1:
     case 2:
       props.setLoading(true);
+      props.setIsProcess(false);
       await userDelete(`/cancelWithdraw/${props.id}`);
       setTimeout(() => {
         props.setLoading(false);
@@ -121,14 +124,16 @@ export const SVdeleteWithdraw = async (props = {}) => {
   switch (resDel.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcessCancel(false);
       setTimeout(() => {
         props.setLoading(false);
-        props.navigation.navigate(routers.Withdraw);
+        props.navigation.navigate(routers.Home);
       }, 3000);
       break;
     case 1:
     case 2:
       props.setLoading(true);
+      props.setIsProcessCancel(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Error!', resDel?.message, [

@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable prettier/prettier */
 import {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useAppContext} from '../../utils';
@@ -18,8 +17,11 @@ const ResetPwd = ({navigation}) => {
     form: {password, otpCode},
   } = state;
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   const handleSubmit = async () => {
     try {
+      await 1;
+      setIsProcess(true);
       SVresetPassword({
         token: tokenForgot,
         otp: otpCode,
@@ -27,6 +29,7 @@ const ResetPwd = ({navigation}) => {
         setLoading,
         dispatch,
         navigation,
+        setIsProcess,
       });
     } catch (err) {
       console.log(err);
@@ -39,6 +42,7 @@ const ResetPwd = ({navigation}) => {
         textBtn="Change"
         bolOTP
         bolPwd
+        isProcess={isProcess}
         onPress={handleSubmit}>
         <View style={[styles.desc, stylesGeneral.flexRow]}>
           <Text style={[styles.desc_text]}>You have an acount?</Text>

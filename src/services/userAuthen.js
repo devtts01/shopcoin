@@ -32,6 +32,7 @@ export const userLogin = async (props = {}) => {
           error: '',
         }),
       );
+      props.setIsProcess(false);
       props.redirect();
       break;
     case 1:
@@ -42,6 +43,7 @@ export const userLogin = async (props = {}) => {
           error: resPost?.message,
         }),
       );
+      props.setIsProcess(false);
       break;
     default:
       break;
@@ -74,6 +76,7 @@ export const userRegister = async (props = {}) => {
           error: '',
         }),
       );
+      props.setIsProcess(false);
       props.navigation.navigate(routersMain.Login);
       break;
     case 1:
@@ -84,6 +87,7 @@ export const userRegister = async (props = {}) => {
           error: resPost?.message,
         }),
       );
+      props.setIsProcess(false);
       break;
     default:
       break;

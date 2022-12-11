@@ -5,6 +5,7 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
@@ -33,6 +34,8 @@ export default function SingleWithdraw({navigation, route}) {
   const [refreshing, setRefreshing] = React.useState(false);
   const [timer, setTimer] = useState(300);
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
+  const [isProcessCancel, setIsProcessCancel] = useState(false);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -60,10 +63,13 @@ export default function SingleWithdraw({navigation, route}) {
       id: data?._id,
       setLoading,
       navigation,
+      setIsProcess,
     });
   };
   const handleSubmit = async () => {
     try {
+      await 1;
+      setIsProcess(true);
       requestRefreshToken(
         currentUser,
         createWithdrawAPI,
@@ -81,10 +87,13 @@ export default function SingleWithdraw({navigation, route}) {
       id: id,
       setLoading,
       navigation,
+      setIsProcessCancel,
     });
   };
   const handleResendCode = async () => {
     try {
+      await 1;
+      setIsProcessCancel(true);
       SVresendCode({
         id: data?._id,
         email: currentUser?.email,
@@ -181,19 +190,28 @@ export default function SingleWithdraw({navigation, route}) {
             activeOpacity={0.6}
             style={[
               styles.btn,
-              !codeVerify && stylesGeneral.op6,
+              (!codeVerify || isProcess) && stylesGeneral.op6,
               stylesStatus.confirmbgcbold,
               stylesGeneral.mr10,
             ]}
-            disabled={!codeVerify}
+            disabled={!codeVerify || isProcess}
             onPress={handleSubmit}>
-            <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
+            <Text style={[styles.btn_text, stylesStatus.white]}>
+              {isProcess ? <ActivityIndicator color="white" /> : 'Submit'}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.6}
-            style={[styles.btn, stylesStatus.cancelbgcbold]}
+            disabled={isProcessCancel}
+            style={[
+              styles.btn,
+              stylesStatus.cancelbgcbold,
+              isProcessCancel && stylesGeneral.op6,
+            ]}
             onPress={() => handleCancel(data?._id)}>
-            <Text style={[styles.btn_text, stylesStatus.white]}>Cancel</Text>
+            <Text style={[styles.btn_text, stylesStatus.white]}>
+              {isProcessCancel ? <ActivityIndicator color="white" /> : 'Cancel'}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

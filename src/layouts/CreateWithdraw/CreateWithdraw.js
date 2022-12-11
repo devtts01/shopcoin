@@ -1,15 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
 import {
   View,
   Text,
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useAppContext} from '../../utils';
@@ -40,6 +38,7 @@ export default function CreateWithdraw({navigation}) {
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const [isProcess, setIsProcess] = useState(false);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -72,6 +71,12 @@ export default function CreateWithdraw({navigation}) {
       dispatch,
       getRateWithdraw,
     });
+    dispatch(
+      setFormWithdraw({
+        ...state.withdraw,
+        amountUSDT: '',
+      }),
+    );
   }, []);
   const handleChange = (name, val) => {
     dispatch(
@@ -90,10 +95,12 @@ export default function CreateWithdraw({navigation}) {
       navigation,
       token: data?.token,
       setFormWithdraw,
+      setIsProcess,
     });
   };
   const handleSubmit = () => {
     try {
+      setIsProcess(true);
       requestRefreshToken(
         currentUser,
         createWithdrawAPI,
@@ -227,7 +234,7 @@ export default function CreateWithdraw({navigation}) {
                 </Text>
               </View>
             )}
-            {amountUSDT * rateWithdraw > 0 && (
+            {amountUSDT && amountUSDT * rateWithdraw > 0 && (
               <View style={[styles.info_detail, stylesGeneral.mb10]}>
                 <Text
                   style={[
@@ -247,15 +254,21 @@ export default function CreateWithdraw({navigation}) {
                 stylesStatus.confirmbgcbold,
                 stylesGeneral.mt10,
                 (!amountUSDT ||
+                  isProcess ||
                   parseFloat(amountUSDT) < 10 ||
                   (amountUSDT && !Number(amountUSDT))) &&
                   stylesGeneral.op6,
               ]}
               disabled={
-                !amountUSDT || !!error || (amountUSDT && !Number(amountUSDT))
+                !amountUSDT ||
+                isProcess ||
+                !!error ||
+                (amountUSDT && !Number(amountUSDT))
               }
               onPress={handleSubmit}>
-              <Text style={[styles.btn_text, stylesStatus.white]}>Submit</Text>
+              <Text style={[styles.btn_text, stylesStatus.white]}>
+                {isProcess ? <ActivityIndicator color="white" /> : 'Submit'}
+              </Text>
             </TouchableOpacity>
           </View>
         )}

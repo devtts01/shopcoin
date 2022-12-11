@@ -27,6 +27,7 @@ export const SVchangePassword = async (props = {}) => {
   switch (resPut.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Change password successfully!', [
@@ -49,6 +50,7 @@ export const SVchangePassword = async (props = {}) => {
     case 1:
     case 2:
       props.dispatch(props.setMessage({error: 'Old password is incorrect'}));
+      props.setIsProcess(false);
       break;
     default:
       break;
@@ -62,6 +64,7 @@ export const SVforgotPwd = async (props = {}) => {
   switch (resPost.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Please check email with new password!', [
@@ -91,6 +94,7 @@ export const SVforgotPwd = async (props = {}) => {
           email: '',
         }),
       );
+      props.setIsProcess(false);
       break;
     default:
       break;
@@ -119,6 +123,7 @@ export const SVuploadDocument = async (props = {}) => {
   switch (resPut.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Upload document successfully!', [
@@ -132,6 +137,7 @@ export const SVuploadDocument = async (props = {}) => {
     case 1:
     case 2:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert(
@@ -160,6 +166,7 @@ export const SVresetPassword = async (props = {}) => {
   switch (resPut.code) {
     case 0:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Success!', 'Change password successfully!', [
@@ -173,6 +180,7 @@ export const SVresetPassword = async (props = {}) => {
     case 1:
     case 2:
       props.setLoading(true);
+      props.setIsProcess(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert('Error!', resPut?.message, [
