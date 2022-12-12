@@ -155,17 +155,17 @@ function DepositsWithdrawDetail() {
                         bankInfo
                         methodBank={
                             x && location.pathname.includes('withdraw')
-                                ? x.method.methodName
+                                ? x?.method?.methodName
                                 : x?.bankAdmin?.methodName
                         }
                         nameAccount={
                             x && location.pathname.includes('withdraw')
-                                ? x.method.accountName
+                                ? x?.method?.accountName
                                 : x?.bankAdmin?.accountName
                         }
                         numberAccount={
                             x && location.pathname.includes('withdraw')
-                                ? x.method.accountNumber
+                                ? x?.method?.accountNumber
                                 : x?.bankAdmin?.accountNumber
                         }
                     />
@@ -175,7 +175,7 @@ function DepositsWithdrawDetail() {
                             info={
                                 x && (
                                     <a
-                                        href={`${process.env.REACT_APP_URL_SERVER}${x.statement}`}
+                                        href={`${process.env.REACT_APP_URL_SERVER}${x?.statement}`}
                                         target='_blank'
                                     >
                                         {x.statement ? (

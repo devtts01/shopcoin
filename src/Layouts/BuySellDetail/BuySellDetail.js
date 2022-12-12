@@ -92,20 +92,22 @@ function BuySellDetail() {
                     title='Sent'
                     info={
                         x && pathname.includes('sell')
-                            ? x.amount
-                            : numberUtils.formatUSD(x.amountUsd)
+                            ? x?.amount
+                            : numberUtils.formatUSD(x?.amountUsd)
                     }
                 />
                 <ItemRender
-                    title='Buy price'
+                    title={`${
+                        pathname.includes('sell') ? 'Sell' : 'Buy'
+                    } price`}
                     info={x && numberUtils.formatUSD(x.price)}
                 />
                 <ItemRender
                     title='Received'
                     info={
                         x && pathname.includes('buy')
-                            ? x.amount
-                            : numberUtils.formatUSD(x.amountUsd)
+                            ? x?.amount
+                            : numberUtils.formatUSD(x?.amountUsd)
                     }
                 />
                 <ItemRender title='Fee' info={x && x.fee} feeCustom />
