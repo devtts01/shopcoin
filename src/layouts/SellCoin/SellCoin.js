@@ -37,6 +37,7 @@ export default function SellCoin({navigation, route}) {
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [isProcess, setIsProcess] = useState(false);
+  const [isProcessSellAll, setIsProcessSellAll] = useState(false);
   const handleChangeInput = (name, val) => {
     dispatch(setAmountSell(val));
   };
@@ -59,6 +60,7 @@ export default function SellCoin({navigation, route}) {
       dispatch,
       getById,
     });
+    dispatch(setAmountSell(''));
     const socket = socketIO('https://apishopcoin.4eve.site/', {
       jsonp: false,
     });
@@ -81,11 +83,16 @@ export default function SellCoin({navigation, route}) {
       setLoading,
       navigation,
       setIsProcess,
+      setIsProcessSellAll,
     });
   };
   const handleSubmit = async () => {
     try {
-      setIsProcess(true);
+      if (amountSell) {
+        setIsProcess(true);
+      } else {
+        setIsProcessSellAll(true);
+      }
       requestRefreshToken(
         currentUser,
         sellCoinAPI,
@@ -189,8 +196,19 @@ export default function SellCoin({navigation, route}) {
         <TouchableOpacity
           onPress={handleSubmit}
           activeOpacity={0.6}
-          style={[styles.btn, stylesStatus.vipbgcbold]}>
-          <Text style={[styles.btn_text, stylesStatus.white]}>Sell All</Text>
+          style={[
+            styles.btn,
+            stylesStatus.vipbgcbold,
+            isProcessSellAll && stylesGeneral.op6,
+          ]}
+          disabled={isProcessSellAll}>
+          <Text style={[styles.btn_text, stylesStatus.white]}>
+            {isProcessSellAll ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              'Sell All'
+            )}
+          </Text>
         </TouchableOpacity>
       </View>
       {loading && <ModalLoading />}

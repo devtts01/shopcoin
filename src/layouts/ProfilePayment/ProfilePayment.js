@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Text,
   ScrollView,
@@ -6,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   FormInput,
   ModalBank,
@@ -34,11 +35,27 @@ export default function ProfilePayment({navigation}) {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isProcess, setIsProcess] = useState(false);
+  useEffect(() => {
+    dispatch(
+      setFormProfilePayment({
+        bank: null,
+        accountName: '',
+        accountNumber: '',
+      }),
+    );
+  }, []);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    dispatch(
+      setFormProfilePayment({
+        bank: null,
+        accountName: '',
+        accountNumber: '',
+      }),
+    );
     wait(2000).then(() => setRefreshing(false));
   }, []);
   const handleModalBank = () => {

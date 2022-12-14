@@ -105,6 +105,7 @@ export const SVsellCoin = async (props = {}) => {
     case 0:
       props.setLoading(true);
       props.setIsProcess(false);
+      props.setIsProcessSellAll(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert(
@@ -130,6 +131,7 @@ export const SVsellCoin = async (props = {}) => {
     case 2:
       props.setLoading(true);
       props.setIsProcess(false);
+      props.setIsProcessSellAll(false);
       setTimeout(() => {
         props.setLoading(false);
         Alert.alert(

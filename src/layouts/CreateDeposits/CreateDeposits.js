@@ -66,6 +66,12 @@ export default function CreateDeposits({navigation}) {
       dispatch,
       getRateDepositWithdraw,
     });
+    dispatch(
+      setFormDeposits({
+        amountUSDT: '',
+        bank: null,
+      }),
+    );
   }, []);
   useEffect(() => {
     if (bank) {
@@ -81,6 +87,12 @@ export default function CreateDeposits({navigation}) {
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    dispatch(
+      setFormDeposits({
+        amountUSDT: '',
+        bank: null,
+      }),
+    );
     wait(2000).then(() => setRefreshing(false));
   }, []);
   const handleModalBank = () => {

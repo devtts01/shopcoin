@@ -23,6 +23,7 @@ const Home = ({navigation}) => {
   const [show, setShow] = useState(dataCoins?.total || 10);
   useEffect(() => {
     getAsyncStore(dispatch);
+    dispatch(setSearchValue(''));
   }, []);
   useEffect(() => {
     SVgetAllCoins({
@@ -39,6 +40,7 @@ const Home = ({navigation}) => {
       dispatch,
       getAllCoins,
     });
+    dispatch(setSearchValue(''));
   };
   let data = dataCoins?.data || [];
   if (search) {
@@ -58,6 +60,7 @@ const Home = ({navigation}) => {
       dispatch,
       getAllCoins,
     });
+    dispatch(setSearchValue(''));
     wait(2000).then(() => {
       setRefreshing(false);
     });
@@ -87,11 +90,7 @@ const Home = ({navigation}) => {
     <View style={[styles.container]}>
       <Header refreshData={refreshData} />
       <View>
-        <Search
-          name="search"
-          // value={search}
-          onChange={handleChangeSearch}
-        />
+        <Search name="search" value={search} onChange={handleChangeSearch} />
       </View>
       <View
         style={
