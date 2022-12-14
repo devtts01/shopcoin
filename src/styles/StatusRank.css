@@ -42,7 +42,9 @@
 .standardbgc,
 .standardbgc:hover,
 .waitingbgc,
-.waitingbgc:hover {
+.waitingbgc:hover,
+.managerbgc,
+.managerbgc:hover {
     color: var(--table-status-confirm-color);
     background-color: var(--table-status-confirm-bgc);
 }

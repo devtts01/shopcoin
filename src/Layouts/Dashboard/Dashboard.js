@@ -56,6 +56,8 @@ function Dashboard() {
             state,
             dispatch,
             actions,
+            page,
+            show,
         });
     }, [page, show]);
     let data = dataDashboard?.data?.coins || [];
@@ -156,7 +158,13 @@ function Dashboard() {
                                 {numberUtils.formatUSD(item.Wallet.balance)}
                             </td>
                             <td style={{ textAlign: 'left' }}>
-                                {item.payment.rule}
+                                <span
+                                    className={`${
+                                        item.payment.rule + 'bgc'
+                                    } status`}
+                                >
+                                    {item.payment.rule}
+                                </span>
                             </td>
                             <td style={{ textAlign: 'left' }}>
                                 <TrStatus

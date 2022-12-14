@@ -8,7 +8,7 @@ import styles from './SelectStatus.module.css';
 
 const cx = className.bind(styles);
 
-function SelectStatus({ status, rank, typePayment }) {
+function SelectStatus({ status, rank, ruleUser, typePayment }) {
     const { state, dispatch } = useAppContext();
     const { statusUpdate, statusCurrent } = state.set;
     const { selectStatus } = state.toggle;
@@ -70,10 +70,14 @@ function SelectStatus({ status, rank, typePayment }) {
         { name: 'Standard' },
         { name: 'Demo' },
     ];
-    const TYPE_PAYMENT_LIST = [{ name: 'User' }, { name: 'Admin' }];
+    const TYPE_PAYMENT_LIST = [
+        { name: 'User' },
+        { name: 'Admin' },
+        { name: 'Manager' },
+    ];
     const LIST = rank
         ? RANK_LIST
-        : typePayment
+        : typePayment || ruleUser
         ? TYPE_PAYMENT_LIST
         : STATUS_LIST;
     return (
