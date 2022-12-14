@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {NativeBaseProvider} from 'native-base';

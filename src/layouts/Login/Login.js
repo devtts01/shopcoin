@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/react-in-jsx-scope */
-import {useRef, useState} from 'react';
+import {useRef, useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {useAppContext} from '../../utils';
 import {setFormValue} from '../../app/payloads/form';
@@ -15,11 +16,18 @@ import stylesStatus from '../../styles/Status';
 const Login = ({navigation}) => {
   const {state, dispatch} = useAppContext();
   const {
+    currentUser,
     form: {email, password},
   } = state;
   const [isProcess, setIsProcess] = useState(false);
   const refEmail = useRef();
   const refPwd = useRef();
+  useEffect(() => {
+    if (currentUser) {
+      navigation.navigate(routersMain.MainPage);
+    }
+    console.log('currentUser', currentUser);
+  }, [currentUser]);
   const handleLogin = async () => {
     setIsProcess(true);
     await userLogin({

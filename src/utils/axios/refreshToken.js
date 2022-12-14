@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import jwt_decode from 'jwt-decode';
+import {Alert} from 'react-native';
 import {refreshToken} from '../../utils/axios/axiosInstance';
 import {getAsyncStore, setAsyncStore} from '../localStore/localStore';
 
@@ -19,7 +20,19 @@ const requestRefreshToken = async (
       const date = new Date();
       if (decodedToken.exp < date.getTime() / 1000) {
         const res = await refreshToken('refreshToken');
-        if (res.code === 0) {
+        if (res === 'No jwt' || res === 'Invalid token') {
+          await setAsyncStore(null);
+          Alert.alert(
+            'Invalid token',
+            'Refresh token has expired, please login again',
+            [
+              {
+                text: 'OK',
+                onPress: () => {},
+              },
+            ],
+          );
+        } else if (res.code === 0) {
           const refreshUser = {
             ...currentUser,
             token: res.newtoken.toString(),
@@ -35,14 +48,25 @@ const requestRefreshToken = async (
           handleFunc(refreshUser, id ? id : '');
           return refreshUser;
         } else {
-          dispatch(
-            setMessage({
-              ...state.set,
-              message: {
-                ...state.set.message,
-                error: 'RefreshToken not found- Please login again',
+          // dispatch(
+          //   setMessage({
+          //     ...state.set,
+          //     message: {
+          //       ...state.set.message,
+          //       error: 'RefreshToken not found- Please login again',
+          //     },
+          //   }),
+          // );
+          await setAsyncStore(null);
+          Alert.alert(
+            'Invalid token',
+            'RefreshToken not found - Please login again',
+            [
+              {
+                text: 'OK',
+                onPress: () => {},
               },
-            }),
+            ],
           );
         }
       } else {

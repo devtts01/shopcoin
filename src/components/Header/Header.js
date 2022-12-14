@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect} from 'react';
@@ -71,8 +72,8 @@ export default function Header({refreshData = () => {}}) {
             stylesGeneral.text_black,
           ]}>
           ={' '}
-          {userById?.Wallet?.balance || userById?.Wallet?.balance === 0
-            ? formatUSDT(userById?.Wallet?.balance)
+          {currentUser?.balance || currentUser?.balance === 0
+            ? formatUSDT(currentUser?.balance)
             : 'Loading...'}
         </Text>
         <TouchableOpacity activeOpacity={0.8} onPress={handleRefreshUSDT}>
