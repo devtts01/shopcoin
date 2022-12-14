@@ -65,6 +65,12 @@ export default function CreateDeposits({navigation}) {
       dispatch,
       getRateDeposit,
     });
+    dispatch(
+      setFormDeposits({
+        amountUSDT: '',
+        bank: null,
+      }),
+    );
   }, []);
   useEffect(() => {
     if (bank) {
@@ -80,6 +86,12 @@ export default function CreateDeposits({navigation}) {
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    dispatch(
+      setFormDeposits({
+        amountUSDT: '',
+        bank: null,
+      }),
+    );
     SVgetUserById({
       id: currentUser?.id,
       dispatch,

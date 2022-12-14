@@ -55,7 +55,6 @@ export default function CreateWithdraw({navigation}) {
     });
     dispatch(
       setFormWithdraw({
-        ...state.withdraw,
         amountUSDT: '',
       }),
     );
@@ -73,7 +72,6 @@ export default function CreateWithdraw({navigation}) {
     });
     dispatch(
       setFormWithdraw({
-        ...state.withdraw,
         amountUSDT: '',
       }),
     );

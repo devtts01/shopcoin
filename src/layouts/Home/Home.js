@@ -1,13 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
 import React, {useEffect} from 'react';
 import {RefreshControl, Text, TouchableOpacity, View} from 'react-native';
 import {useAppContext} from '../../utils';
