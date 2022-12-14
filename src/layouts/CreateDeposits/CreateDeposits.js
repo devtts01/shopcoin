@@ -52,11 +52,6 @@ export default function CreateDeposits({navigation}) {
   const [isProcess, setIsProcess] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
-    SVgetUserById({
-      id: currentUser?.id,
-      dispatch,
-      getUserById,
-    });
     SVgetAllPaymentAdmin({
       dispatch,
       getAllPaymentAdmin,

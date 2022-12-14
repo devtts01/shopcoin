@@ -14,6 +14,14 @@ import {routers} from '../routers/Routers';
 export const SVgetUserById = async (props = {}) => {
   const resGet = await adminGet(`/getUser/${props.id}`);
   props.dispatch(props.getUserById(resGet?.data));
+  if (props.setCurrentUser && props.currentUser) {
+    props.dispatch(
+      props.setCurrentUser({
+        ...props.currentUser,
+        balance: resGet?.data?.Wallet?.balance,
+      }),
+    );
+  }
 };
 
 // CHANGE PASSWORD

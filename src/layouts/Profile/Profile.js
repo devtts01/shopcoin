@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   RefreshControl,
   ScrollView,
@@ -11,9 +10,7 @@ import {
 import {useAppContext} from '../../utils';
 import {formatUSDT} from '../../utils/format/Money';
 import {userLogout} from '../../services/userAuthen';
-import {SVgetUserById} from '../../services/user';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {getUserById} from '../../app/payloads/getById';
 import {ImageCp, RowDetail} from '../../components';
 import {routersMain} from '../../routers/Main';
 import styles from './ProfileCss';
@@ -22,25 +19,13 @@ import stylesStatus from '../../styles/Status';
 
 const Profile = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
-  const {state, dispatch} = useAppContext();
-  const {currentUser, userById} = state;
-  useEffect(() => {
-    SVgetUserById({
-      id: currentUser?.id,
-      dispatch,
-      getUserById,
-    });
-  }, []);
+  const {state} = useAppContext();
+  const {currentUser} = state;
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    SVgetUserById({
-      id: currentUser?.id,
-      dispatch,
-      getUserById,
-    });
     wait(2000).then(() => setRefreshing(false));
   }, []);
   const handleLogout = async () => {
@@ -76,10 +61,7 @@ const Profile = ({navigation}) => {
       <View style={[styles.info_detail_container]}>
         <RowDetail title="Username" text={currentUser?.username} />
         <RowDetail title="Email" text={currentUser?.email} />
-        <RowDetail
-          title="Wallet"
-          text={formatUSDT(userById?.Wallet?.balance)}
-        />
+        <RowDetail title="Wallet" text={formatUSDT(currentUser?.balance)} />
         <RowDetail
           title="Rank"
           text={currentUser?.rank}

@@ -5,6 +5,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect} from 'react';
 import {useAppContext} from '../../utils';
 import {getUserById} from '../../app/payloads/getById';
+import {setCurrentUser} from '../../app/payloads/user';
 import styles from './HeaderCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
@@ -20,6 +21,8 @@ export default function Header({refreshData = () => {}}) {
         id: currentUser?.id,
         dispatch,
         getUserById,
+        currentUser,
+        setCurrentUser,
       });
     }
   }, []);
@@ -29,6 +32,8 @@ export default function Header({refreshData = () => {}}) {
       id: currentUser?.id,
       dispatch,
       getUserById,
+      currentUser,
+      setCurrentUser,
     });
   };
 

@@ -16,10 +16,9 @@ import {formatUSDT, precisionRound} from '../../utils/format/Money';
 import {getIdUserJWT} from '../../utils/getUser/Id';
 import requestRefreshToken from '../../utils/axios/refreshToken';
 import {SVgetACoin, SVbuyCoin} from '../../services/coin';
-import {SVgetUserById} from '../../services/user';
 import {SVgetDepositsByEmailUser} from '../../services/deposits';
 import {setPriceCoinSocket} from '../../app/payloads/socket';
-import {getById, getUserById} from '../../app/payloads/getById';
+import {getById} from '../../app/payloads/getById';
 import {setCurrentUser} from '../../app/payloads/user';
 import {setMessage} from '../../app/payloads/message';
 import {getAllDeposits} from '../../app/payloads/getAll';
@@ -34,7 +33,6 @@ export default function BuyCoin({navigation, route}) {
   const {id} = route.params;
   const {state, dispatch} = useAppContext();
   const {
-    userById,
     priceCoinSocket,
     currentUser,
     amountCoin,
@@ -50,11 +48,6 @@ export default function BuyCoin({navigation, route}) {
       dispatch,
     });
     getIdUserJWT(currentUser, dispatch);
-    SVgetUserById({
-      id: currentUser.id,
-      dispatch,
-      getUserById,
-    });
     SVgetDepositsByEmailUser({
       email: currentUser.email,
       dispatch,
@@ -110,16 +103,15 @@ export default function BuyCoin({navigation, route}) {
     );
   };
   // console.log(priceCoinSocket);
-  const yourWallet = formatUSDT(userById?.Wallet?.balance);
+  const yourWallet = formatUSDT(currentUser?.balance);
   const isDisabled =
     amountCoin &&
     (amountCoin < parseFloat(10 / priceCoinSocket?.price) ||
-      amountCoin >
-        parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price) ||
+      amountCoin > parseFloat(currentUser?.balance / priceCoinSocket?.price) ||
       (amountCoin && !Number(amountCoin)));
   const suggestMin = precisionRound(parseFloat(10 / priceCoinSocket?.price));
   const suggestMax = precisionRound(
-    parseFloat(userById?.Wallet?.balance / priceCoinSocket?.price),
+    parseFloat(currentUser?.balance / priceCoinSocket?.price),
   );
   const amountUsd = formatUSDT(
     precisionRound(amountCoin * dataById?.price),
