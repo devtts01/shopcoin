@@ -26,7 +26,7 @@ const Login = ({navigation}) => {
     if (currentUser) {
       navigation.navigate(routersMain.MainPage);
     }
-    console.log('currentUser', currentUser);
+    // console.log('currentUser', currentUser);
   }, [currentUser]);
   const handleLogin = async () => {
     setIsProcess(true);

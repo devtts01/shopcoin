@@ -11,18 +11,19 @@ import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVgetUserById} from '../../services/user';
 import {formatUSDT} from '../../utils/format/Money';
+import {getAsyncStore} from '../../utils/localStore/localStore';
 
 export default function Header({refreshData = () => {}}) {
   const {state, dispatch} = useAppContext();
   const {currentUser, userById} = state;
+  const [balance, setBalance] = React.useState(currentUser?.balance || 0);
   useEffect(() => {
+    getAsyncStore(dispatch);
     if (currentUser) {
       SVgetUserById({
         id: currentUser?.id,
         dispatch,
         getUserById,
-        currentUser,
-        setCurrentUser,
       });
     }
   }, []);
@@ -32,6 +33,7 @@ export default function Header({refreshData = () => {}}) {
       id: currentUser?.id,
       dispatch,
       getUserById,
+      setBalance,
       currentUser,
       setCurrentUser,
     });
