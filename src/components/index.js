@@ -15,5 +15,6 @@ export { default as TippyHLNotify } from './TippyHLNotify/TippyHLNotify';
 export { default as Toggle } from './Toggle/Toggle';
 export { default as Checkbox } from './Checkbox/Checkbox';
 export { default as SelectStatus } from './SelectStatus/SelectStatus';
+export { default as SelectValue } from './SelectValue/SelectValue';
 export { default as PageNotFound } from './PageNotFound/PageNotFound';
 export * as Icons from './Icons';

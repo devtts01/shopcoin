@@ -28,6 +28,7 @@ import {
     TrStatus,
 } from '../../components/TableData/TableData';
 import styles from './Deposits.module.css';
+import Skeleton from 'react-loading-skeleton';
 
 const cx = className.bind(styles);
 
@@ -161,15 +162,39 @@ function Deposits() {
                     return (
                         <tr key={index}>
                             <td>{handleUtils.indexTable(page, show, index)}</td>
-                            <td>{item.code}</td>
+                            <td
+                                style={{
+                                    maxWidth: '100px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
+                                {item.code}
+                            </td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
                             </td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 <TrObjectNoIcon item={infoUser} />
                             </td>
                             <td>
                                 {moment(item.createdAt).format('DD/MM/YYYY')}
+                            </td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
+                                {item?.createBy ? (
+                                    item?.createBy
+                                ) : (
+                                    <Skeleton width={50} />
+                                )}
                             </td>
                             <td>
                                 <TrStatus
@@ -179,10 +204,11 @@ function Deposits() {
                                     }
                                 />
                             </td>
+
                             <td>
                                 <ActionsTable
                                     view
-                                    linkView={`${routers.deposits}/${routers.depositsDetail}/${item._id}`}
+                                    linkView={`${routers.deposits}/${item._id}`}
                                     onClickDel={(e) =>
                                         modalDeleteTrue(e, item._id)
                                     }

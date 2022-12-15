@@ -182,14 +182,24 @@ function Sell() {
                     return (
                         <tr key={index}>
                             <td>{handleUtils.indexTable(page, show, index)}</td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '100px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 {/* <Skeleton width={50} /> */}
                                 {item?.symbol}
                             </td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
                             </td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 <TrObjectNoIcon item={infoUser} />
                             </td>
                             <td>
@@ -206,7 +216,7 @@ function Sell() {
                             <td>
                                 <ActionsTable
                                     view
-                                    linkView={`${routers.sell}/${routers.sellDetail}/${item._id}`}
+                                    linkView={`${routers.sell}/${item._id}`}
                                     onClickDel={(e) =>
                                         modalDeleteTrue(e, item._id)
                                     }

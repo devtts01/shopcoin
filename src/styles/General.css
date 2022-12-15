@@ -100,6 +100,11 @@ button {
     margin-left: 8px;
 }
 
+.ptb3 {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
 .fwb {
     font-weight: bold;
 }

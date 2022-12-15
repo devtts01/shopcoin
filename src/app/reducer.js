@@ -13,6 +13,7 @@ const initialState = {
         sort: 'asc',
         isBlockUser: false,
         changeCoin: '',
+        bankValue: '',
         quantityCoin: '',
         fee: '',
         message: {
@@ -48,6 +49,7 @@ const initialState = {
         dataUserBalance: [],
         data: {
             dataPayment: [],
+            dataPaymentAdmin: [],
             dataRate: [],
             dataSettingCoin: [],
             dataDeposits: [],
@@ -72,6 +74,7 @@ const initialState = {
             sell: '',
             user: '',
             coin: '',
+            bank: '',
             userBlacklist: '',
         },
         edit: {
@@ -92,6 +95,7 @@ const initialState = {
         hideAllUser: false,
         alertModal: false,
         selectStatus: false,
+        selectBank: false,
         feeUpdate: false,
     },
 };

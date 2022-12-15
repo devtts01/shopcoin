@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-// import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import className from 'classnames/bind';
 import {
@@ -180,14 +179,24 @@ function Buy() {
                     return (
                         <tr key={index}>
                             <td>{handleUtils.indexTable(page, show, index)}</td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '100px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 {/* <Skeleton width={50} /> */}
                                 {item?.symbol}
                             </td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
                             </td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 <TrObjectNoIcon item={infoUser} />
                             </td>
                             <td>
@@ -208,7 +217,7 @@ function Buy() {
                             <td>
                                 <ActionsTable
                                     view
-                                    linkView={`${routers.buy}/${routers.buyDetail}/${item._id}`}
+                                    linkView={`${routers.buy}/${item._id}`}
                                     onClickDel={(e) =>
                                         modalDeleteTrue(e, item._id)
                                     }

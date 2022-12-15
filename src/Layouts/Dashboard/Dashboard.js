@@ -42,6 +42,8 @@ function Dashboard() {
             state,
             dispatch,
             actions,
+            page,
+            show,
         });
     }, []);
     useEffect(() => {
@@ -150,8 +152,21 @@ function Dashboard() {
                             <td className='upc'>
                                 {handleUtils.indexTable(page, show, index)}
                             </td>
-                            <td>{item.payment.username}</td>
-                            <td style={{ textAlign: 'left' }}>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
+                                {item.payment.username}
+                            </td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                    textAlign: 'left',
+                                }}
+                            >
                                 {item.payment.email}
                             </td>
                             <td style={{ textAlign: 'left' }}>

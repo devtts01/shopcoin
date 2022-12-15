@@ -22,6 +22,19 @@ export const getPayments = async (props = {}) => {
         })
     );
 };
+// GET ALL PAYMENT ADMIN
+export const SVgetAllPaymentAdmin = async (props = {}) => {
+    const resGet = await axiosUtils.adminGet('/getAllPaymentAdmin', {});
+    props.dispatch(
+        props.actions.setData({
+            ...props.state.set,
+            data: {
+                ...props.state.set.data,
+                dataPaymentAdmin: resGet.data,
+            },
+        })
+    );
+};
 // CHECK VALIDITY OF PAYMENT
 export const checkFormPayment = (props = {}) => {
     if (!props.accountName) {

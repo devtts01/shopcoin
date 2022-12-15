@@ -13,7 +13,7 @@ const DataUsers = (Icons) => {
                 title: 'Email',
             },
             h3: {
-                title: 'Bank name',
+                title: 'Created At',
             },
             h4: {
                 title: 'Rule',

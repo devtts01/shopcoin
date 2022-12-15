@@ -19,6 +19,9 @@ const DataDeposits = (Icons) => {
                 iconSort: <i className='fa-solid fa-sort'></i>,
             },
             h5: {
+                title: 'Created By',
+            },
+            h6: {
                 title: 'Status',
             },
         },

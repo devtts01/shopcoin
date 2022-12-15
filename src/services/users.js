@@ -25,6 +25,7 @@ export const getUserById = async (props = {}) => {
     if (props.idUser) {
         const process = await axiosUtils.adminGet(`/getUser/${props.idUser}`);
         const processCoins = await axiosUtils.coinGet(`/getAllCoin`);
+        const resGet = await axiosUtils.adminGet('/getAllPaymentAdmin', {});
         const { data } = process;
         props.dispatch(
             props.actions.setData({
@@ -36,6 +37,7 @@ export const getUserById = async (props = {}) => {
                 data: {
                     ...props.state.set.data,
                     dataSettingCoin: processCoins,
+                    dataPaymentAdmin: resGet.data,
                 },
             })
         );
@@ -129,6 +131,48 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
             break;
     }
 };
+// EDIT RULE USER
+export const handleUpdateRuleUser = async (props = {}) => {
+    const resPut = await axiosUtils.adminPut(`/changeRoleUser/${props.id}`, {
+        rule:
+            props.statusUpdate.toUpperCase() ||
+            props.statusCurrent.toUpperCase(),
+        token: props.data?.token,
+    });
+    switch (resPut.code) {
+        case 0:
+            const res = await axiosUtils.adminGet(
+                `/getAllUser?page=${props.page}&show=${props.show}`
+            );
+            dispatchEdit(
+                props.dispatch,
+                props.state,
+                props.actions,
+                res,
+                'dataUser',
+                resPut.message
+            );
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    data: {
+                        ...props.state.set.data,
+                        dataUser: res,
+                    },
+                    message: {
+                        upd: resPut.message,
+                    },
+                })
+            );
+            return props.data;
+        case 1:
+        case 2:
+            validates.validateCase1_2(resPut, props);
+            break;
+        default:
+            break;
+    }
+};
 // DELETE USERS
 export const handleDelete = async (props = {}) => {
     const resDel = await axiosUtils.adminDelete(`/deleteUser/${props.id}`, {
@@ -163,11 +207,28 @@ export const changeCoinGifts = async (props = {}) => {
         })
     );
 };
+// CHANGE BANK VALUE
+export const changeBankSelect = async (props = {}) => {
+    props.dispatch(
+        props.actions.setData({
+            ...props.state.set,
+            bankValue: props.bankValue,
+        })
+    );
+    props.dispatch(
+        props.actions.toggleModal({
+            ...props.state.toggle,
+            selectBank: !props.selectBank,
+        })
+    );
+};
 // UPDATE COIN
 export const updateCoinGift = async (props = {}) => {
     const resPut = await axiosUtils.adminPut(`/changeCoin/${props.id}`, {
         coin: props.changeCoin,
         quantity: parseFloat(props.quantityCoin),
+        // bankAdmin: props.bankAdmin,
+        createBy: props.createBy,
         token: props.data?.token,
     });
     switch (resPut.code) {
@@ -183,6 +244,7 @@ export const updateCoinGift = async (props = {}) => {
                     },
                     changeCoin: '',
                     quantityCoin: '',
+                    bankValue: '',
                     message: {
                         upd: resPut.message,
                     },
@@ -218,6 +280,20 @@ export const searchCoinGift = (props = {}) => {
         });
     }
     return DataCoinFlag;
+};
+// SEARCH PAYMENT ADMIN
+export const searchPaymentAdmin = (props = {}) => {
+    let DataPaymentAdminFlag = props.dataPaymentAdmin;
+    if (props.bank) {
+        DataPaymentAdminFlag = DataPaymentAdminFlag.filter((item) => {
+            return (
+                searchUtils.searchInput(props.bank, item.methodName) ||
+                searchUtils.searchInput(props.bank, item.accountName) ||
+                searchUtils.searchInput(props.bank, item.accountNumber)
+            );
+        });
+    }
+    return DataPaymentAdminFlag;
 };
 // CHANG PASSWORD USER BY ID
 export const changePasswordUser = async (props = {}) => {

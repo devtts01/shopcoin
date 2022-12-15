@@ -22,7 +22,6 @@ export const SVtotal = async (props = {}) => {
     );
 
     const resPostCommission = await axiosUtils.adminGet('/Commission', {});
-    console.log(resPostBalance);
     props.dispatch(
         props.actions.setData({
             totalDeposit: resPostDeposit.data,

@@ -251,13 +251,28 @@ function Payment() {
                             <td className='upc'>
                                 {handleUtils.indexTable(page, show, index)}
                             </td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 {item.accountName || <Skeleton width={50} />}
                             </td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 {item.methodName || <Skeleton width={50} />}
                             </td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 {item.accountNumber || <Skeleton width={50} />}
                             </td>
                             <td>

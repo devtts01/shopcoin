@@ -22,8 +22,10 @@ import {
     handleDelete,
     checkErrorUsers,
     handleUpdateRankFeeUser,
+    handleUpdateRuleUser,
 } from '../../services/users';
 import styles from './User.module.css';
+import moment from 'moment';
 
 const cx = className.bind(styles);
 const DATA_USERS = DataUsers();
@@ -154,19 +156,31 @@ function User() {
             checkErrorUsers({ err, dispatch, state, actions });
         }
     };
+    const handleEditRuleUser = async (data, id) => {
+        handleUpdateRuleUser({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            statusUpdate,
+            statusCurrent,
+        });
+    };
     const editRuleUser = async (id) => {
         try {
             await 1;
             setIsProcess(true);
             setTimeout(() => {
-                alert(
-                    `Function under development. Please wait for the next update.
-                    \n ID: ${id}
-                    \n Status Update: ${
-                        statusUpdate.toLowerCase() ||
-                        statusCurrent.toLowerCase()
-                    }
-                    `
+                requestRefreshToken(
+                    currentUser,
+                    handleEditRuleUser,
+                    state,
+                    dispatch,
+                    actions,
+                    id
                 );
                 setIsProcess(false);
                 setModalChangeRule(false);
@@ -183,12 +197,24 @@ function User() {
                         <td className='upc'>
                             {handleUtils.indexTable(page, show, index)}
                         </td>
-                        <td>
+                        <td
+                            style={{
+                                maxWidth: '200px',
+                                wordWrap: 'break-word',
+                            }}
+                        >
                             {item.payment.username || <Skeleton width={50} />}
                         </td>
-                        <td>{item.payment.email || <Skeleton width={50} />}</td>
+                        <td
+                            style={{
+                                maxWidth: '150px',
+                                wordWrap: 'break-word',
+                            }}
+                        >
+                            {item.payment.email || <Skeleton width={50} />}
+                        </td>
                         <td>
-                            {item.payment.bank.bankName || (
+                            {moment(item.createdAt).format('DD/MM/YYYY') || (
                                 <Skeleton width={30} />
                             )}
                         </td>

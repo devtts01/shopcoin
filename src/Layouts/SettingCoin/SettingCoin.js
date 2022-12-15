@@ -96,7 +96,7 @@ function SettingCoin() {
                             <td>
                                 <ActionsTable
                                     edit
-                                    linkView={`${routers.settingCoin}/${routers.editCoin}/${item._id}`}
+                                    linkView={`${routers.settingCoin}/${item._id}`}
                                     onClickDel={(e) =>
                                         modalDeleteTrue(e, item._id)
                                     }
