@@ -22,8 +22,10 @@ import {
     handleDelete,
     checkErrorUsers,
     handleUpdateRankFeeUser,
+    handleUpdateRuleUser,
 } from '../../services/users';
 import styles from './User.module.css';
+import moment from 'moment';
 
 const cx = className.bind(styles);
 const DATA_USERS = DataUsers();
@@ -42,6 +44,7 @@ function User() {
     } = state.set;
     const { modalDelete, modalStatus } = state.toggle;
     const [isProcess, setIsProcess] = useState(false);
+    const [modalChangeRule, setModalChangeRule] = useState(false);
     useEffect(() => {
         document.title = `User | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
@@ -65,6 +68,31 @@ function User() {
     };
     const modalDeleteFalse = (e) => {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
+    };
+    const toggleEditRuleTrue = async (e, status, id) => {
+        await localStoreUtils.setStore({
+            ...currentUser,
+            idUpdate: id,
+        });
+        setModalChangeRule(true);
+        dispatch(
+            actions.setData({
+                ...state.set,
+                edit: { ...state.set.edit, id },
+                statusCurrent: status,
+            })
+        );
+    };
+    const toggleEditRuleFalse = async (e) => {
+        await 1;
+        setModalChangeRule(false);
+        dispatch(
+            actions.setData({
+                ...state.set,
+                statusCurrent: '',
+                statusUpdate: '',
+            })
+        );
     };
     const handleViewUser = (item) => {
         dispatch(
@@ -128,6 +156,39 @@ function User() {
             checkErrorUsers({ err, dispatch, state, actions });
         }
     };
+    const handleEditRuleUser = async (data, id) => {
+        handleUpdateRuleUser({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            statusUpdate,
+            statusCurrent,
+        });
+    };
+    const editRuleUser = async (id) => {
+        try {
+            await 1;
+            setIsProcess(true);
+            setTimeout(() => {
+                requestRefreshToken(
+                    currentUser,
+                    handleEditRuleUser,
+                    state,
+                    dispatch,
+                    actions,
+                    id
+                );
+                setIsProcess(false);
+                setModalChangeRule(false);
+            }, 1000);
+        } catch (err) {
+            checkErrorUsers({ err, dispatch, state, actions });
+        }
+    };
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -141,20 +202,24 @@ function User() {
                         </td>
                         <td>{item.payment.email || <Skeleton width={50} />}</td>
                         <td>
-                            {item.payment.bank.bankName || (
+                            {moment(item.createdAt).format('DD/MM/YYYY') || (
                                 <Skeleton width={30} />
                             )}
                         </td>
                         <td>
-                            {(
-                                <span
-                                    className={`${
-                                        item.payment.rule + 'bgc'
-                                    } status`}
-                                >
-                                    {item.payment.rule}
-                                </span>
-                            ) || <Skeleton width={50} />}
+                            <TrStatus
+                                item={
+                                    item.payment.rule.charAt(0).toUpperCase() +
+                                    item.payment.rule.slice(1).toLowerCase()
+                                }
+                                onClick={(e) =>
+                                    toggleEditRuleTrue(
+                                        e,
+                                        item.payment.rule,
+                                        item._id
+                                    )
+                                }
+                            />
                         </td>
                         <td>
                             <TrStatus
@@ -206,6 +271,24 @@ function User() {
                         Are you sure change rank this user?
                     </p>
                     <SelectStatus rank />
+                </Modal>
+            )}
+            {modalChangeRule && (
+                <Modal
+                    titleHeader='Change Rule'
+                    actionButtonText='Submit'
+                    openModal={toggleEditRuleTrue}
+                    closeModal={toggleEditRuleFalse}
+                    classNameButton='vipbgc'
+                    onClick={() =>
+                        editRuleUser(currentUser?.idUpdate || edit.id)
+                    }
+                    isProcess={isProcess}
+                >
+                    <p className='modal-delete-desc'>
+                        Are you sure change rule this user?
+                    </p>
+                    <SelectStatus ruleUser />
                 </Modal>
             )}
             {modalDelete && (

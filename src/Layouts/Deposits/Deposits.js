@@ -161,11 +161,23 @@ function Deposits() {
                     return (
                         <tr key={index}>
                             <td>{handleUtils.indexTable(page, show, index)}</td>
-                            <td>{item.code}</td>
+                            <td
+                                style={{
+                                    maxWidth: '100px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
+                                {item.code}
+                            </td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
                             </td>
-                            <td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
                                 <TrObjectNoIcon item={infoUser} />
                             </td>
                             <td>
@@ -182,7 +194,7 @@ function Deposits() {
                             <td>
                                 <ActionsTable
                                     view
-                                    linkView={`${routers.deposits}/${routers.depositsDetail}/${item._id}`}
+                                    linkView={`${routers.deposits}/${item._id}`}
                                     onClickDel={(e) =>
                                         modalDeleteTrue(e, item._id)
                                     }

@@ -23,12 +23,12 @@ export const privateRouter = [
     { path: routers.dashboard, component: Dashboard },
     { path: routers.deposits, component: Deposits },
     {
-        path: `${routers.deposits}/${routers.depositsDetail}/:idDeposits`,
+        path: `${routers.deposits}/:idDeposits`,
         component: DepositsWithdrawDetail,
     },
     { path: routers.withdraw, component: Withdraw },
     {
-        path: `${routers.withdraw}/${routers.withdrawDetail}/:idWithdraw`,
+        path: `${routers.withdraw}/:idWithdraw`,
         component: DepositsWithdrawDetail,
     },
     { path: routers.user, component: User },

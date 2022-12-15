@@ -115,6 +115,48 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
             break;
     }
 };
+// EDIT RULE USER
+export const handleUpdateRuleUser = async (props = {}) => {
+    const resPut = await axiosUtils.adminPut(`/changeRoleUser/${props.id}`, {
+        rule:
+            props.statusUpdate.toUpperCase() ||
+            props.statusCurrent.toUpperCase(),
+        token: props.data?.token,
+    });
+    switch (resPut.code) {
+        case 0:
+            const res = await axiosUtils.adminGet(
+                `/getAllUser?page=${props.page}&show=${props.show}`
+            );
+            dispatchEdit(
+                props.dispatch,
+                props.state,
+                props.actions,
+                res,
+                'dataUser',
+                resPut.message
+            );
+            props.dispatch(
+                props.actions.setData({
+                    ...props.state.set,
+                    data: {
+                        ...props.state.set.data,
+                        dataUser: res,
+                    },
+                    message: {
+                        upd: resPut.message,
+                    },
+                })
+            );
+            return props.data;
+        case 1:
+        case 2:
+            validates.validateCase1_2(resPut, props);
+            break;
+        default:
+            break;
+    }
+};
 // DELETE USERS
 export const handleDelete = async (props = {}) => {
     const resDel = await axiosUtils.adminDelete(`/deleteUser/${props.id}`, {
