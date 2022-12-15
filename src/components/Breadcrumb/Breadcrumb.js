@@ -37,7 +37,7 @@ function Breadcrumb({ titleList, linkList }) {
                 },
             })
         );
-        window.location.reload();
+        // window.location.reload();
     }
 
     return (

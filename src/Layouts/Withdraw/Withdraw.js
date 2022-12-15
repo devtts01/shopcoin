@@ -28,6 +28,7 @@ import {
     TrStatus,
 } from '../../components/TableData/TableData';
 import styles from './Withdraw.module.css';
+import Skeleton from 'react-loading-skeleton';
 
 const cx = className.bind(styles);
 
@@ -177,6 +178,14 @@ function Withdraw() {
                             </td>
                             <td>
                                 {moment(item.createdAt).format('DD/MM/YYYY')}
+                            </td>
+                            <td
+                                style={{
+                                    maxWidth: '150px',
+                                    wordWrap: 'break-word',
+                                }}
+                            >
+                                {item.createBy || <Skeleton width='50px' />}
                             </td>
                             <td>
                                 <TrStatus
