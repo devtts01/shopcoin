@@ -13,6 +13,8 @@ import {
   SingleWithdraw,
   UploadDoument,
   History,
+  Deposits,
+  Withdraw,
   SellHistory,
 } from '../layouts';
 import Routers from '../navigation/Routers';
@@ -32,6 +34,8 @@ export const routersMain = {
   ChangePwd: 'Change Password',
   BuyHistory: 'Deposits History',
   SellHistory: 'Withdraw History',
+  Deposits: 'Deposits',
+  Withdraw: 'Withdraw',
   MainPage: 'MainPage',
 };
 const MainObject = [
@@ -61,8 +65,18 @@ const MainObject = [
     options: 'custom',
   },
   {
+    name: routersMain.Deposits,
+    component: Deposits,
+    options: 'custom',
+  },
+  {
     name: routersMain.SingleDeposits,
     component: SingleDeposits,
+    options: 'custom',
+  },
+  {
+    name: routersMain.Withdraw,
+    component: Withdraw,
     options: 'custom',
   },
   {

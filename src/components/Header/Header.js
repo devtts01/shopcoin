@@ -1,20 +1,24 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable prettier/prettier */
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect} from 'react';
 import {useAppContext} from '../../utils';
 import {getUserById} from '../../app/payloads/getById';
+import {setCurrentUser} from '../../app/payloads/user';
 import styles from './HeaderCss';
 import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVgetUserById} from '../../services/user';
 import {formatUSDT} from '../../utils/format/Money';
+import {getAsyncStore} from '../../utils/localStore/localStore';
 
 export default function Header({refreshData = () => {}}) {
   const {state, dispatch} = useAppContext();
   const {currentUser, userById} = state;
+  const [balance, setBalance] = React.useState(currentUser?.balance || 0);
   useEffect(() => {
+    getAsyncStore(dispatch);
     if (currentUser) {
       SVgetUserById({
         id: currentUser?.id,
@@ -29,6 +33,9 @@ export default function Header({refreshData = () => {}}) {
       id: currentUser?.id,
       dispatch,
       getUserById,
+      setBalance,
+      currentUser,
+      setCurrentUser,
     });
   };
   return (
@@ -71,8 +78,8 @@ export default function Header({refreshData = () => {}}) {
             stylesGeneral.text_black,
           ]}>
           ={' '}
-          {userById?.Wallet?.balance || userById?.Wallet?.balance === 0
-            ? formatUSDT(userById?.Wallet?.balance)
+          {currentUser?.balance || currentUser?.balance === 0
+            ? formatUSDT(currentUser?.balance)
             : 'Loading...'}
         </Text>
         <TouchableOpacity activeOpacity={0.8} onPress={handleRefreshUSDT}>

@@ -6,7 +6,7 @@ import {
   userPost,
   userPut,
 } from '../utils/axios/axiosInstance';
-import {removeAsyncStore} from '../utils/localStore/localStore';
+import {removeAsyncStore, setAsyncStore} from '../utils/localStore/localStore';
 import {routersMain} from '../routers/Main';
 import {routers} from '../routers/Routers';
 
@@ -14,6 +14,19 @@ import {routers} from '../routers/Routers';
 export const SVgetUserById = async (props = {}) => {
   const resGet = await adminGet(`/getUser/${props.id}`);
   props.dispatch(props.getUserById(resGet?.data));
+  if (props.setBalance && props.currentUser && props.setCurrentUser) {
+    props.setBalance(resGet?.data?.Wallet?.balance);
+    setAsyncStore({
+      ...props.currentUser,
+      balance: resGet?.data?.Wallet?.balance,
+    });
+    props.dispatch(
+      props.setCurrentUser({
+        ...props.currentUser,
+        balance: resGet?.data?.Wallet?.balance,
+      }),
+    );
+  }
 };
 
 // CHANGE PASSWORD

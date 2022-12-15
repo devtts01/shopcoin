@@ -18,7 +18,7 @@ export const userLogin = async (props = {}) => {
         rule: resPost?.data?.user?.payment.rule,
         rank: resPost?.data?.user?.rank,
         id: resPost?.data?.user?._id,
-        balance: resPost?.user?.Wallet?.balance,
+        balance: resPost?.data?.user?.Wallet?.balance,
       });
       props.dispatch(
         props.setFormValue({
