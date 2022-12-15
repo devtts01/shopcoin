@@ -182,7 +182,6 @@ function UserDetail() {
     function ItemRender({
         title,
         info,
-        feeCustom,
         bankInfo,
         methodBank,
         nameAccount,
@@ -237,6 +236,34 @@ function UserDetail() {
             </div>
         );
     }
+    function ImageUploadRender({
+        label,
+        isCheck,
+        imageFrontUrl,
+        imageBesideUrl,
+    }) {
+        return (
+            <>
+                <div className={`${cx('document-user-title')}`}>{label}</div>
+                {isCheck ? (
+                    <div className={`${cx('document-user-item')}`}>
+                        <Image
+                            src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
+                            alt=''
+                            className={`${cx('document-user-item-image')}`}
+                        />
+                        <Image
+                            src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
+                            alt=''
+                            className={`${cx('document-user-item-image')}`}
+                        />
+                    </div>
+                ) : (
+                    <Skeleton width='100%' height='200px' />
+                )}
+            </>
+        );
+    }
 
     return (
         <>
@@ -285,17 +312,14 @@ function UserDetail() {
                         numberAccount={x && x.payment.bank.account}
                     />
                     <ItemRender
-                        feeCustom
                         title='Deposits'
                         info={x && numberUtils.formatUSD(x.Wallet.deposit)}
                     />
                     <ItemRender
-                        feeCustom
                         title='Withdraw'
                         info={x && numberUtils.formatUSD(x.Wallet.withdraw)}
                     />
                     <ItemRender
-                        feeCustom
                         title='Balance'
                         info={x && numberUtils.formatUSD(x.Wallet.balance)}
                     />
@@ -336,52 +360,20 @@ function UserDetail() {
                         </div>
                     </div>
                     <div className={`${cx('document-user-container')} w100`}>
-                        <div className={`${cx('document-user-title')}`}>
-                            1. Citizen Identification
-                        </div>
-                        {x?.uploadCCCDFont && x?.uploadCCCDBeside ? (
-                            <div className={`${cx('document-user-item')}`}>
-                                <Image
-                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.uploadCCCDFont}`}
-                                    alt=''
-                                    className={`${cx(
-                                        'document-user-item-image'
-                                    )}`}
-                                />
-                                <Image
-                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.uploadCCCDBeside}`}
-                                    alt=''
-                                    className={`${cx(
-                                        'document-user-item-image'
-                                    )}`}
-                                />
-                            </div>
-                        ) : (
-                            <Skeleton width='100%' height='200px' />
-                        )}
-                        <div className={`${cx('document-user-title')}`}>
-                            2. License
-                        </div>
-                        {x?.uploadLicenseFont && x?.uploadLicenseBeside ? (
-                            <div className={`${cx('document-user-item')}`}>
-                                <Image
-                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.uploadLicenseFont}`}
-                                    alt=''
-                                    className={`${cx(
-                                        'document-user-item-image'
-                                    )}`}
-                                />
-                                <Image
-                                    src={`${process.env.REACT_APP_URL_SERVER}/${x?.uploadLicenseBeside}`}
-                                    alt=''
-                                    className={`${cx(
-                                        'document-user-item-image'
-                                    )}`}
-                                />
-                            </div>
-                        ) : (
-                            <Skeleton width='100%' height='200px' />
-                        )}
+                        <ImageUploadRender
+                            label='1. Citizen Identification'
+                            isCheck={x?.uploadCCCDFont && x?.uploadCCCDBeside}
+                            imageFrontUrl={x?.uploadCCCDFont}
+                            imageBesideUrl={x?.uploadCCCDBeside}
+                        />
+                        <ImageUploadRender
+                            label='2. License'
+                            isCheck={
+                                x?.uploadLicenseFont && x?.uploadLicenseBeside
+                            }
+                            imageFrontUrl={x?.uploadLicenseFont}
+                            imageBesideUrl={x?.uploadLicenseBeside}
+                        />
                     </div>
                 </div>
                 <div>
