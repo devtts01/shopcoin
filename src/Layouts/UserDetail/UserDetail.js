@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
@@ -395,25 +396,43 @@ function UserDetail() {
         imageBesideUrl,
     }) {
         return (
-            <>
+            <div className={`${cx('document-container')}`}>
                 <div className={`${cx('document-user-title')}`}>{label}</div>
                 {isCheck ? (
                     <div className={`${cx('document-user-item')}`}>
-                        <Image
-                            src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
-                            alt=''
+                        <a
+                            href={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
+                            target='_blank'
                             className={`${cx('document-user-item-image')}`}
-                        />
-                        <Image
-                            src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
-                            alt=''
+                            rel='noreferrer'
+                        >
+                            <Image
+                                src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
+                                alt=''
+                                className={`${cx(
+                                    'document-user-item-image-view'
+                                )}`}
+                            />
+                        </a>
+                        <a
+                            href={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
+                            target='_blank'
                             className={`${cx('document-user-item-image')}`}
-                        />
+                            rel='noreferrer'
+                        >
+                            <Image
+                                src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
+                                alt=''
+                                className={`${cx(
+                                    'document-user-item-image-view'
+                                )}`}
+                            />
+                        </a>
                     </div>
                 ) : (
                     <Skeleton width='100%' height='200px' />
                 )}
-            </>
+            </div>
         );
     }
     const x = edit?.itemData && edit?.itemData;

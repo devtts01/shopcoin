@@ -135,8 +135,8 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
 export const handleUpdateRuleUser = async (props = {}) => {
     const resPut = await axiosUtils.adminPut(`/changeRoleUser/${props.id}`, {
         rule:
-            props.statusUpdate.toUpperCase() ||
-            props.statusCurrent.toUpperCase(),
+            props.statusUpdate.toLowerCase() ||
+            props.statusCurrent.toLowerCase(),
         token: props.data?.token,
     });
     switch (resPut.code) {
