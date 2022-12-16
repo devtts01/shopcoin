@@ -4,7 +4,14 @@ import className from 'classnames/bind';
 import { useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import moment from 'moment';
-import { FormInput, Button, Icons, Modal, Image } from '../../components';
+import {
+    FormInput,
+    Button,
+    Icons,
+    Modal,
+    Image,
+    ModalViewImage,
+} from '../../components';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import {
@@ -41,6 +48,9 @@ function UserDetail() {
         quantityCoin,
     } = state.set;
     const { modalDelete } = state.toggle;
+    const [isModalImage, setIsModalImage] = useState(false);
+    const [indexImage, setIndexImage] = useState(0);
+    const [modalUrlImage, setModalUrlImage] = useState(null);
     const [isProcessUpdateUsd, setIsProcessUpdateUsd] = useState(false);
     const [isProcessChangePwd, setIsProcessChangePwd] = useState(false);
     const [isProcessBlockUser, setIsProcessBlockUser] = useState(false);
@@ -69,6 +79,30 @@ function UserDetail() {
     };
     const modalChangePwdFalse = (e) => {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
+    };
+    const DATA_IMAGE_MODAL = [
+        modalUrlImage ? modalUrlImage : null,
+        x?.uploadCCCDFont,
+        x?.uploadCCCDBeside,
+        x?.uploadLicenseFont,
+        x?.uploadLicenseBeside,
+    ];
+    const uniqueDataImageModal = DATA_IMAGE_MODAL.filter(
+        (v, i, a) => a.findIndex((t) => t === v) === i
+    );
+    const modalImageTrue = (e, url) => {
+        e.stopPropagation();
+        setIsModalImage(true);
+        setUrlModalImage(url);
+    };
+    const modalImageFalse = (e) => {
+        e.stopPropagation();
+        setIsModalImage(false);
+        setUrlModalImage(null);
+        setIndexImage(0);
+    };
+    const setUrlModalImage = (url) => {
+        setModalUrlImage(url);
     };
     const handleChangePwd = async (data, id) => {
         changePasswordUser({
@@ -247,34 +281,31 @@ function UserDetail() {
                 <div className={`${cx('document-user-title')}`}>{label}</div>
                 {isCheck ? (
                     <div className={`${cx('document-user-item')}`}>
-                        <a
+                        {/* <a
                             href={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
                             target='_blank'
                             className={`${cx('document-user-item-image')}`}
                             rel='noreferrer'
                         >
-                            <Image
-                                src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
-                                alt=''
-                                className={`${cx(
-                                    'document-user-item-image-view'
-                                )}`}
-                            />
-                        </a>
-                        <a
+                        </a> */}
+                        <Image
+                            src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
+                            alt=''
+                            className={`${cx('document-user-item-image-view')}`}
+                            onClick={(e) => modalImageTrue(e, imageFrontUrl)}
+                        />
+                        {/* <a
                             href={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
                             target='_blank'
                             className={`${cx('document-user-item-image')}`}
                             rel='noreferrer'
-                        >
-                            <Image
-                                src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
-                                alt=''
-                                className={`${cx(
-                                    'document-user-item-image-view'
-                                )}`}
-                            />
-                        </a>
+                        ></a> */}
+                        <Image
+                            src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
+                            alt=''
+                            className={`${cx('document-user-item-image-view')}`}
+                            onClick={(e) => modalImageTrue(e, imageBesideUrl)}
+                        />
                     </div>
                 ) : (
                     <Skeleton width='100%' height='200px' />
@@ -447,6 +478,13 @@ function UserDetail() {
                     </Button>
                 </div>
             </div>
+            <ModalViewImage
+                stateModal={isModalImage}
+                closeModal={modalImageFalse}
+                uniqueData={uniqueDataImageModal}
+                indexImage={indexImage}
+                setIndexImage={setIndexImage}
+            />
             {modalDelete && (
                 <Modal
                     titleHeader='Change Password'

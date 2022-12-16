@@ -128,7 +128,6 @@ function DepositsWithdrawDetail() {
                             )}
                         </div>
                     </div>
-                    {console.log(x)}
                     <ItemRender
                         title='Username'
                         info={x && x.method.accountName}

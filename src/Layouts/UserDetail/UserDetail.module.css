@@ -28,7 +28,6 @@
     line-height: 22px;
 }
 
-
 .document-user-item {
     --cols: 2;
     --spacing: 8px;
@@ -45,7 +44,11 @@
 }
 
 .document-user-item-image-view {
-    width: 100%;
+    /* width: 100%; */
+    display: flex;
+    width: 50%;
+    max-height: 200px;
+    margin: var(--spacing);
     object-fit: fill;
     image-rendering: auto;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));

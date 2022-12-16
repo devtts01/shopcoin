@@ -13,5 +13,6 @@ export { default as ActionsTable } from './ActionsTable/ActionsTable';
 export { default as TippyHLNotify } from './TippyHLNotify/TippyHLNotify';
 export { default as Toggle } from './Toggle/Toggle';
 export { default as SelectStatus } from './SelectStatus/SelectStatus';
+export { default as ModalViewImage } from './ModalViewImage/ModalViewImage';
 export { default as PageNotFound } from './PageNotFound/PageNotFound';
 export * as Icons from './Icons';
