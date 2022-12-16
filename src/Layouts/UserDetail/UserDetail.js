@@ -50,7 +50,6 @@ function UserDetail() {
     const { modalDelete } = state.toggle;
     const [isModalImage, setIsModalImage] = useState(false);
     const [indexImage, setIndexImage] = useState(0);
-    const [modalUrlImage, setModalUrlImage] = useState(null);
     const [isProcessUpdateUsd, setIsProcessUpdateUsd] = useState(false);
     const [isProcessChangePwd, setIsProcessChangePwd] = useState(false);
     const [isProcessBlockUser, setIsProcessBlockUser] = useState(false);
@@ -81,28 +80,19 @@ function UserDetail() {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
     };
     const DATA_IMAGE_MODAL = [
-        modalUrlImage ? modalUrlImage : null,
         x?.uploadCCCDFont,
         x?.uploadCCCDBeside,
         x?.uploadLicenseFont,
         x?.uploadLicenseBeside,
     ];
-    const uniqueDataImageModal = DATA_IMAGE_MODAL.filter(
-        (v, i, a) => a.findIndex((t) => t === v) === i
-    );
     const modalImageTrue = (e, url) => {
         e.stopPropagation();
         setIsModalImage(true);
-        setUrlModalImage(url);
     };
     const modalImageFalse = (e) => {
         e.stopPropagation();
         setIsModalImage(false);
-        setUrlModalImage(null);
         setIndexImage(0);
-    };
-    const setUrlModalImage = (url) => {
-        setModalUrlImage(url);
     };
     const handleChangePwd = async (data, id) => {
         changePasswordUser({
@@ -281,30 +271,29 @@ function UserDetail() {
                 <div className={`${cx('document-user-title')}`}>{label}</div>
                 {isCheck ? (
                     <div className={`${cx('document-user-item')}`}>
-                        {/* <a
-                            href={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
-                            target='_blank'
-                            className={`${cx('document-user-item-image')}`}
-                            rel='noreferrer'
-                        >
-                        </a> */}
                         <Image
                             src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
                             alt=''
                             className={`${cx('document-user-item-image-view')}`}
-                            onClick={(e) => modalImageTrue(e, imageFrontUrl)}
+                            onClick={(e) => {
+                                modalImageTrue(e, imageFrontUrl);
+                                const index = DATA_IMAGE_MODAL.findIndex(
+                                    (item) => item === imageFrontUrl
+                                );
+                                setIndexImage(index);
+                            }}
                         />
-                        {/* <a
-                            href={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
-                            target='_blank'
-                            className={`${cx('document-user-item-image')}`}
-                            rel='noreferrer'
-                        ></a> */}
                         <Image
                             src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
                             alt=''
                             className={`${cx('document-user-item-image-view')}`}
-                            onClick={(e) => modalImageTrue(e, imageBesideUrl)}
+                            onClick={(e) => {
+                                modalImageTrue(e, imageBesideUrl);
+                                const index = DATA_IMAGE_MODAL.findIndex(
+                                    (item) => item === imageBesideUrl
+                                );
+                                setIndexImage(index);
+                            }}
                         />
                     </div>
                 ) : (
@@ -481,7 +470,7 @@ function UserDetail() {
             <ModalViewImage
                 stateModal={isModalImage}
                 closeModal={modalImageFalse}
-                uniqueData={uniqueDataImageModal}
+                uniqueData={DATA_IMAGE_MODAL}
                 indexImage={indexImage}
                 setIndexImage={setIndexImage}
             />
