@@ -44,10 +44,6 @@ export function TrObjectNoIcon({ item }) {
         <>
             <div className={cx('name')}>{item.name}</div>
             <div className={cx('email')}>{item.email}</div>
-            {/* <Link to={item.path} className={cx('link-user')}>
-                <span className={cx('link-user-text')}>View User</span>
-                <Icons.ViewUserIcon className={`${cx('link-user-icon')}`} />
-            </Link> */}
         </>
     );
 }

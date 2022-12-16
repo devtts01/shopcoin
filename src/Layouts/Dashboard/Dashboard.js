@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom';
 import routers from '../../routers/routers';
 import { getCoinsUserBuy } from '../../services/coins';
 import { SVtotal } from '../../services/dashboard';
-import { TrStatus } from '../../components/TableData/TableData';
+import { FirstUpc } from '../../utils/format/LetterFirstUpc';
 
 const cx = className.bind(styles);
 
@@ -182,12 +182,13 @@ function Dashboard() {
                                 </span>
                             </td>
                             <td style={{ textAlign: 'left' }}>
-                                <TrStatus
-                                    item={
-                                        item.rank.charAt(0).toUpperCase() +
-                                        item.rank.slice(1).toLowerCase()
-                                    }
-                                />
+                                <span
+                                    className={`${
+                                        item.rank.toLowerCase() + 'bgc'
+                                    } status`}
+                                >
+                                    {FirstUpc(item.rank)}
+                                </span>
                             </td>
                         </tr>
                     );
