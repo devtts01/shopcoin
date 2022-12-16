@@ -12,6 +12,7 @@ import {
     Modal,
     Image,
     SelectValue,
+    ModalViewImage,
 } from '../../components';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -60,6 +61,9 @@ function UserDetail() {
     } = state.set;
     const { modalDelete, selectStatus } = state.toggle;
     const [isProcessFee, setIsProcessFee] = useState(false);
+    const [isModalImage, setIsModalImage] = useState(false);
+    const [indexImage, setIndexImage] = useState(0);
+    const [modalUrlImage, setModalUrlImage] = useState(null);
     const [isProcessCoin, setIsProcessCoin] = useState(false);
     const [isProcessChangePwd, setIsProcessChangePwd] = useState(false);
     const [isProcessBlockUser, setIsProcessBlockUser] = useState(false);
@@ -68,6 +72,7 @@ function UserDetail() {
         edit?.itemData && edit.itemData.fee
     );
     const [dataCoin, setDataCoin] = useState([]);
+    const x = edit?.itemData && edit?.itemData;
     const getAllCoin = async () => {
         const res = await axiosUtils.coinGet(
             `/getAllCoin?page=${page}&show=${dataSettingCoin?.total || 10}`
@@ -138,6 +143,30 @@ function UserDetail() {
     };
     const modalChangePwdFalse = (e) => {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
+    };
+    const DATA_IMAGE_MODAL = [
+        modalUrlImage ? modalUrlImage : null,
+        x?.uploadCCCDFont,
+        x?.uploadCCCDBeside,
+        x?.uploadLicenseFont,
+        x?.uploadLicenseBeside,
+    ];
+    const uniqueDataImageModal = DATA_IMAGE_MODAL.filter(
+        (v, i, a) => a.findIndex((t) => t === v) === i
+    );
+    const modalImageTrue = (e, url) => {
+        e.stopPropagation();
+        setIsModalImage(true);
+        setUrlModalImage(url);
+    };
+    const modalImageFalse = (e) => {
+        e.stopPropagation();
+        setIsModalImage(false);
+        setUrlModalImage(null);
+        setIndexImage(0);
+    };
+    const setUrlModalImage = (url) => {
+        setModalUrlImage(url);
     };
     const handleUpdateFee = async (data, id) => {
         await handleUpdateRankFeeUser({
@@ -320,7 +349,6 @@ function UserDetail() {
             };
         }) || [];
     DATA_COINS.unshift({ name: 'USDT' });
-    // loại bỏ các object trùng nhau trong DATA_COINS
     const uniqueDataCoins = DATA_COINS.filter(
         (v, i, a) => a.findIndex((t) => t.name === v.name) === i
     );
@@ -400,34 +428,31 @@ function UserDetail() {
                 <div className={`${cx('document-user-title')}`}>{label}</div>
                 {isCheck ? (
                     <div className={`${cx('document-user-item')}`}>
-                        <a
+                        {/* <a
                             href={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
                             target='_blank'
                             className={`${cx('document-user-item-image')}`}
                             rel='noreferrer'
                         >
-                            <Image
-                                src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
-                                alt=''
-                                className={`${cx(
-                                    'document-user-item-image-view'
-                                )}`}
-                            />
-                        </a>
-                        <a
+                        </a> */}
+                        <Image
+                            src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
+                            alt=''
+                            className={`${cx('document-user-item-image-view')}`}
+                            onClick={(e) => modalImageTrue(e, imageFrontUrl)}
+                        />
+                        {/* <a
                             href={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
                             target='_blank'
                             className={`${cx('document-user-item-image')}`}
                             rel='noreferrer'
-                        >
-                            <Image
-                                src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
-                                alt=''
-                                className={`${cx(
-                                    'document-user-item-image-view'
-                                )}`}
-                            />
-                        </a>
+                        ></a> */}
+                        <Image
+                            src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
+                            alt=''
+                            className={`${cx('document-user-item-image-view')}`}
+                            onClick={(e) => modalImageTrue(e, imageBesideUrl)}
+                        />
                     </div>
                 ) : (
                     <Skeleton width='100%' height='200px' />
@@ -435,7 +460,6 @@ function UserDetail() {
             </div>
         );
     }
-    const x = edit?.itemData && edit?.itemData;
     return (
         <>
             <div className={`${cx('buySellDetail-container')}`}>
@@ -634,6 +658,13 @@ function UserDetail() {
                     </Button>
                 </div>
             </div>
+            <ModalViewImage
+                stateModal={isModalImage}
+                closeModal={modalImageFalse}
+                uniqueData={uniqueDataImageModal}
+                indexImage={indexImage}
+                setIndexImage={setIndexImage}
+            />
             {modalDelete && (
                 <Modal
                     titleHeader='Change Password'
