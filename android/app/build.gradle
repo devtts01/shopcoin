@@ -142,8 +142,8 @@ android {
         applicationId "com.shopcoin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
-        versionName "8"
+        versionCode 10
+        versionName "10"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         vectorDrawables.useSupportLibrary = true
 

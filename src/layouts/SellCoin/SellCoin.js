@@ -88,6 +88,7 @@ export default function SellCoin({navigation, route}) {
   };
   const handleSubmit = async () => {
     try {
+      await 1;
       if (amountSell) {
         setIsProcess(true);
       } else {

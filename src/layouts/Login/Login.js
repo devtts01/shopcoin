@@ -29,8 +29,9 @@ const Login = ({navigation}) => {
     // console.log('currentUser', currentUser);
   }, [currentUser]);
   const handleLogin = async () => {
+    await 1;
     setIsProcess(true);
-    await userLogin({
+    userLogin({
       email,
       password,
       dispatch,

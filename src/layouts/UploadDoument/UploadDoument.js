@@ -147,8 +147,9 @@ export default function UploadDoument({navigation}) {
       setIsProcess,
     });
   };
-  const handleSubmit = id => {
+  const handleSubmit = async id => {
     try {
+      await 1;
       setIsProcess(true);
       requestRefreshToken(
         currentUser,

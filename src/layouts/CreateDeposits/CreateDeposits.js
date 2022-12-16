@@ -123,6 +123,7 @@ export default function CreateDeposits({navigation}) {
   };
   const handleSubmit = async () => {
     try {
+      await 1;
       setIsProcess(true);
       requestRefreshToken(
         currentUser,

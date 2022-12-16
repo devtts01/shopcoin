@@ -91,7 +91,8 @@ export default function BuyCoin({navigation, route}) {
       setIsProcess,
     });
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await 1;
     setIsProcess(true);
     requestRefreshToken(
       currentUser,
