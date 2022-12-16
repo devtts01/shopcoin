@@ -58,7 +58,7 @@ export default function UploadDoument({navigation}) {
     await ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true,
+      // cropping: true,
       compressImageQuality: 0.7,
       includeBase64: true,
     }).then(image => {
@@ -78,7 +78,7 @@ export default function UploadDoument({navigation}) {
     await ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true,
+      // cropping: true,
       compressImageQuality: 0.7,
       includeBase64: true,
     }).then(image => {
@@ -98,7 +98,7 @@ export default function UploadDoument({navigation}) {
     await ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true,
+      // cropping: true,
       compressImageQuality: 0.7,
       includeBase64: true,
     }).then(image => {
@@ -118,7 +118,7 @@ export default function UploadDoument({navigation}) {
     await ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true,
+      // cropping: true,
       compressImageQuality: 0.7,
       includeBase64: true,
     }).then(image => {
@@ -147,8 +147,9 @@ export default function UploadDoument({navigation}) {
       setIsProcess,
     });
   };
-  const handleSubmit = id => {
+  const handleSubmit = async id => {
     try {
+      await 1;
       setIsProcess(true);
       requestRefreshToken(
         currentUser,

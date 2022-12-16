@@ -83,6 +83,8 @@ export default function SingleWithdraw({navigation, route}) {
     }
   };
   const handleCancel = async id => {
+    await 1;
+    setIsProcessCancel(true);
     SVdeleteWithdraw({
       id: id,
       setLoading,
@@ -93,7 +95,6 @@ export default function SingleWithdraw({navigation, route}) {
   const handleResendCode = async () => {
     try {
       await 1;
-      setIsProcessCancel(true);
       SVresendCode({
         id: data?._id,
         email: currentUser?.email,

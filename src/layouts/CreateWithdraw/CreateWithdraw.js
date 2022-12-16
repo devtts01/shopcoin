@@ -96,8 +96,9 @@ export default function CreateWithdraw({navigation}) {
       setIsProcess,
     });
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
+      await 1;
       setIsProcess(true);
       requestRefreshToken(
         currentUser,

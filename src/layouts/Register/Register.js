@@ -18,7 +18,8 @@ const Register = ({navigation}) => {
     form: {username, email, password},
   } = state;
   const [isProcess, setIsProcess] = useState(false);
-  const handleRegister = () => {
+  const handleRegister = async () => {
+    await 1;
     setIsProcess(true);
     userRegister({
       username,
