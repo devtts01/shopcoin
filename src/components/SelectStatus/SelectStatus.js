@@ -15,7 +15,7 @@ function SelectStatus({ status, rank, ruleUser, typePayment }) {
     useEffect(() => {
         dispatch(
             actions.setData({
-                ...state.set,
+                // ...state.set,
                 currentUser: localStoreUtils.getStore(),
             })
         );
@@ -23,7 +23,7 @@ function SelectStatus({ status, rank, ruleUser, typePayment }) {
     const setStatus = (status) => {
         dispatch(
             actions.setData({
-                ...state.set,
+                // ...state.set,
                 statusUpdate: textUtils.FirstUpc(status),
             })
         );
@@ -32,7 +32,7 @@ function SelectStatus({ status, rank, ruleUser, typePayment }) {
         e.stopPropagation();
         dispatch(
             actions.setData({
-                ...state.set,
+                // ...state.set,
                 statusUpdate:
                     textUtils.FirstUpc(statusUpdate) ||
                     textUtils.FirstUpc(statusCurrent),
@@ -40,7 +40,7 @@ function SelectStatus({ status, rank, ruleUser, typePayment }) {
         );
         dispatch(
             actions.toggleModal({
-                ...state.toggle,
+                // ...state.toggle,
                 selectStatus: !selectStatus,
             })
         );
@@ -49,7 +49,7 @@ function SelectStatus({ status, rank, ruleUser, typePayment }) {
         e.stopPropagation();
         dispatch(
             actions.toggleModal({
-                ...state.toggle,
+                // ...state.toggle,
                 selectStatus: !selectStatus,
             })
         );
@@ -92,7 +92,7 @@ function SelectStatus({ status, rank, ruleUser, typePayment }) {
                         classStatus?.replace(' ', '') + 'bgc'
                     )}`}
                 >
-                    {textUtils.FirstUpc(statusUpdate || statusCurrent)}
+                    {textUtils.FirstUpc(statusUpdate || statusCurrent) || '---'}
                 </div>
                 <Icons.SelectOptionArrowIcon />
                 {selectStatus && (

@@ -1,12 +1,10 @@
 const dispatchEdit = (dispatch, state, actions, data, nameData, message) => {
     dispatch(
         actions.setData({
-            ...state.set,
             statusUpdate: '',
             statusCurrent: '',
             fee: '',
             message: {
-                // ...state.set.message,
                 upd: message ? message : 'Updated Success',
                 error: '',
                 cre: '',
@@ -38,7 +36,6 @@ const dispatchEdit = (dispatch, state, actions, data, nameData, message) => {
     );
     dispatch(
         actions.toggleModal({
-            ...state.toggle,
             modalPaymentEdit: false,
             modalStatus: false,
             alertModal: true,

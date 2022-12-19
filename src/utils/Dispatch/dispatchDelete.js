@@ -1,7 +1,6 @@
 const dispatchDelete = (dispatch, state, actions, data, nameData, message) => {
     dispatch(
         actions.setData({
-            ...state.set,
             data: {
                 ...state.set.data,
                 [nameData]: data,
@@ -17,7 +16,6 @@ const dispatchDelete = (dispatch, state, actions, data, nameData, message) => {
     );
     dispatch(
         actions.toggleModal({
-            ...state.toggle,
             modalDelete: false,
             alertModal: true,
         })

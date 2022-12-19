@@ -18,7 +18,7 @@ const requestRefreshToken = async (
             if (decodedToken.exp < date.getTime() / 1000) {
                 const res = await axiosUtils.refreshToken('refreshToken');
                 if (res === 'No jwt') {
-                    alert('Refresh token đã hết hạn, vui lòng đăng nhập lại');
+                    alert('Refresh token has expired, please login again');
                     await localStoreUtils.setStore(null);
                     window.location.href = routers.login;
                 } else if (res.code === 0) {
@@ -42,11 +42,11 @@ const requestRefreshToken = async (
                             ...state.set,
                             message: {
                                 ...state.set.message,
-                                error: 'RefreshToken not found- Please login again',
+                                error: 'RefreshToken not found - Please login again',
                             },
                         })
                     );
-                    alert('Refresh token đã hết hạn, vui lòng đăng nhập lại');
+                    alert('Refresh token has expired, please login again');
                     await localStoreUtils.setStore(null);
                     window.location.href = routers.login;
                 }

@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
-import { alertUtils, useAppContext } from './utils';
+import { useAppContext } from './utils';
 import { DefaultLayout } from './Layouts';
 import { actions } from './app/';
 import routers from './routers/routers';
@@ -11,17 +11,17 @@ import { privateRouter, publicRouter } from './routers/routerRender';
 function App() {
     const { state, dispatch } = useAppContext();
     const { currentUser } = state.set;
-    const { del, cre, upd, error, success } = state.set.message;
+    // const { del, cre, upd, error, success } = state.set.message;
     const [scrollToTop, setScrollToTop] = React.useState(false);
     const Routers = currentUser ? privateRouter : publicRouter;
     const history = useNavigate();
-    useEffect(() => {
-        if (error || del || cre || upd || success) {
-            setTimeout(() => {
-                alertUtils.closeAlert(dispatch, state, actions);
-            }, 10000);
-        }
-    }, [error || del || cre || upd || success]);
+    // useEffect(() => {
+    //     if (error || del || cre || upd || success) {
+    //         setTimeout(() => {
+    //             alertUtils.closeAlert(dispatch, state, actions);
+    //         }, 10000);
+    //     }
+    // }, [error || del || cre || upd || success]);
     useEffect(() => {
         const handleScrollToTop = () => {
             const heightY = window.scrollY;

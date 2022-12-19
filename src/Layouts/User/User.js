@@ -70,6 +70,7 @@ function User() {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
     };
     const toggleEditRuleTrue = async (e, status, id) => {
+        e.stopPropagation();
         await localStoreUtils.setStore({
             ...currentUser,
             idUpdate: id,
@@ -84,6 +85,7 @@ function User() {
         );
     };
     const toggleEditRuleFalse = async (e) => {
+        e.stopPropagation();
         await 1;
         setModalChangeRule(false);
         dispatch(

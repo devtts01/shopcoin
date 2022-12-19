@@ -5,7 +5,6 @@ export const changeForm = (e, dispatch, state, actions) => {
     } else {
         dispatch(
             actions.setData({
-                ...state.set,
                 form: {
                     ...state.set.form,
                     [name]: value,

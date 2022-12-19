@@ -1,7 +1,6 @@
 const dispatchCreate = (dispatch, state, actions, data, nameData, message) => {
     dispatch(
         actions.setData({
-            ...state.set,
             form: {
                 username: '',
                 email: '',
@@ -25,7 +24,6 @@ const dispatchCreate = (dispatch, state, actions, data, nameData, message) => {
             },
             edit: { ...state.set.edit, id: '', itemData: null, data: null },
             message: {
-                // ...state.set.message,
                 cre: message ? message : 'Created Success',
                 error: '',
                 del: '',
@@ -35,7 +33,6 @@ const dispatchCreate = (dispatch, state, actions, data, nameData, message) => {
     );
     dispatch(
         actions.toggleModal({
-            ...state.toggle,
             modalPaymentEdit: false,
             alertModal: true,
         })
