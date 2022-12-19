@@ -60,10 +60,10 @@ const LIST_SIDEBAR = [
 function Sidebar({ className }) {
     const { state, dispatch } = useAppContext();
     const classed = cx('sidebar-container', className);
-    const handleBlacklistUser = () => {
+    const handleClick = () => {
         dispatch(
             actions.setData({
-                ...state.set,
+                // ...state.set,
                 datas: {
                     ...state.set.datas,
                     dataBlacklistUser: [],
@@ -79,7 +79,7 @@ function Sidebar({ className }) {
         <div className={classed}>
             {LIST_SIDEBAR.map((item, index) => (
                 <NavLink
-                    onClick={handleBlacklistUser}
+                    onClick={handleClick}
                     to={item.path}
                     className={(nav) =>
                         cx('menu-item', {
