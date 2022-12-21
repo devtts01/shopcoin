@@ -14,6 +14,7 @@ const cx = className.bind(styles);
 
 function Breadcrumb({ titleList, linkList }) {
     const { state, dispatch } = useAppContext();
+    const { currentUser } = state.set;
     function handleClick(e) {
         e.preventDefault();
         dispatch(
@@ -50,7 +51,11 @@ function Breadcrumb({ titleList, linkList }) {
                     }
                 >
                     <Link
-                        to={routers.home}
+                        to={
+                            currentUser?.rule === 'user'
+                                ? routers.homeUser
+                                : routers.home
+                        }
                         className={`${cx(
                             'breadcrumb-link'
                         )} cl-primary hv-primary`}

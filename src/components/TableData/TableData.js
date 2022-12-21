@@ -197,7 +197,7 @@ function TableData({
         );
     }
     const start = (page - 1) * show + 1;
-    const end = start + data.length - 1;
+    const end = start + data?.length - 1;
     return (
         <>
             <table className={`${cx('table')}`}>
@@ -213,9 +213,9 @@ function TableData({
                         {!noActions && <th></th>}
                     </tr>
                 </thead>
-                {data.length > 0 ? (
+                {data?.length > 0 ? (
                     <tbody className='tbody'>{children}</tbody>
-                ) : search.length === 0 && data.length === 0 ? (
+                ) : search.length === 0 && data?.length === 0 ? (
                     <tbody className='tbody'>
                         <tr>
                             <td
@@ -230,7 +230,7 @@ function TableData({
                     <Loading />
                 )}
             </table>
-            {data.length > 0 && (
+            {data?.length > 0 && (
                 <div className={`${cx('pagination-countpage')}`}>
                     <div className={`${cx('notvalue')}`}></div>
                     <Stack

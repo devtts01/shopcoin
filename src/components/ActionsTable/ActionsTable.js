@@ -17,6 +17,7 @@ function ActionsTable({
     view,
     noDel,
     children,
+    verifyCode,
 }) {
     return (
         <div className={`${cx('actions-container')}`}>
@@ -29,11 +30,13 @@ function ActionsTable({
                     >
                         {edit ? (
                             <Icons.EditIcon />
-                        ) : (
+                        ) : !verifyCode ? (
                             <i
                                 className='fa-solid fa-eye'
                                 style={{ fontSize: '16px' }}
                             ></i>
+                        ) : (
+                            'Verified Code'
                         )}
                     </Link>
                 ) : view ? (
@@ -41,10 +44,14 @@ function ActionsTable({
                         className={`${cx('actions-item')} completebgc`}
                         to={linkView}
                     >
-                        <i
-                            className='fa-solid fa-eye'
-                            style={{ fontSize: '16px' }}
-                        ></i>
+                        {!verifyCode ? (
+                            <i
+                                className='fa-solid fa-eye'
+                                style={{ fontSize: '16px' }}
+                            ></i>
+                        ) : (
+                            'Verified Code'
+                        )}
                     </Link>
                 ) : edit ? (
                     <div

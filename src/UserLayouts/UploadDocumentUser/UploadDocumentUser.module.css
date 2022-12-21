@@ -1,0 +1,39 @@
+.document-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.doucment-image-container {
+    --cols: 2;
+    --spacing: 8px;
+    display: flex;
+}
+
+.image-item {
+    width: calc((100% / var(--cols)) - (var(--spacing) * 2));
+    margin: var(--spacing);
+    border: 0.5px solid #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    min-height: 200px;
+}
+
+.image-view {
+    width: 200px;
+    height: 200px;
+    object-fit: fill;
+    image-rendering: auto;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+}
+
+.icon-upload {
+    width: 100px;
+    height: 100px;
+    color: #e0e0e0;
+}
+
+.input-file {
+    display: none;
+}

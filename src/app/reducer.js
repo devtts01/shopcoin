@@ -76,6 +76,10 @@ const initialState = {
             coin: '',
             bank: '',
             userBlacklist: '',
+            buyHistory: '',
+            sellHistory: '',
+            depositUser: '',
+            withdrawUser: '',
         },
         edit: {
             id: '',
@@ -114,7 +118,7 @@ const toggleModal = (payload) => {
 };
 
 const reducer = (state, action) => {
-    switch (action.type) {
+    switch (action?.type) {
         case SET:
             return {
                 ...state,

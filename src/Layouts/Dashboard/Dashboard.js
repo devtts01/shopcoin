@@ -23,6 +23,99 @@ import { FirstUpc } from '../../utils/format/LetterFirstUpc';
 
 const cx = className.bind(styles);
 
+const ChartItem = ({ title, value, link, to }) => {
+    return (
+        <div className={`${cx('item')}`}>
+            {link ? (
+                <Link to={to} className={`${cx('title-link')}`}>
+                    {title}
+                </Link>
+            ) : (
+                <div className={`${cx('title')}`}>{title}</div>
+            )}
+            <div className={`${cx('value')}`}>{value}</div>
+        </div>
+    );
+};
+function RenderBodyTable({ data }) {
+    const { state } = useAppContext();
+    const {
+        pagination: { page, show },
+    } = state.set;
+    return (
+        <>
+            {data.map((item, index) => {
+                return (
+                    <tr key={item?._id} style={{ fontSize: '14px' }}>
+                        <td className='upc'>
+                            {handleUtils.indexTable(page, show, index)}
+                        </td>
+                        <td>{item.symbol}</td>
+                        <td style={{ textAlign: 'left' }}>{item.total}</td>
+                    </tr>
+                );
+            })}
+        </>
+    );
+}
+function RenderBodyTableUser({ data }) {
+    const { state } = useAppContext();
+    const {
+        pagination: { page, show },
+    } = state.set;
+    return (
+        <>
+            {data.map((item, index) => {
+                return (
+                    <tr key={item?._id} style={{ fontSize: '14px' }}>
+                        <td className='upc'>
+                            {handleUtils.indexTable(page, show, index)}
+                        </td>
+                        <td
+                            style={{
+                                maxWidth: '150px',
+                                wordWrap: 'break-word',
+                            }}
+                        >
+                            {item.payment.username}
+                        </td>
+                        <td
+                            style={{
+                                maxWidth: '150px',
+                                wordWrap: 'break-word',
+                                textAlign: 'left',
+                            }}
+                        >
+                            {item.payment.email}
+                        </td>
+                        <td style={{ textAlign: 'left' }}>
+                            {numberUtils.formatUSD(item.Wallet.balance)}
+                        </td>
+                        <td style={{ textAlign: 'left' }}>
+                            <span
+                                className={`${
+                                    item.payment.rule + 'bgc'
+                                } status`}
+                            >
+                                {item.payment.rule}
+                            </span>
+                        </td>
+                        <td style={{ textAlign: 'left' }}>
+                            <span
+                                className={`${
+                                    item.rank.toLowerCase() + 'bgc'
+                                } status`}
+                            >
+                                {FirstUpc(item.rank)}
+                            </span>
+                        </td>
+                    </tr>
+                );
+            })}
+        </>
+    );
+}
+
 function Dashboard() {
     const { state, dispatch } = useAppContext();
     const {
@@ -112,90 +205,6 @@ function Dashboard() {
             console.log(err);
         }
     };
-    const ChartItem = ({ title, value, link, to }) => {
-        return (
-            <div className={`${cx('item')}`}>
-                {link ? (
-                    <Link to={to} className={`${cx('title-link')}`}>
-                        {title}
-                    </Link>
-                ) : (
-                    <div className={`${cx('title')}`}>{title}</div>
-                )}
-                <div className={`${cx('value')}`}>{value}</div>
-            </div>
-        );
-    };
-    function RenderBodyTable({ data }) {
-        return (
-            <>
-                {data.map((item, index) => {
-                    return (
-                        <tr key={index} style={{ fontSize: '14px' }}>
-                            <td className='upc'>
-                                {handleUtils.indexTable(page, show, index)}
-                            </td>
-                            <td>{item.symbol}</td>
-                            <td style={{ textAlign: 'left' }}>{item.total}</td>
-                        </tr>
-                    );
-                })}
-            </>
-        );
-    }
-    function RenderBodyTableUser({ data }) {
-        return (
-            <>
-                {data.map((item, index) => {
-                    return (
-                        <tr key={index} style={{ fontSize: '14px' }}>
-                            <td className='upc'>
-                                {handleUtils.indexTable(page, show, index)}
-                            </td>
-                            <td
-                                style={{
-                                    maxWidth: '150px',
-                                    wordWrap: 'break-word',
-                                }}
-                            >
-                                {item.payment.username}
-                            </td>
-                            <td
-                                style={{
-                                    maxWidth: '150px',
-                                    wordWrap: 'break-word',
-                                    textAlign: 'left',
-                                }}
-                            >
-                                {item.payment.email}
-                            </td>
-                            <td style={{ textAlign: 'left' }}>
-                                {numberUtils.formatUSD(item.Wallet.balance)}
-                            </td>
-                            <td style={{ textAlign: 'left' }}>
-                                <span
-                                    className={`${
-                                        item.payment.rule + 'bgc'
-                                    } status`}
-                                >
-                                    {item.payment.rule}
-                                </span>
-                            </td>
-                            <td style={{ textAlign: 'left' }}>
-                                <span
-                                    className={`${
-                                        item.rank.toLowerCase() + 'bgc'
-                                    } status`}
-                                >
-                                    {FirstUpc(item.rank)}
-                                </span>
-                            </td>
-                        </tr>
-                    );
-                })}
-            </>
-        );
-    }
     return (
         <div className={`${cx('dashboard-container')}`}>
             <div className={`${cx('general-top')}`}>

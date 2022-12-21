@@ -51,8 +51,8 @@ export const userPost = async (path, options = {}) => {
     const res = await userInstance.post(path, options);
     return res.data;
 };
-export const userPut = async (path, options = {}) => {
-    const res = await userInstance.put(path, options);
+export const userPut = async (path, options = {}, others = {}) => {
+    const res = await userInstance.put(path, options, others);
     return res.data;
 };
 export const userDelete = async (path, options = {}) => {

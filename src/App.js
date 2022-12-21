@@ -6,14 +6,23 @@ import { useAppContext } from './utils';
 import { DefaultLayout } from './Layouts';
 import { actions } from './app/';
 import routers from './routers/routers';
-import { privateRouter, publicRouter } from './routers/routerRender';
+import {
+    privateRouter,
+    publicRouter,
+    userRouter,
+} from './routers/routerRender';
 
 function App() {
     const { state, dispatch } = useAppContext();
     const { currentUser } = state.set;
     // const { del, cre, upd, error, success } = state.set.message;
     const [scrollToTop, setScrollToTop] = React.useState(false);
-    const Routers = currentUser ? privateRouter : publicRouter;
+    const Routers =
+        currentUser?.rule === 'admin' || currentUser?.rule === 'manager'
+            ? privateRouter
+            : currentUser?.rule === 'user'
+            ? userRouter
+            : publicRouter;
     const history = useNavigate();
     // useEffect(() => {
     //     if (error || del || cre || upd || success) {
@@ -32,7 +41,7 @@ function App() {
             }
         };
         window.addEventListener('scroll', handleScrollToTop);
-        if (currentUser) {
+        if (currentUser && currentUser?.rule) {
             dispatch(
                 actions.setData({
                     ...state.set,

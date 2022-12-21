@@ -1,0 +1,16 @@
+export { default as HomeUser } from './HomeUser/HomeUser';
+export { default as MyCoinUser } from './MyCoinUser/MyCoinUser';
+export { default as BuyHistoryUser } from './BuyHistoryUser/BuyHistoryUser';
+export { default as SellHistoryUser } from './SellHistoryUser/SellHistoryUser';
+export { default as DepositUser } from './DepositUser/DepositUser';
+export { default as WithdrawUser } from './WithdrawUser/WithdrawUser';
+export { default as ProfileUser } from './ProfileUser/ProfileUser';
+export { default as BuyCoinUser } from './BuyCoinUser/BuyCoinUser';
+export { default as SellCoinUser } from './SellCoinUser/SellCoinUser';
+export { default as SingleDepositUser } from './SingleDepositUser/SingleDepositUser';
+export { default as SingleWithdrawUser } from './SingleWithdrawUser/SingleWithdrawUser';
+export { default as ContactUser } from './ContactUser/ContactUser';
+export { default as LiveChatUser } from './LiveChatUser/LiveChatUser';
+export { default as ChangePwdUser } from './ChangePwdUser/ChangePwdUser';
+export { default as ProfilePaymentUser } from './ProfilePaymentUser/ProfilePaymentUser';
+export { default as UploadDocumentUser } from './UploadDocumentUser/UploadDocumentUser';

@@ -1,3 +1,4 @@
+import routers from '../routers/routers';
 import {
     axiosUtils,
     searchUtils,
@@ -78,6 +79,7 @@ export const searchDeposits = (props = {}) => {
 export const handleEdit = async (props = {}) => {
     const resPut = await axiosUtils.adminPut(`/handleDeposit/${props.id}`, {
         status: props.statusUpdate || props.statusCurrent,
+        note: props?.note,
         token: props.data?.token,
     });
     switch (resPut.code) {
@@ -120,4 +122,125 @@ export const handleDelete = async (props = {}) => {
         'dataDeposits',
         resDel.message
     );
+};
+// HANDLE CREATE DEPOSIT
+export const handleCreate = async (props = {}) => {
+    const resPost = await axiosUtils.userPost('/deposit', {
+        amount: props?.amount,
+        user: props?.email,
+        amountVnd: props.amountVnd,
+        bankAdmin: props?.bankAdmin,
+        token: props?.token,
+    });
+    switch (resPost.code) {
+        case 0:
+            props.setIsProcess(false);
+            const resGet = await axiosUtils.userGet(
+                `/getAllDeposits/${props?.email}`
+            );
+            props.setData(resGet.data);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        cre: resPost?.message
+                            ? resPost?.message
+                            : 'Create deposit successfully',
+                        error: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                    selectBank: false,
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        error: `You don't have a payment account yet, please create one before doing so. Profile → Profile Payment. Thank you!`,
+                        cre: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                    selectBank: false,
+                })
+            );
+            break;
+        default:
+            break;
+    }
+};
+// HANDLE UPDATE BILL DEPOSIT USER
+export const handleUpdateBillDeposit = async (props = {}) => {
+    const resPut = await axiosUtils.userPut(
+        `/updateImageDeposit/${props.id}`,
+        {
+            statement: props?.logo[0],
+        },
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                token: props?.token,
+            },
+        }
+    );
+    switch (resPut.code) {
+        case 0:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        cre: resPut?.message
+                            ? resPut?.message
+                            : 'Upload bill successfully',
+                        error: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                })
+            );
+            props.history(routers.depositUser);
+            break;
+        case 1:
+        case 2:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        error: resPut?.message
+                            ? resPut?.message
+                            : 'Upload bill failed',
+                        cre: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                })
+            );
+            props.history(routers.depositUser);
+            break;
+        default:
+            break;
+    }
 };

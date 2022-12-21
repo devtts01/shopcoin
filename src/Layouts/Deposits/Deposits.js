@@ -94,6 +94,7 @@ function Deposits() {
     const handleEditStatus = async (data, id) => {
         await handleEdit({
             data,
+            note: `web_${currentUser?.email}`,
             id,
             dispatch,
             actions,

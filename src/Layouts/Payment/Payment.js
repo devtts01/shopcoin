@@ -348,6 +348,7 @@ function Payment() {
                             : createPayment
                     }
                     isProcess={isProcess}
+                    disabled={!accountName || !bankName || !accountNumber}
                 >
                     <FormInput
                         label='Account Name'

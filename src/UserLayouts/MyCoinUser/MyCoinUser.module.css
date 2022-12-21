@@ -1,0 +1,13 @@
+.actions-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    transition: all .3s;
+    border-radius: 5px;
+}
+
+.actions-item:hover {
+    color: var(--table-status-cancel-color);
+    text-decoration: none;
+}

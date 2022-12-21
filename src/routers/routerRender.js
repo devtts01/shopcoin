@@ -18,6 +18,21 @@ import {
     Register,
     ForgotPwd,
 } from '../Layouts';
+import {
+    HomeUser,
+    MyCoinUser,
+    BuyHistoryUser,
+    SellHistoryUser,
+    DepositUser,
+    WithdrawUser,
+    ProfileUser,
+    BuyCoinUser,
+    SellCoinUser,
+    SingleDepositUser,
+    SingleWithdrawUser,
+    ContactUser,
+    LiveChatUser,
+} from '../UserLayouts';
 import { PageNotFound } from '../components';
 
 export const publicRouter = [
@@ -57,6 +72,29 @@ export const privateRouter = [
     {
         path: `${routers.settingCoin}/:idCoin`,
         component: NewCoin,
+    },
+    { path: routers.pageNotFound, component: PageNotFound, layout: null },
+];
+
+export const userRouter = [
+    { path: routers.homeUser, component: HomeUser },
+    { path: routers.myCoinUser, component: MyCoinUser },
+    { path: routers.buyHistoryUser, component: BuyHistoryUser },
+    { path: routers.sellHistoryUser, component: SellHistoryUser },
+    { path: routers.depositUser, component: DepositUser },
+    { path: routers.withdrawUser, component: WithdrawUser },
+    { path: routers.profileUser, component: ProfileUser },
+    { path: routers.contactUser, component: ContactUser },
+    { path: routers.liveChatUser, component: LiveChatUser },
+    { path: `${routers.buyCoinUser}/:idCoin`, component: BuyCoinUser },
+    { path: `${routers.sellCoinUser}/:idCoin`, component: SellCoinUser },
+    {
+        path: `${routers.depositUser}/:idDeposit`,
+        component: SingleDepositUser,
+    },
+    {
+        path: `${routers.withdrawUser}/:idWithdraw`,
+        component: SingleWithdrawUser,
     },
     { path: routers.pageNotFound, component: PageNotFound, layout: null },
 ];

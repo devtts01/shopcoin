@@ -203,6 +203,9 @@ function Buy() {
                                 {moment(item.createdAt).format('DD/MM/YYYY')}
                             </td>
                             <td>
+                                {moment(item.createdAt).format('DD/MM/YYYY')}
+                            </td>
+                            <td>
                                 <TrStatus
                                     item={item.status}
                                     onClick={(e) =>

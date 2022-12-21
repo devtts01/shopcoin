@@ -43,6 +43,7 @@ export const getUserById = async (props = {}) => {
         );
     }
 };
+
 // GET USER BY ROLE
 export const getUserByRole = async (props = {}) => {
     const process = await axiosUtils.adminGet(
@@ -221,6 +222,9 @@ export const changeBankSelect = async (props = {}) => {
             selectBank: !props.selectBank,
         })
     );
+    if (props.setStateModalProfilePayment) {
+        props.setStateModalProfilePayment(false);
+    }
 };
 // UPDATE COIN
 export const updateCoinGift = async (props = {}) => {
@@ -472,4 +476,176 @@ export const SVchangeUsdt = async (props = {}) => {
         USDT: props.USDT,
     });
     console.log(resPost);
+};
+// CHANGE PASSWORD USER
+export const changePassword = async (props = {}) => {
+    const resPut = await axiosUtils.userPut(`/changePWD/${props.id}`, {
+        oldPWD: props.oldPWD,
+        newPWD: props.newPWD,
+        token: props.token,
+    });
+    switch (resPut.code) {
+        case 0:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        cre: resPut?.message
+                            ? resPut?.message
+                            : 'Change password successfully',
+                        error: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        error: resPut?.message
+                            ? `Change password failed. ${resPut?.message}`
+                            : 'Change password failed',
+                        cre: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                })
+            );
+            break;
+        default:
+            break;
+    }
+};
+// CREATE PROFILE PAYMENT USER
+export const createProfilePayment = async (props = {}) => {
+    console.log(props);
+    const resPut = await axiosUtils.userPut(`/additionBankInfo/${props.id}`, {
+        bankName: props?.bank,
+        nameAccount: props?.accountName,
+        accountNumber: props?.accountNumber,
+        token: props?.token,
+    });
+    switch (resPut.code) {
+        case 0:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        cre: resPut?.message
+                            ? resPut?.message
+                            : 'Create payment account successfully',
+                        error: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        error: resPut?.message
+                            ? resPut?.message
+                            : 'Create payment account failed',
+                        cre: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                })
+            );
+            break;
+        default:
+            break;
+    }
+};
+// UPLOAD DOCUMENT USER
+export const uploadDocument = async (props = {}) => {
+    const resPut = await axiosUtils.userPut(
+        `/uploadImage/${props.id}`,
+        {
+            cccdFont: props?.cccdFont,
+            cccdBeside: props?.cccdBeside,
+            licenseFont: props?.licenseFont,
+            licenseBeside: props?.licenseBeside,
+        },
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                token: props?.token,
+            },
+        }
+    );
+    console.log(resPut);
+    switch (resPut.code) {
+        case 0:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        cre: resPut?.message
+                            ? resPut?.message
+                            : 'Upload document successfully',
+                        error: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        error: resPut?.message
+                            ? resPut?.message + '. Please update all 4 photos'
+                            : 'Upload document failed',
+                        cre: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                })
+            );
+            break;
+        default:
+            break;
+    }
 };

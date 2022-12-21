@@ -133,10 +133,10 @@ function UserDetail() {
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
     };
     const DATA_IMAGE_MODAL = [
-        x?.uploadCCCDFont,
-        x?.uploadCCCDBeside,
-        x?.uploadLicenseFont,
-        x?.uploadLicenseBeside,
+        x?.uploadCCCDFont?.replace('uploads/', ''),
+        x?.uploadCCCDBeside?.replace('uploads/', ''),
+        x?.uploadLicenseFont?.replace('uploads/', ''),
+        x?.uploadLicenseBeside?.replace('uploads/', ''),
     ];
     const modalImageTrue = (e) => {
         e.stopPropagation();
@@ -404,25 +404,33 @@ function UserDetail() {
                 {isCheck ? (
                     <div className={`${cx('document-user-item')}`}>
                         <Image
-                            src={`${process.env.REACT_APP_URL_SERVER}/${imageFrontUrl}`}
+                            src={`${
+                                process.env.REACT_APP_URL_SERVER
+                            }/${imageFrontUrl?.replace('uploads/', '')}`}
                             alt=''
                             className={`${cx('document-user-item-image-view')}`}
                             onClick={(e) => {
                                 modalImageTrue(e);
                                 const index = DATA_IMAGE_MODAL.findIndex(
-                                    (item) => item === imageFrontUrl
+                                    (item) =>
+                                        item ===
+                                        imageFrontUrl?.replace('uploads/', '')
                                 );
                                 setIndexImage(index);
                             }}
                         />
                         <Image
-                            src={`${process.env.REACT_APP_URL_SERVER}/${imageBesideUrl}`}
+                            src={`${
+                                process.env.REACT_APP_URL_SERVER
+                            }/${imageBesideUrl?.replace('uploads/', '')}`}
                             alt=''
                             className={`${cx('document-user-item-image-view')}`}
                             onClick={(e) => {
                                 modalImageTrue(e);
                                 const index = DATA_IMAGE_MODAL.findIndex(
-                                    (item) => item === imageBesideUrl
+                                    (item) =>
+                                        item ===
+                                        imageBesideUrl?.replace('uploads/', '')
                                 );
                                 setIndexImage(index);
                             }}

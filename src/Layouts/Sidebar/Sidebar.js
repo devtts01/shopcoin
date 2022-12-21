@@ -56,9 +56,57 @@ const LIST_SIDEBAR = [
         icon: <Icons.UserIcon className={`${cx('custom-icon')}`} />,
     },
 ];
+const LIST_SIDEBAR_USER = [
+    {
+        name: 'Home Page',
+        path: routers.homeUser,
+        icon: <Icons.HomePageIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
+        name: 'My Coin',
+        path: routers.myCoinUser,
+        icon: <Icons.MyCoinIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
+        name: 'Buy History',
+        path: routers.buyHistoryUser,
+        icon: <Icons.HistoryIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
+        name: 'Sell History',
+        path: routers.sellHistoryUser,
+        icon: <Icons.HistoryIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
+        name: 'Deposits',
+        path: routers.depositUser,
+        icon: <Icons.DepositsIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
+        name: 'Withdraws',
+        path: routers.withdrawUser,
+        icon: <Icons.WithdrawIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
+        name: 'Profile',
+        path: routers.profileUser,
+        icon: <Icons.ProfileIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
+        name: 'Contact',
+        path: routers.contactUser,
+        icon: <Icons.ContactIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
+        name: 'Live Chat',
+        path: routers.liveChatUser,
+        icon: <Icons.LiveChatIcon className={`${cx('custom-icon')}`} />,
+    },
+];
 
 function Sidebar({ className }) {
     const { state, dispatch } = useAppContext();
+    const { currentUser } = state.set;
     const classed = cx('sidebar-container', className);
     const handleClick = () => {
         dispatch(
@@ -77,7 +125,10 @@ function Sidebar({ className }) {
     };
     return (
         <div className={classed}>
-            {LIST_SIDEBAR.map((item, index) => (
+            {(currentUser?.rule === 'user'
+                ? LIST_SIDEBAR_USER
+                : LIST_SIDEBAR
+            ).map((item, index) => (
                 <NavLink
                     onClick={handleClick}
                     to={item.path}

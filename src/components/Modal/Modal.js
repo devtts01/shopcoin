@@ -19,6 +19,8 @@ function Modal({
     errorMessage,
     onClick,
     isProcess,
+    hideButton,
+    disabled,
 }) {
     const { state, dispatch } = useAppContext();
     const classed = cx('modal-button-me', classNameButton);
@@ -52,23 +54,25 @@ function Modal({
                     )}
                     {children}
                 </div>
-                <div className={`${cx('modal-footer-me')}`}>
-                    <Button
-                        // className={`${cx('modal-button-me')} btn-cancel`}
-                        className='completebgc'
-                        onClick={closeModal}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        className={classed}
-                        onClick={onClick}
-                        isProcess={isProcess}
-                        disabled={isProcess}
-                    >
-                        {actionButtonText}
-                    </Button>
-                </div>
+                {!hideButton && (
+                    <div className={`${cx('modal-footer-me')}`}>
+                        <Button
+                            // className={`${cx('modal-button-me')} btn-cancel`}
+                            className='completebgc'
+                            onClick={closeModal}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            className={classed}
+                            onClick={onClick}
+                            isProcess={isProcess}
+                            disabled={isProcess || disabled}
+                        >
+                            {actionButtonText}
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );

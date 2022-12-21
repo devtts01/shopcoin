@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Alert from '@mui/material/Alert';
 import className from 'classnames/bind';
-import {
-    useAppContext,
-    alertUtils,
-    searchUtils,
-    refreshPage,
-} from '../../utils';
-import { Search, Button, TableData, Icons } from '../../components';
+import { useAppContext, searchUtils, refreshPage } from '../../utils';
+import { Search, Button, TableData, Icons, AlertCp } from '../../components';
 import { actions } from '../../app/';
 import styles from './General.module.css';
 
@@ -22,6 +16,7 @@ function General({
     onUpdateRate,
     linkCreate,
     textBtnNew,
+    isRefreshPage,
     textBtnUpdateAllFields,
     dataFlag,
     totalData,
@@ -30,13 +25,9 @@ function General({
     className,
     classNameButton,
     classNameButtonUpdateAllFields,
+    noActions,
 }) {
     const { state, dispatch } = useAppContext();
-    const { del, upd, cre, error } = state.set.message;
-    const { alertModal } = state.toggle;
-    const closeAlert = () => {
-        return alertUtils.closeAlert(dispatch, state, actions);
-    };
     const changeSearch = (e) => {
         return searchUtils.logicSearch(e, dispatch, state, actions);
     };
@@ -49,15 +40,7 @@ function General({
     return (
         <>
             <div className={classed}>
-                {(del || upd || cre || error) && alertModal && (
-                    <Alert
-                        severity={error ? 'error' : 'success'}
-                        className='mb8'
-                        onClose={closeAlert}
-                    >
-                        {del ? del : upd ? upd : cre ? cre : error}
-                    </Alert>
-                )}
+                <AlertCp />
                 <div className={`${cx('general-top')}`}>
                     {!noSearch && (
                         <Search
@@ -123,6 +106,7 @@ function General({
                         totalData={totalData}
                         headers={dataHeaders}
                         search={valueSearch ? valueSearch : ''}
+                        noActions={noActions}
                     >
                         {children}
                     </TableData>

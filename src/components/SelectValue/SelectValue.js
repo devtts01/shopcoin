@@ -17,9 +17,10 @@ export default function SelectValue({
     isFormInput,
     valueFormInput,
     onChangeFormInput,
+    className,
 }) {
     return (
-        <div className='detail-item flex-column'>
+        <div className='detail-item flex-column p0'>
             <label className='label mr-auto'>{label}</label>
             <div className={`${cx('detail-list')}`}>
                 <div className={`${cx('list-container')}`}>
@@ -27,7 +28,9 @@ export default function SelectValue({
                         onClick={toggleModal}
                         className='w100 flex-space-between'
                     >
-                        <div className={`${cx('value')}`}>{valueSelect}</div>
+                        <div className={`${cx('value')}`}>
+                            {valueSelect || '---'}
+                        </div>
                         <Icons.SelectOptionArrowIcon />
                     </div>
                     {stateModal && (

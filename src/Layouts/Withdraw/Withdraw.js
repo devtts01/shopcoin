@@ -76,6 +76,7 @@ function Withdraw() {
     const handleEditStatus = async (data, id) => {
         handleEdit({
             data,
+            note: `web_${currentUser?.email}`,
             id,
             dispatch,
             actions,

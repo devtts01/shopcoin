@@ -460,6 +460,7 @@ function NewCoin() {
                                 <Button
                                     className='vipbgc'
                                     onClick={handleApply}
+                                    disabled={!userBlacklist}
                                 >
                                     Apply
                                 </Button>
@@ -508,7 +509,13 @@ function NewCoin() {
                                 : addNewCoin
                         }
                         isProcess={isProcess}
-                        disabled={isProcess}
+                        disabled={
+                            isProcess ||
+                            !fullName ||
+                            !logo ||
+                            !symbolCoin ||
+                            !nameCoin
+                        }
                     >
                         {edit?.itemData ? 'Update' : 'Add'}
                     </Button>

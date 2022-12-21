@@ -1,0 +1,32 @@
+.info-container {
+    --cols: 2;
+    --spacing: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.detail-container {
+    width: calc((100% / var(--cols)) - (var(--spacing) * 2));
+    margin: 0 var(--spacing) 0 0;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 32px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.item-title {
+    font-weight: bold;
+}
