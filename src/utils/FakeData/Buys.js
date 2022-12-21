@@ -15,7 +15,7 @@ const DataBuys = (Icons) => {
                 title: 'User',
             },
             h4: {
-                title: 'Date',
+                title: 'Created At',
                 iconSort: <i className='fa-solid fa-sort'></i>,
             },
             h5: {

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react';
 import className from 'classnames/bind';
+import moment from 'moment';
 import styles from './ProfileUser.module.css';
 import { AlertCp, Button, Icons, Modal } from '../../components';
 import {
@@ -347,6 +348,16 @@ export default function ProfileUser() {
                             <div className={`${cx('item-desc')} cancel`}>
                                 {numberUtils.coinUSD(user?.Wallet?.balance) ||
                                     '---'}
+                            </div>
+                        </div>
+                        <div className={`${cx('detail-item')}`}>
+                            <div className={`${cx('item-title')}`}>
+                                Created At
+                            </div>
+                            <div className={`${cx('item-desc')}`}>
+                                {moment(user?.createdAt).format(
+                                    'DD/MM/YYYY HH:mm:ss'
+                                ) || '---'}
                             </div>
                         </div>
                     </div>

@@ -45,13 +45,17 @@ function RenderBodyTable({ data }) {
                 return (
                     <tr key={item?._id}>
                         <td>{handleUtils.indexTable(page, show, index)}</td>
-                        <td>{item?.symbol}</td>
+                        <td className='item-w150'>{item?.symbol}</td>
                         <td>
                             <TrObjectIcon item={sendReceived} />
                         </td>
-                        <td>{moment(item?.createdAt).format('DD/MM/YYYY')}</td>
-                        <td>{item?.createBy || '---'}</td>
-                        <td className=''>
+                        <td className='item-w150'>---</td>
+                        <td className='item-w100'>
+                            {moment(item?.createdAt).format(
+                                'DD/MM/YYYY HH:mm:ss'
+                            )}
+                        </td>
+                        <td className='item-w150'>
                             <div>{item?.method?.methodName}</div>
                             <div>{item?.method?.accountName}</div>
                             <div>{item?.method?.accountNumber}</div>

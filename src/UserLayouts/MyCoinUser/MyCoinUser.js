@@ -56,16 +56,18 @@ export default function MyCoinUser() {
                                     )}`}
                                 />
                             </td>
-                            <td>{item?.coin?.name}</td>
-                            <td className='vip'>{item?.amount}</td>
-                            <td className='confirm'>
+                            <td className='item-w150'>{item?.coin?.name}</td>
+                            <td className='vip item-w150'>{item?.amount}</td>
+                            <td className='confirm item-w150'>
                                 ~{' '}
                                 {numberUtils
                                     .coinUSD(item?.amount * item?.coin?.price)
                                     .replace('USD', '')}
                             </td>
-                            <td>
-                                {moment(item?.createdAt).format('DD/MM/YYYY')}
+                            <td className='item-w100'>
+                                {moment(item?.createdAt).format(
+                                    'DD/MM/YYYY HH:mm:ss'
+                                )}
                             </td>
                             <td>
                                 <Link

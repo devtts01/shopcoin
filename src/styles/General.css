@@ -145,6 +145,10 @@ button {
     text-align: right !important;
 }
 
+.text-left {
+    text-align: left !important;
+}
+
 .d-flex {
     display: flex;
 }
@@ -172,6 +176,26 @@ button {
 
 .align-flex-end {
     align-items: flex-end;
+}
+
+.item-w150 {
+    max-width: 150px !important;
+    word-wrap: break-word !important;
+}
+
+.item-w100 {
+    max-width: 100px !important;
+    word-wrap: break-word !important;
+}
+
+.item-w50 {
+    max-width: 50px !important;
+    word-wrap: break-word !important;
+}
+
+.item-w200 {
+    max-width: 200px !important;
+    word-wrap: break-word;
 }
 
 .label {

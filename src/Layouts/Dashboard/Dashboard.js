@@ -46,12 +46,12 @@ function RenderBodyTable({ data }) {
         <>
             {data.map((item, index) => {
                 return (
-                    <tr key={item?._id} style={{ fontSize: '14px' }}>
+                    <tr key={item?._id} className='fz14'>
                         <td className='upc'>
                             {handleUtils.indexTable(page, show, index)}
                         </td>
                         <td>{item.symbol}</td>
-                        <td style={{ textAlign: 'left' }}>{item.total}</td>
+                        <td className='text-left'>{item.total}</td>
                     </tr>
                 );
             })}
@@ -71,27 +71,14 @@ function RenderBodyTableUser({ data }) {
                         <td className='upc'>
                             {handleUtils.indexTable(page, show, index)}
                         </td>
-                        <td
-                            style={{
-                                maxWidth: '150px',
-                                wordWrap: 'break-word',
-                            }}
-                        >
-                            {item.payment.username}
-                        </td>
-                        <td
-                            style={{
-                                maxWidth: '150px',
-                                wordWrap: 'break-word',
-                                textAlign: 'left',
-                            }}
-                        >
+                        <td className='item-w150'>{item.payment.username}</td>
+                        <td className='item-w150 text-left'>
                             {item.payment.email}
                         </td>
-                        <td style={{ textAlign: 'left' }}>
+                        <td className='text-left'>
                             {numberUtils.formatUSD(item.Wallet.balance)}
                         </td>
-                        <td style={{ textAlign: 'left' }}>
+                        <td className='text-left'>
                             <span
                                 className={`${
                                     item.payment.rule + 'bgc'
@@ -100,7 +87,7 @@ function RenderBodyTableUser({ data }) {
                                 {item.payment.rule}
                             </span>
                         </td>
-                        <td style={{ textAlign: 'left' }}>
+                        <td className='text-left'>
                             <span
                                 className={`${
                                     item.rank.toLowerCase() + 'bgc'

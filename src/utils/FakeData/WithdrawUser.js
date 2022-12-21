@@ -13,13 +13,13 @@ const DataWithdrawUser = () => {
                 title: 'Amount',
             },
             h3: {
-                title: 'Date',
+                title: 'Price',
             },
             h4: {
-                title: 'Created By',
+                title: 'Created At',
             },
             h5: {
-                title: 'Bank method',
+                title: 'Bank',
             },
             h6: {
                 title: 'Status',

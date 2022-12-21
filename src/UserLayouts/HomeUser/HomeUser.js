@@ -30,13 +30,17 @@ function RenderBodyTable({ data }) {
                                 }${item.logo?.replace('uploads/', '')}`}
                             />
                         </td>
-                        <td>
+                        <td className='item-w150'>
                             {item?.name}{' '}
                             <span className='confirm'>({item?.price})</span>
                         </td>
-                        <td className='complete'>{item?.high}</td>
-                        <td className='cancel'>{item?.low}</td>
-                        <td>{moment(item?.createdAt).format('DD/MM/YYYY')}</td>
+                        <td className='complete item-w150'>{item?.high}</td>
+                        <td className='cancel item-w150'>{item?.low}</td>
+                        <td className='item-w100'>
+                            {moment(item?.createdAt).format(
+                                'DD/MM/YYYY HH:mm:ss'
+                            )}
+                        </td>
                         <td>
                             <Link
                                 to={`${item?._id}`}

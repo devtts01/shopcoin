@@ -44,16 +44,20 @@ export default function SellHistoryUser() {
                     return (
                         <tr key={index}>
                             <td>{handleUtils.indexTable(page, show, index)}</td>
-                            <td>{item?.symbol.replace('USDT', '')}</td>
-                            <td className='vip'>{item?.amount}</td>
-                            <td className='complete'>
+                            <td className='item-w150'>
+                                {item?.symbol.replace('USDT', '')}
+                            </td>
+                            <td className='vip item-w150'>{item?.amount}</td>
+                            <td className='complete item-w150'>
                                 {'~ ' +
                                     numberUtils
                                         .coinUSD(item?.amountUsd)
                                         .replace('USD', '')}
                             </td>
-                            <td>
-                                {moment(item?.createdAt).format('DD/MM/YYYY')}
+                            <td className='item-w100'>
+                                {moment(item?.createdAt).format(
+                                    'DD/MM/YYYY HH:mm:ss'
+                                )}
                             </td>
                             <td className='flex-center'>
                                 <span

@@ -199,26 +199,16 @@ function User() {
                         <td className='upc'>
                             {handleUtils.indexTable(page, show, index)}
                         </td>
-                        <td
-                            style={{
-                                maxWidth: '200px',
-                                wordWrap: 'break-word',
-                            }}
-                        >
+                        <td className='item-w200'>
                             {item.payment.username || <Skeleton width={50} />}
                         </td>
-                        <td
-                            style={{
-                                maxWidth: '150px',
-                                wordWrap: 'break-word',
-                            }}
-                        >
+                        <td className='item-w150'>
                             {item.payment.email || <Skeleton width={50} />}
                         </td>
-                        <td>
-                            {moment(item.createdAt).format('DD/MM/YYYY') || (
-                                <Skeleton width={30} />
-                            )}
+                        <td className='item-w100'>
+                            {moment(item.createdAt).format(
+                                'DD/MM/YYYY HH:mm:ss'
+                            ) || <Skeleton width={30} />}
                         </td>
                         <td>
                             <TrStatus

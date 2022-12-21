@@ -53,13 +53,17 @@ function RenderBodyTable({ data }) {
                 return (
                     <tr key={item?._id}>
                         <td>{handleUtils.indexTable(page, show, index)}</td>
-                        <td>{item?.symbol}</td>
+                        <td className='item-w150'>{item?.symbol}</td>
                         <td>
                             <TrObjectIcon item={sendReceived} />
                         </td>
-                        <td>{moment(item?.createdAt).format('DD/MM/YYYY')}</td>
-                        <td>{item?.createBy || '---'}</td>
-                        <td className=''>
+                        <td className='item-w150'>---</td>
+                        <td className='item-w100'>
+                            {moment(item?.createdAt).format(
+                                'DD/MM/YYYY HH:mm:ss'
+                            )}
+                        </td>
+                        <td className='item-w150'>
                             <div>{item?.bankAdmin?.methodName}</div>
                             <div>{item?.bankAdmin?.accountName}</div>
                             <div>{item?.bankAdmin?.accountNumber}</div>
@@ -234,6 +238,7 @@ export default function DepositUser() {
                     closeModal={closeModal}
                     isProcess={isProcess}
                     onClick={handleSubmit}
+                    disabled={!amountUSD || !bankValue}
                 >
                     <FormInput
                         label='Amount USD'
