@@ -43,6 +43,10 @@ export const searchWithdraw = (props = {}) => {
                 searchUtils.searchInput(props.withdraw, item._id) ||
                 searchUtils.searchInput(props.withdraw, item.code) ||
                 searchUtils.searchInput(props.withdraw, item.user) ||
+                searchUtils.searchInput(props.withdraw, item?.amountUsd) ||
+                searchUtils.searchInput(props.withdraw, item?.amountVnd) ||
+                searchUtils.searchInput(props.withdraw, item?.createdAt) ||
+                searchUtils.searchInput(props.withdraw, item?.createBy) ||
                 searchUtils.searchInput(props.withdraw, item.status)
             );
         });
@@ -53,6 +57,7 @@ export const searchWithdraw = (props = {}) => {
 export const handleEdit = async (props = {}) => {
     const resPut = await axiosUtils.adminPut(`/handleSellUSD/${props.id}`, {
         status: props.statusUpdate || props.statusCurrent,
+        note: props.note,
         token: props.data?.token,
     });
     switch (resPut.code) {
@@ -95,4 +100,60 @@ export const handleDelete = async (props = {}) => {
         'dataWithdraw',
         resDel.message
     );
+};
+// HANDLE CREATE WITHDRAWS
+export const handleCreate = async (props = {}) => {
+    const resPost = await axiosUtils.userPost(`/SellUSD/${props?.id}`, {
+        amountUSD: parseFloat(props?.amountUSD),
+        amountVnd: parseFloat(props?.amountVnd),
+        user: props?.id,
+        token: props?.token,
+    });
+    switch (resPost.code) {
+        case 0:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        cre: resPost?.message
+                            ? resPost?.message
+                            : 'Sell successfully',
+                        error: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                    selectBank: false,
+                })
+            );
+            break;
+        case 1:
+        case 2:
+            props.setIsProcess(false);
+            props.dispatch(
+                props.actions.setData({
+                    message: {
+                        error: resPost?.message
+                            ? resPost?.message
+                            : 'Sell failed',
+                        cre: '',
+                        upd: '',
+                        del: '',
+                    },
+                })
+            );
+            props.dispatch(
+                props.actions.toggleModal({
+                    alertModal: true,
+                    selectBank: false,
+                })
+            );
+            break;
+        default:
+            break;
+    }
 };

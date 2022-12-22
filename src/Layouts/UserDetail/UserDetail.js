@@ -77,6 +77,14 @@ function UserDetail() {
         return deleteUtils.deleteTrue(e, id, dispatch, state, actions);
     };
     const modalChangePwdFalse = (e) => {
+        dispatch(
+            actions.setData({
+                form: {
+                    ...state.set.form,
+                    password: '',
+                },
+            })
+        );
         return deleteUtils.deleteFalse(e, dispatch, state, actions);
     };
     const DATA_IMAGE_MODAL = [
@@ -483,6 +491,7 @@ function UserDetail() {
                     classNameButton='vipbgc'
                     onClick={() => changePwd(idUser)}
                     isProcess={isProcessChangePwd}
+                    disabled={!password}
                 >
                     <FormInput
                         type='password'

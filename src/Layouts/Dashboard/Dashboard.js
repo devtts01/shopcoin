@@ -71,6 +71,7 @@ function Dashboard() {
                 searchUtils.searchInput(userBalance, item.payment.username) ||
                 searchUtils.searchInput(userBalance, item.payment.email) ||
                 searchUtils.searchInput(userBalance, item.payment.rule) ||
+                searchUtils.searchInput(userBalance, item.Wallet.balance) ||
                 searchUtils.searchInput(userBalance, item.rank)
             );
         });
@@ -99,6 +100,7 @@ function Dashboard() {
     };
     const modalRateFalse = (e) => {
         e.stopPropagation();
+        setRateUpdate('');
         setModalRate(false);
     };
     const changeSearch = (e) => {
@@ -173,27 +175,16 @@ function Dashboard() {
                             <td className='upc'>
                                 {handleUtils.indexTable(page, show, index)}
                             </td>
-                            <td
-                                style={{
-                                    maxWidth: '150px',
-                                    wordWrap: 'break-word',
-                                }}
-                            >
+                            <td className='item-w150'>
                                 {item.payment.username}
                             </td>
-                            <td
-                                style={{
-                                    maxWidth: '150px',
-                                    wordWrap: 'break-word',
-                                    textAlign: 'left',
-                                }}
-                            >
+                            <td className='item-w150 text-left'>
                                 {item.payment.email}
                             </td>
-                            <td style={{ textAlign: 'left' }}>
+                            <td className='text-left'>
                                 {numberUtils.formatUSD(item.Wallet.balance)}
                             </td>
-                            <td style={{ textAlign: 'left' }}>
+                            <td className='text-left'>
                                 <span
                                     className={`${
                                         item.payment.rule + 'bgc'
@@ -202,7 +193,7 @@ function Dashboard() {
                                     {item.payment.rule}
                                 </span>
                             </td>
-                            <td style={{ textAlign: 'left' }}>
+                            <td className='text-left'>
                                 <span
                                     className={`${
                                         item.rank.toLowerCase() + 'bgc'
@@ -364,6 +355,7 @@ function Dashboard() {
                               }
                     }
                     isProcess={isProcess}
+                    disabled={!rateUpdate}
                 >
                     <FormInput
                         label='Rate'

@@ -16,6 +16,10 @@ export const logicSearch = (e, dispatch, state, actions) => {
 };
 export const searchInput = (valueSearch, filed) => {
     return (
-        filed && filed.toLowerCase().indexOf(valueSearch.toLowerCase()) !== -1
+        filed &&
+        filed
+            ?.toString()
+            ?.toLowerCase()
+            ?.indexOf(valueSearch?.toString()?.toLowerCase()) !== -1
     );
 };

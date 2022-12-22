@@ -77,6 +77,7 @@ function Withdraw() {
         handleEdit({
             data,
             id,
+            note: `web_${currentUser?.email}`,
             dispatch,
             actions,
             state,
@@ -157,34 +158,19 @@ function Withdraw() {
                     return (
                         <tr key={index}>
                             <td>{handleUtils.indexTable(page, show, index)}</td>
-                            <td
-                                style={{
-                                    maxWidth: '100px',
-                                    wordWrap: 'break-word',
-                                }}
-                            >
-                                {item.code}
-                            </td>
+                            <td className='item-w100'>{item.code}</td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
                             </td>
-                            <td
-                                style={{
-                                    maxWidth: '150px',
-                                    wordWrap: 'break-word',
-                                }}
-                            >
+                            <td className='item-w150'>
                                 <TrObjectNoIcon item={infoUser} />
                             </td>
-                            <td>
-                                {moment(item.createdAt).format('DD/MM/YYYY')}
+                            <td className='item-w100'>
+                                {moment(item.createdAt).format(
+                                    'DD/MM/YYYY HH:mm:ss'
+                                )}
                             </td>
-                            <td
-                                style={{
-                                    maxWidth: '150px',
-                                    wordWrap: 'break-word',
-                                }}
-                            >
+                            <td className='item-w150'>
                                 {item.createBy || <Skeleton width='50px' />}
                             </td>
                             <td>

@@ -6,11 +6,11 @@ const DataUserBalance = () => {
                 title: 'No',
             },
             h1: {
-                title: 'Họ và tên',
+                title: 'Username',
                 iconSort: <i className='fa-solid fa-sort'></i>,
             },
             h2: {
-                title: 'email',
+                title: 'Email',
             },
             h3: {
                 title: 'Balance',

@@ -105,8 +105,16 @@ button {
     margin-left: 8px;
 }
 
+.ml0 {
+    margin-left: 0 !important;
+}
+
 .p0 {
     padding: 0 !important;
+}
+
+.p8 {
+    padding: 8px;
 }
 
 .fwb {
@@ -127,6 +135,14 @@ button {
 
 .text-center {
     text-align: center;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-left {
+    text-align: left !important;
 }
 
 .d-flex {
@@ -162,6 +178,36 @@ button {
 
 .align-flex-end {
     align-items: flex-end;
+}
+
+.item-w150 {
+    max-width: 150px !important;
+    word-wrap: break-word !important;
+}
+
+.item-w100 {
+    max-width: 100px !important;
+    word-wrap: break-word !important;
+}
+
+.item-w50 {
+    max-width: 50px !important;
+    word-wrap: break-word !important;
+}
+
+.item-w30 {
+    max-width: 30px !important;
+    word-wrap: break-word !important;
+}
+
+.item-w20 {
+    max-width: 20px !important;
+    word-wrap: break-word !important;
+}
+
+.item-w200 {
+    max-width: 200px !important;
+    word-wrap: break-word !important;
 }
 
 .label {

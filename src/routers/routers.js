@@ -1,4 +1,5 @@
 const routers = {
+    // ADMIN ROUTER
     home: '/',
     login: '/login',
     register: '/register',
@@ -9,6 +10,15 @@ const routers = {
     withdraw: '/withdraw',
     withdrawDetail: 'withdraw-detail',
     user: '/user',
+
+    // USER ROUTER
+    homeUser: '/',
+    buyHistoryUser: '/buy-history',
+    sellHistoryUser: '/sell-history',
+    profileUser: '/profile',
+    contactUser: '/contact',
+    liveChatUser: '/live-chat',
+    resetPwdUser: '/reset-password',
     pageNotFound: '*',
 };
 

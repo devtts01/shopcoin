@@ -30,6 +30,7 @@ function Login() {
                     await localStoreUtils.setStore({
                         username: res.data.user.payment.username,
                         email: res.data.user.payment.email,
+                        rule: res.data.user.payment.rule,
                         createdAt: res.data.createAt,
                         token: res.data.token,
                         id: res.data.user._id,
@@ -48,7 +49,11 @@ function Login() {
                             },
                         })
                     );
-                    history(routers.dashboard);
+                    history(
+                        res.data.user.payment.rule === 'user'
+                            ? routers.homeUser
+                            : routers.dashboard
+                    );
                     break;
                 case 1:
                 case 2:

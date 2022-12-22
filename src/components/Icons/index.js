@@ -74,6 +74,97 @@ export const DashboardIcon = ({
         </svg>
     );
 };
+export const HomePageIcon = ({
+    className,
+    width = '24px',
+    height = '24px',
+}) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width={width}
+            height={height}
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className={className}
+        >
+            <path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' />
+            <polyline points='9 22 9 12 15 12 15 22' />
+        </svg>
+    );
+};
+export const HistoryIcon = ({ className, width = '24px', height = '24px' }) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 512 512'
+            width={width}
+            height={height}
+            className={className}
+            fill='currentColor'
+            stroke='currentColor'
+            color='currentColor'
+        >
+            <path d='M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z' />
+        </svg>
+    );
+};
+export const ProfileIcon = ({ className, width = '24px', height = '24px' }) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 576 512'
+            width={width}
+            height={height}
+            className={className}
+            fill='currentColor'
+            stroke='currentColor'
+            color='currentColor'
+        >
+            <path d='M208 256c35.35 0 64-28.65 64-64c0-35.35-28.65-64-64-64s-64 28.65-64 64C144 227.3 172.7 256 208 256zM464 232h-96c-13.25 0-24 10.75-24 24s10.75 24 24 24h96c13.25 0 24-10.75 24-24S477.3 232 464 232zM240 288h-64C131.8 288 96 323.8 96 368C96 376.8 103.2 384 112 384h192c8.836 0 16-7.164 16-16C320 323.8 284.2 288 240 288zM464 152h-96c-13.25 0-24 10.75-24 24s10.75 24 24 24h96c13.25 0 24-10.75 24-24S477.3 152 464 152zM512 32H64C28.65 32 0 60.65 0 96v320c0 35.35 28.65 64 64 64h448c35.35 0 64-28.65 64-64V96C576 60.65 547.3 32 512 32zM528 416c0 8.822-7.178 16-16 16H64c-8.822 0-16-7.178-16-16V96c0-8.822 7.178-16 16-16h448c8.822 0 16 7.178 16 16V416z' />
+        </svg>
+    );
+};
+export const ContactIcon = ({ className, width = '24px', height = '24px' }) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 512 512'
+            width={width}
+            height={height}
+            className={className}
+            fill='currentColor'
+            stroke='currentColor'
+            color='currentColor'
+        >
+            <path d='M272 288h-64C163.8 288 128 323.8 128 368C128 376.8 135.2 384 144 384h192c8.836 0 16-7.164 16-16C352 323.8 316.2 288 272 288zM240 256c35.35 0 64-28.65 64-64s-28.65-64-64-64c-35.34 0-64 28.65-64 64S204.7 256 240 256zM496 320H480v96h16c8.836 0 16-7.164 16-16v-64C512 327.2 504.8 320 496 320zM496 64H480v96h16C504.8 160 512 152.8 512 144v-64C512 71.16 504.8 64 496 64zM496 192H480v96h16C504.8 288 512 280.8 512 272v-64C512 199.2 504.8 192 496 192zM384 0H96C60.65 0 32 28.65 32 64v384c0 35.35 28.65 64 64 64h288c35.35 0 64-28.65 64-64V64C448 28.65 419.3 0 384 0zM400 448c0 8.836-7.164 16-16 16H96c-8.836 0-16-7.164-16-16V64c0-8.838 7.164-16 16-16h288c8.836 0 16 7.162 16 16V448z' />
+        </svg>
+    );
+};
+export const LiveChatIcon = ({
+    className,
+    width = '24px',
+    height = '24px',
+}) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 512 512'
+            width={width}
+            height={height}
+            className={className}
+            fill='currentColor'
+            stroke='currentColor'
+            color='currentColor'
+        >
+            <path d='M256 48C141.1 48 48 141.1 48 256v40c0 13.3-10.7 24-24 24s-24-10.7-24-24V256C0 114.6 114.6 0 256 0S512 114.6 512 256V400.1c0 48.6-39.4 88-88.1 88L313.6 488c-8.3 14.3-23.8 24-41.6 24H240c-26.5 0-48-21.5-48-48s21.5-48 48-48h32c17.8 0 33.3 9.7 41.6 24l110.4 .1c22.1 0 40-17.9 40-40V256c0-114.9-93.1-208-208-208zM144 208h16c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H144c-35.3 0-64-28.7-64-64V272c0-35.3 28.7-64 64-64zm224 0c35.3 0 64 28.7 64 64v48c0 35.3-28.7 64-64 64H352c-17.7 0-32-14.3-32-32V240c0-17.7 14.3-32 32-32h16z' />
+        </svg>
+    );
+};
 export const DepositsIcon = ({
     className,
     width = '24px',
@@ -218,6 +309,22 @@ export const UserIcon = ({ className, width = '24px', height = '24px' }) => {
                 strokeLinecap='round'
                 strokeLinejoin='round'
             />
+        </svg>
+    );
+};
+export const UploadIcon = ({ className, width = '24px', height = '24px' }) => {
+    return (
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 640 512'
+            width={width}
+            height={height}
+            className={className}
+            fill='currentColor'
+            stroke='currentColor'
+            color='currentColor'
+        >
+            <path d='M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z' />
         </svg>
     );
 };

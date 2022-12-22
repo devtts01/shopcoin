@@ -23,3 +23,10 @@
 .ml10 {
     margin-left: 10px;
 }
+
+.text-wallet {
+    margin-right: 12px;
+    font-size: 18px;
+    color: var(--color-gray);
+    font-weight: bold;
+}

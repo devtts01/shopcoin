@@ -9,6 +9,8 @@ const initialState = {
         accountMenu: null,
         statusCurrent: '',
         statusUpdate: '',
+        bankValue: '',
+        tokenResetPwd: '',
         sort: 'asc',
         message: {
             del: '',
@@ -20,6 +22,7 @@ const initialState = {
             username: '',
             email: '',
             password: '',
+            otpCode: '',
         },
         pagination: {
             page: 1,
@@ -43,6 +46,9 @@ const initialState = {
             withdraw: '',
             user: '',
             coin: '',
+            bank: '',
+            buyHistory: '',
+            sellHistory: '',
         },
         edit: {
             id: '',
@@ -55,8 +61,10 @@ const initialState = {
         modalWithdrawEdit: false,
         modalDelete: false,
         modalStatus: false,
+        modalWithdraw: false,
         alertModal: false,
         selectStatus: false,
+        selectBank: false,
     },
 };
 

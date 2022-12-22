@@ -9,12 +9,16 @@ import { Link } from 'react-router-dom';
 const cx = className.bind(styles);
 
 function ActionsTable({
-    onClickEdit,
-    onClickDel,
-    onClickView,
+    onClickEdit = () => {},
+    onClickDel = () => {},
+    onClickView = () => {},
+    onClickCreate = () => {},
     linkView,
     edit,
     view,
+    noDel,
+    textButton,
+    bgcButtonCustom,
     children,
 }) {
     return (
@@ -23,27 +27,38 @@ function ActionsTable({
                 {(edit || view) && linkView ? (
                     <Link
                         to={linkView}
-                        className={`${cx('actions-item')} completebgc`}
+                        className={`${cx('actions-item')} ${
+                            bgcButtonCustom || 'completebgc'
+                        }`}
                         onClick={edit ? onClickEdit : onClickView}
                     >
                         {edit ? (
                             <Icons.EditIcon />
-                        ) : (
+                        ) : !textButton ? (
                             <i
                                 className='fa-solid fa-eye'
                                 style={{ fontSize: '16px' }}
                             ></i>
+                        ) : (
+                            textButton
                         )}
                     </Link>
                 ) : view ? (
                     <Link
-                        className={`${cx('actions-item')} completebgc`}
+                        className={`${cx('actions-item')} ${
+                            bgcButtonCustom || 'completebgc'
+                        }`}
                         to={linkView}
+                        onClick={onClickCreate}
                     >
-                        <i
-                            className='fa-solid fa-eye'
-                            style={{ fontSize: '16px' }}
-                        ></i>
+                        {!textButton ? (
+                            <i
+                                className='fa-solid fa-eye'
+                                style={{ fontSize: '16px' }}
+                            ></i>
+                        ) : (
+                            textButton
+                        )}
                     </Link>
                 ) : edit ? (
                     <div
@@ -56,14 +71,16 @@ function ActionsTable({
                     ''
                 )}
             </div>
-            <div
-                className={`${cx('actions-item-container')}`}
-                onClick={onClickDel}
-            >
-                <div className={`${cx('actions-item')} cancelbgc`}>
-                    <Icons.DeleteIcon />
+            {!noDel && (
+                <div
+                    className={`${cx('actions-item-container')}`}
+                    onClick={onClickDel}
+                >
+                    <div className={`${cx('actions-item')} cancelbgc`}>
+                        <Icons.DeleteIcon />
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

@@ -14,5 +14,7 @@ export { default as TippyHLNotify } from './TippyHLNotify/TippyHLNotify';
 export { default as Toggle } from './Toggle/Toggle';
 export { default as SelectStatus } from './SelectStatus/SelectStatus';
 export { default as ModalViewImage } from './ModalViewImage/ModalViewImage';
+export { default as SelectValue } from './SelectValue/SelectValue';
+export { default as AlertCp } from './Alert/Alert';
 export { default as PageNotFound } from './PageNotFound/PageNotFound';
 export * as Icons from './Icons';

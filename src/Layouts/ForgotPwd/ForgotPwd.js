@@ -1,18 +1,30 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
+import { useNavigate } from 'react-router-dom';
 import { Form } from '../../components';
 import styles from './ForgotPwd.module.css';
+import { useAppContext } from '../../utils';
+import routers from '../../routers/routers';
 
 const cx = className.bind(styles);
 
 function ForgotPwd() {
+    const { state } = useAppContext();
+    const { email } = state.set.form;
+    const [isProcess, setIsProcess] = useState(false);
+    const history = useNavigate();
     useEffect(() => {
         document.title = `Forgot Password | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     const handleForgot = async (e) => {
         e.preventDefault();
         try {
-            console.log('ForgotPwd');
+            await 1;
+            setIsProcess(true);
+            console.log(email);
+            history(routers.resetPwdUser);
+            setIsProcess(false);
         } catch (error) {
             console.log(error);
         }
@@ -30,6 +42,7 @@ function ForgotPwd() {
             forgotPwdForm
             className={cx('form-page-login')}
             onEnter={onEnter}
+            isProcess={isProcess}
         />
     );
 }
