@@ -30,6 +30,7 @@ export const SVcreateDeposits = async (props = {}) => {
     user: props?.email,
     amountVnd: props.amountVnd,
     bankAdmin: props?.bankAdmin,
+    rateDeposit: props?.rateDeposit,
     token: props?.token,
   });
   switch (resPost.code) {

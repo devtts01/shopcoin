@@ -82,6 +82,7 @@ export default function CreateWithdraw({navigation}) {
     SVcreateWithdraw({
       amount: amountUSDT,
       email: currentUser?.email,
+      rateWithdraw: rateDepositWithdraw?.rateWithdraw,
       setLoading,
       dispatch,
       navigation,

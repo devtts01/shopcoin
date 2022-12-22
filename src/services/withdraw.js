@@ -28,6 +28,7 @@ export const SVcreateWithdraw = async (props = {}) => {
   const resPost = await userPost('/withdraw', {
     amountUsd: parseFloat(props?.amount),
     user: props?.email,
+    rateWithdraw: props?.rateWithdraw,
     token: props?.token,
   });
   switch (resPost.code) {

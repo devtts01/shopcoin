@@ -26,11 +26,9 @@ import stylesGeneral from '../../styles/General';
 import stylesStatus from '../../styles/Status';
 import {SVcreateDeposits} from '../../services/deposits';
 import {
-  getUserById,
   getPaymentAdminById,
   getRateDepositWithdraw,
 } from '../../app/payloads/getById';
-import {SVgetUserById} from '../../services/user';
 import {
   SVgetAllPaymentAdmin,
   SVgetPaymentAdminById,
@@ -114,6 +112,7 @@ export default function CreateDeposits({navigation}) {
       amountVnd: parseFloat(amountUSDT * rateDepositWithdraw?.rateDeposit),
       token: data?.token,
       bankAdmin: paymentAdminById,
+      rateDeposit: rateDepositWithdraw?.rateDeposit,
       setLoading,
       dispatch,
       navigation,
