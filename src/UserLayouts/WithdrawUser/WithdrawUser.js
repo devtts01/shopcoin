@@ -108,9 +108,9 @@ export default function WithdrawUser() {
         searchValues: { withdrawUser },
     } = state.set;
     const { selectBank } = state.toggle;
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     const [rate, setRate] = useState(null);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState([]);
     const [amountUSD, setAmountUSD] = useState();
     const [error, setError] = useState('');
     const [isProcess, setIsProcess] = useState(false);
@@ -186,7 +186,6 @@ export default function WithdrawUser() {
                 await 1;
                 setIsProcess(true);
                 setTimeout(() => {
-                    // console.log(amountUSD, bankValue);
                     requestRefreshToken(
                         currentUser,
                         createWithdrawAPI,

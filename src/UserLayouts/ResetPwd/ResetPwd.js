@@ -1,35 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import className from 'classnames/bind';
 import { Form } from '../../components';
+import styles from './ResetPwd.module.css';
 import { axiosUtils, useAppContext } from '../../utils';
 import routers from '../../routers/routers';
 import { actions } from '../../app/';
-import styles from './ForgotPwd.module.css';
 
 const cx = className.bind(styles);
 
-function ForgotPwd() {
+export default function ResetPwd() {
     const { state, dispatch } = useAppContext();
-    const { email } = state.set.form;
+    const { otpCode, password } = state.set.form;
+    const { tokenResetPwd } = state.set;
     const [isProcess, setIsProcess] = useState(false);
     const history = useNavigate();
     useEffect(() => {
-        document.title = `Forgot Password | ${process.env.REACT_APP_TITLE_WEB}`;
+        document.title = `Reset Password | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
-    const handleForgot = async (e) => {
-        e.preventDefault();
+    const handleReset = async (e) => {
         try {
+            await 1;
             setIsProcess(true);
-            const resPost = await axiosUtils.userPost('/forgotPassword', {
-                email: email,
-            });
-            switch (resPost.code) {
+            const resPut = await axiosUtils.userPut(
+                `/getOTP/${tokenResetPwd}`,
+                {
+                    otp: otpCode,
+                    pwd: password,
+                }
+            );
+            switch (resPut.code) {
                 case 0:
                     dispatch(
                         actions.setData({
                             ...state.set,
-                            tokenResetPwd: resPost?.data,
+                            tokenResetPwd: resPut?.data,
                             form: {
                                 username: '',
                                 email: '',
@@ -40,7 +45,7 @@ function ForgotPwd() {
                             },
                         })
                     );
-                    history(routers.resetPwdUser);
+                    history(routers.login);
                     break;
                 case 1:
                 case 2:
@@ -49,7 +54,7 @@ function ForgotPwd() {
                             ...state.set,
                             message: {
                                 ...state.set.message,
-                                error: resPost?.message,
+                                error: resPut?.message,
                             },
                         })
                     );
@@ -58,26 +63,24 @@ function ForgotPwd() {
                     break;
             }
             setIsProcess(false);
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            console.log(err);
         }
     };
     const onEnter = (e) => {
-        handleForgot(e);
+        handleReset(e);
     };
-
     return (
         <Form
-            titleForm='Forgot Password'
-            textBtn='Send email'
-            onClick={handleForgot}
-            bolEmail
-            forgotPwdForm
-            isProcess={isProcess}
+            titleForm='Reset Password'
+            textBtn='Submit'
+            onClick={handleReset}
+            bolPassword
+            bolOtpCode
+            resetPwdForm
             className={cx('form-page-login')}
+            isProcess={isProcess}
             onEnter={onEnter}
-        />
+        ></Form>
     );
 }
-
-export default ForgotPwd;

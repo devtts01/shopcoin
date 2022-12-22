@@ -69,6 +69,9 @@ export const searchDeposits = (props = {}) => {
                 searchUtils.searchInput(props.deposits, item._id) ||
                 searchUtils.searchInput(props.deposits, item.code) ||
                 searchUtils.searchInput(props.deposits, item.user) ||
+                searchUtils.searchInput(props.deposits, item?.amountVnd) ||
+                searchUtils.searchInput(props.deposits, item?.amount) ||
+                searchUtils.searchInput(props.deposits, item?.createBy) ||
                 searchUtils.searchInput(props.deposits, item.status)
             );
         });

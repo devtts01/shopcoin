@@ -25,7 +25,6 @@ function Rate() {
         currentUser,
         message: { error },
         data: { dataRate },
-        // searchValues: { rate },
         pagination: { page, show },
     } = state.set;
     const [modalRate, setModalRate] = useState(false);

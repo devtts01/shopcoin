@@ -32,13 +32,16 @@ import {
     SingleWithdrawUser,
     ContactUser,
     LiveChatUser,
+    ResetPwd,
 } from '../UserLayouts';
 import { PageNotFound } from '../components';
 
 export const publicRouter = [
     { path: routers.login, component: Login, layout: null },
     { path: routers.register, component: Register, layout: null },
+    { path: routers.resetPwdUser, component: ResetPwd, layout: null },
     { path: routers.forgotPwd, component: ForgotPwd, layout: null },
+    { path: routers.pageNotFound, component: PageNotFound, layout: null },
 ];
 export const privateRouter = [
     { path: routers.home, component: Home },
@@ -86,6 +89,7 @@ export const userRouter = [
     { path: routers.profileUser, component: ProfileUser },
     { path: routers.contactUser, component: ContactUser },
     { path: routers.liveChatUser, component: LiveChatUser },
+    { path: routers.resetPwdUser, component: ResetPwd },
     { path: `${routers.buyCoinUser}/:idCoin`, component: BuyCoinUser },
     { path: `${routers.sellCoinUser}/:idCoin`, component: SellCoinUser },
     {

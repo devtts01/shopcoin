@@ -145,7 +145,10 @@ function Dashboard() {
     let data = dataDashboard?.data?.coins || [];
     if (dashboard) {
         data = data.filter((item) => {
-            return searchUtils.searchInput(dashboard, item.symbol);
+            return (
+                searchUtils.searchInput(dashboard, item.symbol) ||
+                searchUtils.searchInput(dashboard, item.total)
+            );
         });
     }
     let dataUser = dataUserBalance?.users || [];
@@ -155,7 +158,8 @@ function Dashboard() {
                 searchUtils.searchInput(userBalance, item.payment.username) ||
                 searchUtils.searchInput(userBalance, item.payment.email) ||
                 searchUtils.searchInput(userBalance, item.payment.rule) ||
-                searchUtils.searchInput(userBalance, item.rank)
+                searchUtils.searchInput(userBalance, item.rank) ||
+                searchUtils.searchInput(userBalance, item.Wallet.balance)
             );
         });
     }

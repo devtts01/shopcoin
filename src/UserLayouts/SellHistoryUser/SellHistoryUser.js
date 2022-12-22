@@ -23,7 +23,7 @@ export default function SellHistoryUser() {
         searchValues: { sellHistory },
         pagination: { page, show },
     } = state.set;
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     const getDataBuyHistory = async () => {
         const resGet = await axiosUtils.userGet(
             `/getAllSell/${currentUser?.id}`

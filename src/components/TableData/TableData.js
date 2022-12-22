@@ -215,7 +215,8 @@ function TableData({
                 </thead>
                 {data?.length > 0 ? (
                     <tbody className='tbody'>{children}</tbody>
-                ) : search.length === 0 && data?.length === 0 ? (
+                ) : (search.length === 0 || search.length > 0) &&
+                  data?.length === 0 ? (
                     <tbody className='tbody'>
                         <tr>
                             <td

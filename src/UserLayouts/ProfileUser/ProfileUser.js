@@ -70,6 +70,11 @@ export default function ProfileUser() {
     }, []);
     const closeModalChangePwd = useCallback((e) => {
         e.stopPropagation();
+        setFormChangePwd({
+            currentPwd: '',
+            newPwd: '',
+            confirmPwd: '',
+        });
         setStateModalChangePwd(false);
     }, []);
     const openModalProfilePayment = useCallback((e) => {
@@ -116,20 +121,6 @@ export default function ProfileUser() {
         });
         setStateModalBank(false);
     };
-    // const handleChangeDocuments = useCallback(
-    //     (e) => {
-    //         const { name, files } = e.target;
-    // console.log(URL.createObjectURL(files[0]));
-    // setFormUploadImage({
-    //     ...formUploadImage,
-    //     [name]: {
-    //         url: URL.createObjectURL(files[0]),
-    //         file: files[0],
-    //     },
-    // });
-    //     },
-    //     [formUploadImage]
-    // );
     const handleChangeUploadCCCDFont = useCallback(
         (e) => {
             const { files } = e.target;

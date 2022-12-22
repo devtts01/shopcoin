@@ -81,6 +81,7 @@ function Sell() {
             id,
             dispatch,
             state,
+            note: `web_${currentUser?.email}`,
             actions,
             page,
             show,

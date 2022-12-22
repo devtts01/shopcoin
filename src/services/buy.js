@@ -67,6 +67,11 @@ export const searchBuys = (props = {}) => {
             return (
                 searchUtils.searchInput(props.buy, item._id) ||
                 searchUtils.searchInput(props.buy, item.buyer.gmailUSer) ||
+                searchUtils.searchInput(props.buy, item?.amountUsd) ||
+                searchUtils.searchInput(props.buy, item?.amount) ||
+                searchUtils.searchInput(props.buy, item?.symbol) ||
+                searchUtils.searchInput(props.buy, item?.createdAt) ||
+                searchUtils.searchInput(props.buy, item?.createBy) ||
                 searchUtils.searchInput(props.buy, item.status)
             );
         });
@@ -82,6 +87,7 @@ export const handleUpdateStatusFeeBuy = async (props = {}) => {
           }
         : {
               status: props.statusUpdate || props.statusCurrent,
+              note: props.note,
               token: props.data?.token,
           };
     const resPut = await axiosUtils.adminPut(

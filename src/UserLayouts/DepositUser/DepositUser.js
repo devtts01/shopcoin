@@ -111,8 +111,8 @@ export default function DepositUser() {
         searchValues: { depositUser, bank },
     } = state.set;
     const { selectBank } = state.toggle;
-    const [data, setData] = useState(null);
-    const [dataPaymentAdmin, setDataPaymentAdmin] = useState(null);
+    const [data, setData] = useState([]);
+    const [dataPaymentAdmin, setDataPaymentAdmin] = useState([]);
     const [rate, setRate] = useState(null);
     const [amountUSD, setAmountUSD] = useState();
     const [stateModalBank, setStateModalBank] = useState(false);

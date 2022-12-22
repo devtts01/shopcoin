@@ -14,3 +14,4 @@ export { default as LiveChatUser } from './LiveChatUser/LiveChatUser';
 export { default as ChangePwdUser } from './ChangePwdUser/ChangePwdUser';
 export { default as ProfilePaymentUser } from './ProfilePaymentUser/ProfilePaymentUser';
 export { default as UploadDocumentUser } from './UploadDocumentUser/UploadDocumentUser';
+export { default as ResetPwd } from './ResetPwd/ResetPwd';

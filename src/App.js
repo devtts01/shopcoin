@@ -5,7 +5,6 @@ import Alert from '@mui/material/Alert';
 import { useAppContext } from './utils';
 import { DefaultLayout } from './Layouts';
 import { actions } from './app/';
-import routers from './routers/routers';
 import {
     privateRouter,
     publicRouter,
@@ -49,9 +48,9 @@ function App() {
                 })
             );
         } else {
-            history(`${routers.login}`);
+            history(publicRouter.includes(window.location.pathname));
+            // history(window.location.pathname);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <>

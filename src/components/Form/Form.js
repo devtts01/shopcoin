@@ -20,15 +20,17 @@ function Form({
     bolUsername,
     bolEmail,
     bolPassword,
+    bolOtpCode,
     loginForm,
     registerForm,
     forgotPwdForm,
+    resetPwdForm,
     isProcess,
     className,
     children,
 }) {
     const { state, dispatch } = useAppContext();
-    const { email, password, username } = state.set.form;
+    const { email, password, username, otpCode } = state.set.form;
     const { error } = state.set.message;
     const classed = cx('form-container', className);
     const handleChange = (e) => {
@@ -64,7 +66,7 @@ function Form({
                     {bolUsername && (
                         <FormInput
                             label='Username'
-                            type='username'
+                            type='text'
                             placeholder='Enter your username'
                             classNameField={`${cx('custom-field')}`}
                             value={username}
@@ -81,6 +83,18 @@ function Form({
                             classNameField={`${cx('custom-field')}`}
                             value={email}
                             name='email'
+                            onChange={handleChange}
+                            onEnter={onEnter}
+                        />
+                    )}
+                    {bolOtpCode && (
+                        <FormInput
+                            label='OTP Code'
+                            type='text'
+                            placeholder='Enter your OTP'
+                            classNameField={`${cx('custom-field')}`}
+                            value={otpCode}
+                            name='otpCode'
                             onChange={handleChange}
                             onEnter={onEnter}
                         />
@@ -126,7 +140,7 @@ function Form({
                             </Link>
                         </div>
                     )}
-                    {forgotPwdForm && (
+                    {(forgotPwdForm || resetPwdForm) && (
                         <>
                             <div className={`${cx('form-help')}`}>
                                 <span>Have an account? </span>

@@ -25,7 +25,7 @@ export default function MyCoinUser() {
         searchValues: { settingCoin },
         pagination: { page, show },
     } = state.set;
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     const getMyCoin = async () => {
         const resGet = await axiosUtils.userGet(
             `/getAllCoinOfUser/${currentUser?.id}`

@@ -44,6 +44,9 @@ export const searchWithdraw = (props = {}) => {
                 searchUtils.searchInput(props.withdraw, item._id) ||
                 searchUtils.searchInput(props.withdraw, item.code) ||
                 searchUtils.searchInput(props.withdraw, item.user) ||
+                searchUtils.searchInput(props.withdraw, item.amountUsd) ||
+                searchUtils.searchInput(props.withdraw, item?.amountVnd) ||
+                searchUtils.searchInput(props.withdraw, item?.createBy) ||
                 searchUtils.searchInput(props.withdraw, item.status)
             );
         });

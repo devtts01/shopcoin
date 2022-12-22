@@ -16,6 +16,7 @@ const initialState = {
         bankValue: '',
         quantityCoin: '',
         fee: '',
+        tokenResetPwd: '',
         message: {
             del: '',
             upd: '',
@@ -26,6 +27,7 @@ const initialState = {
             username: '',
             email: '',
             password: '',
+            otpCode: '',
             accountName: '',
             bankName: '',
             accountNumber: '',

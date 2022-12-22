@@ -63,6 +63,7 @@ export const searchUsers = (props = {}) => {
             return (
                 searchUtils.searchInput(props.user, item.payment.username) ||
                 searchUtils.searchInput(props.user, item.payment.email) ||
+                searchUtils.searchInput(props.user, item.createdAt) ||
                 searchUtils.searchInput(props.user, item.payment.rule) ||
                 searchUtils.searchInput(props.user, item.rank)
             );

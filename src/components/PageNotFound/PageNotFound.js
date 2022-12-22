@@ -22,12 +22,14 @@ function PageNotFound() {
                 Back to{' '}
                 <Link
                     to={
-                        currentUser?.rule === 'user'
+                        !currentUser
+                            ? routers.login
+                            : currentUser?.rule === 'user'
                             ? routers.homeUser
                             : routers.home
                     }
                 >
-                    Home Page
+                    {!currentUser ? 'Login Page' : 'Home Page'}
                 </Link>
             </p>
         </div>

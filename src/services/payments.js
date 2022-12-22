@@ -70,6 +70,7 @@ export const searchPayment = (props = {}) => {
                 searchUtils.searchInput(props.payment, item.accountName) ||
                 searchUtils.searchInput(props.payment, item.methodName) ||
                 searchUtils.searchInput(props.payment, item.accountNumber) ||
+                searchUtils.searchInput(props.payment, item.type) ||
                 searchUtils.searchInput(
                     props.payment,
                     numberUtils.formatUSD(item.transform)

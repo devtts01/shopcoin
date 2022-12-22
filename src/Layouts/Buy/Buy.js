@@ -77,6 +77,7 @@ function Buy() {
             data,
             id,
             dispatch,
+            note: `web_${currentUser?.email}`,
             state,
             actions,
             statusUpdate,

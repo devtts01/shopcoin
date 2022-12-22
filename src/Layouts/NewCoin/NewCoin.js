@@ -64,7 +64,6 @@ function NewCoin() {
     const refCheckbox = useRef();
     const refNameCoin = useRef();
     const refSymbolCoin = useRef();
-    // const refIndexCoin = useRef();
     const refFullName = useRef();
     const refLogo = useRef();
     const history = useNavigate();

@@ -23,19 +23,21 @@ export default function BuyHistoryUser() {
         searchValues: { buyHistory },
         pagination: { page, show },
     } = state.set;
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     const getDataBuyHistory = async () => {
         const resGet = await axiosUtils.userGet(
-            `/getAllBuy/${currentUser?.id}`
+            buyHistory
+                ? `/getAllBuy/${currentUser?.id}?page=${page}&show=${show}&search=${buyHistory}`
+                : `/getAllBuy/${currentUser?.id}?page=${page}&show=${show}`
         );
         setData(resGet.data);
     };
     useEffect(() => {
         getDataBuyHistory();
-    }, []);
+    }, [buyHistory]);
     const dataSettingFlag = searchHistoryBuyCoins({
         buyHistory,
-        data: data,
+        data: data?.buys || data || [],
     });
     function RenderBodyTable({ data }) {
         return (
@@ -82,7 +84,7 @@ export default function BuyHistoryUser() {
                 nameSearch='buyHistory'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataBuyHistoryUser().headers}
-                totalData={10}
+                totalData={data?.total}
                 classNameButton='completebgc'
                 isRefreshPage
                 noActions
