@@ -127,8 +127,9 @@ export default function SingleDepositUser() {
                                 Created At
                             </div>
                             <div className={`${cx('item-desc')}`}>
-                                {moment(x?.createdAt).format('DD/MM/YYYY') ||
-                                    '---'}
+                                {moment(x?.createdAt).format(
+                                    'DD/MM/YYYY HH:mm:ss'
+                                ) || '---'}
                             </div>
                         </div>
                         <div className={`${cx('detail-item')}`}>
@@ -136,8 +137,9 @@ export default function SingleDepositUser() {
                                 Updated At
                             </div>
                             <div className={`${cx('item-desc')}`}>
-                                {moment(x?.updatedAt).format('DD/MM/YYYY') ||
-                                    '---'}
+                                {moment(x?.updatedAt).format(
+                                    'DD/MM/YYYY HH:mm:ss'
+                                ) || '---'}
                             </div>
                         </div>
                         <div className={`${cx('detail-item')}`}>

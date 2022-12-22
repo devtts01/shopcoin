@@ -29,6 +29,7 @@ import {
     TrStatus,
 } from '../../components/TableData/TableData';
 import styles from './Buy.module.css';
+import Skeleton from 'react-loading-skeleton';
 
 const cx = className.bind(styles);
 
@@ -194,7 +195,9 @@ function Buy() {
                                     'DD/MM/YYYY HH:mm:ss'
                                 )}
                             </td>
-                            <td className='item-w100'>---</td>
+                            <td className='item-w100'>
+                                {item?.createBy || <Skeleton width={50} />}
+                            </td>
                             <td>
                                 <TrStatus
                                     item={item.status}

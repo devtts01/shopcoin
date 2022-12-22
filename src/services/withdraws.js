@@ -103,6 +103,7 @@ export const handleCreate = async (props = {}) => {
     const resPost = await axiosUtils.userPost('/withdraw', {
         amountUsd: parseFloat(props?.amount),
         user: props?.email,
+        rateWithdraw: props?.rateWithdraw,
         token: props?.token,
     });
     switch (resPost.code) {

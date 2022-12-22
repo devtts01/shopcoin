@@ -31,6 +31,14 @@ import { handleCreate } from '../../services/deposits';
 const cx = className.bind(styles);
 
 function RenderBodyTable({ data }) {
+    const [rate, setRate] = useState(null);
+    const getRate = async () => {
+        const resGet = await axiosUtils.adminGet('/getRates');
+        setRate(resGet.data);
+    };
+    useEffect(() => {
+        getRate();
+    }, []);
     const { state } = useAppContext();
     const {
         pagination: { page, show },
@@ -57,7 +65,9 @@ function RenderBodyTable({ data }) {
                         <td>
                             <TrObjectIcon item={sendReceived} />
                         </td>
-                        <td className='item-w150'>---</td>
+                        <td className='item-w150'>
+                            {numberUtils.formatVND(rate?.rateDeposit) || '---'}
+                        </td>
                         <td className='item-w100'>
                             {moment(item?.createdAt).format(
                                 'DD/MM/YYYY HH:mm:ss'
@@ -137,6 +147,7 @@ export default function DepositUser() {
     }, []);
     const closeModal = useCallback((e) => {
         e.stopPropagation();
+        setAmountUSD('');
         dispatch(
             actions.toggleModal({
                 selectBank: false,
@@ -176,6 +187,7 @@ export default function DepositUser() {
             amountVnd: parseFloat(amountUSD * rate?.rateDeposit),
             token: data?.token,
             bankAdmin: bankValue,
+            rateDeposit: rate?.rateDeposit,
             dispatch,
             actions,
             history,

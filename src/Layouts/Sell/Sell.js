@@ -31,6 +31,7 @@ import {
     // TrObjectImage,
 } from '../../components/TableData/TableData';
 import styles from './Sell.module.css';
+import Skeleton from 'react-loading-skeleton';
 
 const cx = className.bind(styles);
 const DATA_SELL = DataSells(Icons);
@@ -197,7 +198,9 @@ function Sell() {
                                     'DD/MM/YYYY HH:mm:ss'
                                 )}
                             </td>
-                            <td className='item-w100'>---</td>
+                            <td className='item-w100'>
+                                {item?.createBy || <Skeleton width={50} />}
+                            </td>
                             <td>
                                 <TrStatus
                                     item={item.status}

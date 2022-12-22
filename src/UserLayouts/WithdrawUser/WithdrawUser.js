@@ -23,6 +23,14 @@ import routers from '../../routers/routers';
 const cx = className.bind(styles);
 
 function RenderBodyTable({ data }) {
+    const [rate, setRate] = useState(null);
+    const getRate = async () => {
+        const resGet = await axiosUtils.adminGet('/getRates');
+        setRate(resGet.data);
+    };
+    useEffect(() => {
+        getRate();
+    }, []);
     const { state } = useAppContext();
     const {
         pagination: { page, show },
@@ -49,7 +57,9 @@ function RenderBodyTable({ data }) {
                         <td>
                             <TrObjectIcon item={sendReceived} />
                         </td>
-                        <td className='item-w150'>---</td>
+                        <td className='item-w150'>
+                            {numberUtils.formatVND(rate?.rateWithdraw) || '---'}
+                        </td>
                         <td className='item-w100'>
                             {moment(item?.createdAt).format(
                                 'DD/MM/YYYY HH:mm:ss'
@@ -135,6 +145,7 @@ export default function WithdrawUser() {
     }, []);
     const closeModal = useCallback((e) => {
         e.stopPropagation();
+        setAmountUSD('');
         dispatch(
             actions.toggleModal({
                 selectBank: false,
@@ -160,6 +171,7 @@ export default function WithdrawUser() {
         handleCreate({
             amount: amountUSD,
             email: currentUser?.email,
+            rateWithdraw: rate?.rateWithdraw,
             dispatch,
             state,
             actions,

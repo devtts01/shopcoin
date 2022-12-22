@@ -168,8 +168,9 @@ export default function SingleWithdrawUser() {
                                 Created At
                             </div>
                             <div className={`${cx('item-desc')}`}>
-                                {moment(data?.createdAt).format('DD/MM/YYYY') ||
-                                    '---'}
+                                {moment(data?.createdAt).format(
+                                    'DD/MM/YYYY HH:mm:ss'
+                                ) || '---'}
                             </div>
                         </div>
                         <div className={`${cx('detail-item')}`}>
