@@ -269,6 +269,60 @@ button {
     font-size: 14px;
 }
 
+.btn-down-app {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 40px;
+    padding: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 24px;
+    background-color: var(--color-white);
+    bottom: 20px;
+    right: 20px;
+    color: black;
+    z-index: 999;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.list-app-container {
+    position: absolute;
+    right: 150px;
+    bottom: 25px;
+    padding: 12px 0;
+    background-color: var(--color-white);
+    border-radius: 8px;
+    width: max-content;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.list-app-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    font-weight: normal;
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    text-decoration: none;
+    color: black;
+}
+
+.list-app-item:hover {
+    text-decoration: none;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.list-app-item-text {
+    font-size: 15px;
+    flex: 1;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
