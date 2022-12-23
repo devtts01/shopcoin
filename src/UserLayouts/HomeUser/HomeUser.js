@@ -9,7 +9,7 @@ import {
     useDebounce,
 } from '../../utils';
 import { actions } from '../../app/';
-import { getCoins, searchCoins } from '../../services/coins';
+import { getCoins } from '../../services/coins';
 import { General } from '../../Layouts';
 import { TrObjectImage } from '../../components/TableData/TableData';
 import moment from 'moment';

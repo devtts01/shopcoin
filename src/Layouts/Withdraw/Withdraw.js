@@ -4,7 +4,6 @@ import className from 'classnames/bind';
 import moment from 'moment';
 import {
     getWithdraws,
-    searchWithdraw,
     handleEdit,
     checkErrorWithdraw,
     handleDelete,

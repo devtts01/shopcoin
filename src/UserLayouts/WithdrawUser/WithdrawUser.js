@@ -13,7 +13,6 @@ import {
     useDebounce,
 } from '../../utils';
 import { actions } from '../../app/';
-import { searchWithdrawUser } from '../../services/coins';
 import { handleCreate } from '../../services/withdraws';
 import { ActionsTable, FormInput, Icons, Modal } from '../../components';
 import { TrObjectIcon } from '../../components/TableData/TableData';

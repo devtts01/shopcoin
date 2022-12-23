@@ -5,7 +5,6 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import className from 'classnames/bind';
 import {
     getBuys,
-    searchBuys,
     handleUpdateStatusFeeBuy,
     checkErrorBuys,
     handleDelete,

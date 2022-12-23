@@ -19,7 +19,6 @@ import { General } from '../';
 import { Modal, ActionsTable, SelectStatus } from '../../components';
 import {
     getUsers,
-    searchUsers,
     handleDelete,
     checkErrorUsers,
     handleUpdateRankFeeUser,
