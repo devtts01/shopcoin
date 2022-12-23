@@ -34,7 +34,7 @@ const MyCoin = ({navigation}) => {
       getAllMyCoin,
     });
   };
-  const data = dataMyCoin || [];
+  const data = dataMyCoin?.coins || [];
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };

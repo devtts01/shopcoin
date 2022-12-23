@@ -46,7 +46,7 @@ const Withdraw = ({navigation}) => {
     });
   };
   const data =
-    dataWithdraws.sort(
+    dataWithdraws?.withdraws?.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     ) || [];
   const wait = timeout => {

@@ -43,7 +43,7 @@ const Deposits = ({navigation}) => {
     });
   };
   const data =
-    dataDeposits.sort(
+    dataDeposits?.deposits?.sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     ) || [];
   const wait = timeout => {

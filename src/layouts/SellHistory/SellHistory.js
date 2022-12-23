@@ -74,13 +74,13 @@ export default function SellHistory({navigation}) {
         </View>
       </View>
       <View style={[styles.listItem]}>
-        {dataSellHistory?.length > 0 ? (
+        {dataSellHistory?.sell?.length > 0 ? (
           <FlatList
             showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
-            data={dataSellHistory}
+            data={dataSellHistory?.sell}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
           />

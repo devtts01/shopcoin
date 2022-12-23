@@ -41,6 +41,7 @@ const History = ({navigation}) => {
   const renderItem = ({item}) => {
     return <BuySellHistoryDetail item={item} />;
   };
+  console.log(dataBuyHistory);
   return (
     <View style={[styles.container]}>
       <View style={[styles.btn_container, stylesGeneral.mb10]}>
@@ -74,13 +75,13 @@ const History = ({navigation}) => {
         </View>
       </View>
       <View style={[styles.listItem]}>
-        {dataBuyHistory?.length > 0 ? (
+        {dataBuyHistory?.buys?.length > 0 ? (
           <FlatList
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             showsVerticalScrollIndicator={false}
-            data={dataBuyHistory}
+            data={dataBuyHistory?.buys}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
           />
