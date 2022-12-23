@@ -9,7 +9,7 @@ import {
 // GET DATA BUYS
 export const getBuys = async (props = {}) => {
     const processBuys = await axiosUtils.adminGet(
-        `/getAllBuy?page=${props.page}&show=${props.show}`
+        `/getAllBuy?page=${props.page}&show=${props.show}&search=${props.search}`
     );
     const processUser = await axiosUtils.adminGet('/getAllUser');
     props.dispatch(

@@ -10,7 +10,7 @@ import {
 // GET DATA WITHDRAWS
 export const getWithdraws = async (props = {}) => {
     const processWithdraws = await axiosUtils.adminGet(
-        `/getAllWithdraw?page=${props.page}&show=${props.show}`
+        `/getAllWithdraw?page=${props.page}&show=${props.show}&search=${props.search}`
     );
     const processUser = await axiosUtils.adminGet('/getAllUser');
     props.dispatch(

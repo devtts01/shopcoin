@@ -8,7 +8,7 @@ import {
 // GET DATA USERS
 export const getUsers = async (props = {}) => {
     const processUsers = await axiosUtils.adminGet(
-        `/getAllUser?page=${props.page}&show=${props.show}`
+        `/getAllUser?page=${props.page}&show=${props.show}&search=${props.search}`
     );
     props.dispatch(
         props.actions.setData({

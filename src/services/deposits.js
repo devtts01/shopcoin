@@ -10,7 +10,7 @@ import {
 // GET DATA DEPOSITS
 export const getDeposits = async (props = {}) => {
     const processDeposits = await axiosUtils.adminGet(
-        `/getAllDeposit?page=${props.page}&show=${props.show}`
+        `/getAllDeposit?page=${props.page}&show=${props.show}&search=${props.search}`
     );
     const processUser = await axiosUtils.adminGet('/getAllUser');
     props.dispatch(

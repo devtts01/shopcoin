@@ -23,7 +23,7 @@ export default function SellCoinUser() {
     const history = useNavigate();
     const [isProcess, setIsProcess] = useState(null);
     const [isProcessAll, setIsProcessAll] = useState(null);
-    const [coin, setCoin] = useState(null);
+    const [coin, setCoin] = useState([]);
     const [coinById, setCoinById] = useState(null);
     const [amountSell, setAmountSell] = useState();
     const getCoinBySymbol = async () => {

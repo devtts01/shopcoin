@@ -10,7 +10,6 @@ import {
     getPayments,
     checkFormPayment,
     checkErrorPayment,
-    searchPayment,
     handleCreate,
     handleUpdate,
     handleDelete,
@@ -25,6 +24,7 @@ import {
     deleteUtils,
     formUtils,
     localStoreUtils,
+    useDebounce,
 } from '../../utils';
 import styles from './Payment.module.css';
 import { TrStatus } from '../../components/TableData/TableData';
@@ -59,13 +59,18 @@ function Payment() {
     useEffect(() => {
         document.title = `Payment | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
+    const useDebouncePayment = useDebounce(payment, 500);
     useEffect(() => {
-        getPayments({ dispatch, state, actions, page, show });
-    }, [page, show]);
-    const dataUserFlag = searchPayment({
-        payment,
-        dataPayment: dataPayment.data,
-    });
+        getPayments({
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: useDebouncePayment,
+        });
+    }, [page, show, useDebouncePayment]);
+    const dataPaymentFlag = dataPayment?.data?.payments || dataPayment?.data;
     // Modal Payment + Input Form
     const modalPaymentTrue = (e, item) => {
         return modalUtils.modalTrue(
@@ -293,13 +298,13 @@ function Payment() {
                 nameSearch='payment'
                 textBtnNew='New Payment'
                 onCreate={modalPaymentTrue}
-                dataFlag={dataUserFlag}
+                dataFlag={dataPaymentFlag}
                 dataHeaders={DataPayments().headers}
-                totalData={dataPayment.total}
+                totalData={dataPayment?.total || dataPayment?.data?.total}
                 classNameButton='completebgc'
                 classNameButtonUpdateAllFields='vipbgc'
             >
-                <RenderBodyTable data={dataUserFlag} />
+                <RenderBodyTable data={dataPaymentFlag} />
             </General>
             {modalStatus && (
                 <Modal

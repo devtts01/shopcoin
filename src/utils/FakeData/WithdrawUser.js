@@ -13,7 +13,7 @@ const DataWithdrawUser = () => {
                 title: 'Amount',
             },
             h3: {
-                title: 'Price',
+                title: 'Price (VND)',
             },
             h4: {
                 title: 'Created At',

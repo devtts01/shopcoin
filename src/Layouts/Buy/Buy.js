@@ -18,6 +18,7 @@ import {
     requestRefreshToken,
     localStoreUtils,
     numberUtils,
+    useDebounce,
 } from '../../utils';
 import { Icons, ActionsTable, Modal, SelectStatus } from '../../components';
 import routers from '../../routers/routers';
@@ -50,10 +51,18 @@ function Buy() {
     useEffect(() => {
         document.title = `Buy | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
+    const useDebounceBuy = useDebounce(buy, 500);
     useEffect(() => {
-        getBuys({ page, show, dispatch, state, actions });
-    }, [page, show]);
-    let dataBuyFlag = searchBuys({ dataBuy, buy });
+        getBuys({
+            page,
+            show,
+            dispatch,
+            state,
+            actions,
+            search: useDebounceBuy,
+        });
+    }, [page, show, useDebounceBuy]);
+    let dataBuyFlag = dataBuy?.data?.buys || dataBuy?.data;
     const toggleEditStatusTrue = async (e, status, id) => {
         await localStoreUtils.setStore({
             ...currentUser,
@@ -235,7 +244,7 @@ function Buy() {
                 nameSearch='buy'
                 dataFlag={dataBuyFlag}
                 dataHeaders={DataBuys(Icons).headers}
-                totalData={dataBuy.total}
+                totalData={dataBuy?.total || dataBuy?.data?.total}
             >
                 <RenderBodyTable data={dataBuyFlag} />
             </General>

@@ -11,10 +11,11 @@ import {
     requestRefreshToken,
     searchUtils,
     useAppContext,
+    useDebounce,
 } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 import { actions } from '../../app/';
-import { searchBankAdminUser, searchDepositUser } from '../../services/coins';
+import { searchBankAdminUser } from '../../services/coins';
 import { changeBankSelect } from '../../services/users';
 import {
     ActionsTable,
@@ -109,6 +110,7 @@ export default function DepositUser() {
         currentUser,
         bankValue,
         searchValues: { depositUser, bank },
+        pagination: { page, show },
     } = state.set;
     const { selectBank } = state.toggle;
     const [data, setData] = useState([]);
@@ -118,9 +120,10 @@ export default function DepositUser() {
     const [stateModalBank, setStateModalBank] = useState(false);
     const [isProcess, setIsProcess] = useState(false);
     const history = useNavigate();
+    const useDebounceDeposit = useDebounce(depositUser, 500);
     const getDepositByEmail = async () => {
         const resGet = await axiosUtils.userGet(
-            `/getAllDeposits/${currentUser?.email}`
+            `/getAllDeposits/${currentUser?.email}?page=${page}&show=${show}&search=${useDebounceDeposit}`
         );
         setData(resGet.data);
     };
@@ -136,7 +139,7 @@ export default function DepositUser() {
         getDepositByEmail();
         getPaymentAdmin();
         getRate();
-    }, []);
+    }, [page, show, useDebounceDeposit]);
     const openModal = useCallback((e) => {
         e.stopPropagation();
         dispatch(
@@ -216,10 +219,8 @@ export default function DepositUser() {
         },
         [amountUSD, bankValue, isProcess, data]
     );
-    const dataSettingFlag = searchDepositUser({
-        depositUser,
-        data: data,
-    });
+    // console.log(data);
+    const dataSettingFlag = data?.deposits || [];
     const dataBankFlag = searchBankAdminUser({
         bank,
         data: dataPaymentAdmin,
@@ -233,7 +234,7 @@ export default function DepositUser() {
                 nameSearch='depositUser'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataDepositUser().headers}
-                totalData={10}
+                totalData={data?.total}
                 classNameButton='completebgc'
                 textBtnNew='Create Deposit'
                 noActions

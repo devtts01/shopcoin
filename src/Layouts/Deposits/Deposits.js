@@ -4,7 +4,6 @@ import className from 'classnames/bind';
 import moment from 'moment';
 import {
     getDeposits,
-    searchDeposits,
     handleEdit,
     checkErrorDeposits,
     handleDelete,
@@ -17,6 +16,7 @@ import {
     requestRefreshToken,
     localStoreUtils,
     numberUtils,
+    useDebounce,
 } from '../../utils';
 import { Icons, ActionsTable, Modal, SelectStatus } from '../../components';
 import { actions } from '../../app/';
@@ -49,13 +49,18 @@ function Deposits() {
     useEffect(() => {
         document.title = `Deposits | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
+    const useDebounceDeposit = useDebounce(deposits, 500);
     useEffect(() => {
-        getDeposits({ page, show, dispatch, state, actions });
-    }, [page, show]);
-    let dataDepositsFlag = searchDeposits({
-        deposits,
-        dataDeposits: dataDeposits.data,
-    });
+        getDeposits({
+            page,
+            show,
+            dispatch,
+            state,
+            actions,
+            search: useDebounceDeposit,
+        });
+    }, [page, show, useDebounceDeposit]);
+    let dataDepositsFlag = dataDeposits?.data?.deposits || dataDeposits?.data;
     // Modal
     const toggleEditTrue = async (e, status, id) => {
         await localStoreUtils.setStore({
@@ -215,7 +220,7 @@ function Deposits() {
                 nameSearch='deposits'
                 dataFlag={dataDepositsFlag}
                 dataHeaders={DataDeposits(Icons).headers}
-                totalData={dataDeposits.total}
+                totalData={dataDeposits?.total || dataDeposits?.data?.total}
             >
                 <RenderBodyTable data={dataDepositsFlag} />
             </General>

@@ -13,12 +13,15 @@ const DataBuyHistoryUser = () => {
                 title: 'Amount',
             },
             h3: {
-                title: 'USD currency',
+                title: 'Price (USD)',
             },
             h4: {
-                title: 'Created At',
+                title: 'USD currency',
             },
             h5: {
+                title: 'Created At',
+            },
+            h6: {
                 title: 'Status',
             },
         },

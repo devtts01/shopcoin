@@ -11,7 +11,7 @@ import routers from '../routers/routers';
 // GET DATA COINS
 export const getCoins = async (props = {}) => {
     const processCoins = await axiosUtils.coinGet(
-        `/getAllCoin?page=${props.page}&show=${props.show}`
+        `/getAllCoin?page=${props.page}&show=${props.show}&search=${props.search}`
     );
     props.dispatch(
         props.actions.setData({

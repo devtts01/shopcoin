@@ -2,7 +2,12 @@
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import styles from './HomeUser.module.css';
-import { DataCoinsUser, handleUtils, useAppContext } from '../../utils';
+import {
+    DataCoinsUser,
+    handleUtils,
+    useAppContext,
+    useDebounce,
+} from '../../utils';
 import { actions } from '../../app/';
 import { getCoins, searchCoins } from '../../services/coins';
 import { General } from '../../Layouts';
@@ -66,13 +71,19 @@ export default function HomeUser() {
     useEffect(() => {
         document.title = `Home | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
+    const useDebounceCoin = useDebounce(settingCoin, 500);
     useEffect(() => {
-        getCoins({ dispatch, state, actions, page, show });
-    }, [page, show]);
-    const dataSettingFlag = searchCoins({
-        settingCoin,
-        dataSettingCoin: dataSettingCoin.data,
-    });
+        getCoins({
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: useDebounceCoin,
+        });
+    }, [page, show, useDebounceCoin]);
+    const dataSettingFlag =
+        dataSettingCoin?.data?.coins || dataSettingCoin?.data;
     return (
         <>
             <General
@@ -81,7 +92,9 @@ export default function HomeUser() {
                 nameSearch='settingCoin'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataCoinsUser().headers}
-                totalData={dataSettingCoin.total || 10}
+                totalData={
+                    dataSettingCoin?.total || dataSettingCoin?.data?.total
+                }
                 classNameButton='completebgc'
                 isRefreshPage
             >

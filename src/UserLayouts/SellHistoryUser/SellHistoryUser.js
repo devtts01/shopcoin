@@ -9,9 +9,9 @@ import {
     numberUtils,
     textUtils,
     useAppContext,
+    useDebounce,
 } from '../../utils';
 import { General } from '../../Layouts';
-import { searchHistorySellCoins } from '../../services/coins';
 import moment from 'moment';
 
 const cx = className.bind(styles);
@@ -24,19 +24,17 @@ export default function SellHistoryUser() {
         pagination: { page, show },
     } = state.set;
     const [data, setData] = useState([]);
-    const getDataBuyHistory = async () => {
+    const useDebounceCoin = useDebounce(sellHistory, 500);
+    const getDataSellHistory = async () => {
         const resGet = await axiosUtils.userGet(
-            `/getAllSell/${currentUser?.id}`
+            `/getAllSell/${currentUser?.id}?page=${page}&show=${show}&search=${useDebounceCoin}`
         );
         setData(resGet.data);
     };
     useEffect(() => {
-        getDataBuyHistory();
-    }, []);
-    const dataSettingFlag = searchHistorySellCoins({
-        sellHistory,
-        data: data,
-    });
+        getDataSellHistory();
+    }, [page, show, useDebounceCoin]);
+    const dataSettingFlag = data?.sell || [];
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -48,6 +46,9 @@ export default function SellHistoryUser() {
                                 {item?.symbol.replace('USDT', '')}
                             </td>
                             <td className='vip item-w150'>{item?.amount}</td>
+                            <td className='confirm item-w100'>
+                                {item?.price?.toFixed(5) || '---'}
+                            </td>
                             <td className='complete item-w150'>
                                 {'~ ' +
                                     numberUtils
@@ -82,7 +83,7 @@ export default function SellHistoryUser() {
                 nameSearch='sellHistory'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataSellHistoryUser().headers}
-                totalData={10}
+                totalData={data?.total}
                 classNameButton='completebgc'
                 isRefreshPage
                 noActions

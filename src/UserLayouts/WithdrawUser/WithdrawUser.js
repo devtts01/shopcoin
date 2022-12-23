@@ -10,6 +10,7 @@ import {
     numberUtils,
     requestRefreshToken,
     useAppContext,
+    useDebounce,
 } from '../../utils';
 import { actions } from '../../app/';
 import { searchWithdrawUser } from '../../services/coins';
@@ -106,6 +107,7 @@ export default function WithdrawUser() {
     const {
         currentUser,
         searchValues: { withdrawUser },
+        pagination: { page, show },
     } = state.set;
     const { selectBank } = state.toggle;
     const [data, setData] = useState([]);
@@ -114,9 +116,10 @@ export default function WithdrawUser() {
     const [amountUSD, setAmountUSD] = useState();
     const [error, setError] = useState('');
     const [isProcess, setIsProcess] = useState(false);
+    const useDebounceWithdraw = useDebounce(withdrawUser, 500);
     const getDepositByEmail = async () => {
         const resGet = await axiosUtils.userGet(
-            `/getAllWithdraw/${currentUser?.email}`
+            `/getAllWithdraw/${currentUser?.email}?page=${page}&show=${show}&search=${useDebounceWithdraw}`
         );
         setData(resGet.data);
     };
@@ -134,7 +137,7 @@ export default function WithdrawUser() {
         getDepositByEmail();
         getRate();
         getUser();
-    }, []);
+    }, [page, show, useDebounceWithdraw]);
     const openModal = useCallback((e) => {
         e.stopPropagation();
         dispatch(
@@ -200,10 +203,8 @@ export default function WithdrawUser() {
         },
         [amountUSD]
     );
-    const dataSettingFlag = searchWithdrawUser({
-        withdrawUser,
-        data: data,
-    });
+    // console.log(data);
+    const dataSettingFlag = data?.withdraws || [];
     const isShowBodyModalWithdarw =
         (user?.Wallet?.balance || user?.Wallet?.balance === 0) &&
         user?.payment?.bank?.bankName &&
@@ -221,7 +222,7 @@ export default function WithdrawUser() {
                 nameSearch='withdrawUser'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataWithdrawUser().headers}
-                totalData={10}
+                totalData={data?.total}
                 classNameButton='completebgc'
                 textBtnNew='Create Withdraw'
                 noActions

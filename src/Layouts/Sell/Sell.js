@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import className from 'classnames/bind';
 import {
     getSells,
-    searchSells,
     handleUpdateStatusFeeSell,
     checkErrorSells,
     handleDelete,
@@ -16,6 +15,7 @@ import {
     requestRefreshToken,
     localStoreUtils,
     numberUtils,
+    useDebounce,
 } from '../../utils';
 // import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -53,10 +53,18 @@ function Sell() {
     useEffect(() => {
         document.title = `Sell | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
+    const useDebounceSell = useDebounce(sell, 500);
     useEffect(() => {
-        getSells({ page, show, dispatch, state, actions });
-    }, [page, show]);
-    let dataSellFlag = searchSells({ dataSell, sell });
+        getSells({
+            page,
+            show,
+            dispatch,
+            state,
+            actions,
+            search: useDebounceSell,
+        });
+    }, [page, show, useDebounceSell]);
+    let dataSellFlag = dataSell?.data?.sells || dataSell?.data;
     const toggleEditTrue = async (e, status, id) => {
         await localStoreUtils.setStore({
             ...currentUser,
@@ -238,7 +246,7 @@ function Sell() {
                 textDelModal='Are you sure to delete this sell?'
                 typeDataDel={dataSell}
                 nameTypeDataDel='dataSell'
-                totalData={dataSell.total}
+                totalData={dataSell?.total || dataSell?.data?.total}
             >
                 <RenderBodyTable data={dataSellFlag} />
             </General>

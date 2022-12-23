@@ -17,7 +17,7 @@ export const SVtotal = async (props = {}) => {
         objectBody
     );
     const resPostBalance = await axiosUtils.adminPost(
-        `/totalBalance?page=${props.page}&show=${props.show}`,
+        `/totalBalance?page=${props.page}&show=${props.show}&search=${props.search}`,
         {}
     );
 

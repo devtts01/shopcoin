@@ -10,7 +10,7 @@ import {
 // GET DATA PAYMENT
 export const getPayments = async (props = {}) => {
     const processPayment = await axiosUtils.adminGet(
-        `/getAllPayments?page=${props.page}&show=${props.show}`
+        `/getAllPayments?page=${props.page}&show=${props.show}&search=${props.search}`
     );
     props.dispatch(
         props.actions.setData({

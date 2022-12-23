@@ -10,6 +10,7 @@ import {
     handleUtils,
     requestRefreshToken,
     localStoreUtils,
+    useDebounce,
 } from '../../utils';
 import { TrStatus } from '../../components/TableData/TableData';
 import routers from '../../routers/routers';
@@ -48,11 +49,19 @@ function User() {
     useEffect(() => {
         document.title = `User | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
+    const useDebounceUser = useDebounce(user, 500);
     useEffect(() => {
-        getUsers({ page, show, dispatch, state, actions });
-    }, [page, show]);
+        getUsers({
+            page,
+            show,
+            dispatch,
+            state,
+            actions,
+            search: useDebounceUser,
+        });
+    }, [page, show, useDebounceUser]);
     //Search Data Users
-    let dataUserFlag = searchUsers({ dataUser: dataUser.dataUser, user });
+    let dataUserFlag = dataUser?.dataUser || dataUser?.data;
     const toggleEditTrue = async (e, status, id) => {
         await localStoreUtils.setStore({
             ...currentUser,
@@ -257,7 +266,7 @@ function User() {
                 nameSearch='user'
                 dataFlag={dataUserFlag}
                 dataHeaders={headers}
-                totalData={dataUser.total}
+                totalData={dataUser?.total || dataUser?.data?.total}
             >
                 <RenderBodyTable data={dataUserFlag} />
             </General>

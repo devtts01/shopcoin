@@ -14,6 +14,7 @@ import {
     refreshPage,
     searchUtils,
     useAppContext,
+    useDebounce,
 } from '../../utils';
 import { Link } from 'react-router-dom';
 import routers from '../../routers/routers';
@@ -124,12 +125,15 @@ function Dashboard() {
             actions,
             page,
             show,
+            search: userBalance,
         });
     }, []);
+    const useDebounceDashboard = useDebounce(dashboard, 500);
+    const useDebounceUserBalance = useDebounce(userBalance, 500);
     useEffect(() => {
         getCoinsUserBuy({
             page,
-            show,
+            show: dashboard ? dataDashboard?.data?.total : show,
             dispatch,
             state,
             actions,
@@ -140,8 +144,9 @@ function Dashboard() {
             actions,
             page,
             show,
+            search: useDebounceUserBalance,
         });
-    }, [page, show]);
+    }, [page, show, useDebounceDashboard, useDebounceUserBalance]);
     let data = dataDashboard?.data?.coins || [];
     if (dashboard) {
         data = data.filter((item) => {
@@ -152,17 +157,6 @@ function Dashboard() {
         });
     }
     let dataUser = dataUserBalance?.users || [];
-    if (userBalance) {
-        dataUser = dataUser.filter((item) => {
-            return (
-                searchUtils.searchInput(userBalance, item.payment.username) ||
-                searchUtils.searchInput(userBalance, item.payment.email) ||
-                searchUtils.searchInput(userBalance, item.payment.rule) ||
-                searchUtils.searchInput(userBalance, item.rank) ||
-                searchUtils.searchInput(userBalance, item.Wallet.balance)
-            );
-        });
-    }
     const handleChange = (e) => {
         const { name, value } = e.target;
         dispatch(

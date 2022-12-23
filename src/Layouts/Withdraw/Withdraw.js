@@ -17,6 +17,7 @@ import {
     requestRefreshToken,
     localStoreUtils,
     numberUtils,
+    useDebounce,
 } from '../../utils';
 import routers from '../../routers/routers';
 import { Icons, ActionsTable, Modal, SelectStatus } from '../../components';
@@ -48,13 +49,18 @@ function Withdraw() {
     useEffect(() => {
         document.title = `Withdraw | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
+    const useBebounceWithdraw = useDebounce(withdraw, 500);
     useEffect(() => {
-        getWithdraws({ page, show, dispatch, state, actions });
-    }, [page, show]);
-    let dataWithdrawFlag = searchWithdraw({
-        dataWithdraw: dataWithdraw.data,
-        withdraw,
-    });
+        getWithdraws({
+            page,
+            show,
+            dispatch,
+            state,
+            actions,
+            search: useBebounceWithdraw,
+        });
+    }, [page, show, useBebounceWithdraw]);
+    let dataWithdrawFlag = dataWithdraw?.data?.withdraws || dataWithdraw?.data;
     // Modal
     const toggleEditTrue = async (e, status, id) => {
         await localStoreUtils.setStore({
@@ -210,7 +216,7 @@ function Withdraw() {
                 nameSearch='withdraw'
                 dataFlag={dataWithdrawFlag}
                 dataHeaders={DataWithdraws(Icons).headers}
-                totalData={dataWithdraw.total}
+                totalData={dataWithdraw?.total || dataWithdraw?.data?.total}
             >
                 <RenderBodyTable data={dataWithdrawFlag} />
             </General>

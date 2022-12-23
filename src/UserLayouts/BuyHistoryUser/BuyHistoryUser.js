@@ -9,9 +9,9 @@ import {
     numberUtils,
     textUtils,
     useAppContext,
+    useDebounce,
 } from '../../utils';
 import { General } from '../../Layouts';
-import { searchHistoryBuyCoins } from '../../services/coins';
 import moment from 'moment';
 
 const cx = className.bind(styles);
@@ -24,6 +24,7 @@ export default function BuyHistoryUser() {
         pagination: { page, show },
     } = state.set;
     const [data, setData] = useState([]);
+    const debounceValue = useDebounce(buyHistory, 500);
     const getDataBuyHistory = async () => {
         const resGet = await axiosUtils.userGet(
             buyHistory
@@ -34,11 +35,11 @@ export default function BuyHistoryUser() {
     };
     useEffect(() => {
         getDataBuyHistory();
-    }, [buyHistory]);
-    const dataSettingFlag = searchHistoryBuyCoins({
-        buyHistory,
-        data: data?.buys || data || [],
-    });
+    }, [page, show, debounceValue]);
+    // const dataSettingFlag = searchHistoryBuyCoins({
+    //     buyHistory,
+    //     data: data?.buys || data || [],
+    // });
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -50,6 +51,9 @@ export default function BuyHistoryUser() {
                                 {item?.symbol.replace('USDT', '')}
                             </td>
                             <td className='vip item-w150'>{item?.amount}</td>
+                            <td className='confirm item-w100'>
+                                {item?.price?.toFixed(5) || '---'}
+                            </td>
                             <td className='complete item-w150'>
                                 {'~ ' +
                                     numberUtils
@@ -82,14 +86,14 @@ export default function BuyHistoryUser() {
                 className={cx('setting-coin')}
                 valueSearch={buyHistory}
                 nameSearch='buyHistory'
-                dataFlag={dataSettingFlag}
+                dataFlag={data?.buys || []}
                 dataHeaders={DataBuyHistoryUser().headers}
                 totalData={data?.total}
                 classNameButton='completebgc'
                 isRefreshPage
                 noActions
             >
-                <RenderBodyTable data={dataSettingFlag} />
+                <RenderBodyTable data={data?.buys || []} />
             </General>
         </>
     );

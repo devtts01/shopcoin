@@ -7,7 +7,6 @@ import { actions } from '../../app/';
 import { General } from '../';
 import {
     getCoins,
-    searchCoins,
     onClickEdit,
     handleDelete,
     checkErrorCoins,
@@ -18,6 +17,7 @@ import {
     deleteUtils,
     requestRefreshToken,
     handleUtils,
+    useDebounce,
 } from '../../utils';
 import { ActionsTable, Modal } from '../../components';
 import styles from './SettingCoin.module.css';
@@ -38,13 +38,19 @@ function SettingCoin() {
     useEffect(() => {
         document.title = `Coins | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
+    const useDebounceCoin = useDebounce(settingCoin, 500);
     useEffect(() => {
-        getCoins({ dispatch, state, actions, page, show });
-    }, [page, show]);
-    const dataSettingFlag = searchCoins({
-        settingCoin,
-        dataSettingCoin: dataSettingCoin.data,
-    });
+        getCoins({
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: useDebounceCoin,
+        });
+    }, [page, show, useDebounceCoin]);
+    const dataSettingFlag =
+        dataSettingCoin?.data?.coins || dataSettingCoin?.data;
     // Modal Delete
     const modalDeleteTrue = (e, id) => {
         return deleteUtils.deleteTrue(e, id, dispatch, state, actions);
@@ -119,7 +125,9 @@ function SettingCoin() {
                 linkCreate={`${routers.settingCoin}/${routers.newcoin}`}
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataCoins().headers}
-                totalData={dataSettingCoin.total || 10}
+                totalData={
+                    dataSettingCoin?.total || dataSettingCoin?.data?.total
+                }
                 classNameButton='completebgc'
             >
                 <RenderBodyTable data={dataSettingFlag} />
