@@ -297,6 +297,7 @@ export const searchBlacklistUsers = (props = {}) => {
 };
 // CREATE COINS
 export const handleCreate = async (props = {}) => {
+    console.log('props', props);
     const form = {
         nameCoin: props.nameCoin,
         symbolCoin: props.symbolCoin,

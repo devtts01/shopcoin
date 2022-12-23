@@ -10,12 +10,15 @@ import {
     publicRouter,
     userRouter,
 } from './routers/routerRender';
+import routers from './routers/routers';
+import { Icons } from './components';
 
 function App() {
     const { state, dispatch } = useAppContext();
     const { currentUser } = state.set;
     // const { del, cre, upd, error, success } = state.set.message;
     const [scrollToTop, setScrollToTop] = React.useState(false);
+    const [getApp, setGetApp] = React.useState(false);
     const Routers =
         currentUser?.rule === 'admin' || currentUser?.rule === 'manager'
             ? privateRouter
@@ -23,13 +26,9 @@ function App() {
             ? userRouter
             : publicRouter;
     const history = useNavigate();
-    // useEffect(() => {
-    //     if (error || del || cre || upd || success) {
-    //         setTimeout(() => {
-    //             alertUtils.closeAlert(dispatch, state, actions);
-    //         }, 10000);
-    //     }
-    // }, [error || del || cre || upd || success]);
+    const toogleGetApp = () => {
+        setGetApp(!getApp);
+    };
     useEffect(() => {
         const handleScrollToTop = () => {
             const heightY = window.scrollY;
@@ -48,8 +47,14 @@ function App() {
                 })
             );
         } else {
-            history(publicRouter.includes(window.location.pathname));
-            // history(window.location.pathname);
+            if (
+                !currentUser &&
+                !!publicRouter.includes(window.location.pathname)
+            ) {
+                history(routers.login);
+            } else {
+                publicRouter.includes(window.location.pathname);
+            }
         }
     }, []);
     return (
@@ -99,6 +104,43 @@ function App() {
                 >
                     Website only support on PC!
                 </Alert>
+            </div>
+            <div
+                className='btn-down-app'
+                onClick={toogleGetApp}
+                style={{ right: scrollToTop ? '70px' : '20px' }}
+            >
+                <span>Get App Mobile</span>
+                {getApp && (
+                    <div className='list-app-container'>
+                        <a
+                            href={require('./APK Android/app-release.apk')}
+                            download='shopcoinusa'
+                            className='list-app-item'
+                        >
+                            <Icons.AndroidIcon />
+                            <div className='list-app-item-text ml8'>
+                                Download for Android (.apk)
+                            </div>
+                        </a>
+                        {/* <a
+                            href={require('./APK Android/app-release.apk')}
+                            download='shopcoinusa'
+                            className='list-app-item'
+                        >
+                            <Icons.AppleStoreIcon />
+                            <div className='list-app-item-text ml8'>
+                                Download for iOS
+                            </div>
+                        </a> */}
+                        <div className='list-app-item'>
+                            <Icons.AppleStoreIcon />
+                            <div className='list-app-item-text ml8'>
+                                Download for iOS
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );

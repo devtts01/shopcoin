@@ -307,7 +307,7 @@ function NewCoin() {
     return (
         <>
             <div className={`${cx('newcoin-container')}`}>
-                <div className='flex-space-between'>
+                <div className='flex-space-between mb8'>
                     <h3 className={`${cx('newcoin-title')}`}>
                         Coin Information
                     </h3>
