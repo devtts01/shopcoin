@@ -19,6 +19,7 @@ function App() {
     // const { del, cre, upd, error, success } = state.set.message;
     const [scrollToTop, setScrollToTop] = React.useState(false);
     const [getApp, setGetApp] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
     const Routers =
         currentUser?.rule === 'admin' || currentUser?.rule === 'manager'
             ? privateRouter
@@ -26,8 +27,8 @@ function App() {
             ? userRouter
             : publicRouter;
     const history = useNavigate();
-    const toogleGetApp = () => {
-        setGetApp(!getApp);
+    const getAppTrue = () => {
+        setGetApp(true);
     };
     useEffect(() => {
         const handleScrollToTop = () => {
@@ -58,6 +59,18 @@ function App() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    const downloadFile = async (url, name) => {
+        setIsLoading(true);
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const urlDownload = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlDownload;
+        a.download = name;
+        a.click();
+        setGetApp(false);
+        setIsLoading(false);
+    };
     return (
         <>
             <div className='app'>
@@ -108,32 +121,28 @@ function App() {
             </div>
             <div
                 className='btn-down-app'
-                onClick={toogleGetApp}
+                onClick={getAppTrue}
                 style={{ right: scrollToTop ? '70px' : '20px' }}
             >
                 <span>Get App Mobile</span>
                 {getApp && (
                     <div className='list-app-container'>
-                        <a
-                            href={require('./APK Android/app-release.apk')}
-                            download='shopcoinusa'
+                        <div
+                            onClick={() => {
+                                downloadFile(
+                                    require('./APK Android/app-release.apk'),
+                                    'transactions'
+                                );
+                            }}
                             className='list-app-item'
                         >
                             <Icons.AndroidIcon />
                             <div className='list-app-item-text ml8'>
-                                Download for Android (.apk)
+                                {isLoading
+                                    ? 'Downloading android app...'
+                                    : 'Download for Android (.apk)'}
                             </div>
-                        </a>
-                        {/* <a
-                            href={require('./APK Android/app-release.apk')}
-                            download='shopcoinusa'
-                            className='list-app-item'
-                        >
-                            <Icons.AppleStoreIcon />
-                            <div className='list-app-item-text ml8'>
-                                Download for iOS (.apk)
-                            </div>
-                        </a> */}
+                        </div>
                         <div className='list-app-item'>
                             <Icons.AppleStoreIcon />
                             <div className='list-app-item-text ml8'>
