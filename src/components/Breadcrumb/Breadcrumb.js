@@ -54,7 +54,7 @@ function Breadcrumb({ titleList, linkList }) {
                         to={
                             currentUser?.rule === 'user'
                                 ? routers.homeUser
-                                : routers.home
+                                : routers.dashboard
                         }
                         className={`${cx(
                             'breadcrumb-link'
