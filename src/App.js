@@ -27,7 +27,12 @@ function App() {
             ? userRouter
             : publicRouter;
     const history = useNavigate();
-    const getAppTrue = () => {
+    const toogleGetApp = (e) => {
+        e.stopPropagation();
+        setGetApp(!getApp);
+    };
+    const getAppTrue = (e) => {
+        e.stopPropagation();
         setGetApp(true);
     };
     useEffect(() => {
@@ -121,12 +126,12 @@ function App() {
             </div>
             <div
                 className='btn-down-app'
-                onClick={getAppTrue}
+                onClick={toogleGetApp}
                 style={{ right: scrollToTop ? '70px' : '20px' }}
             >
                 <span>Get App Mobile</span>
                 {getApp && (
-                    <div className='list-app-container'>
+                    <div className='list-app-container' onClick={getAppTrue}>
                         <div
                             onClick={() => {
                                 downloadFile(
