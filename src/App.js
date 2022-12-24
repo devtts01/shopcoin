@@ -27,7 +27,12 @@ function App() {
             ? userRouter
             : publicRouter;
     const history = useNavigate();
-    const getAppTrue = () => {
+    const toogleGetApp = (e) => {
+        e.stopPropagation();
+        setGetApp(!getApp);
+    };
+    const getAppTrue = (e) => {
+        e.stopPropagation();
         setGetApp(true);
     };
     useEffect(() => {
@@ -60,6 +65,7 @@ function App() {
     }, []);
     const downloadFile = async (url, name) => {
         setIsLoading(true);
+        setGetApp(true);
         const response = await fetch(url);
         const blob = await response.blob();
         const urlDownload = window.URL.createObjectURL(blob);
@@ -120,12 +126,12 @@ function App() {
             </div>
             <div
                 className='btn-down-app'
-                onClick={getAppTrue}
+                onClick={toogleGetApp}
                 style={{ right: scrollToTop ? '70px' : '20px' }}
             >
                 <span>Get App Mobile</span>
                 {getApp && (
-                    <div className='list-app-container'>
+                    <div className='list-app-container' onClick={getAppTrue}>
                         <div
                             onClick={() => {
                                 downloadFile(
