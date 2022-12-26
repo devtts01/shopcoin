@@ -11,7 +11,8 @@ import {
     userRouter,
 } from './routers/routerRender';
 import routers from './routers/routers';
-import { Icons } from './components';
+import { Icons, ProgressLine } from './components';
+import axios from 'axios';
 
 function App() {
     const { state, dispatch } = useAppContext();
@@ -20,6 +21,7 @@ function App() {
     const [scrollToTop, setScrollToTop] = React.useState(false);
     const [getApp, setGetApp] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [valueProgress, setValueProgress] = React.useState(0);
     const Routers =
         currentUser?.rule === 'admin' || currentUser?.rule === 'manager'
             ? privateRouter
@@ -66,15 +68,35 @@ function App() {
     }, []);
     const downloadFile = async (url, name) => {
         setIsLoading(true);
-        const response = await fetch(url);
-        const blob = await response.blob();
-        const urlDownload = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = urlDownload;
-        a.download = name;
-        a.click();
-        setGetApp(false);
-        setIsLoading(false);
+        setGetApp(true);
+        await axios({
+            url: url,
+            method: 'GET',
+            responseType: 'blob',
+            onDownloadProgress: (progressEvent) => {
+                let percentCompleted = Math.round(
+                    (progressEvent.loaded * 100) / progressEvent.total
+                );
+                setValueProgress(percentCompleted);
+                if (percentCompleted >= 100) {
+                    setTimeout(() => {
+                        setIsLoading(false);
+                        setGetApp(false);
+                        setValueProgress(0);
+                    }, 2000);
+                }
+            },
+        })
+            .then((res) => {
+                const url = window.URL.createObjectURL(res.data);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = name;
+                a.click();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
     return (
         <>
@@ -143,15 +165,36 @@ function App() {
                         >
                             <Icons.AndroidIcon />
                             <div className='list-app-item-text ml8'>
-                                {isLoading
-                                    ? 'Downloading android app...'
-                                    : 'Download for Android (.apk)'}
+                                {isLoading ? (
+                                    <>
+                                        <div>
+                                            {valueProgress >= 100
+                                                ? 'Done!'
+                                                : 'Downloading, please wait...'}
+                                        </div>
+                                        <ProgressLine value={valueProgress} />
+                                    </>
+                                ) : (
+                                    'Download for Android (.apk)'
+                                )}
                             </div>
                         </div>
+                        <a
+                            className='list-app-item'
+                            href='##'
+                            target='_blank'
+                            alt='Download on Google Play'
+                            rel='noreferrer'
+                        >
+                            <Icons.CHPlayIcon />
+                            <div className='list-app-item-text ml8'>
+                                Download on Google Play
+                            </div>
+                        </a>
                         <div className='list-app-item'>
                             <Icons.AppleStoreIcon />
                             <div className='list-app-item-text ml8'>
-                                Download for iOS
+                                Download on Apple Store
                             </div>
                         </div>
                     </div>
