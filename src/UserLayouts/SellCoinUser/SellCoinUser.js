@@ -32,7 +32,8 @@ export default function SellCoinUser() {
         const resGetAllCoin = await axiosUtils.userGet(
             `/getAllCoinOfUser/${currentUser?.id}`
         );
-        const coinById = resGetAllCoin.data.find(
+
+        const coinById = resGetAllCoin?.data?.coins?.find(
             (item) => item?.coin?._id === resGet.data._id
         );
         setCoinById(coinById);
