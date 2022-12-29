@@ -13,12 +13,14 @@ export const getCoins = async (props = {}) => {
     const processCoins = await axiosUtils.coinGet(
         `/getAllCoin?page=${props.page}&show=${props.show}&search=${props.search}`
     );
+    const processCoinsInactive = await axiosUtils.coinNAGet(`/getList`);
     props.dispatch(
         props.actions.setData({
             data: {
                 ...props.state.set.data,
                 dataSettingCoin: processCoins,
                 dataDashboard: processCoins,
+                dataCoinInactive: processCoinsInactive,
             },
         })
     );
@@ -366,27 +368,25 @@ export const handleCreate = async (props = {}) => {
 };
 // CREATE COINS
 export const handleCreateCoinInactive = async (props = {}) => {
-    const form = {
-        nameCoin: props.nameCoin,
-        symbolCoin: props.symbolCoin,
-        fullName: props.fullName,
-        logo: props.logo,
-    };
-    const resPost = await axiosUtils.coinNAPost(
-        '/add',
-        {
-            logo: form.logo[0],
-            name: form.nameCoin,
-            symbol: form.symbolCoin,
-            fullName: form.fullName,
+    const objectBody = props.logo_sub
+        ? {
+              logo_sub: props.logo_sub,
+              name: props.nameCoin,
+              symbol: props.symbolCoin,
+              fullName: props.fullName,
+          }
+        : {
+              logo: props.logo[0],
+              name: props.nameCoin,
+              symbol: props.symbolCoin,
+              fullName: props.fullName,
+          };
+    const resPost = await axiosUtils.coinNAPost('/add', objectBody, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            token: props.data?.token,
         },
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                token: props.data?.token,
-            },
-        }
-    );
+    });
     switch (resPost.code) {
         case 0:
             props.history(`${routers.coinInactive}`);

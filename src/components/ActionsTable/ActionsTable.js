@@ -11,10 +11,12 @@ const cx = className.bind(styles);
 function ActionsTable({
     onClickEdit,
     onClickDel,
+    onClickBlock,
     onClickView,
     linkView,
     edit,
     view,
+    block,
     noDel,
     children,
     verifyCode,
@@ -71,6 +73,16 @@ function ActionsTable({
                 >
                     <div className={`${cx('actions-item')} cancelbgc`}>
                         <Icons.DeleteIcon />
+                    </div>
+                </div>
+            )}
+            {block && (
+                <div
+                    className={`${cx('actions-item-container')}`}
+                    onClick={onClickBlock}
+                >
+                    <div className={`${cx('actions-item')} vipbgc`}>
+                        <Icons.BlockUserIcon />
                     </div>
                 </div>
             )}

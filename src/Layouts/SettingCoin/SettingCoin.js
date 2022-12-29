@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 import routers from '../../routers/routers';
 import { actions } from '../../app/';
 import { General } from '../';
@@ -10,6 +11,7 @@ import {
     onClickEdit,
     handleDelete,
     checkErrorCoins,
+    handleCreateCoinInactive,
 } from '../../services/coins';
 import {
     useAppContext,
@@ -32,9 +34,10 @@ function SettingCoin() {
         currentUser,
         searchValues: { settingCoin },
         pagination: { page, show },
-        data: { dataSettingCoin },
+        data: { dataSettingCoin, dataCoinInactive },
     } = state.set;
     const { modalDelete } = state.toggle;
+    const history = useNavigate();
     useEffect(() => {
         document.title = `Coins | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
@@ -99,6 +102,49 @@ function SettingCoin() {
     const editSetting = async (item) => {
         onClickEdit({ dispatch, state, actions, item });
     };
+    const handleBlock = (data, item) => {
+        handleCreateCoinInactive({
+            data,
+            dispatch,
+            state,
+            actions,
+            nameCoin: item?.name,
+            symbolCoin: item?.symbol,
+            fullName: item?.fullName,
+            logo_sub: item?.logo,
+            history,
+            page,
+            show,
+        });
+    };
+    const onClickBlock = async (item) => {
+        try {
+            const check = dataCoinInactive?.data?.find(
+                (itemCoin) => itemCoin.symbol === item.symbol
+            );
+            if (check) {
+                dispatch(
+                    actions.setData({
+                        message: {
+                            error: 'Coins are locked!',
+                        },
+                    })
+                );
+                dispatch(actions.toggleModal({ alertModal: true }));
+            } else {
+                requestRefreshToken(
+                    currentUser,
+                    handleBlock,
+                    state,
+                    dispatch,
+                    actions,
+                    item
+                );
+            }
+        } catch (err) {
+            checkErrorCoins({ err, dispatch, state, actions });
+        }
+    };
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -122,11 +168,13 @@ function SettingCoin() {
                             <td>
                                 <ActionsTable
                                     edit
+                                    block
                                     linkView={`${routers.settingCoin}/${item._id}`}
                                     onClickDel={(e) =>
                                         modalDeleteTrue(e, item._id)
                                     }
                                     onClickEdit={() => editSetting(item)}
+                                    onClickBlock={() => onClickBlock(item)}
                                 ></ActionsTable>
                             </td>
                         </tr>

@@ -96,7 +96,6 @@ function CoinInactive() {
             checkErrorCoins({ err, dispatch, state, actions });
         }
     };
-    console.log(edit);
     const editSetting = async (item) => {
         onClickEdit({ dispatch, state, actions, item });
     };
