@@ -116,6 +116,17 @@ export default function WithdrawUser() {
     const [error, setError] = useState('');
     const [isProcess, setIsProcess] = useState(false);
     const useDebounceWithdraw = useDebounce(withdrawUser, 500);
+    useEffect(() => {
+        if (useDebounceWithdraw) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceWithdraw]);
     const getDepositByEmail = async () => {
         const resGet = await axiosUtils.userGet(
             `/getAllWithdraw/${currentUser?.email}?page=${page}&show=${show}&search=${useDebounceWithdraw}`
@@ -221,7 +232,7 @@ export default function WithdrawUser() {
                 nameSearch='withdrawUser'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataWithdrawUser().headers}
-                totalData={data?.total}
+                totalData={data?.total || data?.totalSearch}
                 classNameButton='completebgc'
                 textBtnNew='Create Withdraw'
                 noActions

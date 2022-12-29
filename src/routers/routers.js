@@ -9,6 +9,8 @@ const routers = {
     rate: '/rate',
     settingCoin: '/setting-coin',
     newcoin: 'add-new-coin',
+    coinInactive: '/coin-inactive',
+    newcoinInactive: 'add-new-coin-inactive',
     editCoin: 'edit-coin',
     deposits: '/deposits',
     depositsDetail: 'deposit-detail',

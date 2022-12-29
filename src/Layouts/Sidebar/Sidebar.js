@@ -31,6 +31,11 @@ const LIST_SIDEBAR = [
         icon: <Icons.SettingIcon className={`${cx('custom-icon')}`} />,
     },
     {
+        name: 'Coin Inactive',
+        path: routers.coinInactive,
+        icon: <Icons.BlockUserIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
         name: 'Deposits',
         path: routers.deposits,
         icon: <Icons.DepositsIcon className={`${cx('custom-icon')}`} />,
@@ -106,12 +111,24 @@ const LIST_SIDEBAR_USER = [
 
 function Sidebar({ className }) {
     const { state, dispatch } = useAppContext();
-    const { currentUser } = state.set;
-    const classed = cx('sidebar-container', className);
+    const { currentUser, isMenuList } = state.set;
+    const classed = cx(
+        'sidebar-container',
+        className,
+        !isMenuList && 'sidebar-none'
+    );
+    const closeIsMenu = () => {
+        dispatch(
+            actions.setData({
+                isMenuList: false,
+            })
+        );
+    };
     const handleClick = () => {
         dispatch(
             actions.setData({
                 // ...state.set,
+                isMenuList: false,
                 datas: {
                     ...state.set.datas,
                     dataBlacklistUser: [],
@@ -125,6 +142,9 @@ function Sidebar({ className }) {
     };
     return (
         <div className={classed}>
+            <div className={`${cx('close-btn')}`} onClick={closeIsMenu}>
+                <Icons.CloseIcon />
+            </div>
             {(currentUser?.rule === 'user'
                 ? LIST_SIDEBAR_USER
                 : LIST_SIDEBAR

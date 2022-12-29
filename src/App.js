@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
 import { useAppContext } from './utils';
 import { DefaultLayout } from './Layouts';
 import { actions } from './app/';
@@ -73,7 +72,7 @@ function App() {
             method: 'GET',
             responseType: 'blob',
             onDownloadProgress: (progressEvent) => {
-                let percentCompleted = Math.round(
+                const percentCompleted = Math.round(
                     (progressEvent.loaded * 100) / progressEvent.total
                 );
                 setValueProgress(percentCompleted);
@@ -131,19 +130,6 @@ function App() {
                         <i className='fa-solid fa-arrow-up'></i>
                     </div>
                 )}
-            </div>
-            <div
-                className='noSupport'
-                style={{
-                    backgroundImage: 'url(/images/bg-login.png)',
-                }}
-            >
-                <Alert
-                    severity='info'
-                    style={{ minWidth: '80%', fontSize: '16px' }}
-                >
-                    Website only support on PC!
-                </Alert>
             </div>
             <div
                 className='btn-down-app'

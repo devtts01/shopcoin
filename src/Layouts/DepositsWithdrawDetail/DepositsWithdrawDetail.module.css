@@ -24,7 +24,7 @@
 .document-container {
     position: relative;
     width: 280px;
-    height: 550px;
+    /* height: 550px; */
     padding-bottom: 130%;
     border-radius: 8px;
     height: 0;
@@ -42,4 +42,17 @@
     border-radius: 8px;
     image-rendering: auto;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+}
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .info-container {
+        --cols: 1;
+        flex-wrap: wrap;
+    }
+
+    .detail-container {
+        padding: 8px;
+    }
+
 }

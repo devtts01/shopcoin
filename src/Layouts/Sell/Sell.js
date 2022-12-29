@@ -55,6 +55,17 @@ function Sell() {
     }, []);
     const useDebounceSell = useDebounce(sell, 500);
     useEffect(() => {
+        if (useDebounceSell) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceSell]);
+    useEffect(() => {
         getSells({
             page,
             show,
@@ -95,6 +106,7 @@ function Sell() {
             show,
             statusUpdate,
             statusCurrent,
+            search: sell,
         });
     };
     const editStatusSell = async (id) => {
@@ -130,7 +142,16 @@ function Sell() {
         }
     };
     const handleDeleteSell = async (data, id) => {
-        await handleDelete({ data, id, dispatch, state, actions, page, show });
+        await handleDelete({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: sell,
+        });
     };
     const deleteSell = async (id) => {
         try {
@@ -181,9 +202,9 @@ function Sell() {
                             number: numberUtils.formatUSD(item?.amountUsd),
                         },
                     };
-                    const username = dataUser.dataUser.find(
-                        (x) => x?.payment.email === item.buyer.gmailUSer
-                    )?.payment.username;
+                    const username = dataUser?.dataUser?.find(
+                        (x) => x?.payment?.email === item?.buyer?.gmailUSer
+                    )?.payment?.username;
                     const infoUser = {
                         name: username,
                         email: item.buyer.gmailUSer,
@@ -198,6 +219,9 @@ function Sell() {
                             </td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
+                            </td>
+                            <td className='item-w100 vip'>
+                                {item?.price?.toFixed(5) || '---'}
                             </td>
                             <td className='item-w150'>
                                 <TrObjectNoIcon item={infoUser} />
@@ -246,7 +270,11 @@ function Sell() {
                 textDelModal='Are you sure to delete this sell?'
                 typeDataDel={dataSell}
                 nameTypeDataDel='dataSell'
-                totalData={dataSell?.total || dataSell?.data?.total}
+                totalData={
+                    dataSell?.total ||
+                    dataSell?.data?.total ||
+                    dataSell?.totalSearch
+                }
             >
                 <RenderBodyTable data={dataSellFlag} />
             </General>

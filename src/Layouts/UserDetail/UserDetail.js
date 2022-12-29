@@ -502,6 +502,12 @@ function UserDetail() {
                         info={x && numberUtils.formatUSD(x.Wallet.balance)}
                     />
                     <ItemRender
+                        title='Commision'
+                        info={
+                            x && numberUtils.formatUSD(x.Wallet.commission || 0)
+                        }
+                    />
+                    <ItemRender
                         title='Created At'
                         info={
                             x &&
@@ -510,7 +516,7 @@ function UserDetail() {
                     />
                 </div>
                 <div className={`${cx('detail-container')}`}>
-                    <div className='detail-item align-flex-end'>
+                    <div className='detail-item align-flex-end p0'>
                         <FormInput
                             type='text'
                             name='fee'
@@ -573,9 +579,9 @@ function UserDetail() {
                         />
                     </div>
                 </div>
-                <div>
+                <div className={`${cx('list-btn-container')}`}>
                     <Button
-                        className='confirmbgc'
+                        className={`${cx('btn')} confirmbgc`}
                         onClick={refreshPage.refreshPage}
                     >
                         <div className='flex-center'>
@@ -586,7 +592,7 @@ function UserDetail() {
                         </div>
                     </Button>
                     <Button
-                        className='cancelbgc'
+                        className={`${cx('btn')} cancelbgc`}
                         onClick={
                             x?.blockUser
                                 ? () => onUnblockUser(idUser)
@@ -607,7 +613,7 @@ function UserDetail() {
                         </div>
                     </Button>
                     <Button
-                        className='confirmbgc'
+                        className={`${cx('btn')} confirmbgc`}
                         onClick={() => refreshPwd(idUser)}
                         isProcess={isProcessRefreshPwd}
                         disabled={isProcessRefreshPwd}
@@ -618,7 +624,7 @@ function UserDetail() {
                         </div>
                     </Button>
                     <Button
-                        className='completebgc'
+                        className={`${cx('btn')} completebgc`}
                         onClick={(e) => modalChangePwdTrue(e, idUser)}
                     >
                         <div className='flex-center'>

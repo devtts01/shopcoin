@@ -47,7 +47,7 @@
 
 .left,
 .right {
-    flex: 1;
+    /* flex: 1; */
     color: white;
     display: flex;
     justify-content: center;
@@ -55,7 +55,7 @@
 }
 
 .middle {
-    flex: 2;
+    flex: 1;
 }
 
 .middle .image-view {
@@ -74,4 +74,11 @@
 .left-icon,
 .right-icon {
     cursor: pointer;
+}
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .modal-body {
+        padding: 8px;
+    }
 }

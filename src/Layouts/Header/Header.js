@@ -1,28 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import className from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import routers from '../../routers/routers';
-import { axiosUtils, numberUtils, useAppContext } from '../../utils';
+import { useAppContext } from '../../utils';
 import { Image, Icons, AccountMenu, TippyHLNotify } from '../../components';
 import styles from './Header.module.css';
+import { actions } from '../../app/';
 
 const cx = className.bind(styles);
 
 function Header() {
-    const { state } = useAppContext();
-    const { currentUser } = state.set;
-    const [user, setUser] = useState(null);
-    const getUser = async () => {
-        const process = await axiosUtils.adminGet(
-            `/getUser/${currentUser?.id}`
-        );
-        setUser(process.data);
+    const { state, dispatch } = useAppContext();
+    const { currentUser, isMenuList } = state.set;
+    const toogleIsMenuList = () => {
+        dispatch(actions.setData({ isMenuList: !isMenuList }));
     };
-    useEffect(() => {
-        getUser();
-    }, []);
     return (
         <div className={`${cx('header-container')}`}>
             <Link
@@ -39,11 +33,11 @@ function Header() {
                 />
             </Link>
             <div className={`${cx('header-infouser-container')}`}>
-                <div className={`${cx('text-wallet')}`}>
-                    Your Wallet:{' '}
-                    <span className='complete'>
-                        {numberUtils.coinUSD(user?.Wallet?.balance || 0)}
-                    </span>
+                <div
+                    className='mr15 menu-icon cr-pointer'
+                    onClick={toogleIsMenuList}
+                >
+                    <Icons.ListMenuIcons />
                 </div>
                 <TippyHLNotify>
                     <Badge badgeContent={10}>

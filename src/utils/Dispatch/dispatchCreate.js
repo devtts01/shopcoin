@@ -37,10 +37,10 @@ const dispatchCreate = (dispatch, state, actions, data, nameData, message) => {
             alertModal: true,
         })
     );
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-    });
+    // window.scrollTo({
+    //     top: 0,
+    //     behavior: 'smooth',
+    // });
 };
 
 export default dispatchCreate;

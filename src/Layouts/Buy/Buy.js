@@ -52,6 +52,17 @@ function Buy() {
     }, []);
     const useDebounceBuy = useDebounce(buy, 500);
     useEffect(() => {
+        if (useDebounceBuy) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceBuy]);
+    useEffect(() => {
         getBuys({
             page,
             show,
@@ -92,6 +103,7 @@ function Buy() {
             statusCurrent,
             page,
             show,
+            search: buy,
         });
     };
     const editStatusBuy = async (id) => {
@@ -127,7 +139,16 @@ function Buy() {
         }
     };
     const handleDeleteBuy = async (data, id) => {
-        await handleDelete({ data, id, dispatch, state, actions, page, show });
+        await handleDelete({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: buy,
+        });
     };
     const deleteBuy = async (id) => {
         try {
@@ -178,9 +199,9 @@ function Buy() {
                             number: item?.amount,
                         },
                     };
-                    const username = dataUser.dataUser.find(
-                        (x) => x?.payment.email === item.buyer.gmailUSer
-                    )?.payment.username;
+                    const username = dataUser?.dataUser?.find(
+                        (x) => x?.payment?.email === item?.buyer?.gmailUSer
+                    )?.payment?.username;
                     const infoUser = {
                         name: username,
                         email: item.buyer.gmailUSer,
@@ -195,6 +216,9 @@ function Buy() {
                             </td>
                             <td>
                                 <TrObjectIcon item={sendReceived} />
+                            </td>
+                            <td className='item-w100 vip'>
+                                {item?.price?.toFixed(5) || '---'}
                             </td>
                             <td className='item-w150'>
                                 <TrObjectNoIcon item={infoUser} />
@@ -243,7 +267,11 @@ function Buy() {
                 nameSearch='buy'
                 dataFlag={dataBuyFlag}
                 dataHeaders={DataBuys(Icons).headers}
-                totalData={dataBuy?.total || dataBuy?.data?.total}
+                totalData={
+                    dataBuy?.total ||
+                    dataBuy?.data?.totalSearch ||
+                    dataBuy?.totalSearch
+                }
             >
                 <RenderBodyTable data={dataBuyFlag} />
             </General>

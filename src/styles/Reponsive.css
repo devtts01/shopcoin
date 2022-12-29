@@ -1,0 +1,28 @@
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .mt8-mobile {
+        margin-top: 8px;
+    }
+
+    .sidebar-none {
+        display: none;
+    }
+
+    /* DEATIL BUY/SELL DEPOSIT/WITHDRAW */
+    .detail-container {
+        padding: 8px;
+        width: 100%;
+    }
+
+    .detail-title {
+        min-width: 100px;
+    }
+
+    .info {
+        word-break: break-all !important;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+}

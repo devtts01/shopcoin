@@ -37,3 +37,11 @@
 .input-file {
     display: none;
 }
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .image-view {
+        width: 100%;
+        height: 100%;
+    }
+}

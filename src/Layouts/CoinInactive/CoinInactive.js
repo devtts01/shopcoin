@@ -6,10 +6,10 @@ import routers from '../../routers/routers';
 import { actions } from '../../app/';
 import { General } from '../';
 import {
-    getCoins,
     onClickEdit,
-    handleDelete,
     checkErrorCoins,
+    getCoinsInactive,
+    handleDeleteInactive,
 } from '../../services/coins';
 import {
     useAppContext,
@@ -20,19 +20,19 @@ import {
     useDebounce,
 } from '../../utils';
 import { ActionsTable, Modal } from '../../components';
-import styles from './SettingCoin.module.css';
+import styles from './CoinInactive.module.css';
 import { TrObjectImage } from '../../components/TableData/TableData';
 
 const cx = className.bind(styles);
 
-function SettingCoin() {
+function CoinInactive() {
     const { state, dispatch } = useAppContext();
     const {
         edit,
         currentUser,
         searchValues: { settingCoin },
         pagination: { page, show },
-        data: { dataSettingCoin },
+        data: { dataCoinInactive },
     } = state.set;
     const { modalDelete } = state.toggle;
     useEffect(() => {
@@ -51,7 +51,7 @@ function SettingCoin() {
         }
     }, [useDebounceCoin]);
     useEffect(() => {
-        getCoins({
+        getCoinsInactive({
             dispatch,
             state,
             actions,
@@ -61,7 +61,7 @@ function SettingCoin() {
         });
     }, [page, show, useDebounceCoin]);
     const dataSettingFlag =
-        dataSettingCoin?.data?.coins || dataSettingCoin?.data;
+        dataCoinInactive?.data?.coins || dataCoinInactive?.data;
     // Modal Delete
     const modalDeleteTrue = (e, id) => {
         return deleteUtils.deleteTrue(e, id, dispatch, state, actions);
@@ -71,7 +71,7 @@ function SettingCoin() {
     };
     // Edit + Delete Coin
     const handleDeleteCoins = async (data, id) => {
-        await handleDelete({
+        await handleDeleteInactive({
             data,
             id,
             dispatch,
@@ -96,6 +96,7 @@ function SettingCoin() {
             checkErrorCoins({ err, dispatch, state, actions });
         }
     };
+    console.log(edit);
     const editSetting = async (item) => {
         onClickEdit({ dispatch, state, actions, item });
     };
@@ -110,21 +111,21 @@ function SettingCoin() {
                                 <TrObjectImage
                                     item={`${
                                         process.env.REACT_APP_URL_SERVER
-                                    }${item.logo?.replace('uploads/', '')}`}
+                                    }${item?.logo?.replace('uploads/', '')}`}
                                 />
                             </td>
-                            <td>{item.name}</td>
+                            <td className='text-upc'>{item?.name}</td>
                             <td>
-                                {moment(item.createdAt).format(
+                                {moment(item?.createdAt).format(
                                     'DD/MM/YYYY HH:mm:ss'
                                 )}
                             </td>
                             <td>
                                 <ActionsTable
                                     edit
-                                    linkView={`${routers.settingCoin}/${item._id}`}
+                                    linkView={`${routers.coinInactive}/${item._id}`}
                                     onClickDel={(e) =>
-                                        modalDeleteTrue(e, item._id)
+                                        modalDeleteTrue(e, item?._id)
                                     }
                                     onClickEdit={() => editSetting(item)}
                                 ></ActionsTable>
@@ -141,12 +142,13 @@ function SettingCoin() {
                 className={cx('setting-coin')}
                 valueSearch={settingCoin}
                 nameSearch='settingCoin'
-                textBtnNew='New Coin'
-                linkCreate={`${routers.settingCoin}/${routers.newcoin}`}
+                textBtnNew='New Coin Inactive'
+                linkCreate={`${routers.coinInactive}/${routers.newcoinInactive}`}
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataCoins().headers}
                 totalData={
-                    dataSettingCoin?.total || dataSettingCoin?.data?.totalSearch
+                    dataCoinInactive?.total ||
+                    dataCoinInactive?.data?.totalSearch
                 }
                 classNameButton='completebgc'
             >
@@ -154,7 +156,7 @@ function SettingCoin() {
             </General>
             {modalDelete && (
                 <Modal
-                    titleHeader='Delete Setting Coin'
+                    titleHeader='Delete Coin Inactive'
                     actionButtonText='Delete'
                     openModal={modalDeleteTrue}
                     closeModal={modalDeleteFalse}
@@ -162,7 +164,7 @@ function SettingCoin() {
                     onClick={() => deleteCoins(edit.id)}
                 >
                     <p className='modal-delete-desc'>
-                        Are you sure to delete this coin?
+                        Are you sure to delete this coin inactive?
                     </p>
                 </Modal>
             )}
@@ -170,4 +172,4 @@ function SettingCoin() {
     );
 }
 
-export default SettingCoin;
+export default CoinInactive;

@@ -30,3 +30,15 @@
 .item-title {
     font-weight: bold;
 }
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .info-container {
+        --cols: 1;
+        flex-wrap: wrap;
+    }
+
+    .detail-container {
+        margin: 8px;
+    }
+}

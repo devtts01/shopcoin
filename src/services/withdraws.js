@@ -63,7 +63,7 @@ export const handleEdit = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `/getAllWithdraw?page=${props.page}&show=${props.show}`
+                `/getAllWithdraw?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -90,7 +90,7 @@ export const handleDelete = async (props = {}) => {
         },
     });
     const res = await axiosUtils.adminGet(
-        `/getAllWithdraw?page=${props.page}&show=${props.show}`
+        `/getAllWithdraw?page=${props.page}&show=${props.show}&search=${props.search}`
     );
     dispatchDelete(
         props.dispatch,

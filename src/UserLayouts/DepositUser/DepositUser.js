@@ -121,6 +121,17 @@ export default function DepositUser() {
     const [isProcess, setIsProcess] = useState(false);
     const history = useNavigate();
     const useDebounceDeposit = useDebounce(depositUser, 500);
+    useEffect(() => {
+        if (useDebounceDeposit) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceDeposit]);
     const getDepositByEmail = async () => {
         const resGet = await axiosUtils.userGet(
             `/getAllDeposits/${currentUser?.email}?page=${page}&show=${show}&search=${useDebounceDeposit}`
@@ -234,7 +245,7 @@ export default function DepositUser() {
                 nameSearch='depositUser'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataDepositUser().headers}
-                totalData={data?.total}
+                totalData={data?.total || data?.totalSearch}
                 classNameButton='completebgc'
                 textBtnNew='Create Deposit'
                 noActions

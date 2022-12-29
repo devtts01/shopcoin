@@ -30,3 +30,10 @@
     min-height: 400px;
     padding: 20px
 }
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .content {
+        width: 100%;
+    }
+}

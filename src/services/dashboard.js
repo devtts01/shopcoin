@@ -20,15 +20,14 @@ export const SVtotal = async (props = {}) => {
         `/totalBalance?page=${props.page}&show=${props.show}&search=${props.search}`,
         {}
     );
-
     const resPostCommission = await axiosUtils.adminGet('/Commission', {});
     props.dispatch(
         props.actions.setData({
-            totalDeposit: resPostDeposit.data,
-            totalWithdraw: resPostWithdraw.data,
-            totalBalance: resPostBalance.data.total,
-            totalCommission: resPostCommission.data.commission,
-            dataUserBalance: resPostBalance.data,
+            totalDeposit: resPostDeposit?.data,
+            totalWithdraw: resPostWithdraw?.data,
+            totalBalance: resPostBalance?.data?.total,
+            totalCommission: resPostCommission?.data?.commission,
+            dataUserBalance: resPostBalance?.data,
         })
     );
 };

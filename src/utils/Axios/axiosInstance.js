@@ -81,3 +81,25 @@ export const coinDelete = async (path, options = {}, others = {}) => {
     const res = await coinInstance.delete(path, options, others);
     return res.data;
 };
+// COINS INACTIVE
+export const coinNAInstance = axios.create({
+    baseURL: `${process.env.REACT_APP_URL_SERVER}/CoinNA/`,
+    // baseURL: 'http://localhost:8000/coins/',
+    withCredentials: true,
+});
+export const coinNAGet = async (path, options = {}) => {
+    const res = await coinNAInstance.get(path, options);
+    return res.data;
+};
+export const coinNAPost = async (path, options = {}, others = {}) => {
+    const res = await coinNAInstance.post(path, options, others);
+    return res.data;
+};
+export const coinNAPut = async (path, options = {}, others = {}) => {
+    const res = await coinNAInstance.put(path, options, others);
+    return res.data;
+};
+export const coinNADelete = async (path, options = {}, others = {}) => {
+    const res = await coinNAInstance.delete(path, options, others);
+    return res.data;
+};

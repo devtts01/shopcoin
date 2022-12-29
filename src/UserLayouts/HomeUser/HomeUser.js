@@ -73,6 +73,17 @@ export default function HomeUser() {
     }, []);
     const useDebounceCoin = useDebounce(settingCoin, 500);
     useEffect(() => {
+        if (useDebounceCoin) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceCoin]);
+    useEffect(() => {
         getCoins({
             dispatch,
             state,
@@ -93,7 +104,7 @@ export default function HomeUser() {
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataCoinsUser().headers}
                 totalData={
-                    dataSettingCoin?.total || dataSettingCoin?.data?.total
+                    dataSettingCoin?.total || dataSettingCoin?.data?.totalSearch
                 }
                 classNameButton='completebgc'
                 isRefreshPage

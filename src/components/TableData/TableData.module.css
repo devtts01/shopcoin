@@ -29,20 +29,14 @@
     justify-content: center;
 }
 
-.notvalue,
-.countpage-container {
-    flex: 1;
-}
-
 .pagination-container {
-    flex: 2 !important;
     align-items: center !important;
 }
 
 .countpage-container {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 
 .countpage-text {
@@ -132,4 +126,16 @@
 .image {
     width: 23px;
     height: 30px;
+}
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .pagination-countpage {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .countpage-container {
+        margin-top: 12px;
+    }
 }

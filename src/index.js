@@ -11,6 +11,7 @@ import './styles/StatusRank.css';
 import './styles//AccountMenu.css';
 import './styles/Details.css';
 import './styles/General.css';
+import './styles/Reponsive.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

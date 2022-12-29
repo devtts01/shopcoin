@@ -26,6 +26,7 @@ import {
     requestRefreshToken,
     handleUtils,
     refreshPage,
+    useDebounce,
 } from '../../utils';
 import routers from '../../routers/routers';
 import { actions } from '../../app/';
@@ -54,7 +55,7 @@ function NewCoin() {
         currentUser,
         message: { del, error },
         pagination: { page, show },
-        searchValues: { userBlacklist },
+        searchValues: { userBlacklist, settingCoin },
         data: { dataUser, dataBlacklistUser = [] },
         form: { nameCoin, symbolCoin, indexCoin, fullName, logo },
     } = state.set;
@@ -72,13 +73,21 @@ function NewCoin() {
             process.env.REACT_APP_TITLE_WEB
         }`;
     });
+    const useDebounceUser = useDebounce(userBlacklist, 500);
     useEffect(() => {
-        getUsers({ dispatch, state, actions, page, show });
+        getUsers({
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: userBlacklist,
+        });
         getCoinById({ idCoin, dispatch, state, actions, setDataUserFake });
-    }, []);
+    }, [page, show, useDebounceUser]);
     let searchDataFlag = searchBlacklistUsers({
         userBlacklist,
-        dataUser: dataUser.dataUser,
+        dataUser: dataUser?.dataUser || dataUser?.data,
     });
     // Modal + Input Form + File Upload
     const toggleDeleteTrue = (e, id) => {
@@ -247,6 +256,7 @@ function NewCoin() {
             page,
             show,
             id,
+            search: settingCoin,
             history,
         });
     };

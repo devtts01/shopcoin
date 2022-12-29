@@ -50,6 +50,17 @@ function Withdraw() {
     }, []);
     const useBebounceWithdraw = useDebounce(withdraw, 500);
     useEffect(() => {
+        if (useBebounceWithdraw) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useBebounceWithdraw]);
+    useEffect(() => {
         getWithdraws({
             page,
             show,
@@ -90,10 +101,20 @@ function Withdraw() {
             statusUpdate,
             page,
             show,
+            search: withdraw,
         });
     };
     const handleDeleteWithdraw = async (data, id) => {
-        handleDelete({ data, id, dispatch, state, actions, page, show });
+        handleDelete({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: withdraw,
+        });
     };
     const deleteWithdraw = async (id) => {
         try {
@@ -215,7 +236,9 @@ function Withdraw() {
                 nameSearch='withdraw'
                 dataFlag={dataWithdrawFlag}
                 dataHeaders={DataWithdraws(Icons).headers}
-                totalData={dataWithdraw?.total || dataWithdraw?.data?.total}
+                totalData={
+                    dataWithdraw?.total || dataWithdraw?.data?.totalSearch
+                }
             >
                 <RenderBodyTable data={dataWithdrawFlag} />
             </General>

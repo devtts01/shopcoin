@@ -69,7 +69,7 @@ function General({
                         )}
                         {textBtnNew && (
                             <Button
-                                className={classedButton}
+                                className={`${classedButton} mt8-mobile`}
                                 onClick={onCreate}
                                 to={linkCreate}
                             >
@@ -86,7 +86,7 @@ function General({
                             </Button>
                         )}
                         <Button
-                            className='confirmbgc'
+                            className='confirmbgc mt8-mobile'
                             onClick={refreshPage.refreshPage}
                         >
                             <div className='flex-center'>

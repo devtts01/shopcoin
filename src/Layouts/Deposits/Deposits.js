@@ -43,13 +43,23 @@ function Deposits() {
         pagination: { page, show },
         data: { dataDeposits, dataUser },
     } = state.set;
-
     const { modalStatus, modalDelete } = state.toggle;
     const [isProcess, setIsProcess] = useState(false);
     useEffect(() => {
         document.title = `Deposits | ${process.env.REACT_APP_TITLE_WEB}`;
     }, []);
     const useDebounceDeposit = useDebounce(deposits, 500);
+    useEffect(() => {
+        if (useDebounceDeposit) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceDeposit]);
     useEffect(() => {
         getDeposits({
             page,
@@ -60,6 +70,7 @@ function Deposits() {
             search: useDebounceDeposit,
         });
     }, [page, show, useDebounceDeposit]);
+    // console.log(dataDeposits);
     let dataDepositsFlag = dataDeposits?.data?.deposits || dataDeposits?.data;
     // Modal
     const toggleEditTrue = async (e, status, id) => {
@@ -80,7 +91,16 @@ function Deposits() {
     };
     // Edit + Delete Deposits
     const handleDeleteDeposits = async (data, id) => {
-        handleDelete({ data, id, dispatch, state, actions, page, show });
+        handleDelete({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: deposits,
+        });
     };
     const deleteDeposits = async (id) => {
         try {
@@ -108,6 +128,7 @@ function Deposits() {
             statusUpdate,
             page,
             show,
+            search: deposits,
         });
     };
     const editStatus = async (id) => {
@@ -220,7 +241,9 @@ function Deposits() {
                 nameSearch='deposits'
                 dataFlag={dataDepositsFlag}
                 dataHeaders={DataDeposits(Icons).headers}
-                totalData={dataDeposits?.total || dataDeposits?.data?.total}
+                totalData={
+                    dataDeposits?.total || dataDeposits?.data?.totalSearch
+                }
             >
                 <RenderBodyTable data={dataDepositsFlag} />
             </General>

@@ -60,3 +60,19 @@
     display: flex;
     align-items: center;
 }
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .info-container {
+        --cols: 1;
+    }
+
+    .image-coin {
+        width: 70px;
+        height: 70px;
+    }
+
+    .detail-container {
+        padding: 8px;
+    }
+}

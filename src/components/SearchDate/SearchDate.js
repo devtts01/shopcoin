@@ -21,7 +21,7 @@ function SearchDate({
             </div>
             <div className={`${cx('search-input')}`}>
                 <input
-                    type='datetime-local'
+                    type='date'
                     placeholder={placeholder}
                     className={`${cx('input')}`}
                     onChange={onChange}

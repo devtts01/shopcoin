@@ -12,16 +12,19 @@ const DataBuys = (Icons) => {
                 title: 'Amount',
             },
             h3: {
-                title: 'User',
+                title: 'Price (USD)',
             },
             h4: {
+                title: 'User',
+            },
+            h5: {
                 title: 'Created At',
                 iconSort: <i className='fa-solid fa-sort'></i>,
             },
-            h5: {
+            h6: {
                 title: 'Created By',
             },
-            h6: {
+            h7: {
                 title: 'Status',
             },
         },

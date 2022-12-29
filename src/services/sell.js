@@ -74,7 +74,7 @@ export const handleUpdateStatusFeeSell = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `/getAllSell?page=${props.page}&show=${props.show}`
+                `/getAllSell?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -103,7 +103,7 @@ export const handleDelete = async (props = {}) => {
     switch (resDel.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `/getAllSell?page=${props.page}&show=${props.show}`
+                `/getAllSell?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchDelete(
                 props.dispatch,

@@ -45,7 +45,6 @@
 
 .form-link {
     color: var(--color-primary);
-    font-weight: 600;
     font-size: 14px;
     font-weight: 700;
     line-height: 18px;
@@ -67,4 +66,11 @@
 .form-help {
     margin-top: 8px;
     font-size: 16px;
+}
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .form-login {
+        width: 100%;
+    }
 }

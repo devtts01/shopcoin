@@ -38,7 +38,7 @@
 
 .document-user-item-image-view {
     display: flex;
-    width: 50%;
+    width: calc((100% / var(--cols)) - (var(--spacing) * 2));
     max-height: 200px;
     margin: var(--spacing);
     object-fit: fill;
@@ -53,4 +53,31 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 22px;
+}
+
+.list-btn-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .buySellDetail-container {
+        --cols: 1;
+        flex-wrap: wrap;
+    }
+
+    .detail-container {
+        padding: 8px;
+    }
+
+    .btn {
+        width: 100% !important;
+        margin-left: 0;
+    }
+
+    .btn+.btn {
+        margin-left: 0;
+    }
 }

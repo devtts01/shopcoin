@@ -23,6 +23,20 @@ export const getCoins = async (props = {}) => {
         })
     );
 };
+// GET DATA COINS INACTIVE
+export const getCoinsInactive = async (props = {}) => {
+    const processCoins = await axiosUtils.coinNAGet(
+        `/getList?page=${props.page}&show=${props.show}&search=${props.search}`
+    );
+    props.dispatch(
+        props.actions.setData({
+            data: {
+                ...props.state.set.data,
+                dataCoinInactive: processCoins,
+            },
+        })
+    );
+};
 // GET DATA COINS USER BUY
 export const getCoinsUserBuy = async (props = {}) => {
     const processCoins = await axiosUtils.coinGet(
@@ -30,7 +44,6 @@ export const getCoinsUserBuy = async (props = {}) => {
     );
     props.dispatch(
         props.actions.setData({
-            ...props.state.set,
             data: {
                 ...props.state.set.data,
                 dataDashboard: processCoins,
@@ -69,7 +82,7 @@ export const getCoinById = async (props = {}) => {
                                 acc.push(user);
                             }
                         });
-                        props.setDataUserFake(acc);
+                        props.setDataUserFake && props.setDataUserFake(acc);
                         return acc;
                     }, []),
                     dataUser: processUser,
@@ -297,7 +310,6 @@ export const searchBlacklistUsers = (props = {}) => {
 };
 // CREATE COINS
 export const handleCreate = async (props = {}) => {
-    console.log('props', props);
     const form = {
         nameCoin: props.nameCoin,
         symbolCoin: props.symbolCoin,
@@ -352,6 +364,52 @@ export const handleCreate = async (props = {}) => {
             break;
     }
 };
+// CREATE COINS
+export const handleCreateCoinInactive = async (props = {}) => {
+    const form = {
+        nameCoin: props.nameCoin,
+        symbolCoin: props.symbolCoin,
+        fullName: props.fullName,
+        logo: props.logo,
+    };
+    const resPost = await axiosUtils.coinNAPost(
+        '/add',
+        {
+            logo: form.logo[0],
+            name: form.nameCoin,
+            symbol: form.symbolCoin,
+            fullName: form.fullName,
+        },
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                token: props.data?.token,
+            },
+        }
+    );
+    switch (resPost.code) {
+        case 0:
+            props.history(`${routers.coinInactive}`);
+            const res = await axiosUtils.coinNAGet(
+                `/getList?page=${props.page}&show=${props.show}`
+            );
+            dispatchCreate(
+                props.dispatch,
+                props.state,
+                props.actions,
+                res,
+                'dataCoinInactive',
+                resPost.message
+            );
+            return props.data;
+        case 1:
+        case 2:
+            validates.validateCase1_2(resPost, props);
+            break;
+        default:
+            break;
+    }
+};
 // UPDATE COINS
 export const handleUpdate = async (props = {}) => {
     const form = {
@@ -389,7 +447,7 @@ export const handleUpdate = async (props = {}) => {
         case 0:
             props.history(`${routers.settingCoin}`);
             const res = await axiosUtils.coinGet(
-                `/getAllCoin?page=${props.page}&show=${props.show}`
+                `/getAllCoin?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -397,6 +455,52 @@ export const handleUpdate = async (props = {}) => {
                 props.actions,
                 res,
                 'dataSettingCoin',
+                resPut.message
+            );
+            return props.data;
+        case 1:
+        case 2:
+            validates.validateCase1_2(resPut, props);
+            break;
+        default:
+            break;
+    }
+};
+// UPDATE COINS INACTIVE
+export const handleUpdateInactive = async (props = {}) => {
+    const form = {
+        nameCoin: props.nameCoin,
+        symbolCoin: props.symbolCoin,
+        fullName: props.fullName,
+        logo: props.logo,
+    };
+    const resPut = await axiosUtils.coinNAPut(
+        `/updateCoin/${props.id}`,
+        {
+            logo: form.logo[0],
+            name: form.nameCoin,
+            symbol: form.symbolCoin,
+            fullName: form.fullName,
+        },
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                token: props.data?.token,
+            },
+        }
+    );
+    switch (resPut.code) {
+        case 0:
+            props.history(`${routers.coinInactive}`);
+            const res = await axiosUtils.coinNAGet(
+                `/getList?page=${props.page}&show=${props.show}&search=${props.search}`
+            );
+            dispatchEdit(
+                props.dispatch,
+                props.state,
+                props.actions,
+                res,
+                'dataCoinInactive',
                 resPut.message
             );
             return props.data;
@@ -419,7 +523,7 @@ export const handleDelete = async (props = {}) => {
     switch (resDel.code) {
         case 0:
             const res = await axiosUtils.coinGet(
-                `/getAllCoin?page=${props.page}&show=${props.show}`
+                `/getAllCoin?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchDelete(
                 props.dispatch,
@@ -427,6 +531,35 @@ export const handleDelete = async (props = {}) => {
                 props.actions,
                 res,
                 'dataSettingCoin',
+                resDel.message
+            );
+            return props.data;
+        case 1:
+        case 2:
+            validates.validateCase1_2(resDel, props);
+            break;
+        default:
+            break;
+    }
+};
+// DELETE COINS
+export const handleDeleteInactive = async (props = {}) => {
+    const resDel = await axiosUtils.coinNADelete(`/deleteCoin/${props.id}`, {
+        headers: {
+            token: props.data.token,
+        },
+    });
+    switch (resDel.code) {
+        case 0:
+            const res = await axiosUtils.coinNAGet(
+                `/getList?page=${props.page}&show=${props.show}&search=${props.search}`
+            );
+            dispatchDelete(
+                props.dispatch,
+                props.state,
+                props.actions,
+                res,
+                'dataCoinInactive',
                 resDel.message
             );
             return props.data;

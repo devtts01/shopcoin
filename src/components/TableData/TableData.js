@@ -71,7 +71,7 @@ function TableData({
     noActions,
     children,
 }) {
-    const { name, index, h1, h2, h3, h4, h5, h6 } = headers;
+    const { name, index, h1, h2, h3, h4, h5, h6, h7 } = headers;
     const { state, dispatch } = useAppContext();
     const { show, page } = state.set.pagination;
     const { sort } = state.set;
@@ -210,6 +210,7 @@ function TableData({
                         <Thead item={h4} />
                         <Thead item={h5} />
                         <Thead item={h6} />
+                        <Thead item={h7} />
                         {!noActions && <th></th>}
                     </tr>
                 </thead>
@@ -232,22 +233,25 @@ function TableData({
                 )}
             </table>
             {data?.length > 0 && (
-                <div className={`${cx('pagination-countpage')}`}>
-                    <div className={`${cx('notvalue')}`}></div>
-                    <Stack
-                        spacing={2}
-                        className={`${cx('pagination-container')}`}
-                    >
-                        <Pagination
-                            onChange={handleChangePage}
-                            page={page}
-                            showFirstButton
-                            showLastButton
-                            count={parseInt(Math.ceil(totalData / show)) || 0}
-                            variant='outlined'
-                            shape='rounded'
-                        />
-                    </Stack>
+                <>
+                    <div className={`${cx('pagination-countpage')}`}>
+                        <Stack
+                            spacing={2}
+                            className={`${cx('pagination-container')}`}
+                        >
+                            <Pagination
+                                onChange={handleChangePage}
+                                page={page}
+                                showFirstButton
+                                showLastButton
+                                count={
+                                    parseInt(Math.ceil(totalData / show)) || 0
+                                }
+                                variant='outlined'
+                                shape='rounded'
+                            />
+                        </Stack>
+                    </div>
                     <div className={`${cx('countpage-container')}`}>
                         <select
                             className={`${cx('countpage-select')}`}
@@ -263,7 +267,7 @@ function TableData({
                             items per page | {start} - {end} of {totalData}
                         </span>
                     </div>
-                </div>
+                </>
             )}
         </>
     );

@@ -15,11 +15,12 @@ import { Link } from 'react-router-dom';
 import routers from '../../routers/routers';
 import moment from 'moment';
 import { TrObjectImage } from '../../components/TableData/TableData';
+import { actions } from '../../app/';
 
 const cx = className.bind(styles);
 
 export default function MyCoinUser() {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const {
         currentUser,
         searchValues: { settingCoin },
@@ -27,6 +28,17 @@ export default function MyCoinUser() {
     } = state.set;
     const [data, setData] = useState([]);
     const useDebounceCoin = useDebounce(settingCoin, 500);
+    useEffect(() => {
+        if (useDebounceCoin) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceCoin]);
     const getMyCoin = async () => {
         const resGet = await axiosUtils.userGet(
             `/getAllCoinOfUser/${currentUser?.id}?page=${page}&show=${show}&search=${useDebounceCoin}`
@@ -91,7 +103,7 @@ export default function MyCoinUser() {
                 nameSearch='settingCoin'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataMyCoinsUser().headers}
-                totalData={data?.total}
+                totalData={data?.total || data?.totalSearch}
                 classNameButton='completebgc'
                 isRefreshPage
             >

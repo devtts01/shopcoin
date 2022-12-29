@@ -3,8 +3,17 @@ import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { actions } from '../../app/';
+import moment from 'moment';
 import styles from './Dashboard.module.css';
-import { Button, Icons, Search, SearchDate, TableData } from '../../components';
+import {
+    Button,
+    Icons,
+    Modal,
+    Search,
+    SearchDate,
+    SelectValue,
+    TableData,
+} from '../../components';
 import {
     DataDashboard,
     DataUserBalance,
@@ -21,6 +30,7 @@ import routers from '../../routers/routers';
 import { getCoinsUserBuy } from '../../services/coins';
 import { SVtotal } from '../../services/dashboard';
 import { FirstUpc } from '../../utils/format/LetterFirstUpc';
+import periodDate from '../../utils/FakeData/PeriodDate';
 
 const cx = className.bind(styles);
 
@@ -117,6 +127,13 @@ function Dashboard() {
         pagination: { page, show },
     } = state.set;
     const [isProcess, setIsProcess] = React.useState(false);
+    const [isModalDate, setIsModalDate] = React.useState(false);
+    const [isPeriod, setIsPeriod] = React.useState(false);
+    const [period, setPeriod] = React.useState(null);
+    const [date, setDate] = React.useState({
+        from: null,
+        to: null,
+    });
     useEffect(() => {
         document.title = `Dashboard | ${process.env.REACT_APP_TITLE_WEB}`;
         SVtotal({
@@ -130,6 +147,17 @@ function Dashboard() {
     }, []);
     const useDebounceDashboard = useDebounce(dashboard, 500);
     const useDebounceUserBalance = useDebounce(userBalance, 500);
+    useEffect(() => {
+        if (useDebounceDashboard || useDebounceUserBalance) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceDashboard, useDebounceUserBalance]);
     useEffect(() => {
         getCoinsUserBuy({
             page,
@@ -147,6 +175,7 @@ function Dashboard() {
             search: useDebounceUserBalance,
         });
     }, [page, show, useDebounceDashboard, useDebounceUserBalance]);
+    // console.log(dataUserBalance);
     let data = dataDashboard?.data?.coins || [];
     if (dashboard) {
         data = data.filter((item) => {
@@ -157,15 +186,80 @@ function Dashboard() {
         });
     }
     let dataUser = dataUserBalance?.users || [];
-    const handleChange = (e) => {
+    const openModalDate = (e) => {
+        e.stopPropagation();
+        setIsModalDate(true);
+    };
+    const closeModalDate = (e) => {
+        e.stopPropagation();
+        setIsModalDate(false);
+        setPeriod(null);
+        setDate({
+            from: null,
+            to: null,
+        });
+        dispatch(
+            actions.setData({
+                searchValues: {
+                    dateFrom: null,
+                    dateTo: null,
+                },
+            })
+        );
+    };
+    const tooglePeriod = (e) => {
+        e.stopPropagation();
+        setIsPeriod(!isPeriod);
+    };
+    const handleChangePeriod = (item) => {
+        const date = new Date();
+        const toDate = new Date();
+        let fromDate = new Date();
+        switch (item.toLowerCase().replace(/\s/g, '')) {
+            case 'today':
+                fromDate = new Date();
+                break;
+            case 'yesterday':
+                fromDate = new Date(date.setDate(date.getDate() - 1));
+                break;
+            case 'thisweek':
+                fromDate = new Date(date.setDate(date.getDate() - 7));
+                break;
+            case 'lastweek':
+                fromDate = new Date(date.setDate(date.getDate() - 14));
+                break;
+            case 'thismonth':
+                fromDate = new Date(date.setDate(date.getDate() - 30));
+                break;
+            case 'lastmonth':
+                fromDate = new Date(date.setDate(date.getDate() - 60));
+                break;
+            case 'thisyear':
+                fromDate = new Date(date.setDate(date.getDate() - 365));
+                break;
+            case 'lastyear':
+                fromDate = new Date(date.setDate(date.getDate() - 730));
+                break;
+            default:
+                fromDate = new Date();
+                break;
+        }
+        dispatch(
+            actions.setData({
+                searchValues: {
+                    dateFrom: dateUtils.dateVnFormat2(fromDate),
+                    dateTo: dateUtils.dateVnFormat2(toDate),
+                },
+            })
+        );
+        setPeriod(item);
+        setIsPeriod(false);
+    };
+    const handleChangeDate = (e) => {
         const { name, value } = e.target;
         dispatch(
             actions.setData({
-                ...state.set,
-                searchValues: {
-                    ...state.set.searchValues,
-                    [name]: value,
-                },
+                searchValues: { [name]: value },
             })
         );
     };
@@ -183,6 +277,11 @@ function Dashboard() {
                     actions,
                     fromDate: dateFrom || new Date().toISOString(),
                     toDate: dateTo || new Date().toISOString(),
+                    page,
+                    show,
+                    search: useDebounceUserBalance
+                        ? useDebounceUserBalance
+                        : '',
                 });
                 setIsProcess(false);
             }, 1000);
@@ -190,39 +289,27 @@ function Dashboard() {
             console.log(err);
         }
     };
+    const onSelectDate = (e) => {
+        e.stopPropagation();
+        setIsModalDate(false);
+        setDate({
+            from: dateFrom || dateUtils.dateVnFormat2(new Date()),
+            to: dateTo || dateUtils.dateVnFormat2(new Date()),
+        });
+    };
     return (
         <div className={`${cx('dashboard-container')}`}>
             <div className={`${cx('general-top')}`}>
-                <div className={`${cx('search-container')}`}>
-                    <div className={`${cx('search-title')}`}>Từ ngày</div>
-                    <SearchDate
-                        name='dateFrom'
-                        value={
-                            dateFrom ? dateFrom : dateUtils.dateVn(new Date())
-                        }
-                        onChange={handleChange}
-                        className={`${cx('search')}`}
-                    />
-                </div>
-                <div className={`${cx('search-container')}`}>
-                    <div className={`${cx('search-title')}`}>Đến ngày</div>
-                    <SearchDate
-                        name='dateTo'
-                        value={
-                            dateTo
-                                ? dateTo
-                                : dateUtils.dateVn(
-                                      new Date(
-                                          new Date().getTime() +
-                                              3 * 24 * 60 * 60 * 1000
-                                      )
-                                  )
-                        }
-                        onChange={handleChange}
-                        className={`${cx('search')}`}
-                    />
-                </div>
-                <div className='flex-center'>
+                <div className='flex-center mt8'>
+                    <Button
+                        className={`${cx('general-button')} cancelbgc`}
+                        onClick={openModalDate}
+                    >
+                        <Icons.SearchDateIcon />
+                        <span className={`${cx('general-button-text')}`}>
+                            Select Date Report
+                        </span>
+                    </Button>
                     <Button
                         className={`${cx('general-button')} completebgc`}
                         onClick={handleSend}
@@ -239,6 +326,7 @@ function Dashboard() {
                     <Button
                         className='confirmbgc'
                         onClick={refreshPage.refreshPage}
+                        style={{ width: 'max-content' }}
                     >
                         <div className='flex-center'>
                             <Icons.RefreshIcon className='fz12' />
@@ -249,6 +337,18 @@ function Dashboard() {
                     </Button>
                 </div>
             </div>
+            {date.from && date.to && (
+                <div className={`${cx('desc-report')}`}>
+                    Report from{' '}
+                    <span className='cancel'>
+                        {moment(date.from).format('DD/MM/YYYY')}
+                    </span>{' '}
+                    to{' '}
+                    <span className='cancel'>
+                        {moment(date.to).format('DD/MM/YYYY')}
+                    </span>
+                </div>
+            )}
             <div className={`${cx('chart-container')}`}>
                 <div className={`${cx('chart-item-container')}`}>
                     <ChartItem
@@ -289,7 +389,9 @@ function Dashboard() {
                 />
                 <TableData
                     data={data}
-                    totalData={dataDashboard?.data?.total}
+                    totalData={
+                        dashboard ? data?.length : dataDashboard?.data?.total
+                    }
                     headers={DataDashboard().headers}
                     search=''
                     noActions
@@ -317,6 +419,51 @@ function Dashboard() {
                     <RenderBodyTableUser data={dataUser} />
                 </TableData>
             </div>
+            {isModalDate && (
+                <Modal
+                    titleHeader='Select date report'
+                    actionButtonText='Select'
+                    openModal={openModalDate}
+                    closeModal={closeModalDate}
+                    classNameButton='vipbgc'
+                    onClick={onSelectDate}
+                >
+                    <SelectValue
+                        label='Period'
+                        toggleModal={tooglePeriod}
+                        stateModal={isPeriod}
+                        dataFlag={periodDate}
+                        onClick={handleChangePeriod}
+                        valueSelect={period ? period : 'Today'}
+                    />
+                    <div className={`${cx('search-container')}`}>
+                        <div className={`${cx('search-title')}`}>From</div>
+                        <SearchDate
+                            name='dateFrom'
+                            value={
+                                dateFrom
+                                    ? dateFrom
+                                    : dateUtils.dateVnFormat2(new Date())
+                            }
+                            onChange={handleChangeDate}
+                            className={`${cx('search')}`}
+                        />
+                    </div>
+                    <div className={`${cx('search-container')}`}>
+                        <div className={`${cx('search-title')}`}>To</div>
+                        <SearchDate
+                            name='dateTo'
+                            value={
+                                dateTo
+                                    ? dateTo
+                                    : dateUtils.dateVnFormat2(new Date())
+                            }
+                            onChange={handleChangeDate}
+                            className={`${cx('search')}`}
+                        />
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 }

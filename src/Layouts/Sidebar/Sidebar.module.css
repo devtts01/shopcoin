@@ -35,3 +35,37 @@
     color: var(--siderbar-active);
     background-color: var(--siderbar-bgc-active);
 }
+
+.close-btn {
+    text-align: right;
+    color: white;
+    display: none;
+    margin-bottom: 12px;
+}
+
+/* MOBILE */
+@media (max-width: 46.25em) {
+    .sidebar-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+        width: 70%;
+        animation: fadeIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .close-btn {
+        display: block;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

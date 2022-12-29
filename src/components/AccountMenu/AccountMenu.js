@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import PropTypes from 'prop-types';
 import className from 'classnames/bind';
@@ -11,10 +12,15 @@ import {
     Tooltip,
     Box,
 } from '@mui/material';
-import { Logout, PersonAdd, Settings } from '@mui/icons-material';
+import { Logout, Settings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import routers from '../../routers/routers';
-import { useAppContext, localStoreUtils, axiosUtils } from '../../utils';
+import {
+    useAppContext,
+    localStoreUtils,
+    axiosUtils,
+    numberUtils,
+} from '../../utils';
 import { actions } from '../../app/';
 import styles from './AccountMenu.module.css';
 
@@ -23,6 +29,16 @@ const cx = className.bind(styles);
 function AccountMenu({ className }) {
     const { state, dispatch } = useAppContext();
     const { accountMenu, currentUser } = state.set;
+    const [user, setUser] = React.useState(null);
+    const getUser = async () => {
+        const process = await axiosUtils.adminGet(
+            `/getUser/${currentUser?.id}`
+        );
+        setUser(process.data);
+    };
+    React.useEffect(() => {
+        getUser();
+    }, []);
     const open = Boolean(accountMenu);
     const history = useNavigate();
     const handleClickMenu = (e) => {
@@ -119,10 +135,8 @@ function AccountMenu({ className }) {
                 </MenuItem>
                 <Divider />
                 <MenuItem>
-                    <ListItemIcon>
-                        <PersonAdd fontSize='small' />
-                    </ListItemIcon>
-                    Add another account
+                    Your Wallet:{' '}
+                    {numberUtils.coinUSD(user?.Wallet?.balance || 0)}
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>

@@ -102,7 +102,7 @@ export const handleUpdateRankFeeUser = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `/getAllUser?page=${props.page}&show=${props.show}`
+                `/getAllUser?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -144,7 +144,7 @@ export const handleUpdateRuleUser = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `/getAllUser?page=${props.page}&show=${props.show}`
+                `/getAllUser?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -183,7 +183,7 @@ export const handleDelete = async (props = {}) => {
         },
     });
     const res = await axiosUtils.adminGet(
-        `/getAllUser?page=${props.page}&show=${props.show}`
+        `/getAllUser?page=${props.page}&show=${props.show}&search=${props.search}`
     );
     dispatchDelete(
         props.dispatch,

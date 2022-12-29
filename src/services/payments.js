@@ -125,7 +125,7 @@ export const handleUpdate = async (props = {}) => {
     switch (resPut.code) {
         case 0:
             const res = await axiosUtils.adminGet(
-                `/getAllPayments?page=${props.page}&show=${props.show}`
+                `/getAllPayments?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchEdit(
                 props.dispatch,
@@ -185,7 +185,7 @@ export const handleDelete = async (props = {}) => {
     switch (resDel.code) {
         case 0:
             const resPayment = await axiosUtils.adminGet(
-                `/getAllPayments?page=${props.page}&show=${props.show}`
+                `/getAllPayments?page=${props.page}&show=${props.show}&search=${props.search}`
             );
             dispatchDelete(
                 props.dispatch,

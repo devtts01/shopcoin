@@ -96,6 +96,10 @@ button {
     margin-right: auto;
 }
 
+.mr15 {
+    margin-right: 15px;
+}
+
 .ml-auto {
     margin-left: auto;
 }
@@ -150,6 +154,11 @@ button {
 .text-left {
     text-align: left !important;
 }
+
+.text-upc {
+    text-transform: uppercase;
+}
+
 
 
 .flex-center {
@@ -221,15 +230,7 @@ button {
     cursor: pointer;
 }
 
-.noSupport {
-    width: 100%;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    padding: 12px;
+.menu-icon {
     display: none;
 }
 
@@ -321,13 +322,10 @@ button {
 
 }
 
-/* TABLET AND MOBILE */
-@media (max-width: 63.9375em) {
-    .noSupport {
-        display: flex;
-    }
+.css-wjh20t-MuiPagination-ul li {
+    margin: 2px !important;
+}
 
-    .app {
-        display: none;
-    }
+html *::-webkit-scrollbar {
+    display: none;
 }

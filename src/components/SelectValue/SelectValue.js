@@ -35,15 +35,17 @@ export default function SelectValue({
                     </div>
                     {stateModal && (
                         <div className={`${cx('list')}`}>
-                            <div className={`${cx('search')}`}>
-                                <Search
-                                    name={nameSearch}
-                                    className={`${cx(
-                                        'search-custom'
-                                    )} w100 border0`}
-                                    onChange={onChangeSearch}
-                                />
-                            </div>
+                            {nameSearch && (
+                                <div className={`${cx('search')}`}>
+                                    <Search
+                                        name={nameSearch}
+                                        className={`${cx(
+                                            'search-custom'
+                                        )} w100 border0`}
+                                        onChange={onChangeSearch}
+                                    />
+                                </div>
+                            )}
                             {dataFlag.map((item, index) => (
                                 <div
                                     className={`${cx('item')}`}

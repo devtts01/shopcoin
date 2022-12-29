@@ -13,11 +13,12 @@ import {
 } from '../../utils';
 import { General } from '../../Layouts';
 import moment from 'moment';
+import { actions } from '../../app/';
 
 const cx = className.bind(styles);
 
 export default function BuyHistoryUser() {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const {
         currentUser,
         searchValues: { buyHistory },
@@ -25,6 +26,17 @@ export default function BuyHistoryUser() {
     } = state.set;
     const [data, setData] = useState([]);
     const debounceValue = useDebounce(buyHistory, 500);
+    useEffect(() => {
+        if (debounceValue) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [debounceValue]);
     const getDataBuyHistory = async () => {
         const resGet = await axiosUtils.userGet(
             buyHistory
@@ -88,7 +100,7 @@ export default function BuyHistoryUser() {
                 nameSearch='buyHistory'
                 dataFlag={data?.buys || []}
                 dataHeaders={DataBuyHistoryUser().headers}
-                totalData={data?.total}
+                totalData={data?.total || data?.totalSearch}
                 classNameButton='completebgc'
                 isRefreshPage
                 noActions

@@ -5,6 +5,7 @@ import {
     Payment,
     Rate,
     SettingCoin,
+    CoinInactive,
     Deposits,
     Withdraw,
     Buy,
@@ -13,6 +14,7 @@ import {
     UserDetail,
     Login,
     NewCoin,
+    NewCoinInactive,
     DepositsWithdrawDetail,
     BuySellDetail,
     Register,
@@ -49,6 +51,7 @@ export const privateRouter = [
     { path: routers.payment, component: Payment },
     { path: routers.rate, component: Rate },
     { path: routers.settingCoin, component: SettingCoin },
+    { path: routers.coinInactive, component: CoinInactive },
     { path: routers.deposits, component: Deposits },
     {
         path: `${routers.deposits}/:idDeposits`,
@@ -73,8 +76,16 @@ export const privateRouter = [
     { path: `${routers.user}/:idUser`, component: UserDetail },
     { path: `${routers.settingCoin}/${routers.newcoin}`, component: NewCoin },
     {
+        path: `${routers.coinInactive}/${routers.newcoinInactive}`,
+        component: NewCoinInactive,
+    },
+    {
         path: `${routers.settingCoin}/:idCoin`,
         component: NewCoin,
+    },
+    {
+        path: `${routers.coinInactive}/:idCoin`,
+        component: NewCoinInactive,
     },
     { path: routers.pageNotFound, component: PageNotFound, layout: null },
 ];

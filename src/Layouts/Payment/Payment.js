@@ -61,6 +61,17 @@ function Payment() {
     }, []);
     const useDebouncePayment = useDebounce(payment, 500);
     useEffect(() => {
+        if (useDebouncePayment) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebouncePayment]);
+    useEffect(() => {
         getPayments({
             dispatch,
             state,
@@ -169,6 +180,7 @@ function Payment() {
             rateWithdraw,
             page,
             show,
+            search: payment,
         });
     };
     const updatePayment = async (id) => {
@@ -231,6 +243,7 @@ function Payment() {
             actions,
             page,
             show,
+            search: payment,
         });
     };
     const deletePayment = async (id) => {

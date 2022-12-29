@@ -50,6 +50,17 @@ function User() {
     }, []);
     const useDebounceUser = useDebounce(user, 500);
     useEffect(() => {
+        if (useDebounceUser) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceUser]);
+    useEffect(() => {
         getUsers({
             page,
             show,
@@ -118,7 +129,16 @@ function User() {
     };
     // Delete User + Update Status User
     const handleDeleteUser = async (data, id) => {
-        handleDelete({ data, id, dispatch, state, actions, page, show });
+        handleDelete({
+            data,
+            id,
+            dispatch,
+            state,
+            actions,
+            page,
+            show,
+            search: user,
+        });
     };
     const deleteUser = async (id) => {
         try {
@@ -145,6 +165,7 @@ function User() {
             show,
             statusUpdate,
             statusCurrent,
+            search: user,
         });
     };
     const editStatus = async (id) => {
@@ -177,6 +198,7 @@ function User() {
             show,
             statusUpdate,
             statusCurrent,
+            search: user,
         });
     };
     const editRuleUser = async (id) => {
@@ -265,7 +287,11 @@ function User() {
                 nameSearch='user'
                 dataFlag={dataUserFlag}
                 dataHeaders={headers}
-                totalData={dataUser?.total || dataUser?.data?.total}
+                totalData={
+                    dataUser?.total ||
+                    dataUser?.data?.totalSearch ||
+                    dataUser?.totalSearch
+                }
             >
                 <RenderBodyTable data={dataUserFlag} />
             </General>

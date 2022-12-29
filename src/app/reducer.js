@@ -17,6 +17,7 @@ const initialState = {
         quantityCoin: '',
         fee: '',
         tokenResetPwd: '',
+        isMenuList: false,
         message: {
             del: '',
             upd: '',
@@ -54,6 +55,7 @@ const initialState = {
             dataPaymentAdmin: [],
             dataRate: [],
             dataSettingCoin: [],
+            dataCoinInactive: [],
             dataDeposits: [],
             dataWithdraw: [],
             dataBuy: [],

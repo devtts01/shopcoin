@@ -13,11 +13,12 @@ import {
 } from '../../utils';
 import { General } from '../../Layouts';
 import moment from 'moment';
+import { actions } from '../../app/';
 
 const cx = className.bind(styles);
 
 export default function SellHistoryUser() {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const {
         currentUser,
         searchValues: { sellHistory },
@@ -25,6 +26,17 @@ export default function SellHistoryUser() {
     } = state.set;
     const [data, setData] = useState([]);
     const useDebounceCoin = useDebounce(sellHistory, 500);
+    useEffect(() => {
+        if (useDebounceCoin) {
+            setTimeout(() => {
+                dispatch(
+                    actions.setData({
+                        pagination: { page: 1, show: 10 },
+                    })
+                );
+            }, 500);
+        }
+    }, [useDebounceCoin]);
     const getDataSellHistory = async () => {
         const resGet = await axiosUtils.userGet(
             `/getAllSell/${currentUser?.id}?page=${page}&show=${show}&search=${useDebounceCoin}`
@@ -83,7 +95,7 @@ export default function SellHistoryUser() {
                 nameSearch='sellHistory'
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataSellHistoryUser().headers}
-                totalData={data?.total}
+                totalData={data?.total || data?.totalSearch}
                 classNameButton='completebgc'
                 isRefreshPage
                 noActions
