@@ -232,7 +232,7 @@ function TableData({
                     <Loading />
                 )}
             </table>
-            {data?.length > 0 && (
+            {data?.length > 0 && totalData && (
                 <>
                     <div className={`${cx('pagination-countpage')}`}>
                         <Stack

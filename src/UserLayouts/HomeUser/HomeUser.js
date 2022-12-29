@@ -9,7 +9,7 @@ import {
     useDebounce,
 } from '../../utils';
 import { actions } from '../../app/';
-import { getCoins } from '../../services/coins';
+import { getCoinsUser } from '../../services/coins';
 import { General } from '../../Layouts';
 import { TrObjectImage } from '../../components/TableData/TableData';
 import moment from 'moment';
@@ -64,6 +64,7 @@ function RenderBodyTable({ data }) {
 export default function HomeUser() {
     const { state, dispatch } = useAppContext();
     const {
+        currentUser,
         searchValues: { settingCoin },
         pagination: { page, show },
         data: { dataSettingCoin },
@@ -84,13 +85,14 @@ export default function HomeUser() {
         }
     }, [useDebounceCoin]);
     useEffect(() => {
-        getCoins({
+        getCoinsUser({
             dispatch,
             state,
             actions,
             page,
             show,
             search: useDebounceCoin,
+            email: currentUser?.email,
         });
     }, [page, show, useDebounceCoin]);
     const dataSettingFlag =
@@ -104,7 +106,7 @@ export default function HomeUser() {
                 dataFlag={dataSettingFlag}
                 dataHeaders={DataCoinsUser().headers}
                 totalData={
-                    dataSettingCoin?.total || dataSettingCoin?.data?.totalSearch
+                    dataSettingCoin?.total || dataSettingCoin?.data?.total
                 }
                 classNameButton='completebgc'
                 isRefreshPage

@@ -83,8 +83,10 @@ function NewCoin() {
             show,
             search: userBlacklist,
         });
-        getCoinById({ idCoin, dispatch, state, actions, setDataUserFake });
     }, [page, show, useDebounceUser]);
+    useEffect(() => {
+        getCoinById({ idCoin, dispatch, state, actions, setDataUserFake });
+    }, [page, show]);
     let searchDataFlag = searchBlacklistUsers({
         userBlacklist,
         dataUser: dataUser?.dataUser || dataUser?.data,
@@ -258,6 +260,7 @@ function NewCoin() {
             id,
             search: settingCoin,
             history,
+            dataUser,
         });
     };
     const updateCoin = async (e, id) => {
@@ -363,17 +366,6 @@ function NewCoin() {
                         />
                     </div>
                     <div className={`${cx('newcoin-info')}`}>
-                        {/* <FormInput
-                            label='Index'
-                            type='text'
-                            placeholder='Enter index'
-                            name='indexCoin'
-                            value={indexCoin}
-                            ref={refIndexCoin}
-                            onChange={handleChangeForm}
-                            classNameField={`${cx('field-container')}`}
-                            readOnly
-                        /> */}
                         <FormInput
                             label='FullName'
                             type='text'
@@ -489,7 +481,7 @@ function NewCoin() {
                                 <TableData
                                     data={dataBlacklistUser}
                                     headers={DataBlacklistUsers().headers}
-                                    totalData={dataBlacklistUser.length}
+                                    // totalData={dataBlacklistUser.length}
                                 >
                                     <RenderBodyTable data={dataBlacklistUser} />
                                 </TableData>

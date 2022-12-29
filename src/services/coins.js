@@ -25,6 +25,20 @@ export const getCoins = async (props = {}) => {
         })
     );
 };
+// GET DATA COINS USER
+export const getCoinsUser = async (props = {}) => {
+    const processCoins = await axiosUtils.userGet(
+        `/getAllCoin/${props.email}?page=${props.page}&show=${props.show}&search=${props.search}`
+    );
+    props.dispatch(
+        props.actions.setData({
+            data: {
+                ...props.state.set.data,
+                dataSettingCoin: processCoins,
+            },
+        })
+    );
+};
 // GET DATA COINS INACTIVE
 export const getCoinsInactive = async (props = {}) => {
     const processCoins = await axiosUtils.coinNAGet(
@@ -72,7 +86,6 @@ export const getCoinById = async (props = {}) => {
                     ...props.state.set.form,
                     nameCoin: data.name,
                     symbolCoin: data.symbol,
-                    indexCoin: data.index,
                     logo: [data.logo],
                     fullName: data.fullName,
                 },
@@ -84,7 +97,7 @@ export const getCoinById = async (props = {}) => {
                                 acc.push(user);
                             }
                         });
-                        props.setDataUserFake && props.setDataUserFake(acc);
+                        props.setDataUserFake(acc);
                         return acc;
                     }, []),
                     dataUser: processUser,
@@ -298,7 +311,7 @@ export const searchBankAdminUser = (props = {}) => {
 export const searchBlacklistUsers = (props = {}) => {
     let searchDataFlag = props.dataUser; //.dataUser
     if (props.userBlacklist) {
-        searchDataFlag = searchDataFlag.filter((item) => {
+        searchDataFlag = searchDataFlag?.filter((item) => {
             return (
                 searchUtils.searchInput(
                     props.userBlacklist,
