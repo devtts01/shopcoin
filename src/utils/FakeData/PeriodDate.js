@@ -39,11 +39,11 @@ const periodDate = [
         name: 'Last year',
         value: 'last_year',
     },
-    {
-        id: 9,
-        name: 'All time',
-        value: 'all_time',
-    },
+    // {
+    //     id: 9,
+    //     name: 'All time',
+    //     value: 'all_time',
+    // },
 ];
 
 export default periodDate;

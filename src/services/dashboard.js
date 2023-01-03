@@ -8,6 +8,7 @@ export const SVtotal = async (props = {}) => {
                   to: props.toDate,
               }
             : {};
+    props?.setIsLoad(true);
     const resPostDeposit = await axiosUtils.adminPost(
         '/totalDeposit',
         objectBody
@@ -30,4 +31,5 @@ export const SVtotal = async (props = {}) => {
             dataUserBalance: resPostBalance?.data,
         })
     );
+    props.setIsLoad(false);
 };

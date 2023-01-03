@@ -34,86 +34,6 @@ import periodDate from '../../utils/FakeData/PeriodDate';
 
 const cx = className.bind(styles);
 
-const ChartItem = ({ title, value, link, to }) => {
-    return (
-        <div className={`${cx('item')}`}>
-            {link ? (
-                <Link to={to} className={`${cx('title-link')}`}>
-                    {title}
-                </Link>
-            ) : (
-                <div className={`${cx('title')}`}>{title}</div>
-            )}
-            <div className={`${cx('value')}`}>{value}</div>
-        </div>
-    );
-};
-function RenderBodyTable({ data }) {
-    const { state } = useAppContext();
-    const {
-        pagination: { page, show },
-    } = state.set;
-    return (
-        <>
-            {data.map((item, index) => {
-                return (
-                    <tr key={item?._id} className='fz14'>
-                        <td className='upc'>
-                            {handleUtils.indexTable(page, show, index)}
-                        </td>
-                        <td>{item.symbol}</td>
-                        <td className='text-left'>{item.total}</td>
-                    </tr>
-                );
-            })}
-        </>
-    );
-}
-function RenderBodyTableUser({ data }) {
-    const { state } = useAppContext();
-    const {
-        pagination: { page, show },
-    } = state.set;
-    return (
-        <>
-            {data.map((item, index) => {
-                return (
-                    <tr key={item?._id} style={{ fontSize: '14px' }}>
-                        <td className='upc'>
-                            {handleUtils.indexTable(page, show, index)}
-                        </td>
-                        <td className='item-w150'>{item.payment.username}</td>
-                        <td className='item-w150 text-left'>
-                            {item.payment.email}
-                        </td>
-                        <td className='text-left'>
-                            {numberUtils.formatUSD(item.Wallet.balance)}
-                        </td>
-                        <td className='text-left'>
-                            <span
-                                className={`${
-                                    item.payment.rule + 'bgc'
-                                } status`}
-                            >
-                                {item.payment.rule}
-                            </span>
-                        </td>
-                        <td className='text-left'>
-                            <span
-                                className={`${
-                                    item.rank.toLowerCase() + 'bgc'
-                                } status`}
-                            >
-                                {FirstUpc(item.rank)}
-                            </span>
-                        </td>
-                    </tr>
-                );
-            })}
-        </>
-    );
-}
-
 function Dashboard() {
     const { state, dispatch } = useAppContext();
     const {
@@ -127,6 +47,7 @@ function Dashboard() {
         pagination: { page, show },
     } = state.set;
     const [isProcess, setIsProcess] = React.useState(false);
+    const [isLoad, setIsLoad] = React.useState(false);
     const [isModalDate, setIsModalDate] = React.useState(false);
     const [isPeriod, setIsPeriod] = React.useState(false);
     const [period, setPeriod] = React.useState(null);
@@ -173,6 +94,7 @@ function Dashboard() {
             page,
             show,
             search: useDebounceUserBalance,
+            setIsLoad,
         });
     }, [page, show, useDebounceDashboard, useDebounceUserBalance]);
     // console.log(dataUserBalance);
@@ -211,11 +133,26 @@ function Dashboard() {
         e.stopPropagation();
         setIsPeriod(!isPeriod);
     };
+    // GET WEEEK[YEAR, WEEK]
+    // const getWeekNumber = (d) => {
+    //     // Copy date so don't modify original
+    //     d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    //     // Set to nearest Thursday: current date + 4 - current day number
+    //     // Make Sunday's day number 7
+    //     d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    //     // Get first day of year
+    //     const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    //     // Calculate full weeks to nearest Thursday
+    //     const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    //     // Return array of year and week number
+    //     return [d.getUTCFullYear(), weekNo];
+    // };
     const handleChangePeriod = (item) => {
+        console.log(item);
         const date = new Date();
-        const toDate = new Date();
+        let toDate = new Date();
         let fromDate = new Date();
-        switch (item.toLowerCase().replace(/\s/g, '')) {
+        switch (item?.toLowerCase()?.replace(/\s/g, '')) {
             case 'today':
                 fromDate = new Date();
                 break;
@@ -223,22 +160,38 @@ function Dashboard() {
                 fromDate = new Date(date.setDate(date.getDate() - 1));
                 break;
             case 'thisweek':
-                fromDate = new Date(date.setDate(date.getDate() - 7));
+                //lấy ngày thứ 2 của tuần week[1]
+                fromDate = new Date(
+                    date.setDate(date.getDate() - date.getDay() + 1)
+                );
                 break;
             case 'lastweek':
-                fromDate = new Date(date.setDate(date.getDate() - 14));
+                fromDate = new Date(
+                    date.setDate(date.getDate() - date.getDay() + 1 - 7)
+                );
+                toDate = new Date(
+                    date.setDate(date.getDate() - date.getDay() + 7)
+                );
                 break;
             case 'thismonth':
-                fromDate = new Date(date.setDate(date.getDate() - 30));
+                // lấy ngày đầu tiên của tháng
+                fromDate = new Date(date.setDate(1));
                 break;
             case 'lastmonth':
-                fromDate = new Date(date.setDate(date.getDate() - 60));
+                fromDate = new Date(date.setMonth(date.getMonth() - 1, 1));
+                toDate = new Date(date.setMonth(date.getMonth() + 1, 0));
                 break;
             case 'thisyear':
-                fromDate = new Date(date.setDate(date.getDate() - 365));
+                // lấy ngày đầu tiên của năm
+                fromDate = new Date(date.setMonth(0, 1));
                 break;
             case 'lastyear':
-                fromDate = new Date(date.setDate(date.getDate() - 730));
+                fromDate = new Date(
+                    date.setFullYear(date.getFullYear() - 1, 0, 1)
+                );
+                toDate = new Date(
+                    date.setFullYear(date.getFullYear() + 1, 0, 0)
+                );
                 break;
             default:
                 fromDate = new Date();
@@ -270,6 +223,7 @@ function Dashboard() {
         try {
             await 1;
             setIsProcess(true);
+            setIsLoad(true);
             setTimeout(() => {
                 SVtotal({
                     state,
@@ -282,8 +236,10 @@ function Dashboard() {
                     search: useDebounceUserBalance
                         ? useDebounceUserBalance
                         : '',
+                    setIsLoad,
                 });
                 setIsProcess(false);
+                setIsLoad(false);
             }, 1000);
         } catch (err) {
             console.log(err);
@@ -297,6 +253,81 @@ function Dashboard() {
             to: dateTo || dateUtils.dateVnFormat2(new Date()),
         });
     };
+    const ChartItem = ({ title, value, link, to }) => {
+        return (
+            <div className={`${cx('item')}`}>
+                {link ? (
+                    <Link to={to} className={`${cx('title-link')}`}>
+                        {title}
+                    </Link>
+                ) : (
+                    <div className={`${cx('title')}`}>{title}</div>
+                )}
+                <div className={`${cx('value')}`}>
+                    {isLoad ? 'Loading...' : numberUtils.formatUSD(value || 0)}
+                </div>
+            </div>
+        );
+    };
+    function RenderBodyTable({ data }) {
+        return (
+            <>
+                {data.map((item, index) => {
+                    return (
+                        <tr key={item?._id} className='fz14'>
+                            <td className='upc'>
+                                {handleUtils.indexTable(page, show, index)}
+                            </td>
+                            <td>{item.symbol}</td>
+                            <td className='text-left'>{item.total}</td>
+                        </tr>
+                    );
+                })}
+            </>
+        );
+    }
+    function RenderBodyTableUser({ data }) {
+        return (
+            <>
+                {data.map((item, index) => {
+                    return (
+                        <tr key={item?._id} style={{ fontSize: '14px' }}>
+                            <td className='upc'>
+                                {handleUtils.indexTable(page, show, index)}
+                            </td>
+                            <td className='item-w150'>
+                                {item.payment.username}
+                            </td>
+                            <td className='item-w150 text-left'>
+                                {item.payment.email}
+                            </td>
+                            <td className='text-left'>
+                                {numberUtils.formatUSD(item.Wallet.balance)}
+                            </td>
+                            <td className='text-left'>
+                                <span
+                                    className={`${
+                                        item.payment.rule + 'bgc'
+                                    } status`}
+                                >
+                                    {item.payment.rule}
+                                </span>
+                            </td>
+                            <td className='text-left'>
+                                <span
+                                    className={`${
+                                        item.rank.toLowerCase() + 'bgc'
+                                    } status`}
+                                >
+                                    {FirstUpc(item.rank)}
+                                </span>
+                            </td>
+                        </tr>
+                    );
+                })}
+            </>
+        );
+    }
     return (
         <div className={`${cx('dashboard-container')}`}>
             <div className={`${cx('general-top')}`}>
@@ -353,30 +384,18 @@ function Dashboard() {
                 <div className={`${cx('chart-item-container')}`}>
                     <ChartItem
                         title='Total Deposits'
-                        value={numberUtils.formatUSD(
-                            totalDeposit ? totalDeposit : 0
-                        )}
+                        value={totalDeposit}
                         link
                         to={routers.deposits}
                     />
                     <ChartItem
                         title='Total Withdraw'
-                        value={numberUtils.formatUSD(
-                            totalWithdraw ? totalWithdraw : 0
-                        )}
+                        value={totalWithdraw}
                         link
                         to={routers.withdraw}
                     />
-                    <ChartItem
-                        title='Balance'
-                        value={numberUtils.formatUSD(
-                            totalBalance ? totalBalance : 0
-                        )}
-                    />
-                    <ChartItem
-                        title='Commission'
-                        value={numberUtils.formatUSD(totalCommission)}
-                    />
+                    <ChartItem title='Balance' value={totalBalance} />
+                    <ChartItem title='Commission' value={totalCommission} />
                 </div>
             </div>
             <div className={`${cx('general-table-container')}`}>

@@ -19,6 +19,7 @@ import {
     BuySellDetail,
     Register,
     ForgotPwd,
+    ChangeCoin,
 } from '../Layouts';
 import {
     HomeUser,
@@ -53,6 +54,7 @@ export const privateRouter = [
     { path: routers.settingCoin, component: SettingCoin },
     { path: routers.coinInactive, component: CoinInactive },
     { path: routers.deposits, component: Deposits },
+    { path: routers.changeCoin, component: ChangeCoin },
     {
         path: `${routers.deposits}/:idDeposits`,
         component: DepositsWithdrawDetail,

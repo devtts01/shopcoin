@@ -21,6 +21,7 @@ export { default as DataUsers } from './FakeData/Users';
 export { default as DataDashboard } from './FakeData/Dashboard';
 export { default as DataUserBalance } from './FakeData/UserBalance';
 export { default as DataBlacklistUsers } from './FakeData/BlacklistUsers';
+export { default as DataChangeCoins } from './FakeData/ChangeCoin';
 export { default as dataBank } from './FakeData/Bank';
 export * as axiosUtils from './Axios/axiosInstance';
 export * as modalUtils from './modalEdit';

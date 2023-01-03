@@ -129,18 +129,27 @@ function TableData({
                     sortASC('methodName');
                     break;
                 case process.env.REACT_APP_SETTING_NAME:
+                case process.env.REACT_APP_COIN_USER_NAME:
                     sortASC('name');
+                    break;
+                case process.env.REACT_APP_MY_COINS_USER_NAME:
+                    sortASC('coin.name');
                     break;
                 case process.env.REACT_APP_DEPOSITS_NAME:
                 case process.env.REACT_APP_WITHDRAW_NAME:
                 case process.env.REACT_APP_BUY_NAME:
                 case process.env.REACT_APP_SELL_NAME:
+                case process.env.REACT_APP_CHANGE_COIN_NAME:
+                case process.env.REACT_APP_DEPOSIT_USER_NAME:
+                case process.env.REACT_APP_WITHDRAW_USER_NAME:
                     sortASC('createdAt');
                     break;
                 case process.env.REACT_APP_USER_NAME:
                     sortASC('payment.username');
                     break;
                 case process.env.REACT_APP_DASHBOARD_NAME:
+                case process.env.REACT_APP_BUY_HISTORY_USER_NAME:
+                case process.env.REACT_APP_SELL_HISTORY_USER_NAME:
                     sortASC('symbol');
                     break;
                 default:
@@ -158,18 +167,27 @@ function TableData({
                     sortDESC('methodName');
                     break;
                 case process.env.REACT_APP_SETTING_NAME:
+                case process.env.REACT_APP_COIN_USER_NAME:
                     sortDESC('name');
+                    break;
+                case process.env.REACT_APP_MY_COINS_USER_NAME:
+                    sortDESC('coin.name');
                     break;
                 case process.env.REACT_APP_DEPOSITS_NAME:
                 case process.env.REACT_APP_WITHDRAW_NAME:
                 case process.env.REACT_APP_BUY_NAME:
                 case process.env.REACT_APP_SELL_NAME:
+                case process.env.REACT_APP_CHANGE_COIN_NAME:
+                case process.env.REACT_APP_DEPOSIT_USER_NAME:
+                case process.env.REACT_APP_WITHDRAW_USER_NAME:
                     sortDESC('createdAt');
                     break;
                 case process.env.REACT_APP_USER_NAME:
                     sortDESC('payment.username');
                     break;
                 case process.env.REACT_APP_DASHBOARD_NAME:
+                case process.env.REACT_APP_BUY_HISTORY_USER_NAME:
+                case process.env.REACT_APP_SELL_HISTORY_USER_NAME:
                     sortDESC('symbol');
                     break;
                 default:

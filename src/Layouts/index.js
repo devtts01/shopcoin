@@ -12,6 +12,7 @@ export { default as Rate } from './Rate/Rate';
 export { default as SettingCoin } from './SettingCoin/SettingCoin';
 export { default as CoinInactive } from './CoinInactive/CoinInactive';
 export { default as Deposits } from './Deposits/Deposits';
+export { default as ChangeCoin } from './ChangeCoin/ChangeCoin';
 export { default as DepositsWithdrawDetail } from './DepositsWithdrawDetail/DepositsWithdrawDetail';
 export { default as Withdraw } from './Withdraw/Withdraw';
 export { default as Buy } from './Buy/Buy';

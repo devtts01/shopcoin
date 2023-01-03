@@ -7,7 +7,6 @@ const DataWithdrawUser = () => {
             },
             h1: {
                 title: 'Symbol',
-                iconSort: <i className='fa-solid fa-sort'></i>,
             },
             h2: {
                 title: 'Amount',
@@ -17,6 +16,7 @@ const DataWithdrawUser = () => {
             },
             h4: {
                 title: 'Created At',
+                iconSort: <i className='fa-solid fa-sort'></i>,
             },
             h5: {
                 title: 'Bank',

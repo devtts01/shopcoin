@@ -56,6 +56,11 @@ const LIST_SIDEBAR = [
         icon: <Icons.SellIcon className={`${cx('custom-icon')}`} />,
     },
     {
+        name: 'Change Coin',
+        path: routers.changeCoin,
+        icon: <Icons.ChangeCoinIcon className={`${cx('custom-icon')}`} />,
+    },
+    {
         name: 'User',
         path: routers.user,
         icon: <Icons.UserIcon className={`${cx('custom-icon')}`} />,
@@ -136,6 +141,28 @@ function Sidebar({ className }) {
                 pagination: {
                     page: 1,
                     show: 10,
+                },
+                searchValues: {
+                    dateFrom: '',
+                    dateTo: '',
+                    dashboard: '',
+                    userBalance: '',
+                    payment: '',
+                    rate: '',
+                    settingCoin: '',
+                    deposits: '',
+                    changeCoin: '',
+                    withdraw: '',
+                    buy: '',
+                    sell: '',
+                    user: '',
+                    coin: '',
+                    bank: '',
+                    userBlacklist: '',
+                    buyHistory: '',
+                    sellHistory: '',
+                    depositUser: '',
+                    withdrawUser: '',
                 },
             })
         );

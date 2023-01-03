@@ -13,6 +13,7 @@ const routers = {
     newcoinInactive: 'add-new-coin-inactive',
     editCoin: 'edit-coin',
     deposits: '/deposits',
+    changeCoin: '/change-coin',
     depositsDetail: 'deposit-detail',
     withdraw: '/withdraw',
     withdrawDetail: 'withdraw-detail',
