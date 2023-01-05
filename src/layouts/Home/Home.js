@@ -10,6 +10,7 @@ import {Search, Header, CoinDetail, NodataText} from '../../components';
 import {SVgetAllCoins} from '../../services/coin';
 import styles from './HomeCss';
 import {getAsyncStore} from '../../utils/localStore/localStore';
+// import {URL_SERVER} from '@env';
 
 const Home = ({navigation}) => {
   const {state, dispatch} = useAppContext();
@@ -18,6 +19,7 @@ const Home = ({navigation}) => {
     search,
     data: {dataCoins},
   } = state;
+  // console.log(URL_SERVER);
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [page, setPage] = useState(1);
