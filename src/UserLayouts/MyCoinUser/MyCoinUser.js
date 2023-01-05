@@ -84,7 +84,7 @@ export default function MyCoinUser() {
                                     to={`${routers.sellCoinUser}/${item?.coin?.symbol}`}
                                     className={`${cx(
                                         'actions-item'
-                                    )} cancelbgc`}
+                                    )} cancelbgcbold fwb`}
                                 >
                                     Sell
                                 </Link>

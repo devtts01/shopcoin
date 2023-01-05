@@ -65,6 +65,13 @@
     background-color: var(--table-status-complete-bgc);
 }
 
+.completebgcbold,
+.completebgcbold a,
+.completebgcbold:hover {
+    background-color: var(--table-status-complete-color);
+    color: var(--color-white);
+}
+
 .onholdbgc,
 .onholdbgc:hover,
 .vipbgc,
@@ -85,4 +92,10 @@
 .demobgc:hover {
     color: var(--table-status-cancel-color);
     background-color: var(--table-status-cancel-bgc);
+}
+
+.cancelbgcbold,
+.cancelbgcbold:hover {
+    background-color: var(--table-status-cancel-color);
+    color: var(--color-white);
 }

@@ -11,10 +11,10 @@
 
 .table .thead tr th {
     padding: 16px 40px 16px 14px;
-    color: var(--table-tbody-item-color);
+    color: var(--color-black);
     font-size: 12px;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 18px;
     border-right: 0.7px solid var(--table-border-color);
 }
@@ -48,7 +48,7 @@
 
 .icon-sort i {
     font-size: 8px;
-    color: var(--table-border-color);
+    color: var(--color-black);
 }
 
 .hovered:hover {

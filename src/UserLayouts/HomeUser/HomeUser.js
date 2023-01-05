@@ -49,7 +49,9 @@ function RenderBodyTable({ data }) {
                         <td>
                             <Link
                                 to={`${item?._id}`}
-                                className={`${cx('actions-item')} completebgc`}
+                                className={`${cx(
+                                    'actions-item'
+                                )} completebgcbold fwb`}
                             >
                                 Buy
                             </Link>
