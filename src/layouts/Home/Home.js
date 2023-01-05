@@ -14,13 +14,14 @@ import {getAsyncStore} from '../../utils/localStore/localStore';
 const Home = ({navigation}) => {
   const {state, dispatch} = useAppContext();
   const {
+    currentUser,
     search,
     data: {dataCoins},
   } = state;
   const [refreshing, setRefreshing] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [page, setPage] = useState(1);
-  const [show, setShow] = useState(dataCoins?.total || 10);
+  const [show, setShow] = useState(dataCoins?.data?.total || 10);
   useEffect(() => {
     getAsyncStore(dispatch);
     dispatch(setSearchValue(''));
@@ -28,21 +29,22 @@ const Home = ({navigation}) => {
   useEffect(() => {
     SVgetAllCoins({
       page,
-      show: dataCoins?.total,
+      show: dataCoins?.data?.total,
       dispatch,
       getAllCoins,
+      email: currentUser?.email,
     });
   }, [page, show]);
   const refreshData = () => {
     SVgetAllCoins({
       page,
-      show: dataCoins?.total,
+      show: dataCoins?.data?.total,
       dispatch,
       getAllCoins,
     });
     dispatch(setSearchValue(''));
   };
-  let data = dataCoins?.data || [];
+  let data = dataCoins?.data?.coins || [];
   if (search) {
     data = data.filter(item => {
       return item?.symbol?.toLowerCase().includes(search?.toLowerCase());

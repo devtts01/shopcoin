@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 5,
     fontWeight: 'bold',
+    fontSize: 18,
   },
 });
 

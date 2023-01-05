@@ -6,10 +6,10 @@ import {routers} from '../routers/Routers';
 
 // GET ALL COINS
 export const SVgetAllCoins = async (props = {}) => {
-  const resGet = await coinGet(
+  const resGet = await userGet(
     props.page && props.show
-      ? `getAllCoin?page=${props.page}&show=${props.show}`
-      : '/getAllCoin',
+      ? `getAllCoin/${props.email}?page=${props.page}&show=${props.show}`
+      : `/getAllCoin/${props.email}`,
   );
   props.dispatch(props.getAllCoins(resGet));
 };

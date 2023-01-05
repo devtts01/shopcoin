@@ -87,7 +87,7 @@ const MyCoin = ({navigation}) => {
               },
             })
           }>
-          <Text style={[stylesStatus.cancelbgc, styles.btn]}>Sell</Text>
+          <Text style={[stylesStatus.cancelbgcbold, styles.btn]}>Sell</Text>
         </View>
       </View>
     );

@@ -69,6 +69,9 @@ const stylesGeneral = StyleSheet.create({
   fz16: {
     fontSize: 16,
   },
+  fz20: {
+    fontSize: 20,
+  },
   fw500: {
     fontWeight: '500',
   },

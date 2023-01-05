@@ -70,7 +70,7 @@ export default function CoinDetail({item, navigation}) {
             },
           })
         }>
-        <Text style={[stylesStatus.completebgc, styles.btn]}>Buy</Text>
+        <Text style={[stylesStatus.completebgcbold, styles.btn]}>Buy</Text>
       </View>
     </View>
   );

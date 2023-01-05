@@ -3,6 +3,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React from 'react';
 import RouterObject, {routers} from '../routers/Routers';
+import {Text, View} from 'react-native';
+import stylesGeneral from '../styles/General';
 
 const Tab = createBottomTabNavigator();
 const headerStyle = {
@@ -60,7 +62,36 @@ export default function Routers() {
             key={index}
             name={item.name}
             component={item.component}
-            options={headerStyle}
+            // options={headerStyle}
+            // thêm icon vào header title
+            options={{
+              headerTitle:
+                item.name === routers.Home
+                  ? () => (
+                      <View
+                        style={[
+                          stylesGeneral.flexRow,
+                          stylesGeneral.flexCenter,
+                        ]}>
+                        <FontAwesome5
+                          name={item.icon}
+                          size={20}
+                          color={'#000'}
+                        />
+                        <Text
+                          style={[
+                            stylesGeneral.fw500,
+                            stylesGeneral.ml10,
+                            stylesGeneral.fz20,
+                            stylesGeneral.text_black,
+                          ]}>
+                          Home
+                        </Text>
+                      </View>
+                    )
+                  : null,
+              ...headerStyle,
+            }}
           />
         );
       })}
