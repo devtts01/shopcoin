@@ -49,6 +49,10 @@ export default function MyCoinUser() {
         getMyCoin();
     }, [page, show, useDebounceCoin]);
     const dataSettingFlag = data?.coins || [];
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -58,9 +62,7 @@ export default function MyCoinUser() {
                             <td>{handleUtils.indexTable(page, show, index)}</td>
                             <td>
                                 <TrObjectImage
-                                    item={`${
-                                        process.env.REACT_APP_URL_SERVER
-                                    }${item?.coin?.logo?.replace(
+                                    item={`${URL_SERVER}${item?.coin?.logo?.replace(
                                         'uploads/',
                                         ''
                                     )}`}

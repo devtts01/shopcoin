@@ -4,7 +4,10 @@ import styles from './UploadDocumentUser.module.css';
 import { Icons, Image } from '../../components';
 
 const cx = className.bind(styles);
-
+const URL_SERVER =
+    process.env.REACT_APP_TYPE === 'development'
+        ? process.env.REACT_APP_URL_SERVER
+        : process.env.REACT_APP_URL_SERVER_PRODUCTION;
 const RenderImageDocument = ({
     nameFile,
     idFile,
@@ -22,9 +25,10 @@ const RenderImageDocument = ({
                 <Image
                     src={
                         !urlImagePending
-                            ? `${
-                                  process.env.REACT_APP_URL_SERVER
-                              }/${urlImage?.replace('uploads/', '')}`
+                            ? `${URL_SERVER}/${urlImage?.replace(
+                                  'uploads/',
+                                  ''
+                              )}`
                             : urlImagePending
                     }
                     alt=''

@@ -145,6 +145,10 @@ function SettingCoin() {
             checkErrorCoins({ err, dispatch, state, actions });
         }
     };
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -154,9 +158,10 @@ function SettingCoin() {
                             <td>{handleUtils.indexTable(page, show, index)}</td>
                             <td>
                                 <TrObjectImage
-                                    item={`${
-                                        process.env.REACT_APP_URL_SERVER
-                                    }${item.logo?.replace('uploads/', '')}`}
+                                    item={`${URL_SERVER}${item.logo?.replace(
+                                        'uploads/',
+                                        ''
+                                    )}`}
                                 />
                             </td>
                             <td>{item.name}</td>

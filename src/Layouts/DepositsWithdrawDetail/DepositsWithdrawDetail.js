@@ -93,6 +93,10 @@ function DepositsWithdrawDetail() {
     //     (x) => x.payment.email === edit?.itemData?.user
     // )?.payment?.username;
     const x = edit?.itemData && edit?.itemData;
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     return (
         <>
             <Button
@@ -175,7 +179,7 @@ function DepositsWithdrawDetail() {
                             info={
                                 x && (
                                     <a
-                                        href={`${process.env.REACT_APP_URL_SERVER}${x?.statement}`}
+                                        href={`${URL_SERVER}${x?.statement}`}
                                         target='_blank'
                                     >
                                         {x.statement ? (
@@ -198,7 +202,7 @@ function DepositsWithdrawDetail() {
                             {x?.statement ? (
                                 <div className={`${cx('document-container')}`}>
                                     <Image
-                                        src={`${process.env.REACT_APP_URL_SERVER}/${x?.statement}`}
+                                        src={`${URL_SERVER}/${x?.statement}`}
                                         alt={x.statement.replace(
                                             '/images/',
                                             ''

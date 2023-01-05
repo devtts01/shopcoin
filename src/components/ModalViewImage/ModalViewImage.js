@@ -27,6 +27,10 @@ export default function ModalViewImage({
             }
         }
     };
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     return (
         <>
             {stateModal && (
@@ -57,7 +61,7 @@ export default function ModalViewImage({
                             </div>
                             <div className={`${cx('middle')}`}>
                                 <Image
-                                    src={`${process.env.REACT_APP_URL_SERVER}/${uniqueData[indexImage]}`}
+                                    src={`${URL_SERVER}/${uniqueData[indexImage]}`}
                                     alt=''
                                     className={`${cx('image-view')}`}
                                 />

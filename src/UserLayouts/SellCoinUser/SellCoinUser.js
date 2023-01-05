@@ -83,6 +83,10 @@ export default function SellCoinUser() {
         }
     }, [amountSell, coin, coinById, currentUser, dispatch, state]);
     const isDisabled = amountSell < 0.1 || amountSell > coinById?.amount;
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     return (
         <>
             <Button
@@ -99,9 +103,10 @@ export default function SellCoinUser() {
             <div className={`${cx('info-container')}`}>
                 <div className={`${cx('detail-container')}`}>
                     <Image
-                        src={`${
-                            process.env.REACT_APP_URL_SERVER
-                        }${coin?.logo?.replace('uploads/', '')}`}
+                        src={`${URL_SERVER}${coin?.logo?.replace(
+                            'uploads/',
+                            ''
+                        )}`}
                         alt=''
                         className={`${cx('image-coin')}`}
                     />

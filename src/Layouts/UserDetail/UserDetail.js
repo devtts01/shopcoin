@@ -335,6 +335,10 @@ function UserDetail() {
         coin,
         dataCoins: uniqueDataCoins,
     });
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     function ItemRender({
         title,
         info,
@@ -404,9 +408,10 @@ function UserDetail() {
                 {isCheck ? (
                     <div className={`${cx('document-user-item')}`}>
                         <Image
-                            src={`${
-                                process.env.REACT_APP_URL_SERVER
-                            }/${imageFrontUrl?.replace('uploads/', '')}`}
+                            src={`${URL_SERVER}/${imageFrontUrl?.replace(
+                                'uploads/',
+                                ''
+                            )}`}
                             alt=''
                             className={`${cx('document-user-item-image-view')}`}
                             onClick={(e) => {
@@ -420,9 +425,10 @@ function UserDetail() {
                             }}
                         />
                         <Image
-                            src={`${
-                                process.env.REACT_APP_URL_SERVER
-                            }/${imageBesideUrl?.replace('uploads/', '')}`}
+                            src={`${URL_SERVER}/${imageBesideUrl?.replace(
+                                'uploads/',
+                                ''
+                            )}`}
                             alt=''
                             className={`${cx('document-user-item-image-view')}`}
                             onClick={(e) => {

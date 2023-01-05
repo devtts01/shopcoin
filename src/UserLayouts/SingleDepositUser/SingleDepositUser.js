@@ -88,6 +88,10 @@ export default function SingleDepositUser() {
             console.log(err);
         }
     }, [logo]);
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     return (
         <>
             <Button
@@ -187,9 +191,10 @@ export default function SingleDepositUser() {
                         ) : (
                             <div className={`${cx('image-view-container')}`}>
                                 <Image
-                                    src={`${
-                                        process.env.REACT_APP_URL_SERVER
-                                    }${x?.statement?.replace('uploads/', '')}`}
+                                    src={`${URL_SERVER}${x?.statement?.replace(
+                                        'uploads/',
+                                        ''
+                                    )}`}
                                     alt=''
                                     className={`${cx('image-view')}`}
                                 />

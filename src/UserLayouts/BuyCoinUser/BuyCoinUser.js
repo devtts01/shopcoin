@@ -41,8 +41,12 @@ export default function BuyCoinUser() {
         getCoinById();
         getUser();
     }, []);
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     useEffect(() => {
-        const socket = socketIO(`${process.env.REACT_APP_URL_SERVER}`, {
+        const socket = socketIO(`${URL_SERVER}`, {
             jsonp: false,
         });
         socket.on(`send-data-${coin?.symbol}`, (data) => {
@@ -109,9 +113,10 @@ export default function BuyCoinUser() {
             <div className={`${cx('info-container')}`}>
                 <div className={`${cx('detail-container')}`}>
                     <Image
-                        src={`${
-                            process.env.REACT_APP_URL_SERVER
-                        }${coin?.logo?.replace('uploads/', '')}`}
+                        src={`${URL_SERVER}${coin?.logo?.replace(
+                            'uploads/',
+                            ''
+                        )}`}
                         alt=''
                         className={`${cx('image-coin')}`}
                     />

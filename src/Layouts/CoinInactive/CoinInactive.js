@@ -99,6 +99,10 @@ function CoinInactive() {
     const editSetting = async (item) => {
         onClickEdit({ dispatch, state, actions, item });
     };
+    const URL_SERVER =
+        process.env.REACT_APP_TYPE === 'development'
+            ? process.env.REACT_APP_URL_SERVER
+            : process.env.REACT_APP_URL_SERVER_PRODUCTION;
     function RenderBodyTable({ data }) {
         return (
             <>
@@ -108,9 +112,10 @@ function CoinInactive() {
                             <td>{handleUtils.indexTable(page, show, index)}</td>
                             <td>
                                 <TrObjectImage
-                                    item={`${
-                                        process.env.REACT_APP_URL_SERVER
-                                    }${item?.logo?.replace('uploads/', '')}`}
+                                    item={`${URL_SERVER}${item?.logo?.replace(
+                                        'uploads/',
+                                        ''
+                                    )}`}
                                 />
                             </td>
                             <td className='text-upc'>{item?.name}</td>

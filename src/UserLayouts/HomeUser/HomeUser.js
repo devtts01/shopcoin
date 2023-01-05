@@ -16,7 +16,10 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 const cx = className.bind(styles);
-
+const URL_SERVER =
+    process.env.REACT_APP_TYPE === 'development'
+        ? process.env.REACT_APP_URL_SERVER
+        : process.env.REACT_APP_URL_SERVER_PRODUCTION;
 function RenderBodyTable({ data }) {
     const { state } = useAppContext();
     const {
@@ -30,9 +33,10 @@ function RenderBodyTable({ data }) {
                         <td>{handleUtils.indexTable(page, show, index)}</td>
                         <td>
                             <TrObjectImage
-                                item={`${
-                                    process.env.REACT_APP_URL_SERVER
-                                }${item.logo?.replace('uploads/', '')}`}
+                                item={`${URL_SERVER}${item.logo?.replace(
+                                    'uploads/',
+                                    ''
+                                )}`}
                             />
                         </td>
                         <td className='item-w150'>
